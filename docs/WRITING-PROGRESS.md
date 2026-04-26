@@ -36,9 +36,10 @@ Ch001 합계: 153,103 / 목표 ~160,000
 |---|------|----------|------|------|
 | H1 | 오리엔 | 17,008 | 🟢 | 합격 (호텔매니저/운영체제=OS/커널/셰/유닉스가족나무/macOS·Linux·Windows/프로세스·스레드·파일·syscall/kernel-user space/고양이자경단7단계/12회수지도/다섯일/FAQ5/두주약속) |
 | H2 | 핵심개녘 4 | 17,008 | 🟢 | 합격 (프로세스·스레드·파일·syscall/PID-PPID-fork-exec/R-S-T-Z-I/동시성vs병렬성/race condition/fd 0·1·2/rwx 9비트/syscall 7단계/4개념짝짓기/고양이자경단7재등장/비용표/PID1/틀한오해 5/8줄비유) |
-| H3~H8 | — | — | ⚫️ | 스캐폴드 스텁 대기 |
+| H3 | 환경점검 | 17,002 | 🟢 | 합격 (uname 7부분/sw_vers 3줄/sysctl 5네임스페이스/hostname/id-whoami-groups/env-PATH/ulimit/proc-sys참고/system_profiler/dmesg-log/uptime-load avg/OS신분증카드/macOS-Linux변환표/Apple Silicon함정/.zshrc/myinfo alias/getconf/FAQ5) |
+| H4~H8 | — | — | ⚫️ | 스캐폴드 스텁 대기 |
 
-Ch002 합계: 34,016 / 목표 ~160,000
+Ch002 합계: 51,018 / 목표 ~160,000
 
 ## 작성 순서 정책
 1. **먼저** Ch001 H1을 20k로 보강 (1회 = 1턴)
@@ -52,5 +53,5 @@ Ch002 합계: 34,016 / 목표 ~160,000
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 002 H3 신규 작성** (환경 점검 — OS 정보 캐기)
-   - uname/sw_vers/sysctl/hostname/ulimit, 커널 버전/빌드, 사용자 ID/그맬/환경변수
+👉 **Ch 002 H4 신규 작성** (명령어 카탈로그 — 프로세스 도구)
+   - ps/top/htop/kill/killall/pkill/jobs/bg/fg/nohup/disown/&/wait
