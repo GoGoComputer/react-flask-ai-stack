@@ -39,9 +39,10 @@ Ch001 합계: 153,103 / 목표 ~160,000
 | H3 | 환경점검 | 17,002 | 🟢 | 합격 (uname 7부분/sw_vers 3줄/sysctl 5네임스페이스/hostname/id-whoami-groups/env-PATH/ulimit/proc-sys참고/system_profiler/dmesg-log/uptime-load avg/OS신분증카드/macOS-Linux변환표/Apple Silicon함정/.zshrc/myinfo alias/getconf/FAQ5) |
 | H4 | 명령어카탈로그 | 17,004 | 🟢 | 합격 (ps 11열/ps옵션5형제/top·htop/kill+신호7대표/SIGTERM·SIGKILL·SIGHUP/killall·pkill·pgrep/jobs·bg·fg/nohup·disown·&/wait·$$·$!·$?/pidof/실전7시나리오/5분손풀기/위험5종/macOS-Linux차이표/FAQ5/추신5) |
 | H5 | procmon.sh데모 | 17,008 | 🟢 | 합격 (셰뱅/set가솄3종/trap·신호/getopts/OS분기case/함쉘5개(summary·top_cpu·top_mem·zombies·user_procs)/local변수/while루프/main"$@"/bash -x디버깅/cron보너스/shellcheck/sysinfo+procmon짝/FAQ5/추신12) |
-| H6~H8 | — | — | ⚫️ | 스캐폴드 스텁 대기 |
+| H6 | 응급처치 | 17,000 | 🟢 | 합격 (좋비·OOM·디스크풀·네트워크·CPU100% 5사고/Jetsam/dmesg/log show/journalctl/7다리진단/lsof·ss/renice·nice/emergency.sh골격/cron알람/7단계절차/위험5/macOS-Linux응급표/새벽3시재현/FAQ5/추신10) |
+| H7~H8 | — | — | ⚫️ | 스캐폴드 스텁 대기 |
 
-Ch002 합계: 85,030 / 목표 ~160,000
+Ch002 합계: 102,030 / 목표 ~160,000
 
 ## 작성 순서 정책
 1. **먼저** Ch001 H1을 20k로 보강 (1회 = 1턴)
@@ -55,5 +56,5 @@ Ch002 합계: 85,030 / 목표 ~160,000
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 002 H6 신규 작성** (응급처치 — OS 사고 5종)
-   - 좋비청소/OOM/디스크풀/네트워크끊김/CPU100%, 한줄소방소
+👉 **Ch 002 H7 신규 작성** (kernel vs user space 깊이)
+   - ring 0/3, syscall trap, context switch, 두 공간의 경계
