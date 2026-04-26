@@ -41,9 +41,10 @@ Ch001 합계: 153,103 / 목표 ~160,000
 | H5 | procmon.sh데모 | 17,008 | 🟢 | 합격 (셰뱅/set가솄3종/trap·신호/getopts/OS분기case/함쉘5개(summary·top_cpu·top_mem·zombies·user_procs)/local변수/while루프/main"$@"/bash -x디버깅/cron보너스/shellcheck/sysinfo+procmon짝/FAQ5/추신12) |
 | H6 | 응급처치 | 17,000 | 🟢 | 합격 (좋비·OOM·디스크풀·네트워크·CPU100% 5사고/Jetsam/dmesg/log show/journalctl/7다리진단/lsof·ss/renice·nice/emergency.sh골격/cron알람/7단계절차/위험5/macOS-Linux응급표/새벽3시재현/FAQ5/추신10) |
 | H7 | kernel vs user space | 17,017 | 🟢 | 합격 (ring 0/3·EL0~3/syscall 7단계(RAX·MSR_LSTAR·sysret)/trap·interrupt·exception/page fault/context switch/strace·dtruss시연/syscall비용표/보이5층/mmap/eBPF/XNU(Mach+BSD) vs Linux/Tanenbaum-Linus논쟁/Meltdown·KPTI/vDSO·io_uring/FAQ5/추신18) |
-| H8 | — | — | ⚫️ | 스캐폴드 스텁 대기 |
+| H8 | 적용+회고 | 17,037 | 🟢 | 합격 (8시간 큰그림 회수/emergency.sh 100줄 완성판(set·trap·run·5케이스함수·main)/dry-run·종료코드·plain text/procmon+emergency짝(진단·치료)/Ch002 다섯원리(자원한도·추상화·격리·권한분리·좁은다리)/12회수지도(Ch035·047·062·068·074·087·091·097·108·113·116·119)/macOS-Linux변환표 19행/흔한오해5/FAQ5(root·multipass·통합금지·자신감·예습)/Ch003 다리(inode·블록·디렉토리트리·마운트)/8시간 약속 회수/추신12) |
 
-Ch002 합계: 119,047 / 목표 ~160,000
+Ch002 합계: 136,084 / 목표 ~160,000
+**Ch002 완료** ✅
 
 ## 작성 순서 정책
 1. **먼저** Ch001 H1을 20k로 보강 (1회 = 1턴)
@@ -57,5 +58,5 @@ Ch002 합계: 119,047 / 목표 ~160,000
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 002 H8 신규 작성** (적용+회고+Ch003 다리)
-   - emergency.sh 완성, Ch002 8시간 회고, 12회수지도 갱신, Ch003(메모리·캐시) 예고
+👉 **Ch 003 H1 신규 작성** (파일 시스템 오리엔테이션)
+   - inode·블록·디렉토리 트리·마운트 4핵심단어, ls -la 7칸 풀이, 비유 사전 확장(층/짐/송장/칸/복도), Ch002 회수, Ch003 8H 큰그림
