@@ -55,11 +55,11 @@ Ch002 합계: 136,084 / 목표 ~160,000
 | H3 | 환경점검 | 17,049 | 🟢 | 합격 (네 숫자 카드 사설IP·게이트웨이·DNS·공인IP/ifconfig vs ip addr/route get default·ip route/scutil --dns·resolv.conf/etc/hosts+mDNSResponder 캐시/인터페이스 5형제 en0·lo0·utun·awdl·bridge/Wi-Fi SSID·RSSI·채널/회사 vs 집 5차이(대역·DNS·방화벽·프록시·TLS인터셉트)/HTTP_PROXY+NO_PROXY+proxy_on/off/VPN full vs split tunnel/방화벽 pf·iptables 위치/netinfo .zshrc 별칭/macOS-Linux 변환표 14행/함정5+추가보너스/FAQ7/회차지도 7곳/추신18) |
 | H4 | 명령카탈로그 | 17,000 | 🟢 | 합격 (도구 14개+보너스5 — ping·traceroute/mtr·dig/nslookup/host·curl·wget·nc·openssl s_client·ss/netstat·lsof -i·tcpdump·tshark/wireshark·iperf3·arp/route+telnet·dog·gping·httpie·jq/다섯 도구 카드(ifconfig·dig·ping·nc·curl)/14행 도구 표/함정7+FAQ7/추신22) |
 | H5 | 데모 | 17,141 | 🟢 | 합격 (한 페이지 라이프사이클 30단계 — 클릭 0.0초→0.3초/5층 캐시(SW·HTTP mem·HTTP disk·HTTP/2 push·네트워크)/DNS 5절+DoH/TCP 3-way+slow start+SYN flood/TLS 1.3 1-RTT+0-RTT/HTTP/2 요청+HPACK/서버 5일 LB·TLS종료·앱·DB·직렬화/응답 헤더 7가족/TTFB+CDN/점진파싱+chunked/30워 폭발+preconnect/렌더트리·레이아웃·페인트/Web Vitals 4 LCP·INP·CLS·TBT/30행표+세 색깔 막대/curl -w 다섯숫자/오해6+FAQ7/추신23) |
-| H6 | — | — | ⚫️ | 스캐폴드 스텁 대기 |
+| H6 | 트러블슈팅 | 17,005 | 🟢 | 합격 (네트워크 7다리 진단 — 인터페이스→게이트웨이→라우팅→DNS→IP 도달→포트→응답/다리별 정상 한 줄+실패 시그니처/dig +trace·ping·traceroute·mtr·nc -vz·curl -w/nettest() zsh 통합 함수 한 방/3 운영 사고 시나리오(DNS·인증서·포트 충돌)/ICMP 차단=서버 죽음 함정/VPN 좀비 라우팅/인증서 만료 30·14·7·1일 알람/흔한함정7+FAQ7+추신24) |
 | H7 | — | — | ⚫️ | 스캐폴드 스텁 대기 |
 | H8 | — | — | ⚫️ | 스캐폴드 스텁 대기 |
 
-Ch003 합계: 85,300 / 목표 ~160,000
+Ch003 합계: 102,305 / 목표 ~160,000
 
 ## 작성 순서 정책
 1. **먼저** Ch001 H1을 20k로 보강 (1회 = 1턴)
@@ -73,5 +73,5 @@ Ch003 합계: 85,300 / 목표 ~160,000
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 003 H6 신규 작성** (트러블슈팅 — 네트워크 7다리 진단)
-   - "인터넷 안 돼요" 한 줄에 7다리를 건너 끚긴 지점을 찾는 절차: 인터페이스→게이트웨이→라우팅→DNS→IP 도달→포트→응답. 4교시 도구+5교시 30단계 종합 적용.
+👉 **Ch 003 H7 신규 작성** (서버 측 동작 깊게 — keepalive·HTTP/3·로드 밸런싱 내부)
+   - HTTP keepalive·연결 풀링·HTTP/2 멀티플렉싱·HTTP/3(QUIC)·LB 알고리즘(round robin·least conn·consistent hash)·sticky session·헬스체크·서킷 브레이커. 다리 7의 "200 OK" 뒤에 숨은 서버 측 깊은 사연.
