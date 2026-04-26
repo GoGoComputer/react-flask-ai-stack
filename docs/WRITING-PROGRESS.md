@@ -53,13 +53,13 @@ Ch002 합계: 136,084 / 목표 ~160,000
 | H1 | 오리엔 | 17,075 | 🟢 | 합격 (우편비유/4핵심단어 TCP/IP·HTTP·DNS·HTTPS/한클릭0.3초 7단계 미리보기/ping 1.1.1.1·example.com 두줄/curl -I·-v 6단계 풀이/비유사전(패킷=봉투/포트=객실번호/소켓=통화회선/TLS=봉인도장)/8H 큰그림/고양이자경단 사진업로드 7단계/12회수지도(Ch004·020·031·047·055·062·068·074·091·097·108·113·116)/macOS-Linux 네트워크표 14행/흔한오해5+보너스/FAQ5+보너스/HTTPS=TLS로 감싼 TCP 소켓 위 HTTP 한줄정의/추신12) |
 | H2 | 핵심개념4 | 17,035 | 🟢 | 합격 (5층 봉투 IP→TCP→TLS→HTTP+DNS 조언자/IPv4 vs IPv6+CIDR/사설IP 3대역/TCP 3-way·4-way·재전송·흐름·혼잡제어/UDP 5사용처/HTTP 메서드5+멱등성/상태코드5묶음+401vs403+502vs504/헤더 7가족+보안헤더(HSTS·CSP)/DNS 레코드7종(A·AAAA·CNAME·MX·NS·TXT·PTR)+TTL/resolver chain 5단계+dig +trace/TLS 1.3 1-RTT vs 1.2 2-RTT/인증서 체인+openssl x509 -dates/curl -v 9줄 풀이/자경단 4기둥 적용+한페이지 30요청/함정5+보너스/FAQ5+보너스/추신19) |
 | H3 | 환경점검 | 17,049 | 🟢 | 합격 (네 숫자 카드 사설IP·게이트웨이·DNS·공인IP/ifconfig vs ip addr/route get default·ip route/scutil --dns·resolv.conf/etc/hosts+mDNSResponder 캐시/인터페이스 5형제 en0·lo0·utun·awdl·bridge/Wi-Fi SSID·RSSI·채널/회사 vs 집 5차이(대역·DNS·방화벽·프록시·TLS인터셉트)/HTTP_PROXY+NO_PROXY+proxy_on/off/VPN full vs split tunnel/방화벽 pf·iptables 위치/netinfo .zshrc 별칭/macOS-Linux 변환표 14행/함정5+추가보너스/FAQ7/회차지도 7곳/추신18) |
-| H4 | — | — | ⚫️ | 스캐폴드 스텁 대기 |
+| H4 | 명령카탈로그 | 17,000 | 🟢 | 합격 (도구 14개+보너스5 — ping·traceroute/mtr·dig/nslookup/host·curl·wget·nc·openssl s_client·ss/netstat·lsof -i·tcpdump·tshark/wireshark·iperf3·arp/route+telnet·dog·gping·httpie·jq/다섯 도구 카드(ifconfig·dig·ping·nc·curl)/14행 도구 표/함정7+FAQ7/추신22) |
 | H5 | — | — | ⚫️ | 스캐폴드 스텁 대기 |
 | H6 | — | — | ⚫️ | 스캐폴드 스텁 대기 |
 | H7 | — | — | ⚫️ | 스캐폴드 스텁 대기 |
 | H8 | — | — | ⚫️ | 스캐폴드 스텁 대기 |
 
-Ch003 합계: 51,159 / 목표 ~160,000
+Ch003 합계: 68,159 / 목표 ~160,000
 
 ## 작성 순서 정책
 1. **먼저** Ch001 H1을 20k로 보강 (1회 = 1턴)
@@ -73,5 +73,5 @@ Ch003 합계: 51,159 / 목표 ~160,000
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 003 H4 신규 작성** (명령어 카탈로그 — 네트워크)
-   - ping·curl·dig·nslookup·host·traceroute·mtr·nc·openssl·ss·lsof·netstat·tcpdump·tshark·wireshark — 핵심 12~14 도구를 한 시간에 한 번씩 손에
+👉 **Ch 003 H5 신규 작성** (데모 — 한 페이지 요청 라이프사이클)
+   - 클릭 0.0초부터 응답 0.3초까지 30단계 — 캐시/DNS/TCP/TLS/HTTP 요청/응답/렌더링, 4교시 도구·14개가 30단계 어디에 끌어드는지
