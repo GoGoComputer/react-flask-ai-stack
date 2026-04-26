@@ -62,6 +62,12 @@ Ch002 합계: 136,084 / 목표 ~160,000
 Ch003 합계: 136,408 / 목표 ~160,000
 **Ch003 완료** ✅
 
+## Ch 004 — Git & GitHub 기본
+
+| H | 슬롯 | 현재 분량 | 상태 | 비고 |
+|---|------|----------|------|------|
+| H1 | 오리엔 | 19,776 | 🟢 | 합격 (사진앨범 비유 — Git=코드 폴더의 사진앨범+타임머신+분산 백업+협업 도구 네 일 한 도구/4단어 Repository·Commit·Branch·Remote/5비유사전(snapshot=사진·HEAD=현재페이지·branch=평행우주·remote=구름백업·.git=앨범본체)/한 commit 0.05초 7단계(스테이징확인·스냅샷·tree·commit·HEAD·reflog·출력)/git status·git log 읽기전용 두줄 손풌기/git init+add+commit 5줄 미니레포 데모/8H 큰그림(H2개념·H3설치SSH·H4명령어23·H5데모·H6충돌·DetachedHEAD·force push 7사고·H7.git내부blob·tree·commit·tag·H8자경단레포운영)/CSS한줄 7단계 코드리뷰·CI·배포/12회수지도(Ch005·006·014·020·022·041·062·070·080·103·118·120)/macOS-Linux 설치만 다르고 명령 100% 동일 표/리누스 토르발스0 2005 BitKeeper 역사/흔한오해 5+보너스(Git≠GitHub/force push 맥락/commit 메시지/branch=한줄텍스트/.git 읽기안전/git pull 자동merge 위험)/FAQ 5+보너스/추신 12) |
+
 ## 작성 순서 정책
 1. **먼저** Ch001 H1을 20k로 보강 (1회 = 1턴)
 2. Ch001 H2 보강 (1턴)
@@ -74,5 +80,5 @@ Ch003 합계: 136,408 / 목표 ~160,000
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 004 H1 신규 작성** (웹 프론트에드 기초 — 오리엔테이션)
-   - HTML·CSS·JS·DOM·렌더링 8H 큰 그림 제시. Ch003 H5 30단계의 14~30단계를 이어받아 "사용자가 실제로 보는 화면"을 깊게 파고든다. React가 등장한 이유·웹 표준의 진화·렌더 성능.
+👉 **Ch 004 H2 신규 작성** (핵심 개념 4 깊게)
+   - Snapshot 내부 구조, commit 객체 다섯 필드, branch=한 줄짜리 텍스트 파일 충격, HEAD의 두 모드(attached/detached), fast-forward vs three-way merge, rebase vs merge 첫 만남.
