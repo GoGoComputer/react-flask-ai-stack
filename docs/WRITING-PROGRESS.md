@@ -57,9 +57,10 @@ Ch002 합계: 136,084 / 목표 ~160,000
 | H5 | 데모 | 17,141 | 🟢 | 합격 (한 페이지 라이프사이클 30단계 — 클릭 0.0초→0.3초/5층 캐시(SW·HTTP mem·HTTP disk·HTTP/2 push·네트워크)/DNS 5절+DoH/TCP 3-way+slow start+SYN flood/TLS 1.3 1-RTT+0-RTT/HTTP/2 요청+HPACK/서버 5일 LB·TLS종료·앱·DB·직렬화/응답 헤더 7가족/TTFB+CDN/점진파싱+chunked/30워 폭발+preconnect/렌더트리·레이아웃·페인트/Web Vitals 4 LCP·INP·CLS·TBT/30행표+세 색깔 막대/curl -w 다섯숫자/오해6+FAQ7/추신23) |
 | H6 | 트러블슈팅 | 17,005 | 🟢 | 합격 (네트워크 7다리 진단 — 인터페이스→게이트웨이→라우팅→DNS→IP 도달→포트→응답/다리별 정상 한 줄+실패 시그니처/dig +trace·ping·traceroute·mtr·nc -vz·curl -w/nettest() zsh 통합 함수 한 방/3 운영 사고 시나리오(DNS·인증서·포트 충돌)/ICMP 차단=서버 죽음 함정/VPN 좀비 라우팅/인증서 만료 30·14·7·1일 알람/흔한함정7+FAQ7+추신24) |
 | H7 | 서버측서버 | 17,007 | 🟢 | 합격 (keepalive·HTTP/3·LB 내부 — 서버 5층(L0 DNS·L1 엣지·L2 L4LB·L3 L7LB·L4 앱)+두 고속도로(HTTP keepalive·연결풀)/TCP keepalive vs HTTP keepalive 단어 충돌/HTTP/1.1 HOL+6연결 우회+pipelining 폐기사/HTTP/2 멀티플렉싱+HPACK+서버푸시폐기+TCP HOL 잔존/HTTP/3 QUIC=UDP+TLS1.3+연결ID+0-RTT 모바일 핸드오프/curl --http3·Alt-Svc 진단/LB 알고리즘 4 RR·LC·Consistent Hash·P2C 표/sticky session 2구현(쿠키·IP해시)+함정/헬스체크 liveness vs readiness+shallow vs deep+서킷브레이커 closed/open/half-open/3 운영사고(keepalive좍비·CH핫스포·헬스체크cascade)/흔한오해 7+FAQ 7+추신 28) |
-| H8 | — | — | ⚫️ | 스캐폴드 스텁 대기 |
+| H8 | 적용+회고 | 17,096 | 🟢 | 합격 (자경단 사이트 8주 네트워크 로드맵 — 1주 도메인·DNS / 2주 HTTPS·인증서자동화 / 3주 CDN(Cloudflare·Cache-Control·Vary) / 4주 nginx upstream LB+백엔드 2~3대+keepalive세팅 / 5주 헬스체크+5층 모니터링+알람 다섯 / 6주 Redis cache-aside·write-through·write-behind 셋 / 7주 HTTP/2·H/3 도입+UDP443+RUM A/B / 8주 런북 7섹션+Game day Mock 사고/Ch003 한장 지도 8H 압축+다섯 원리(층·이름주소분리·느슨결합·신뢰체인·관찰가능성)+12회수지도+Ch004 예고+우선순위 Must/Should/Could+비용표+오해7+FAQ7+추신24) |
 
-Ch003 합계: 119,312 / 목표 ~160,000
+Ch003 합계: 136,408 / 목표 ~160,000
+**Ch003 완료** ✅
 
 ## 작성 순서 정책
 1. **먼저** Ch001 H1을 20k로 보강 (1회 = 1턴)
@@ -73,5 +74,5 @@ Ch003 합계: 119,312 / 목표 ~160,000
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 003 H8 신규 작성** (적용+회고 — 자경단 사이트 8주 네트워크 로드맵)
-   - 1주차 도메인·DNS, 2주차 HTTPS·인증서 자동화, 3주차 CDN, 4주차 LB, 5주차 헬스체크·모니터링, 6주차 캐시 계층, 7주차 HTTP/2·3 적용, 8주차 사고 대비 런북. Ch003 전체 회수 + Ch004 웹 프론트에드 예고.
+👉 **Ch 004 H1 신규 작성** (웹 프론트에드 기초 — 오리엔테이션)
+   - HTML·CSS·JS·DOM·렌더링 8H 큰 그림 제시. Ch003 H5 30단계의 14~30단계를 이어받아 "사용자가 실제로 보는 화면"을 깊게 파고든다. React가 등장한 이유·웹 표준의 진화·렌더 성능.
