@@ -88,9 +88,13 @@ Ch004 합계: 137,901 / 목표 ~160,000
 | H5 | 데모 | 17,057 | 🟢 | 합격 (30분 협업 시뮬레이션 — 자경단 5명 화요일 14:00~14:30 cat-card 기능/실제 git 출력 박음 (강사가 /tmp/cat-demo·/tmp/hotfix-demo에서 진짜 실행)/0~5분 main 동기화 3명령어/5~10분 까미(d888f37) 노랭이(4dab2f6) 동시 branch+같은 파일+첫 commit 8명령어/10~15분 노랭이 PR#42 squash auto-merge 4명령어/15~20분 까미 rebase main → CONFLICT(add/add) 실제 마커 출력/20~25분 페어 mergetool VS Code 또는 텍스트 → 7줄 합본 → rebase --continue (sha d888f37→13c3232)/25~30분 까미 PR#43 머지 5명령어/보너스 force-with-lease 거부 시연 stale info·fetch+rebase 처방/13. 보너스 hotfix 5분 사이클(82c515b·v1.0.0→v1.0.1·SemVer patch·tag·release notes git log v1.0.0..HEAD)/14. 자경단 한주 5사이클(월/화/수/목/금 30분씩·매주 2.5시간 협업·5명 12.5h)/5사고+처방(force-with-lease 거부·rebase abort·stash 분실 reflog·CI 빨간불 진단·CODEOWNERS 마지막 매치)/오해7+FAQ7+추신34) |
 | H6 | 운영 | 17,009 | 🟢 | 합격 (1년 자경단 자동화·통계·진화·회고 — PR 자동정리 4종(branch 자동삭제·dependabot weekly+grouping·stale 60+90일·docs Pages)+fetch.prune=true/release 자동화 release-please Google·semantic-release·Conventional Commits → SemVer 자동(feat→minor·fix→patch·BREAKING→major)·CHANGELOG 자동·release 노트 5섹션 자동 80% 손 20%/conflict 통계 hot file 분석 git log --since=1year --pretty=format: --name-only 한 줄·App.tsx 1000줄→5파일 200줄 conflict 50→8/workflow 매년 회고 5단계 진화표(5명초기·6~10성장·11~25중간·26~50큰팀·50+ 회사) 자경단 1년 후 7명·5년 후 30명/5년 운영 시뮬 1년→3년→5년 인원6배·PR 25배·release 30배·사용자 100배/한 페이지 운영 체크리스트 7의식(매주 dependabot·매주 release·매월 회고·매분기 점검·매년 1시간 회고·매반기 마이그·매년 패턴)/9. 5사고 일지(dependabot 100개·release v2.0.0 자동·App.tsx hot file·stale 살아있는 issue·signed commit 거부)+처방+회수/오해7+FAQ12+추신64) |
 | H7 | 원리/내부 | 17,022 | 🟢 | 합격 (협업 도구의 알고리즘 깊이 — branch protection 강제 흐름 5단계(push→pack→인증→권한→pre-receive hook 9검사→ref 갱신/거부)+GH001/GH006/GH013 거부 코드/CODEOWNERS 매칭 4규칙(위에서 아래·마지막 우선·글로브 *·**·집합·OR 기본)+의사코드 O(N×M)+자경단 매칭 트레이스+5함정/conflict 3-way merge base+ours+theirs+자동 머지 vs CONFLICT/diff 알고리즘 4종(myers 1986·histogram 2014·patience 2010·minimal)+patience 5단계 anchor+zdiff3 conflictstyle 2022 새 표준/분산 git 비밀 — refspec local:remote+`+force update`/fetch protocol smart HTTP 5단계(ref 목록·차이·packfile·unpack)/packfile delta chain 5단계 95% 압축/shallow clone --depth 1·--filter=blob:none·--single-branch/GitHub Actions 내부 5요소 — runner(ubuntu/macos/windows/self-hosted) 무료tier 2000분/월·trigger 10종(push·pull_request·schedule·dispatch·release·workflow_call·repository_dispatch·workflow_run)·secrets 격리 3단계(org·repo·environment)·matrix 9job·reusable workflow workflow_call/gh CLI 내부 — OAuth device code flow+~/.config/gh/hosts.yml·REST 90% vs GraphQL 복잡 쿼리 1호출=REST 3호출·cache 1~10초·extension 5종(dash·poi·copilot·pr-tree·actions-cache)/큰 회사 5깊이(monorepo Nx·feature flag LaunchDarkly·SRE on-call·observability Datadog·governance RFC ADR)/오해7+FAQ7+추신57) |
+| H8 | 적용+회고 | 17,081 | 🟢 | 합격 (Ch005 마무리 — 7개 H 한 페이지 종합표·자경단 30분 셋업 10단계+5년 협업 로드맵 5계단(1주·1개월·6개월·1년·5년)/다섯 원리(분산·합의→도구·자동화→곱셈·진화 의식·원리가 시니어)/12회수 지도(Ch006 터미널·014 venv·020 typing·022 pytest·041 백엔드·062 통합·070 라우팅·080 풀스택·091 AWS·103 CI/CD·118 면접·120 회고)/Ch006 예고 5요소(파이프·find/grep·alias·스크립트·`!`·man)/우선순위 Must5(org·protection·CODEOWNERS·husky·첫PR)·Should5(dependabot·release-please·stale·branch삭제·CONTRIBUTING)·Could5(signed·fine-grained·matrix·reusable·gh extension)/0분→5년 시간축/비용표 10행(GitHub Free·Team $4·Actions 2000분·dependabot·release-please·stale·husky·gh·1Password·LaunchDarkly)+첫1년 $0/첫 PR 12분 14:00→14:12 자신감/오해7+FAQ7/12. 자경단 첫 셋업 30단계 화면 흐름(org 5단계·team 5팀·repo+권한 5단계·branch protection 7단계·CODEOWNERS·husky·자동화)/13. 5년 회고 미래 편지/14. 첫 PR 짜릿함 5가지/15. 자경단 vs 큰 회사 500명 도구 비교 10항·진화 시점/16. 7개 H 한 줄 학습 7시간+H8 1시간=8시간/추신112) |
+
+Ch005 합계: 137,343 / 목표 ~160,000
+**Ch005 완료** ✅
 
 ## Ch 005 다음 H 작성 큐
-H3 환경점검·H4 카탈로그·H5 데모·H6 운영·H7 원리·H8 적용
+(완료)
 
 ## 작성 순서 정책
 1. **먼저** Ch001 H1을 20k로 보강 (1회 = 1턴)
@@ -104,5 +108,5 @@ H3 환경점검·H4 카탈로그·H5 데모·H6 운영·H7 원리·H8 적용
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 005 H8 신규 작성** (적용+회고 — Ch005 마무리, 자경단 협업 한 페이지 종합, 5년 회수 지도, Ch006 예고)
-   - 5명 자경단 협업 첫 PR 부터 5년 운영까지 한 페이지 압축, H1~H7의 7개 깊이 회수, 다섯 원리 한 페이지(분산·합의→도구·자동화→곱셈·진화 의식·원리가 시니어), 12회수 지도(다음 챕터 어디서 만나는가), Ch006 터미널·Bash 예고, 우선순위 Must·Should·Could·시간축, 비용표 10행, **Ch005 완료** ✅ + 진행률 갱신 40/960.
+👉 **Ch 006 H1 신규 작성** (오리엔 — 터미널·셸·Bash 큰 그림)
+   - 터미널/셸/Bash 정의 차이, 4핵심 단어(터미널·셸·프로세스·파일시스템), 0.30초 한 명령어 흐름(키보드→터미널→셸→커널→실행), 8H 큰그림(H2 핵심개념·H3 셋업·H4 명령어 카탈로그·H5 데모 파이프 한 줄·H6 셸 스크립트 운영·H7 셸 내부·H8 적용), 자경단 5명 적용(까미 백엔드 alias·노랭이 프론트 alias·미니 인프라 ssh·깜장이 디자인 자동화·본인 통합), Ch005 회수 + Ch007 예고, 12회수 지도, 흔한 오해 5+, FAQ 5+, 추신 12+.
