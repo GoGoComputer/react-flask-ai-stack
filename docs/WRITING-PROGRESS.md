@@ -101,6 +101,7 @@ Ch005 합계: 137,343 / 목표 ~160,000
 | H | 슬롯 | 현재 분량 | 상태 | 비고 |
 |---|------|----------|------|------|
 | H1 | 오리엔 | 17,012 | 🟢 | 합격 (검은 화면 7이유 — 자동화·원격 표준·복사·속도·AI 시대·도구 표준·면접/한 줄 데모 find ~ -size +100M head -5/터미널·셸·Bash 셋 정의(앱·프로그램·셸 한 종류) 한 표/4핵심 단어(터미널·셸·프로세스·파일시스템) tty·echo $0·ps·pwd 4명령어/한 명령어 0.30초 7단계 흐름(키보드→터미널→셸→PATH→fork→exec→stat→stdout→wait)/자경단 5명 alias 풍경(본인 s/lg/mypr·까미 cj/g/d·노랭이 nr/np/pf·미니 vps/tf/aw·깜장이 pw/ss)+공통 5종(s·lg·ll·cd..·mypr) 5명 25개 5년 125시간/8H 큰그림(H2 8개념·H3 셋업·H4 30개 명령어·H5 데모·H6 스크립트·H7 내부·H8 적용)/12회수지도(Ch007~120)/10. 셸 진화 50년 표(Thompson sh 1971·Bourne sh 1977·csh 1978·Bash 1989·zsh 1990·fish 2005·macOS Catalina 2019 zsh 표준·Warp 2022·AI 2024)/11. 자경단 5년 dotfiles 50줄 .zshrc(PATH·env·alias·function·setopt·oh-my-zsh·starship)/12. AI 시대 셸 80/20 비율 Claude/Cursor/Warp·gh-copilot/오해5+FAQ5+추신120) |
+| H2 | 핵심개념 | 17,046 | 🟢 | 합격 (셸 8개념 깊이 — 1.셸 변수 vs 환경변수(=·export) 자식 프로세스 전달 차이·=양옆 공백 함정·env 5종/2.PATH 검색 :구분 우선순위·which vs type·우선순위 함정/3.exit code 표(0·1·2·126·127·130·137·139)·$? 확인·&&·||·set -e·자경단 활용/4.subshell (...) vs 그룹 {...} 환경 격리 vs 공유·임시 cd·임시 환경변수/5.glob 5종(*·**·?·[abc]·{a,b}) zsh nomatch vs bash nullglob·숨은 파일/6.redirection 7종(>·>>·<·<<<·2>·2>&1·/dev/null) 자경단 build/CI/7.heredoc <<EOF 변수 확장 ON/OFF·<<-EOF indent·SSH/Python/SQL/8.pipe `|`·command substitution `$(...)` 자경단 5종 pipe + 5종 substitution + 한 줄 자동화 시나리오·xargs/오해5+FAQ5+추신117) |
 
 ## 작성 순서 정책
 1. **먼저** Ch001 H1을 20k로 보강 (1회 = 1턴)
@@ -114,5 +115,5 @@ Ch005 합계: 137,343 / 목표 ~160,000
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 006 H2 신규 작성** (핵심개념 — 셸 8개념 깊이)
-   - 셸 변수($var) vs 환경변수(export), PATH 검색·우선순위, exit code(0=성공·1~255 실패·표준), subshell `(...)` vs `{...}`, glob(`*`·`**`·`?`·`[]`)·확장(brace `{a,b}`·tilde `~`), redirection(`>`·`>>`·`<`·`<<<`·`2>`·`2>&1`·`/dev/null`), heredoc `<<EOF`, pipe(`|`)·command substitution(`$(...)`·backtick), 8개념을 자경단 5명 시나리오로 + 흔한 함정 + zsh vs bash 차이.
+👉 **Ch 006 H3 신규 작성** (환경점검 — iTerm2·zsh·oh-my-zsh·starship·brew 5분 셋업)
+   - macOS Apple Silicon brew 셋업 (`/opt/homebrew`), iTerm2 설치 + 단축키 + 외관(폰트·색깔), oh-my-zsh 설치 + plugin 6개(git·docker·kubectl·npm·rust·gh) + 테마, starship 프롬프트 (Rust 빠름·git status·언어·시간), tmux 셋업 옵션, dotfiles GitHub repo (`cat-vigilante/dotfiles`) 셋업·PR로 alias 추가, .zshrc 첫 50줄, Linux·Windows WSL 변환표, 자경단 5명 환경 동기화.
