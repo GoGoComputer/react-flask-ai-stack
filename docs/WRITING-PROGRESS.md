@@ -112,6 +112,12 @@ Ch005 합계: 137,343 / 목표 ~160,000
 Ch006 합계: 137,490 / 목표 ~160,000
 **Ch006 완료** ✅
 
+## Ch 007 — Python 입문 1 (변수·자료형·연산자)
+
+| H | 슬롯 | 현재 분량 | 상태 | 비고 |
+|---|------|----------|------|------|
+| H1 | 오리엔 | 17,134 | 🟢 | 합격 (Python 7이유 — 가독성·다용도·생태계·AI 시대·면접·자경단 백엔드·셸과 만남/4핵심 단어(인터프리터·변수·자료형·연산자)·인터프리터 vs 컴파일러·REPL·5 기본 자료형 int/float/str/bool/None·연산자 5종(산술 7·비교 6·논리 3·할당 8·멤버십 2)/한 줄 print() 0.10초 6단계(키보드→python fork-exec→파싱→AST→bytecode→VM→write stdout)/8H 큰그림(H2 5자료형+18연산자+f-string·H3 brew/pyenv/REPL/Jupyter/VS Code·H4 python/pip/-m/-c 18도구·H5 환율 계산기·H6 PEP 8·black·ruff·docstring·H7 CPython VM·GIL·bytecode·PEP·H8 적용)/자경단 5명 적용(까미 백엔드 100%·노랭이 도구 20%·미니 인프라 60%·깜장이 QA 80%·본인 메인테이너 50%) → 자경단 80% Python/12회수 지도(Ch008 if/for·013 import·014 venv·020 typing·022 pytest·041 FastAPI·060 풀스택·080 ML·091 boto3·103 CI/CD·118 면접·120 회고)/Python 진화 30년 1991→3.12·자경단 매일 12 라이브러리(requests·pydantic·fastapi·sqlalchemy·rich·pytest·black·ruff·mypy·typer 등)·면접 5질문(왜 Python·2 vs 3·PEP 8·GIL·list comp)·오해5+FAQ5+추신205) |
+
 ## 작성 순서 정책
 1. **먼저** Ch001 H1을 20k로 보강 (1회 = 1턴)
 2. Ch001 H2 보강 (1턴)
@@ -124,5 +130,5 @@ Ch006 합계: 137,490 / 목표 ~160,000
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 007 H1 신규 작성** (Python 입문 1 — 변수·자료형·연산자 오리엔테이션)
-   - Python 7이유(가독성·다용도·생태계·AI 시대·면접·자경단 백엔드·셸과 만남), 4핵심 단어(인터프리터·변수·자료형·연산자), 한 줄 print() 0.10초 흐름(타이핑→python 실행→파싱→bytecode→VM→출력), 8H 큰그림(H1 오리엔·H2 핵심개념·H3 셋업·H4 명령어/도구·H5 데모 환율 계산기·H6 운영 코드 스타일·H7 내부 GIL/PEP·H8 적용), 자경단 5명 적용(까미 backend Python·노랭이 React 도구 Python·미니 AWS Python·깜장이 QA Python·본인 메인테이너), Ch006 회수(셸 + Python) + Ch008 예고(if/for/while), 12회수 지도, 흔한 오해 5+, FAQ 5+, 추신 30+.
+👉 **Ch 007 H2 신규 작성** (Python 입문 1 — 핵심개념 5 자료형 깊이)
+   - int/float/str/bool/None 5 자료형 깊이, 산술 7·비교 6·논리 3·할당 8·멤버십 2 연산자, string formatting 3종(% 옛·.format() 중간·f-string 표준), comment + docstring + indentation PEP 8, mutable vs immutable, == vs is, type() vs isinstance(), 자경단 5명 적용 시나리오.
