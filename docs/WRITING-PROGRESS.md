@@ -73,6 +73,19 @@ Ch003 합계: 136,408 / 목표 ~160,000
 | H6 | 운영 | 17,034 | 🟢 | 합격 (저장소 운영 — 6개 도구 표(Issue·PR·Project·Discussions·Actions·Pages)+자경단 자리·빈도/Issue 양식 체크리스트·라벨·담당자·마일스톤+자경단 5부류 라벨(유형·지역·긴급도·상태·종류)+7색깔 의미+마일스톤×프로젝트 이중 묶기/PR 5의 특징(작게·1일·본문 명확·테스트·Issue 연결)+Conventional Commits 7prefix(feat·fix·docs·chore·refactor·test·style)+Draft PR early feedback+stack PR Meta·Google 패턴/리뷰 5톤(칭찬·질문·제안·요청·nit)+LGTM+신입성 자산+큰그림→디테일 두 단계+resolve conversation 컨벤션+머지 3옵션 squash 80%/branch protection 규칙 7체크+self-review/CODEOWNERS+소유자 다수는 OR·위치 .github/+글로브 패턴/Project 4칸 보드+Auto-add·Status 자동이동+신·구 Projects/Discussions 5카테고리+Issue↔Discussions 변환/README·CONTRIBUTING·CODE_OF_CONDUCT·SECURITY·LICENSE 5문서+CHANGELOG·ROADMAP 조직화/Actions Marketplace+Pages Jekyll/자경단 월~금 일주일 시몼+월 09:00 5분 의식+금 17:00 주간 정리/오해 5+FAQ 5+보너스 issue 아카이브+추신 15 Request changes 신중·자동 가지 삭제) |
 | H7 | 내부동작 | 17,001 | 🟢 | 합격 (.git/ 9슬롯+서가 vs 종이 비유/objects/ 4종 객체+SHA-1+zlib+packfile delta+gc auto/refs 41바이트+HEAD attached/detached/index+stage+stat 캐싱/hooks 6종+husky+자경단 4가지+5계명/fsck·gc·prune·repack/응급실 한 페이지+5계명+reflog 90일+태그 영원/자경단 적용+H8 예고/오해5+FAQ5+추신15) |
 | H8 | 적용+마무리 | 17,002 | 🟢 | 합격 (30분 종합 셋업 10단계 — git config 로컬 7줄/.gitignore 5부류+gitignore.io+자경단 도메인/branch protection 7체크+관리자 bypass 금지/CODEOWNERS 글로브+소유자 OR/Issue·PR 템플릿 YAML+체크리스트/Conventional Commits 10prefix+commitlint+husky/pre-commit hook 30줄(AWS키·5MB·lint-staged)+hook 5계명/5문서 README·CONTRIBUTING·CODE_OF_CONDUCT(Contributor Covenant)·SECURITY·LICENSE(MIT vs Apache 2.0)/GitHub Actions ci.yml/자기 PR v0.1.0 태그 5이유/다섯 원리 한 페이지(분산·콘텐츠 주소·불변성·분리·자동화)+CS 세계 연결/12회수 지도(Ch005·006·014·020·022·041·062·070·080·103·118·120)/Ch005 예고(GitHub Flow·Git Flow·Trunk-based+충돌 3깊이+CI/CD 5단계)/우선순위 Must5·Should5·Could5+3단 시간축/비용표 10행+시간 ROI/오해7+FAQ7+보너스 자가진단 6줄+추신15 첫 commit 습관) |
+
+Ch004 합계: 137,901 / 목표 ~160,000
+**Ch004 완료** ✅
+
+## Ch 005 — Git 협업 워크플로우
+
+| H | 슬롯 | 현재 분량 | 상태 | 비고 |
+|---|------|----------|------|------|
+| H1 | 오리엔 | 17,001 | 🟢 | 합격 (왜 협업 7이유 — 첫PR 5명·30% PR시간·force-push ROI 30분→5년 0회·톤 한단어 동료 한시간·5년차 워크플로우 디자이너·오픈소스 면접 1초·면접 7질문/세 패턴 첫인상 — GitHub Flow(Scott Chacon 2011·5명미만·1시간학습)·Git Flow(Vincent Driessen 2010·2020갱신·5종branch·50명+·1주일)·Trunk-based(Google·Meta·Netflix Spinnaker·매일100회·1달학습·feature flag)+한 표+살아있는 계약+패턴 진화/충돌 3깊이 — 깊이1 코드(5분~1h 도구가능 자주작게)·깊이2 의도(며칠~몇주 RFC·ADR)·깊이3 사회적(몇주~영원 신뢰 1년쌓기 1초깨기)+깊이0 예방+한 표+왜 신입은 깊이1 무서워하나·왜 시니어는 깊이3 무서워하나/8H 큰그림 표/자경단 5명(본인풀스택 메인테이너·까미백엔드 FastAPI·노랭이프론트 React·미니인프라 AWS·깜장이디자이너+QA Figma)+CODEOWNERS 매핑+한주흐름 월화수목금+화14:00 conflict 미리보기/합주 비유+지휘자 60% 조율+즉흥합주 hotfix+회고/자경단 적용 5개(.github/WORKFLOW.md·CONTRIBUTING 보강·commitlint·deploy preview·release자동화)+곱셈 효과+H2 예고(release vs deploy 분리)/오해8(워크플로우 큰회사용·Trunk-based 최고·코드충돌 가장큰문제·큰PR 효율·리뷰 시니어→주니어·Git Flow 정교=안전·1년 안바뀜·도구가 다해줌)/FAQ7(준비·1명만·다른패턴·SVN/Mercurial·시니어/큰팀 50명+·시니어 매일누적)/추신15) |
+
+## Ch 005 다음 H 작성 큐
+H2 핵심개념·H3 환경점검·H4 카탈로그·H5 데모·H6 운영·H7 원리·H8 적용
+
 ## 작성 순서 정책
 1. **먼저** Ch001 H1을 20k로 보강 (1회 = 1턴)
 2. Ch001 H2 보강 (1턴)
@@ -85,5 +98,5 @@ Ch003 합계: 136,408 / 목표 ~160,000
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 005 H1 신규 작성** (협업 워크플로우 오리엔)
-   - GitHub Flow vs Git Flow vs Trunk-based 세 패턴 개관, 충돌 3깊이(코드·의도·사회), CI/CD 5단계, 자경단 팀 시나리오.
+👉 **Ch 005 H2 신규 작성** (핵심개념 — 세 패턴 깊이 + branch 모델 + release vs deploy + 환경 분리)
+   - GitHub Flow / Git Flow / Trunk-based 패턴별 branch 모델·release 주기·hotfix 처리, dev/staging/prod 환경 분리, release ≠ deploy 분리.
