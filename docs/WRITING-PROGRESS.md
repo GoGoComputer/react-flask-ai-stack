@@ -96,6 +96,12 @@ Ch005 합계: 137,343 / 목표 ~160,000
 ## Ch 005 다음 H 작성 큐
 (완료)
 
+## Ch 006 — 터미널·셸·Bash
+
+| H | 슬롯 | 현재 분량 | 상태 | 비고 |
+|---|------|----------|------|------|
+| H1 | 오리엔 | 17,012 | 🟢 | 합격 (검은 화면 7이유 — 자동화·원격 표준·복사·속도·AI 시대·도구 표준·면접/한 줄 데모 find ~ -size +100M head -5/터미널·셸·Bash 셋 정의(앱·프로그램·셸 한 종류) 한 표/4핵심 단어(터미널·셸·프로세스·파일시스템) tty·echo $0·ps·pwd 4명령어/한 명령어 0.30초 7단계 흐름(키보드→터미널→셸→PATH→fork→exec→stat→stdout→wait)/자경단 5명 alias 풍경(본인 s/lg/mypr·까미 cj/g/d·노랭이 nr/np/pf·미니 vps/tf/aw·깜장이 pw/ss)+공통 5종(s·lg·ll·cd..·mypr) 5명 25개 5년 125시간/8H 큰그림(H2 8개념·H3 셋업·H4 30개 명령어·H5 데모·H6 스크립트·H7 내부·H8 적용)/12회수지도(Ch007~120)/10. 셸 진화 50년 표(Thompson sh 1971·Bourne sh 1977·csh 1978·Bash 1989·zsh 1990·fish 2005·macOS Catalina 2019 zsh 표준·Warp 2022·AI 2024)/11. 자경단 5년 dotfiles 50줄 .zshrc(PATH·env·alias·function·setopt·oh-my-zsh·starship)/12. AI 시대 셸 80/20 비율 Claude/Cursor/Warp·gh-copilot/오해5+FAQ5+추신120) |
+
 ## 작성 순서 정책
 1. **먼저** Ch001 H1을 20k로 보강 (1회 = 1턴)
 2. Ch001 H2 보강 (1턴)
@@ -108,5 +114,5 @@ Ch005 합계: 137,343 / 목표 ~160,000
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 006 H1 신규 작성** (오리엔 — 터미널·셸·Bash 큰 그림)
-   - 터미널/셸/Bash 정의 차이, 4핵심 단어(터미널·셸·프로세스·파일시스템), 0.30초 한 명령어 흐름(키보드→터미널→셸→커널→실행), 8H 큰그림(H2 핵심개념·H3 셋업·H4 명령어 카탈로그·H5 데모 파이프 한 줄·H6 셸 스크립트 운영·H7 셸 내부·H8 적용), 자경단 5명 적용(까미 백엔드 alias·노랭이 프론트 alias·미니 인프라 ssh·깜장이 디자인 자동화·본인 통합), Ch005 회수 + Ch007 예고, 12회수 지도, 흔한 오해 5+, FAQ 5+, 추신 12+.
+👉 **Ch 006 H2 신규 작성** (핵심개념 — 셸 8개념 깊이)
+   - 셸 변수($var) vs 환경변수(export), PATH 검색·우선순위, exit code(0=성공·1~255 실패·표준), subshell `(...)` vs `{...}`, glob(`*`·`**`·`?`·`[]`)·확장(brace `{a,b}`·tilde `~`), redirection(`>`·`>>`·`<`·`<<<`·`2>`·`2>&1`·`/dev/null`), heredoc `<<EOF`, pipe(`|`)·command substitution(`$(...)`·backtick), 8개념을 자경단 5명 시나리오로 + 흔한 함정 + zsh vs bash 차이.
