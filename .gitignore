@@ -36,3 +36,6 @@ build/
 # Build artifacts
 *.zip
 *.tar.gz
+
+# Claude Code worktrees / session state
+.claude/
