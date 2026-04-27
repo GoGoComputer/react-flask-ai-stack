@@ -102,6 +102,7 @@ Ch005 합계: 137,343 / 목표 ~160,000
 |---|------|----------|------|------|
 | H1 | 오리엔 | 17,012 | 🟢 | 합격 (검은 화면 7이유 — 자동화·원격 표준·복사·속도·AI 시대·도구 표준·면접/한 줄 데모 find ~ -size +100M head -5/터미널·셸·Bash 셋 정의(앱·프로그램·셸 한 종류) 한 표/4핵심 단어(터미널·셸·프로세스·파일시스템) tty·echo $0·ps·pwd 4명령어/한 명령어 0.30초 7단계 흐름(키보드→터미널→셸→PATH→fork→exec→stat→stdout→wait)/자경단 5명 alias 풍경(본인 s/lg/mypr·까미 cj/g/d·노랭이 nr/np/pf·미니 vps/tf/aw·깜장이 pw/ss)+공통 5종(s·lg·ll·cd..·mypr) 5명 25개 5년 125시간/8H 큰그림(H2 8개념·H3 셋업·H4 30개 명령어·H5 데모·H6 스크립트·H7 내부·H8 적용)/12회수지도(Ch007~120)/10. 셸 진화 50년 표(Thompson sh 1971·Bourne sh 1977·csh 1978·Bash 1989·zsh 1990·fish 2005·macOS Catalina 2019 zsh 표준·Warp 2022·AI 2024)/11. 자경단 5년 dotfiles 50줄 .zshrc(PATH·env·alias·function·setopt·oh-my-zsh·starship)/12. AI 시대 셸 80/20 비율 Claude/Cursor/Warp·gh-copilot/오해5+FAQ5+추신120) |
 | H2 | 핵심개념 | 17,046 | 🟢 | 합격 (셸 8개념 깊이 — 1.셸 변수 vs 환경변수(=·export) 자식 프로세스 전달 차이·=양옆 공백 함정·env 5종/2.PATH 검색 :구분 우선순위·which vs type·우선순위 함정/3.exit code 표(0·1·2·126·127·130·137·139)·$? 확인·&&·||·set -e·자경단 활용/4.subshell (...) vs 그룹 {...} 환경 격리 vs 공유·임시 cd·임시 환경변수/5.glob 5종(*·**·?·[abc]·{a,b}) zsh nomatch vs bash nullglob·숨은 파일/6.redirection 7종(>·>>·<·<<<·2>·2>&1·/dev/null) 자경단 build/CI/7.heredoc <<EOF 변수 확장 ON/OFF·<<-EOF indent·SSH/Python/SQL/8.pipe `|`·command substitution `$(...)` 자경단 5종 pipe + 5종 substitution + 한 줄 자동화 시나리오·xargs/오해5+FAQ5+추신117) |
+| H3 | 환경점검 | 17,019 | 🟢 | 합격 (자경단 표준 30분 셋업 — 1.macOS Apple Silicon 5단계(Xcode CLT·brew /opt/homebrew·brew install 10도구 한 줄(git/gh/node@20/python@3.12/ripgrep/fd/bat/exa/jq/tldr/starship/tmux)·brew 사용 5종·함정/2.iTerm2 cask·표준 설정(MesloLGS Nerd Font 14·Minimal·재사용 cwd)·단축키 5종(Cmd+T/D/Shift+D/W/`)·6 터미널 비교 표·자경단 표준 iTerm2/3.zsh + oh-my-zsh 설치·plugin 6종(git·docker·kubectl·npm·rust·gh) + 외부 2종(autosuggestions·syntax-highlighting)·테마 robbyrussell→starship/4.starship Rust 빠름·~/.config/starship.toml 자경단 표준 toml·git_branch+status+cmd_duration+character·oh-my-zsh 비교 표/5.tmux 첫 사용 5단축키(분할 2·이동·detach·attach)·SSH 끊김 방지·페어 attach -t·~/.tmux.conf 표준·iTerm2 분할 vs tmux/6.dotfiles GitHub repo 5분 셋업·install.sh idempotent·새 노트북 1줄·5명 PR 협업/7.자경단 .zshrc 50줄(PATH 5·env 5·alias 5·function 5·setopt 5·oh-my-zsh 5·starship 1·workflow 5)/8.macOS·Linux·Windows WSL 변환표 7행·core 90% 같음/오해5+FAQ5+추신110) |
 
 ## 작성 순서 정책
 1. **먼저** Ch001 H1을 20k로 보강 (1회 = 1턴)
@@ -115,5 +116,5 @@ Ch005 합계: 137,343 / 목표 ~160,000
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 006 H3 신규 작성** (환경점검 — iTerm2·zsh·oh-my-zsh·starship·brew 5분 셋업)
-   - macOS Apple Silicon brew 셋업 (`/opt/homebrew`), iTerm2 설치 + 단축키 + 외관(폰트·색깔), oh-my-zsh 설치 + plugin 6개(git·docker·kubectl·npm·rust·gh) + 테마, starship 프롬프트 (Rust 빠름·git status·언어·시간), tmux 셋업 옵션, dotfiles GitHub repo (`cat-vigilante/dotfiles`) 셋업·PR로 alias 추가, .zshrc 첫 50줄, Linux·Windows WSL 변환표, 자경단 5명 환경 동기화.
+👉 **Ch 006 H4 신규 작성** (명령어 카탈로그 — 30개 일상 셸 명령어 + 위험도 신호등)
+   - 6 무리(파일·검색·텍스트 처리·프로세스·네트워크·아카이브) × 평균 5개 = 30 명령어, 위험도 신호등 3색(🟢🟡🔴), 매일·주간·월간 손가락 리듬, 자경단 13줄 흐름 (셸 버전), 모던 대체 도구(rg·fd·bat·exa·delta), 면접 단골 질문, macOS-Linux 변환표, 흔한 오해 7+, FAQ 7+, 추신 30+.
