@@ -120,6 +120,7 @@ Ch006 합계: 137,490 / 목표 ~160,000
 | H2 | 핵심개념 | 17,024 | 🟢 | 합격 (5 자료형 + 18 연산자 + f-string — int 무한대/float IEEE 754 + Decimal/str immutable 메서드 30+/bool int subclass·falsy 7/None NoneType `is None`/산술 7·비교 6 체이닝·논리 3 short-circuit·할당 8·멤버십 2/string formatting 3종(% 옛·.format() 중간·f-string 표준)+f-string 디버그 `{name=}`+형식 `{x:.2f}`/mutable 5(list/dict/set/bytearray/deque) vs immutable 7/mutable 함정 5(같은 list 별칭·default 인자 누적·class 변수·for 안 수정·copy vs deepcopy)/== vs is(작은 int 캐싱)·isinstance vs type(상속)·None 비교 `is None`·falsy 7/PEP 8 4 공백·docstring `"""..."""`·type hint 미리보기/자경단 5명 매일 자료형·연산자 표·매일 1,825,000줄 5명 합/오해5+FAQ5+추신229) |
 | H3 | 환경점검 | 17,032 | 🟢 | 합격 (Python 환경 셋업 — brew install python@3.12·pyenv·공식 .pkg·Linux apt 4 설치/REPL python3·ipython·Jupyter 비교/VS Code Python extension + Pylance + black + ruff/.python-version·dotfile 5(PYTHONDONTWRITEBYTECODE/PYTHONUNBUFFERED/PATH/EDITOR/LANG)·alias 3(py/pyi/venv)/30분 의식 9 도구·자경단 5명 같은 환경·9,760시간 코딩 토대 ROI 3,904배·오해5+FAQ5+추신263) |
 | H4 | 명령어카탈로그 | 17,084 | 🟢 | 합격 (Python 18 도구 + 위험도 신호등 — 6 무리(인터프리터 6·패키지 5·가상환경 3·품질 3·테스트 1)/인터프리터 6 깊이(python3 REPL 5분·-V 환경 검증·-c 한 줄·-m 모듈 CLI(venv/pytest/pip)·-i 디버깅·-O prod 최적화)/패키지 5(pip install 5양식·-r req.txt·uninstall·freeze·list)+자경단 함정 3(시스템 오염·==잠금·-U 의존성)/가상환경 3(venv·activate 셸별·deactivate)+venv vs virtualenv vs conda vs uv 표/품질 3(black no-config·ruff Rust 100배·mypy strict 1년후)+자경단 표준 pyproject.toml/pytest 5 옵션(-v·-x·-k·--cov·--pdb)/매일 6+주간 4+월간 2=12 손가락/자경단 13줄 흐름 9 도구 사용·5명 매일 사용표 25 도구/5 사고+처방(시스템 오염 PEP 668·버전 잠금·black 함정·conftest 충돌·mypy false positive)/모던 5(uv 2024 Astral·poetry 2018·pdm 2020·hatch·rye)·1년 후 uv/AI 시대 80/20·Claude Code Bash·Cursor 자동완성·Copilot/오해5+FAQ7+추신35) |
+| H5 | 데모 | 17,067 | 🟢 | 합격 (자경단 환율 계산기 30분 시뮬 — 강사가 /tmp/python-demo/exchange.py 진짜 실행·KRW→USD/JPY/EUR 환율 1380.50/9.10/1495.30·자경단 5명 매월 사료 예산 $50/마리=345,125 KRW·exchange.py 50줄(RATES dict + CAT_NAMES list + convert() type hint + format_result() f-string + cat_budget_demo() for 루프 + main() if __name__)/24 학습 매핑(H1~H4 18 + Ch008·H7 미리보기 6)/15.진화 5단계(1주 50줄→1개월 API requests→6개월 class→1년 FastAPI→5년 SaaS)/16.5분 따라치기 가이드/17.코드 매핑표/18.pytest 미리보기 5 테스트/19.자경단 5명 1시간 시뮬·합의 비용 0/20.1년 후 5 사고 일지(API rate limit·환율 변동·float 누적·timezone·통화 코드 오타)/21.자경단 wiki 한 페이지 요약·5명 매일 사용표·한 줄 자동화 5종(jq·csv·log·dict·http.server)/오해5+FAQ5+추신80) |
 
 ## 작성 순서 정책
 1. **먼저** Ch001 H1을 20k로 보강 (1회 = 1턴)
@@ -133,5 +134,5 @@ Ch006 합계: 137,490 / 목표 ~160,000
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 007 H5 신규 작성** (Python 입문 1 — 데모 환율 계산기)
-   - 자경단의 첫 진짜 Python 스크립트. KRW→USD/JPY/EUR 환율 계산기. 실제 코드 + 실행 검증. 변수·자료형·연산자·f-string·input()·dict 활용. 30분 시뮬. 5 사고 + 처방. 자경단 5명 사용 시나리오. 한 줄 자동화 5종.
+👉 **Ch 007 H6 신규 작성** (Python 입문 1 — 운영 코드 스타일)
+   - PEP 8 깊이, black formatter, ruff linter, docstring 3 양식 (Google·NumPy·reST), type hint 깊이, .editorconfig, pre-commit hook, CI integration, 자경단 5명 매일 코드 스타일 의식, 5 함정 + 처방.
