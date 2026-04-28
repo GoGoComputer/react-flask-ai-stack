@@ -157,6 +157,10 @@ Ch008 합계: 137,070 / 목표 ~160,000
 | H5 | 데모 | 17,052 | 🟢 | 합격 (exchange_v3 데모 — v2 150줄 → v3 250줄 진화·9 함수 → 18 함수·강사 /tmp/python-demo3/exchange_v3.py 진짜 실행 8 항목·decorator 3 + closure(make_counter) + property 2(budget_krw·status) + classmethod(from_dict) + dunder 2(__call__·__repr__) + dataclass(Cat) + partial 2(to_usd·to_jpy) + lambda(sorted_by_age) = 12 함수 도구 적용/exchange v1→v6 진화 history (50→150→250→400→800→5,000줄)·v2 vs v3 7 핵심 차이·9 사고 면역(metadata·late binding·@cache mutable·dataclass mutable·property 재정의·@cache self·__repr__ 무한·partial vs lambda·mutable default 1년 차)/자경단 5명 1.75h 협업·5 PR 25분 review·5명 매일 165 v3 함수 = 매년 60,225·v3 진화 5단계(dataclass+property → classmethod → decorator stacking → closure+partial → dunder)·따라치기 5분 + 10 체크리스트·v3 ROI 무한대·평균 3.3배 코드 절약/오해8+FAQ10+추신86) |
 | H6 | 운영 | 17,014 | 🟢 | 합격 (함수 운영 5 핵심 — pure function 5 가치(테스트·병렬·memoization·추론·리팩토링) + side effect 분리 + Functional Core/Imperative Shell·SOLID 5 원칙(SRP·OCP·LSP·ISP·DIP) + 함수 적용 + DIP FastAPI Depends·SRP 5 패턴(검증·I/O·계산·알림·로깅) + 평균 LOC 8 4배 효율·함수 합성 + 파이프라인(toolz pipe) + 자경단 매일 5 단계 파이프라인·CQS Command/Query 분리 5 활용(DB·Cache·API·Counter·Validation)/매일 운영 의식 6 영역(작성 5 단계·PR 5 체크·매주 5 측정·매월 5 패턴 리팩토링·매분기 5 측정·매년 5 KPI) = 매년 96h·자경단 5명 매주 25h 운영 = 매년 1,300h 자산·운영 진화 5단계(pure → 분리 → SOLID → 합성 → CQS+DI)/자경단 1년 진화 — 사고 50배 감소·머지 4배·LOC 4배·McCabe 4배·5 KPI 모두 4배+ 효율/10 함정 + 보너스 5(pure 척·SRP 엄격·합성 과·CQS 위반·DI 과·mutation·nested·SOLID 도그마·합성 vs 중첩·DIP 과적용)·오해8+FAQ10+추신104) |
 | H7 | 원리/내부 | 17,009 | 🟢 | 합격 (함수 원리 5 핵심 — closure 깊이(cell + __closure__ + cell_contents·외부 변수 보존)·5 활용 깊이(카운터·캐시·factory·callback·private state)·late binding 함정 + default 인자 처방/scope LEGB 4 단계(Local·Enclosing·Global·Built-in) + 변수 검색 시간(LOAD_FAST > LOAD_GLOBAL > LOAD_NAME)·자경단 매일 LEGB 4 단계 시나리오·5 함정(UnboundLocalError·late binding·mutable global·built-in 덮어쓰기·import *)·globals/locals 활용/function object 7 attribute(__name__·__doc__·__code__·__defaults__·__kwdefaults__·__annotations__·__module__) + __code__ 6 attribute·inspect 5 활용(signature·getsource·iscoroutine·currentframe·getmembers)/CPython VM 함수 호출 5 단계(PUSH_NULL·LOAD_NAME·LOAD_CONST·CALL·body·RETURN·STORE) + 0.5μs 비용·frame stack 검사·tail call optimization 없음·dis로 30초 검토·C 확장 10배 빠름/면접 10 질문·자경단 본인 1년 차 7 회사 면접 100% 통과·자경단 5명 매주 19h 원리 = 매년 988h·원리 학습 5단계 + 매주 학습 시간표·시니어 5 stack 완성(git·셸·CPython·iterator·함수)·7 함정 + 보너스 2 면역·오해8+FAQ10+추신90) |
+| H8 | 적용+회고 | 17,023 | 🟢 | 합격 (Ch009 마무리 — 7H 한 페이지 종합표·exchange v3 250줄→v4 500줄(Ch041)→v5 5,000줄(Ch091) 진화·5명 협업 진화(1주 단독→5년 100명+)·진화 단계별 학습 챕터 매핑(Ch009→Ch091)/함수 다섯 원리(재사용·추상화·합성·메타·원리) + 매일 적용 + 학습 5단계/12회수 지도 Ch010→Ch120·Ch010 모듈/패키지 예고/우선순위 Must5(def·docstring·F12·decorator·exchange_v3) Should5(closure·classmethod·SOLID·합성·mypy) Could5(inspect·closure cell·CPython VM·singledispatch·v4/v5)·시간 분포 + Must 5 매일 100,000+ 호출/0분→5년 시간축 + 1년 후 본인 편지 + 1주차 매일 시간표/면접 20 질문·자경단 5명 1년 회고·5명 1년 합 50,000+ 함수·5년 후 5명 모두 시니어/Ch009 한 페이지 카드·본인 7 행동 1.5h·매일 함수 시간 분포(8h 100%)·Python 입문 24시간 학습 통합 + ROI 7,058만배·5년 후 회고 미리보기·5명 슬랙 가상·Ch010 진화 메시지/오해10+FAQ10+추신40+Ch009 마무리 한 단락+sub 12-23개) — Ch009 chapter complete 72/960 = 7.50% ✅✅✅ |
+
+Ch009 합계: 137,221 / 목표 ~160,000
+**Ch009 완료** ✅✅✅ (Python 입문 1+2+3 마침 — 24시간 학습)
 
 ## 작성 순서 정책
 1. **먼저** Ch001 H1을 20k로 보강 (1회 = 1턴)
@@ -170,5 +174,5 @@ Ch008 합계: 137,070 / 목표 ~160,000
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 009 H8 신규 작성** (Python 입문 3 — 적용+회고, Ch009 마무리)
-   - 7H 한 페이지 종합표·exchange v3→v4·v5 진화 로드맵·다섯 원리·12회수 지도·Ch010 예고(모듈/패키지)·우선순위 Must/Should/Could·시간축·면접·자경단 1년 회고·오해+FAQ+추신.
+👉 **Ch 010 H1 신규 작성** (Python 입문 4 — 모듈/패키지 오리엔)
+   - 모듈 7이유·4 단어(import·from·as·__init__.py)·8H 큰그림·자경단 매일 import 100+·12회수 지도·면접 5질문·오해+FAQ+추신.
