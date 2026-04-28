@@ -128,6 +128,12 @@ Ch006 합계: 137,490 / 목표 ~160,000
 Ch007 합계: 137,521 / 목표 ~160,000
 **Ch007 완료** ✅
 
+## Ch 008 — Python 입문 2 (제어 흐름)
+
+| H | 슬롯 | 현재 분량 | 상태 | 비고 |
+|---|------|----------|------|------|
+| H1 | 오리엔 | 17,026 | 🟢 | 합격 (제어 흐름 7이유 — 분기·반복·comp·while·미세조정·match-case·면접/4단어(if·for·while·comp)·자경단 매일 if 1000+/for 500+/while 10+/comp 100+/8H 큰그림+학습곡선/4단어 한 페이지 + 진짜 사용 빈도 73%(1년측정 if 12k+for 5k+comp 1.2k)/4단어 6짝꿍(if+early·for+enum·for+zip·while+walrus·comp+filter·comp+nested)/한 줄 if 8 opcode·한 줄 for 9 opcode·한 줄 comp 별도 frame/12회수 지도(Ch009·010·013·017·018·019·022·041·060·080·103·118)+시간축 적용/자경단 5명 매일 시나리오 5(FastAPI 라우팅·DB comp·OpenAPI for·EC2 while·pytest parametrize)/면접 15질문 정답·FAQ 15답변/오해 8 면역/추신65) |
+
 ## 작성 순서 정책
 1. **먼저** Ch001 H1을 20k로 보강 (1회 = 1턴)
 2. Ch001 H2 보강 (1턴)
@@ -140,5 +146,5 @@ Ch007 합계: 137,521 / 목표 ~160,000
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 008 H1 신규 작성** (Python 입문 2 — 제어 흐름 오리엔)
-   - if/for/while/comprehension 4단어·7이유·8H 큰그림·자경단 5명 매일 if+for 1000+ 줄·12회수 지도·면접 5질문·오해+FAQ+추신.
+👉 **Ch 008 H2 신규 작성** (Python 입문 2 — 핵심개념)
+   - if/elif/else 깊이 + truthy/falsy 7·for + iterable 5종·while + walrus·break/continue/for+else·match-case 5 패턴·comprehension 4종 깊이·자경단 매일 시나리오·오해+FAQ+추신.
