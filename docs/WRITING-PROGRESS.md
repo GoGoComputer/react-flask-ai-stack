@@ -178,6 +178,14 @@ Ch009 합계: 137,221 / 목표 ~160,000
 Ch010 합계: 137,029 / 목표 ~160,000
 **Ch010 완료** ✅✅✅ (Python 입문 1+2+3+4 마침 — 32시간 학습)
 
+## Ch 011 — Python 입문 5 (문자열·정규식)
+
+| H | 슬롯 | 현재 분량 | 상태 | 비고 |
+|---|------|----------|------|------|
+| H1 | 오리엔 | 17,046 | 🟢 | 합격 (str·regex 7이유 — 데이터·f-string·5줄→1줄·검증·로그·SQL·면접/4단어(str·f-string·re·pattern) + 5 활용 = 20 활용/str 50+ 메서드 5 카테고리(변환 8·검색 10·변경 8·분할/결합 5·포맷 10+) + 자경단 매일 12 메서드 1순위(split·join·strip·replace·find·startswith·endswith·format·lower·upper·isdigit·encode) + 첫 5 메서드 1주차 마스터/regex 5 함수(match·search·findall·sub·compile) + 5 메타 카테고리(문자 클래스·수량·anchor·그룹·lookaround) + 5 첫 패턴(이메일·전화·URL·IPv4·날짜) + 5 면접 단골(greedy/lazy·match/search/fullmatch·capture/non-capture·lookahead/lookbehind·compile)/8 H 학습 곡선 + 8 H 학습 후 8 능력 + 자경단 단톡 한 줄/자경단 5명 매일 시나리오 + 1주 통계(f-string 1,050·str method 1,300·regex 100 = 합 2,450) + 1년 5명 합 127,400 호출·5년 60만+/12회수 지도(Ch013·014·016·018·020·041·060·080·091·103·118·120) + Ch011→Ch020 9 챕터 미리보기/면접 10 + 10 = 20 질문(immutable·f-string vs format·join vs +·encode/decode·greedy/lazy·match/search·\d/[0-9]·raw·group·lookahead + UTF-8·intern·flag·backreference·non-greedy·find/index·maxsplit·format spec) + 5단계 응답 표준 25초/regex 5 한 줄 매직(이메일·전화·URL·HTML 제거·공백) + f-string 5 매직(천단위·padding·소수점·퍼센트·16진수) + 다국어 i18n + 4 단어 매주 통계/오해10+FAQ10+추신73) |
+
+Ch011 합계: 17,046 / 목표 ~160,000 (1/8 H 진행)
+
 ## 작성 순서 정책
 1. **먼저** Ch001 H1을 20k로 보강 (1회 = 1턴)
 2. Ch001 H2 보강 (1턴)
@@ -190,5 +198,5 @@ Ch010 합계: 137,029 / 목표 ~160,000
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 011 H1 신규 작성** (Python 입문 5 — 모듈/패키지 오리엔)
-   - module/package 7이유·import 4 양식 (import·from·as·*)·자경단 매일 import 100+·표준 라이브러리·PyPI·pyproject.toml·venv·uv·pip·8 H 학습 곡선 미리보기·자경단 5명 매주 import 통계·12회수 지도·면접 10 질문·오해+FAQ+추신.
+👉 **Ch 011 H2 신규 작성** (Python 입문 5 — str·regex 핵심개념)
+   - str 50+ 메서드 깊이 (변환 8·검색 10·변경 8·분할/결합 5·포맷 10+)·f-string 5 양식·encode/decode·str immutable + intern·자경단 매일 12 메서드 + regex 미리·오해+FAQ+추신.
