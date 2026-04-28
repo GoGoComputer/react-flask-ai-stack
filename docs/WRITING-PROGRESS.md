@@ -133,6 +133,7 @@ Ch007 합계: 137,521 / 목표 ~160,000
 | H | 슬롯 | 현재 분량 | 상태 | 비고 |
 |---|------|----------|------|------|
 | H1 | 오리엔 | 17,026 | 🟢 | 합격 (제어 흐름 7이유 — 분기·반복·comp·while·미세조정·match-case·면접/4단어(if·for·while·comp)·자경단 매일 if 1000+/for 500+/while 10+/comp 100+/8H 큰그림+학습곡선/4단어 한 페이지 + 진짜 사용 빈도 73%(1년측정 if 12k+for 5k+comp 1.2k)/4단어 6짝꿍(if+early·for+enum·for+zip·while+walrus·comp+filter·comp+nested)/한 줄 if 8 opcode·한 줄 for 9 opcode·한 줄 comp 별도 frame/12회수 지도(Ch009·010·013·017·018·019·022·041·060·080·103·118)+시간축 적용/자경단 5명 매일 시나리오 5(FastAPI 라우팅·DB comp·OpenAPI for·EC2 while·pytest parametrize)/면접 15질문 정답·FAQ 15답변/오해 8 면역/추신65) |
+| H2 | 핵심개념 | 17,124 | 🟢 | 합격 (4단어 × 5패턴 = 20패턴 깊이 — if 5 패턴(비교 6연산자+체이닝·멤버십 in/not in·진위 7 falsy·isinstance·ternary)·논리 단축평가/truthy/falsy 7 (False·None·0·0.0·''·[]·{}/set()) + 함정 0 vs None + __bool__/for + iterable 5종 + str/iter+next 프로토콜·range/enumerate/zip 3도구·dict 4양식·iterable 5함정 면역/while 5패턴(카운터·조건·walrus PEP 572·무한+break·서버+신호 SIGTERM)+exponential backoff/break/continue/for+else 3도구·flag 변수 제거 가독성/match-case 5 패턴(값·시퀀스·dict·클래스·guard) PEP 634·줄 33% 단축·리뷰 시간 20%/comprehension 5종(list·dict·set·gen·nested)+filter vs transform·성능 비교(list comp 2배·gen 메모리 400배 절약)·2 중첩 한계/자경단 5명 매일 125 패턴(5명×5시간대×5도구)/오해10+FAQ12+추신82) |
 
 ## 작성 순서 정책
 1. **먼저** Ch001 H1을 20k로 보강 (1회 = 1턴)
@@ -146,5 +147,5 @@ Ch007 합계: 137,521 / 목표 ~160,000
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 008 H2 신규 작성** (Python 입문 2 — 핵심개념)
-   - if/elif/else 깊이 + truthy/falsy 7·for + iterable 5종·while + walrus·break/continue/for+else·match-case 5 패턴·comprehension 4종 깊이·자경단 매일 시나리오·오해+FAQ+추신.
+👉 **Ch 008 H3 신규 작성** (Python 입문 2 — 환경점검)
+   - VS Code 디버거·breakpoint() Python 3.7+·pdb·rich.print·ipython 디버깅 5도구·자경단 5명 매일 디버깅 의식·오해+FAQ+추신.
