@@ -167,8 +167,9 @@ Ch009 합계: 137,221 / 목표 ~160,000
 | H | 슬롯 | 현재 분량 | 상태 | 비고 |
 |---|------|----------|------|------|
 | H1 | 오리엔 | 17,082 | 🟢 | 합격 (collections 7이유 — 모음·인덱스·immutable·키값·중복제거·comp·면접/4단어(list·tuple·dict·set) + 5 활용 = 20 활용/시간 복잡도 표(list O(n)·dict/set O(1) avg)·메모리 비교(tuple 40·list 56·dict 64·set 216)/8H 큰그림+학습곡선·자경단 5명 매일 1,150 collections·5 시나리오/한 줄 0.001초 흐름·dis 3 opcode (LOAD+LOAD+BINARY_SUBSCR)·timeit 100배 차이·dict[key]/set membership 6 단계 hash·hashtable/12회수 지도(Ch011·013·015·017·020·022·041·060·080·091·103·118)+시간축·Ch011→Ch020 9챕터 미리보기·Python 마스터 80h/면접 10 질문(list vs tuple·dict 시간·set vs list·dict 순서·tuple unpacking·list 구현·dict 구현·set vs frozenset·defaultdict vs Counter·OrderedDict)+면접 응답 5 단계·1년 차 7 회사 100% 통과·collections.abc 5 인터페이스(Sequence·Mapping·Set·Iterable·Iterator)·dataclass+Pydantic+collections 통합·자경단 진화 5단계·5명 매주 90h = 매년 4,680h·5명 1년 합 1,900,000+·5명 매일 1,041·오해8+FAQ10+추신103) |
+| H2 | 핵심개념 | 17,195 | 🟢 | 합격 (collections 깊이 36 메서드 — list 11 메서드(append/insert/extend/remove/pop/clear/index/count/sort/reverse/copy) + 시간 복잡도 + 3 함정(반복 중 수정·가변 default·shallow copy) + 5 패턴(flatten·중복 제거·chunk·zip+enumerate·key 정렬)/tuple 3 메서드(count·index·len) + NamedTuple vs dataclass vs TypedDict 3 종 + 5 unpacking 패턴(다중 할당·swap·return·*rest·nested)/dict 12 메서드(get/setdefault/update/pop/popitem/clear/keys/values/items/copy/fromkeys/|) + Python 3.9+ | union + dict comp + 3 함정(KeyError·반복 중 수정·가변 default) + 5 패턴(count·group by·invert·merge·nested get)/set 10 메서드(add/remove/discard/pop/clear/union/intersection/difference/symmetric_diff/issubset) + 4 연산(|/&/-/^) + subset/superset + 5 패턴(중복 제거·권한 검사·차집합·tag union·frozenset 키) + 3 함정(unhashable·{} 빈 dict·순서 가정)/comprehension 4종(list/dict/set/gen) + 5 실전 패턴 + 가독성 한계 2 중첩·comp vs map/filter + generator vs list comp 메모리(8.5MB vs 200 bytes)/자경단 5 시나리오(FastAPI list comp·DB dict·도구 transform·인프라 set·테스트 parametrize) + 1주 통계(dict 1150·list 580·tuple 460·comp 320·set 220)/결정 트리 5 질문(순서·변경·key-value·중복·lookup) + 5 안티패턴(list lookup·list +=·keys() list·중첩 comp·tuple mutable 흉내)/시간 복잡도 마스터 표(list `in` O(n) vs dict/set O(1) 100배) + 메모리 비교(list 85KB vs dict/set 290KB 10000 element)/오해10+FAQ10+추신58) |
 
-Ch010 합계: 17,082 / 목표 ~160,000 (1/8 H 진행)
+Ch010 합계: 34,277 / 목표 ~160,000 (2/8 H 진행)
 
 ## 작성 순서 정책
 1. **먼저** Ch001 H1을 20k로 보강 (1회 = 1턴)
@@ -182,5 +183,5 @@ Ch010 합계: 17,082 / 목표 ~160,000 (1/8 H 진행)
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 010 H2 신규 작성** (Python 입문 4 — collections 핵심개념)
-   - list/tuple/dict/set 30+ 메서드·시간 복잡도 깊이·comprehension 4종·iteration·collections.abc·자경단 매일 시나리오·오해+FAQ+추신.
+👉 **Ch 010 H3 신규 작성** (Python 입문 4 — 환경점검: rich.print·json·pprint·collections.abc 4 도구)
+   - rich.print 예쁜 출력·json 직렬화/역직렬화·pprint 깊은 dict 출력·collections.abc 5 ABC 인터페이스·자경단 매일 도구 활용·오해+FAQ+추신.
