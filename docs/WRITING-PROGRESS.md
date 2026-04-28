@@ -194,6 +194,14 @@ Ch010 합계: 137,029 / 목표 ~160,000
 Ch011 합계: 136,616 / 목표 ~160,000
 **Ch011 완료** ✅✅✅ (Python 입문 1+2+3+4+5 마침 — 40시간 학습)
 
+## Ch 012 — Python 입문 6 (파일 I/O + 예외 처리)
+
+| H | 슬롯 | 현재 분량 | 상태 | 비고 |
+|---|------|----------|------|------|
+| H1 | 오리엔 | 17,038 | 🟢 | 합격 (file·exception 7이유 — 데이터·with·예외·pathlib·30+·logging·면접/4단어(open·with·try·except) + 5 활용 = 20 활용/30+ exception 5 카테고리(파일 5·데이터 5·시스템 5·네트워크 5·Python 5+) + 자경단 매일 12 exception(FileNotFoundError·PermissionError·UnicodeDecodeError·KeyError·ValueError·TypeError·AttributeError·IndexError·ConnectionError·TimeoutError·JSONDecodeError·ZeroDivisionError) + exception 계층 구조(BaseException → Exception → OSError → FileNotFoundError 등)/pathlib + io + logging 한 페이지 + Python 3.4+ Path·StringIO/BytesIO·5 logging 레벨/8 H 학습 곡선·자경단 5명 매일 시나리오 + 1주 통계(open/with 1,400·try/except 700·pathlib 580·logging 510 = 합 3,190) + 5명 1년 합 165,880 호출·5년 829,400 ROI·12회수 지도(Ch013·014·015·016·017·018·020·041·060·080·103·118)/면접 10 + 10 = 20 질문(with·try/except·Exception/BaseException·context manager·pathlib·mode·binary/text·encoding·raise from·사용자 + except*·finally raise·with 다중·contextlib·TextIOWrapper·buffered I/O·sys.exit·assert·traceback·__exit__) + 깊이 응답 25초/오해15+FAQ15+추신86) |
+
+Ch012 합계: 17,038 / 목표 ~160,000 (1/8 H 진행)
+
 ## 작성 순서 정책
 1. **먼저** Ch001 H1을 20k로 보강 (1회 = 1턴)
 2. Ch001 H2 보강 (1턴)
@@ -206,5 +214,5 @@ Ch011 합계: 136,616 / 목표 ~160,000
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 012 H1 신규 작성** (Python 입문 6 — 파일 I/O + 예외 처리 오리엔)
-   - file·exception 7이유·4 단어 (open·with·try·except)·pathlib + io + logging·30+ exception types·자경단 매일 file 사용·12회수 지도·면접 10 질문·오해+FAQ+추신.
+👉 **Ch 012 H2 신규 작성** (Python 입문 6 — file/exception 핵심개념)
+   - open mode 6+ (r/w/a/b/t/+) 깊이·with statement·try/except/else/finally 4 블록·pathlib 깊이·exception 12 1순위·자경단 매일 패턴·오해+FAQ+추신.
