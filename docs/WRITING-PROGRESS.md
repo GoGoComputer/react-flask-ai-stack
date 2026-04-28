@@ -151,6 +151,7 @@ Ch008 합계: 137,070 / 목표 ~160,000
 | H | 슬롯 | 현재 분량 | 상태 | 비고 |
 |---|------|----------|------|------|
 | H1 | 오리엔 | 17,019 | 🟢 | 합격 (함수 7이유 — 재사용·가독성·테스트·추상화·디버깅·협업·면접/4단어(def·return·*args·**kwargs) + 5 활용 = 20 활용·6 인자 종류(positional·default·posonly·*args·keyword-only·**kwargs)/8H 큰그림+학습곡선/자경단 매일 5명 매일 36h 함수 = 매년 9,360h·5년 46,800h ROI 7,200배·매일 100,000+ 함수 호출/dis로 함수 호출 6 opcode + 0.5μs 비용/12회수 지도(Ch010·012·015·017·020·022·041·118)+시간축 적용/자경단 5 시나리오 + 5 호출 패턴 + 5 진화 단계·1년 차 7회사 면접 100% 통과·DRY 원칙·함수 이름 5 규칙·함수 단위 테스트 5 표준·추상화 5 가치·VS Code 5 단축키·CODEOWNERS 5 패턴·함수 분리 ROI 4배 750h 절약·함수 3 단위(마이크로·유틸·비즈니스)/면접 15 질문(*args vs **kwargs·default 함정·closure·decorator·positional-only·nested·lambda·partial·signature·function vs method·함수 안 import·callable·*args tuple·mutable 변경·async def)·면접 응답 5 단계 표준/오해8+FAQ15+추신96) |
+| H2 | 핵심개념 | 17,043 | 🟢 | 합격 (함수 작성 5 stack — def 6 인자 종류(positional·default·posonly /·*args·keyword-only *·**kwargs)·1년 사용 빈도(positional+default 90%·keyword-only 6%·**kwargs 4%·*args 2%·posonly 0.1%)·5 best practice(인자 5↓·default immutable·5+ keyword-only·type hint·bool keyword-only)/return 5 패턴(단일·다중·None·early·yield) + NamedTuple/dataclass 다중 return/docstring 3 양식(Google/NumPy/reST) Google 자경단 표준·5 섹션(Args/Returns/Raises/Example/Note)·5 활용처(help/VS Code/Sphinx/mkdocs/doctest) + 1 함수 30초 = 1년 30h 절약/type hint 6 패턴(기본·Optional·Union·Generic·TypedDict·Literal) + mypy strict 5단계(1주~1년) + 5 함정(dict 모호·Any 남용·list 가변·자기 참조·순환 import)/mutable default 5 처방(None or []·tuple·명시·dataclass field·type hint Optional) + 5 사고 사례 + ruff B006 자동/자경단 5 시나리오(FastAPI 라우팅·DB 쿼리·도구·인프라 wrapper·pytest fixture)·5명 매일 165 함수·매년 60,225 함수/오해8+FAQ10+추신84) |
 
 ## 작성 순서 정책
 1. **먼저** Ch001 H1을 20k로 보강 (1회 = 1턴)
@@ -164,5 +165,5 @@ Ch008 합계: 137,070 / 목표 ~160,000
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 009 H2 신규 작성** (Python 입문 3 — 핵심개념)
-   - def 6 인자 종류 깊이·return 5 패턴·docstring Google 양식·type hint 100%·default 인자 mutable 함정·자경단 매일 시나리오·오해+FAQ+추신.
+👉 **Ch 009 H3 신규 작성** (Python 입문 3 — 환경점검)
+   - VS Code 함수 navigation (F12·Shift+F12·F11·Shift+F11·F10)·breakpoint debugger·Pylance type 검사·자경단 매일 의식·오해+FAQ+추신.
