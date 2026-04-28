@@ -119,6 +119,7 @@ Ch006 합계: 137,490 / 목표 ~160,000
 | H1 | 오리엔 | 17,134 | 🟢 | 합격 (Python 7이유 — 가독성·다용도·생태계·AI 시대·면접·자경단 백엔드·셸과 만남/4핵심 단어(인터프리터·변수·자료형·연산자)·인터프리터 vs 컴파일러·REPL·5 기본 자료형 int/float/str/bool/None·연산자 5종(산술 7·비교 6·논리 3·할당 8·멤버십 2)/한 줄 print() 0.10초 6단계(키보드→python fork-exec→파싱→AST→bytecode→VM→write stdout)/8H 큰그림(H2 5자료형+18연산자+f-string·H3 brew/pyenv/REPL/Jupyter/VS Code·H4 python/pip/-m/-c 18도구·H5 환율 계산기·H6 PEP 8·black·ruff·docstring·H7 CPython VM·GIL·bytecode·PEP·H8 적용)/자경단 5명 적용(까미 백엔드 100%·노랭이 도구 20%·미니 인프라 60%·깜장이 QA 80%·본인 메인테이너 50%) → 자경단 80% Python/12회수 지도(Ch008 if/for·013 import·014 venv·020 typing·022 pytest·041 FastAPI·060 풀스택·080 ML·091 boto3·103 CI/CD·118 면접·120 회고)/Python 진화 30년 1991→3.12·자경단 매일 12 라이브러리(requests·pydantic·fastapi·sqlalchemy·rich·pytest·black·ruff·mypy·typer 등)·면접 5질문(왜 Python·2 vs 3·PEP 8·GIL·list comp)·오해5+FAQ5+추신205) |
 | H2 | 핵심개념 | 17,024 | 🟢 | 합격 (5 자료형 + 18 연산자 + f-string — int 무한대/float IEEE 754 + Decimal/str immutable 메서드 30+/bool int subclass·falsy 7/None NoneType `is None`/산술 7·비교 6 체이닝·논리 3 short-circuit·할당 8·멤버십 2/string formatting 3종(% 옛·.format() 중간·f-string 표준)+f-string 디버그 `{name=}`+형식 `{x:.2f}`/mutable 5(list/dict/set/bytearray/deque) vs immutable 7/mutable 함정 5(같은 list 별칭·default 인자 누적·class 변수·for 안 수정·copy vs deepcopy)/== vs is(작은 int 캐싱)·isinstance vs type(상속)·None 비교 `is None`·falsy 7/PEP 8 4 공백·docstring `"""..."""`·type hint 미리보기/자경단 5명 매일 자료형·연산자 표·매일 1,825,000줄 5명 합/오해5+FAQ5+추신229) |
 | H3 | 환경점검 | 17,032 | 🟢 | 합격 (Python 환경 셋업 — brew install python@3.12·pyenv·공식 .pkg·Linux apt 4 설치/REPL python3·ipython·Jupyter 비교/VS Code Python extension + Pylance + black + ruff/.python-version·dotfile 5(PYTHONDONTWRITEBYTECODE/PYTHONUNBUFFERED/PATH/EDITOR/LANG)·alias 3(py/pyi/venv)/30분 의식 9 도구·자경단 5명 같은 환경·9,760시간 코딩 토대 ROI 3,904배·오해5+FAQ5+추신263) |
+| H4 | 명령어카탈로그 | 17,084 | 🟢 | 합격 (Python 18 도구 + 위험도 신호등 — 6 무리(인터프리터 6·패키지 5·가상환경 3·품질 3·테스트 1)/인터프리터 6 깊이(python3 REPL 5분·-V 환경 검증·-c 한 줄·-m 모듈 CLI(venv/pytest/pip)·-i 디버깅·-O prod 최적화)/패키지 5(pip install 5양식·-r req.txt·uninstall·freeze·list)+자경단 함정 3(시스템 오염·==잠금·-U 의존성)/가상환경 3(venv·activate 셸별·deactivate)+venv vs virtualenv vs conda vs uv 표/품질 3(black no-config·ruff Rust 100배·mypy strict 1년후)+자경단 표준 pyproject.toml/pytest 5 옵션(-v·-x·-k·--cov·--pdb)/매일 6+주간 4+월간 2=12 손가락/자경단 13줄 흐름 9 도구 사용·5명 매일 사용표 25 도구/5 사고+처방(시스템 오염 PEP 668·버전 잠금·black 함정·conftest 충돌·mypy false positive)/모던 5(uv 2024 Astral·poetry 2018·pdm 2020·hatch·rye)·1년 후 uv/AI 시대 80/20·Claude Code Bash·Cursor 자동완성·Copilot/오해5+FAQ7+추신35) |
 
 ## 작성 순서 정책
 1. **먼저** Ch001 H1을 20k로 보강 (1회 = 1턴)
@@ -132,5 +133,5 @@ Ch006 합계: 137,490 / 목표 ~160,000
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 007 H4 신규 작성** (Python 입문 1 — 명령어/도구 카탈로그 18개)
-   - python·python3·pip·python -m·-c·-i·-O·-X·sys.argv·virtualenv·venv·pip-tools·poetry·uv·black·ruff·mypy·pytest 18 도구. 위험도 신호등. 매일·주간·월간 손가락. 자경단 5명 매일 사용표. 모던 도구 (uv·rye) 비교.
+👉 **Ch 007 H5 신규 작성** (Python 입문 1 — 데모 환율 계산기)
+   - 자경단의 첫 진짜 Python 스크립트. KRW→USD/JPY/EUR 환율 계산기. 실제 코드 + 실행 검증. 변수·자료형·연산자·f-string·input()·dict 활용. 30분 시뮬. 5 사고 + 처방. 자경단 5명 사용 시나리오. 한 줄 자동화 5종.
