@@ -189,8 +189,10 @@ Ch010 합계: 137,029 / 목표 ~160,000
 | H5 | 데모 | 17,016 | 🟢 | 합격 (str·regex 통합 데모 text_processor.py 100줄 — 6 함수(analyze_text·mask_sensitive·to_snake·to_camel·word_frequency·TextStats dataclass) + 7 patterns(EMAIL·URL·PHONE_KR·HASHTAG·MENTION·HTML_TAG·EXTRA_SPACE) + Counter + dataclass + type hint/실행 결과 4 섹션 검증(분석·마스킹·변환·빈도)·자경단 5 시나리오 + 한 페이지·5 통합 비밀(patterns 모듈 레벨·dataclass+regex·Counter+findall·method chain·Pydantic) + 한 페이지·6 함수 흐름도(HTML 제거 → 공백 → 5 패턴 → 통계 → TextStats 5 단계) + 6 함수 카테고리 (분석 3·변환 3)/text_processor 5 확장 (ISO 날짜·코드 블록·HTML escape·한국어 NFC·text_metrics) + 5 함정(patterns 함수 안 compile·마스킹 순서·dataclass mutable·stop word·HTML 빈 줄)/자경단 5명 1주 통계 1,200 호출·1년 62,400·5년 312,000 ROI/1년 진화 100→1000줄·5년 5000줄 PyPI/오해15+FAQ15+추신104) |
 | H6 | 운영 | 17,053 | 🟢 | 합격 (str·regex 운영 5 함정 — encoding 5 함정(UTF-8 BOM·CP949·EUC-KR·ISO-2022-KR·EUC-JP) + 한 페이지 + utf-8-sig + chardet + cchardet/regex catastrophic backtracking 5 위험 패턴((a+)+·(a*)*·(a|a)*·(a|aa)+·(.+)+) + 5 처방(단순화·길이 제한·입력 길이·timeout·ReDoS 도구)·greedy vs lazy 성능/str + str O(n²) vs join O(n) 100배·StringIO·측정 통계(1만 100배·10만 1000배)/메모리 sys.getsizeof + tracemalloc + 5 도구(memory_profiler·psutil·gc) + timeit 5 패턴/운영 5 패턴(patterns 모듈 레벨·encoding 명시·join over +·f-string·measure first) + 5 우선순위 (매일·매주·매월)·자경단 5 시나리오(chardet·StringIO·benchmark·middleware·regression test) + 1주 측정 통계 148 호출 + 5 anti-pattern·1년 ROI 100시간 절약 + 5명 550시간/오해20+FAQ20+추신102) |
 | H7 | 원리 | 17,051 | 🟢 | 합격 (str·regex 원리 — PyUnicodeObject 구조(PyObject_HEAD+length+hash+kind+data) + 한 페이지·PEP 393 (Python 3.3+) Flexible String Representation·4 kind(1 byte ASCII·2 byte BMP·4 byte 이모지·wchar deprecated)·메모리 측정·메모리 50% 절약·iteration kind 분기 trade-off·동작 흐름(글자 분석→kind 결정→할당→복사)/str intern (자동 5 조건 + sys.intern + 메모리 동작 원리 interned dict + dict key 자동) + 측정/regex NFA(Python re·복잡 패턴·backtracking 위험) vs DFA(RE2·O(n) 항상·일부 기능 제한)·NFA backtracking 동작·복잡도 O(2^n)·re vs regex 패키지·NFA/DFA 비교 표/CPython 소스(Objects/unicodeobject.c + Modules/_sre/sre.c + Lib/re/) + 5 단계 읽기 + str 5 핵심 함수 + sre 5 핵심 함수/면접 20 질문(str 10 + regex 10) + 5단계 응답 25초·자경단 원리 5 깊이(kind·intern·hash·compile·dis bytecode)·1년·5년 후 회고·CPython 매년 1회·시니어 신호·Python community 기여/Martin v. Löwis PEP 393·SipHash·RE2 Google·regex 패키지 Matthew Barnett·오해20+FAQ20+추신103) |
+| H8 | 적용+회고 | 17,062 | 🟢 | 합격 (Ch011 마무리 — 8 H 한 페이지 종합표·핵심 한 줄·Ch011 학습 통계(8 H × 17,000+ = 138,000자·50+ 메서드·30+ 패턴·6 함수·30+ 면접·1주 2,450 호출)·8 H 학습 후 8 능력(f-string 5·12 메서드·regex 5+30·100줄 데모·5 함정·5 측정·PEP 393+intern+NFA·CPython 매년)/text_processor 진화 v1 100→v2 200→v3 500→v4 1000→v5 5000 PyPI/자경단 12년 시간축(1주→1개월→6개월→1년→3년→5년→12년) + 1주차→5년 매주 시간 분포(2h→25h)·면접 30 질문 통합(str 10+regex 10+운영/원리 10) + 5단계 응답 25초·자경단 5명 1년 면접 25 합격 100%·5명 1년 회고 합 127,400 호출·1년 후 단톡 가상·6 인증/Ch012 (파일/예외) 8 H 미리보기 + Ch011→Ch020 9 챕터·자경단 str·regex 마스터 인증 5 능력+5 신호+5 발음·본인 7 행동 + 1주차 매일 시간표 + 1개월 결과 (11,000 호출·매주 1+ 함정·100% 면접·신입 1·v2 200줄)/Python 입문 1+2+3+4+5 = 40h 마스터 인증 + Python 입문 80h 길의 50% 진행·자경단 96/960 = 10%·오해0+FAQ0+추신101) — Ch011 chapter complete 96/960 = 10% ✅✅✅ |
 
-Ch011 합계: 119,554 / 목표 ~160,000 (7/8 H 진행)
+Ch011 합계: 136,616 / 목표 ~160,000
+**Ch011 완료** ✅✅✅ (Python 입문 1+2+3+4+5 마침 — 40시간 학습)
 
 ## 작성 순서 정책
 1. **먼저** Ch001 H1을 20k로 보강 (1회 = 1턴)
@@ -204,5 +206,5 @@ Ch011 합계: 119,554 / 목표 ~160,000 (7/8 H 진행)
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 011 H8 신규 작성** (Python 입문 5 — 적용 + 회고: Ch011 chapter 마무리)
-   - 8 H 종합표·str·regex 학습 곡선·자경단 12년 시간축·면접 30 질문 통합·5명 1년 회고·Ch012 (파일/예외) 예고·자경단 str·regex 마스터 인증·Ch011 chapter complete.
+👉 **Ch 012 H1 신규 작성** (Python 입문 6 — 파일 I/O + 예외 처리 오리엔)
+   - file·exception 7이유·4 단어 (open·with·try·except)·pathlib + io + logging·30+ exception types·자경단 매일 file 사용·12회수 지도·면접 10 질문·오해+FAQ+추신.
