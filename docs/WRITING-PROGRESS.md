@@ -134,6 +134,7 @@ Ch007 합계: 137,521 / 목표 ~160,000
 |---|------|----------|------|------|
 | H1 | 오리엔 | 17,026 | 🟢 | 합격 (제어 흐름 7이유 — 분기·반복·comp·while·미세조정·match-case·면접/4단어(if·for·while·comp)·자경단 매일 if 1000+/for 500+/while 10+/comp 100+/8H 큰그림+학습곡선/4단어 한 페이지 + 진짜 사용 빈도 73%(1년측정 if 12k+for 5k+comp 1.2k)/4단어 6짝꿍(if+early·for+enum·for+zip·while+walrus·comp+filter·comp+nested)/한 줄 if 8 opcode·한 줄 for 9 opcode·한 줄 comp 별도 frame/12회수 지도(Ch009·010·013·017·018·019·022·041·060·080·103·118)+시간축 적용/자경단 5명 매일 시나리오 5(FastAPI 라우팅·DB comp·OpenAPI for·EC2 while·pytest parametrize)/면접 15질문 정답·FAQ 15답변/오해 8 면역/추신65) |
 | H2 | 핵심개념 | 17,124 | 🟢 | 합격 (4단어 × 5패턴 = 20패턴 깊이 — if 5 패턴(비교 6연산자+체이닝·멤버십 in/not in·진위 7 falsy·isinstance·ternary)·논리 단축평가/truthy/falsy 7 (False·None·0·0.0·''·[]·{}/set()) + 함정 0 vs None + __bool__/for + iterable 5종 + str/iter+next 프로토콜·range/enumerate/zip 3도구·dict 4양식·iterable 5함정 면역/while 5패턴(카운터·조건·walrus PEP 572·무한+break·서버+신호 SIGTERM)+exponential backoff/break/continue/for+else 3도구·flag 변수 제거 가독성/match-case 5 패턴(값·시퀀스·dict·클래스·guard) PEP 634·줄 33% 단축·리뷰 시간 20%/comprehension 5종(list·dict·set·gen·nested)+filter vs transform·성능 비교(list comp 2배·gen 메모리 400배 절약)·2 중첩 한계/자경단 5명 매일 125 패턴(5명×5시간대×5도구)/오해10+FAQ12+추신82) |
+| H3 | 환경점검 | 17,168 | 🟢 | 합격 (디버깅 5 도구 — VS Code Python 디버거 5단계 키(F5/F10/F11/Shift+F11/Ctrl+Shift+F5)·breakpoint 5양식(빨간점·F9·코드·Logpoint·Conditional)·Watch+Call Stack+Variables+Debug Console·launch.json 3 설정(FastAPI·pytest·Python)·justMyCode true/false/breakpoint() PEP 553·PYTHONBREAKPOINT 환경변수(ipdb·web-pdb·0)·5 활용(일시·조건부·예외·루프·함수)·print 비교 5기준·ruff T100 commit 면역/pdb 10명령(h·n·s·c·q + p·l·b·u·d)·실전 시나리오 까미 KeyError·SIGUSR1 production 진입/rich.print 5가치(색상·들여쓰기·표·tree·markdown)·Console+Logging·Traceback+show_locals/ipython 5매직(?·??·%timeit·%debug·%history) + 5추가(%paste·%run·%who·%reset·%save)·startup 자동import·autoreload 2·5 Tab/디버깅 5 시나리오 면역(KeyError·TypeError·무한루프·dict순서·async동기)·자경단 매일 4 alias·5 패턴·5명 매일 345분 디버깅·매주 28h·1년 1,400h ROI/디버깅 진화 5단계(print→breakpoint→VS Code→pdb+ipython→rich+Logging+py-spy)/오해8+FAQ10+추신75) |
 
 ## 작성 순서 정책
 1. **먼저** Ch001 H1을 20k로 보강 (1회 = 1턴)
@@ -147,5 +148,5 @@ Ch007 합계: 137,521 / 목표 ~160,000
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 008 H3 신규 작성** (Python 입문 2 — 환경점검)
-   - VS Code 디버거·breakpoint() Python 3.7+·pdb·rich.print·ipython 디버깅 5도구·자경단 5명 매일 디버깅 의식·오해+FAQ+추신.
+👉 **Ch 008 H4 신규 작성** (Python 입문 2 — 명령어카탈로그)
+   - 18 도구 + 신호등 — range·enumerate·zip·map·filter·comprehension 4종·sorted·reversed·any·all·sum·min·max·next·iter·itertools 5·functools 3·collections 5·자경단 매일 13줄 흐름·오해+FAQ+추신.
