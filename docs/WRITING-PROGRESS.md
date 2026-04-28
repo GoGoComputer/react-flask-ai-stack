@@ -162,6 +162,14 @@ Ch008 합계: 137,070 / 목표 ~160,000
 Ch009 합계: 137,221 / 목표 ~160,000
 **Ch009 완료** ✅✅✅ (Python 입문 1+2+3 마침 — 24시간 학습)
 
+## Ch 010 — Python 입문 4 (collections — list/tuple/dict/set)
+
+| H | 슬롯 | 현재 분량 | 상태 | 비고 |
+|---|------|----------|------|------|
+| H1 | 오리엔 | 17,082 | 🟢 | 합격 (collections 7이유 — 모음·인덱스·immutable·키값·중복제거·comp·면접/4단어(list·tuple·dict·set) + 5 활용 = 20 활용/시간 복잡도 표(list O(n)·dict/set O(1) avg)·메모리 비교(tuple 40·list 56·dict 64·set 216)/8H 큰그림+학습곡선·자경단 5명 매일 1,150 collections·5 시나리오/한 줄 0.001초 흐름·dis 3 opcode (LOAD+LOAD+BINARY_SUBSCR)·timeit 100배 차이·dict[key]/set membership 6 단계 hash·hashtable/12회수 지도(Ch011·013·015·017·020·022·041·060·080·091·103·118)+시간축·Ch011→Ch020 9챕터 미리보기·Python 마스터 80h/면접 10 질문(list vs tuple·dict 시간·set vs list·dict 순서·tuple unpacking·list 구현·dict 구현·set vs frozenset·defaultdict vs Counter·OrderedDict)+면접 응답 5 단계·1년 차 7 회사 100% 통과·collections.abc 5 인터페이스(Sequence·Mapping·Set·Iterable·Iterator)·dataclass+Pydantic+collections 통합·자경단 진화 5단계·5명 매주 90h = 매년 4,680h·5명 1년 합 1,900,000+·5명 매일 1,041·오해8+FAQ10+추신103) |
+
+Ch010 합계: 17,082 / 목표 ~160,000 (1/8 H 진행)
+
 ## 작성 순서 정책
 1. **먼저** Ch001 H1을 20k로 보강 (1회 = 1턴)
 2. Ch001 H2 보강 (1턴)
@@ -174,5 +182,5 @@ Ch009 합계: 137,221 / 목표 ~160,000
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 010 H1 신규 작성** (Python 입문 4 — 모듈/패키지 오리엔)
-   - 모듈 7이유·4 단어(import·from·as·__init__.py)·8H 큰그림·자경단 매일 import 100+·12회수 지도·면접 5질문·오해+FAQ+추신.
+👉 **Ch 010 H2 신규 작성** (Python 입문 4 — collections 핵심개념)
+   - list/tuple/dict/set 30+ 메서드·시간 복잡도 깊이·comprehension 4종·iteration·collections.abc·자경단 매일 시나리오·오해+FAQ+추신.
