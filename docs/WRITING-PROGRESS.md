@@ -183,8 +183,9 @@ Ch010 합계: 137,029 / 목표 ~160,000
 | H | 슬롯 | 현재 분량 | 상태 | 비고 |
 |---|------|----------|------|------|
 | H1 | 오리엔 | 17,046 | 🟢 | 합격 (str·regex 7이유 — 데이터·f-string·5줄→1줄·검증·로그·SQL·면접/4단어(str·f-string·re·pattern) + 5 활용 = 20 활용/str 50+ 메서드 5 카테고리(변환 8·검색 10·변경 8·분할/결합 5·포맷 10+) + 자경단 매일 12 메서드 1순위(split·join·strip·replace·find·startswith·endswith·format·lower·upper·isdigit·encode) + 첫 5 메서드 1주차 마스터/regex 5 함수(match·search·findall·sub·compile) + 5 메타 카테고리(문자 클래스·수량·anchor·그룹·lookaround) + 5 첫 패턴(이메일·전화·URL·IPv4·날짜) + 5 면접 단골(greedy/lazy·match/search/fullmatch·capture/non-capture·lookahead/lookbehind·compile)/8 H 학습 곡선 + 8 H 학습 후 8 능력 + 자경단 단톡 한 줄/자경단 5명 매일 시나리오 + 1주 통계(f-string 1,050·str method 1,300·regex 100 = 합 2,450) + 1년 5명 합 127,400 호출·5년 60만+/12회수 지도(Ch013·014·016·018·020·041·060·080·091·103·118·120) + Ch011→Ch020 9 챕터 미리보기/면접 10 + 10 = 20 질문(immutable·f-string vs format·join vs +·encode/decode·greedy/lazy·match/search·\d/[0-9]·raw·group·lookahead + UTF-8·intern·flag·backreference·non-greedy·find/index·maxsplit·format spec) + 5단계 응답 표준 25초/regex 5 한 줄 매직(이메일·전화·URL·HTML 제거·공백) + f-string 5 매직(천단위·padding·소수점·퍼센트·16진수) + 다국어 i18n + 4 단어 매주 통계/오해10+FAQ10+추신73) |
+| H2 | 핵심개념 | 17,146 | 🟢 | 합격 (str 50+ 메서드 깊이 — 변환 8(upper·lower·title·capitalize·swapcase·casefold·encode·decode) + 변환 5 패턴 + 검색 10(find·rfind·index·rindex·count·startswith·endswith·in·isdigit·isalpha) + isxxx 11+ 함수 + 검색 5 패턴 + 변경 8(strip·lstrip·rstrip·replace·removeprefix·removesuffix·expandtabs·translate) + 변경 5 패턴 + 분할/결합 5(split·rsplit·splitlines·partition·join) + split 5 패턴 + join 5 패턴/포맷 10+ + f-string 5 양식(정렬·천단위·소수점·퍼센트·16진수) + f-string 디버깅 (3.8+) + format 동적 + format vs % vs f-string + f-string conversion(!s/!r/!a) + nested format/encode/decode UTF-8 가변 길이(ASCII 1·라틴 2·한글 3·이모지 4 byte) + encode errors(strict/ignore/replace/xmlcharrefreplace) + 인코딩 6 종 + encode/decode 5 패턴(파일 I/O·binary·base64·URL·JSON)/str immutable + intern 자동 + sys.intern + str 메모리(49 B overhead) + CPython str 내부 (PEP 393 Flexible String 1/2/4 byte 가변 폭)/자경단 매일 12 메서드 시나리오(본인 200+·까미 150+·노랭이 100+·미니 50+·깜장이 50+ = 합 550+) + 5 함정(+ concat·encode 인자·한국어 정렬·regex backslash·f-string quote)/오해10+FAQ10+추신93) |
 
-Ch011 합계: 17,046 / 목표 ~160,000 (1/8 H 진행)
+Ch011 합계: 34,192 / 목표 ~160,000 (2/8 H 진행)
 
 ## 작성 순서 정책
 1. **먼저** Ch001 H1을 20k로 보강 (1회 = 1턴)
@@ -198,5 +199,5 @@ Ch011 합계: 17,046 / 목표 ~160,000 (1/8 H 진행)
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 011 H2 신규 작성** (Python 입문 5 — str·regex 핵심개념)
-   - str 50+ 메서드 깊이 (변환 8·검색 10·변경 8·분할/결합 5·포맷 10+)·f-string 5 양식·encode/decode·str immutable + intern·자경단 매일 12 메서드 + regex 미리·오해+FAQ+추신.
+👉 **Ch 011 H3 신규 작성** (Python 입문 5 — str·regex 환경점검: re module + regex101)
+   - re module 5 함수 깊이·regex101.com·textwrap·string module·iso639·자경단 5 도구·regex flag (re.I·M·S)·compile vs 직접·디버깅 5 도구·오해+FAQ+추신.
