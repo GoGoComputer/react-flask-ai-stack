@@ -131,6 +131,7 @@ Ch007 합계: 137,521 / 목표 ~160,000
 ## Ch 008 — Python 입문 2 (제어 흐름)
 
 
+
 | H | 슬롯 | 현재 분량 | 상태 | 비고 |
 |---|------|----------|------|------|
 | H1 | 오리엔 | 17,026 | 🟢 | 합격 (제어 흐름 7이유 — 분기·반복·comp·while·미세조정·match-case·면접/4단어(if·for·while·comp)·자경단 매일 if 1000+/for 500+/while 10+/comp 100+/8H 큰그림+학습곡선/4단어 한 페이지 + 진짜 사용 빈도 73%(1년측정 if 12k+for 5k+comp 1.2k)/4단어 6짝꿍(if+early·for+enum·for+zip·while+walrus·comp+filter·comp+nested)/한 줄 if 8 opcode·한 줄 for 9 opcode·한 줄 comp 별도 frame/12회수 지도(Ch009·010·013·017·018·019·022·041·060·080·103·118)+시간축 적용/자경단 5명 매일 시나리오 5(FastAPI 라우팅·DB comp·OpenAPI for·EC2 while·pytest parametrize)/면접 15질문 정답·FAQ 15답변/오해 8 면역/추신65) |
@@ -145,6 +146,12 @@ Ch007 합계: 137,521 / 목표 ~160,000
 Ch008 합계: 137,070 / 목표 ~160,000
 **Ch008 완료** ✅
 
+## Ch 009 — Python 입문 3 (함수)
+
+| H | 슬롯 | 현재 분량 | 상태 | 비고 |
+|---|------|----------|------|------|
+| H1 | 오리엔 | 17,019 | 🟢 | 합격 (함수 7이유 — 재사용·가독성·테스트·추상화·디버깅·협업·면접/4단어(def·return·*args·**kwargs) + 5 활용 = 20 활용·6 인자 종류(positional·default·posonly·*args·keyword-only·**kwargs)/8H 큰그림+학습곡선/자경단 매일 5명 매일 36h 함수 = 매년 9,360h·5년 46,800h ROI 7,200배·매일 100,000+ 함수 호출/dis로 함수 호출 6 opcode + 0.5μs 비용/12회수 지도(Ch010·012·015·017·020·022·041·118)+시간축 적용/자경단 5 시나리오 + 5 호출 패턴 + 5 진화 단계·1년 차 7회사 면접 100% 통과·DRY 원칙·함수 이름 5 규칙·함수 단위 테스트 5 표준·추상화 5 가치·VS Code 5 단축키·CODEOWNERS 5 패턴·함수 분리 ROI 4배 750h 절약·함수 3 단위(마이크로·유틸·비즈니스)/면접 15 질문(*args vs **kwargs·default 함정·closure·decorator·positional-only·nested·lambda·partial·signature·function vs method·함수 안 import·callable·*args tuple·mutable 변경·async def)·면접 응답 5 단계 표준/오해8+FAQ15+추신96) |
+
 ## 작성 순서 정책
 1. **먼저** Ch001 H1을 20k로 보강 (1회 = 1턴)
 2. Ch001 H2 보강 (1턴)
@@ -157,5 +164,5 @@ Ch008 합계: 137,070 / 목표 ~160,000
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 009 H1 신규 작성** (Python 입문 3 — 함수 오리엔)
-   - 함수 7이유·4단어(def·return·*args·**kwargs)·8H 큰그림·자경단 매일 def 100+ 호출·12회수 지도·면접 5질문·오해+FAQ+추신.
+👉 **Ch 009 H2 신규 작성** (Python 입문 3 — 핵심개념)
+   - def 6 인자 종류 깊이·return 5 패턴·docstring Google 양식·type hint 100%·default 인자 mutable 함정·자경단 매일 시나리오·오해+FAQ+추신.
