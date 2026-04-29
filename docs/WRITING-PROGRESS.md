@@ -200,8 +200,9 @@ Ch011 합계: 136,616 / 목표 ~160,000
 |---|------|----------|------|------|
 | H1 | 오리엔 | 17,038 | 🟢 | 합격 (file·exception 7이유 — 데이터·with·예외·pathlib·30+·logging·면접/4단어(open·with·try·except) + 5 활용 = 20 활용/30+ exception 5 카테고리(파일 5·데이터 5·시스템 5·네트워크 5·Python 5+) + 자경단 매일 12 exception(FileNotFoundError·PermissionError·UnicodeDecodeError·KeyError·ValueError·TypeError·AttributeError·IndexError·ConnectionError·TimeoutError·JSONDecodeError·ZeroDivisionError) + exception 계층 구조(BaseException → Exception → OSError → FileNotFoundError 등)/pathlib + io + logging 한 페이지 + Python 3.4+ Path·StringIO/BytesIO·5 logging 레벨/8 H 학습 곡선·자경단 5명 매일 시나리오 + 1주 통계(open/with 1,400·try/except 700·pathlib 580·logging 510 = 합 3,190) + 5명 1년 합 165,880 호출·5년 829,400 ROI·12회수 지도(Ch013·014·015·016·017·018·020·041·060·080·103·118)/면접 10 + 10 = 20 질문(with·try/except·Exception/BaseException·context manager·pathlib·mode·binary/text·encoding·raise from·사용자 + except*·finally raise·with 다중·contextlib·TextIOWrapper·buffered I/O·sys.exit·assert·traceback·__exit__) + 깊이 응답 25초/오해15+FAQ15+추신86) |
 | H2 | 핵심개념 | 17,065 | 🟢 | 합격 (file/exception 4 단어 깊이 — open mode 10(r·w·a·rb·wb·ab·r+·w+·a+·x) + 함정 + encoding/newline + 자경단 매일 6 mode 우선순위(1순위 r/w/a 95%·2순위 rb/wb 4%·3순위 1%)/with statement = __enter__+__exit__ + context manager protocol + @contextmanager decorator + 다중 with (Python 3.10+ tuple) + contextlib 5 도구(contextmanager·suppress·closing·redirect_stdout·nullcontext) + with 5 활용(파일·Lock·DB·mock·tempfile)/try/except/else/finally 4 블록 + 동작 순서 + except 5 패턴(특정·다중·as·일반·모두 안티) + raise 5 패턴(새·재·from·from None·사용자 정의) + finally 5 함정(마스킹·return·느림·break·순서)/exception 5 함정(except: pass·자식/부모 순서·silent fail·정보 손실·traceback 자르기)/pathlib 25+ 메서드 5 카테고리(검사 5·분해 7·결합 3·I/O 5·조작 5·검색 3) + 자경단 매일 5 패턴/exception 12 1순위(File·Permission·Unicode·Key·Value·Type·Attribute·Index·Connection·Timeout·JSON·ZeroDivision)/자경단 5 시나리오(config·schema dump·CLI·layered·fixture) + 1주 4 단어 통계 2,520 호출·5명 1년 131,040 ROI 65만+/5 통합 패턴(safe JSON·chunk·line iter·atomic write·retry)/오해15+FAQ15+추신73) |
+| H3 | 환경점검 | 17,085 | 🟢 | 합격 (file/exception 환경 5 도구 — pathlib 25+ 메서드 한 페이지 + 5 카테고리 + 매일 5 패턴(config·mkdir·glob·with_suffix·parent)/io.StringIO/BytesIO + 자경단 매주 5 활용(concat·테스트·capture·mock·메모리)/logging 5 레벨(DEBUG/INFO/WARNING/ERROR/CRITICAL) + basicConfig + Formatter 8 attribute + Handler 5(Stream·File·Rotating·Timed·SMTP) + logger.exception()/rich.traceback install 5 단계 + RichHandler logging 통합 + Console 통합/shutil 5(copy·copytree·move·rmtree·disk_usage) + tempfile NamedTemporaryFile/TemporaryDirectory + contextlib(contextmanager·suppress·closing·redirect_stdout·nullcontext)/자경단 5 도구 시나리오 + 5 도구 통합 워크플로우 (main.py 표준) + 1주 통계 1,630 호출·1년 84,760·5년 423,800 ROI/디버깅 5 도구(rich·exception·pdb·tracemalloc·py-spy) + 흔한 오해 20 + FAQ 20·오해20+FAQ20+추신88) |
 
-Ch012 합계: 34,103 / 목표 ~160,000 (2/8 H 진행)
+Ch012 합계: 51,188 / 목표 ~160,000 (3/8 H 진행)
 
 ## 작성 순서 정책
 1. **먼저** Ch001 H1을 20k로 보강 (1회 = 1턴)
@@ -215,5 +216,5 @@ Ch012 합계: 34,103 / 목표 ~160,000 (2/8 H 진행)
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 012 H3 신규 작성** (Python 입문 6 — file/exception 환경점검: pathlib·io·logging·rich.traceback)
-   - pathlib 25+ 메서드 깊이·io.StringIO/BytesIO·logging 5 레벨+formatter+handler·rich.traceback install·shutil·tempfile·contextlib·자경단 5 도구·오해+FAQ+추신.
+👉 **Ch 012 H4 신규 작성** (Python 입문 6 — file/exception 카탈로그 30+ 패턴)
+   - 30+ exception types 모두·file 패턴 20+(read/write/append/binary/CSV/JSON/YAML 등)·자경단 5 카테고리 분류·매일 활용·오해+FAQ+추신.
