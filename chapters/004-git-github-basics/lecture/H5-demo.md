@@ -20,11 +20,13 @@
 
 ## 1. 환경 준비 — 빈 폴더 한 개
 
-```bash
-mkdir -p ~/playground/git-demo
-cd ~/playground/git-demo
-ls -la
-```
+> ▶ **같이 쳐보기** — 빈 놀이터 폴더 한 개 만들기 (0번 상태)
+>
+> ```bash
+> mkdir -p ~/playground/git-demo
+> cd ~/playground/git-demo
+> ls -la
+> ```
 
 `ls -la`의 결과는 `.`과 `..` 두 개뿐. 깨끗한 빈 폴더예요. 본인의 git 인생이 시작되는 0번 상태. 이 폴더 안에서 H3에서 셋업한 `git config --global` 7줄(name·email·init.defaultBranch=main·pull.rebase·core.editor·core.autocrlf·push.autoSetupRemote)이 자동으로 적용돼요. **본인이 한 번 깔아 두면 모든 새 폴더에서 자동.** H3의 가치가 여기서 처음으로 와 닿아요.
 
@@ -34,9 +36,11 @@ ls -la
 
 ## 2. `git init` — 0번에서 1번으로
 
-```bash
-git init
-```
+> ▶ **같이 쳐보기** — 0번에서 1번으로: 빈 폴더에 사진앨범 골격 깔기
+>
+> ```bash
+> git init
+> ```
 
 출력:
 ```
@@ -57,10 +61,12 @@ ls .git/
 
 ## 3. 첫 파일 — README와 첫 commit
 
-```bash
-echo "# 자경단 데모 저장소" > README.md
-git status
-```
+> ▶ **같이 쳐보기** — 첫 파일 만들고 git status 한 번
+>
+> ```bash
+> echo "# 자경단 데모 저장소" > README.md
+> git status
+> ```
 
 `git status` 출력:
 ```
@@ -77,10 +83,12 @@ nothing added to commit but untracked files present
 
 **Untracked files** 줄에 README.md가 빨갛게(터미널 색 설정에 따라) 떠요. 아직 git이 관리하는 파일이 아니에요. working tree(작업 폴더)엔 있지만 staging·repository엔 없어요. H2에서 본 세 영역 그림이 떠오르나요? 지금 README.md는 working tree만에 있어요.
 
-```bash
-git add README.md
-git status
-```
+> ▶ **같이 쳐보기** — staging 으로 올리기: 빨강 → 초록
+>
+> ```bash
+> git add README.md
+> git status
+> ```
 
 `git status` 출력:
 ```
@@ -95,9 +103,11 @@ Changes to be committed:
 
 **Changes to be committed** — staging으로 올라갔어요. 초록색(터미널 색)으로 표시. 아직 commit은 안 됐어요. staging은 "다음 commit에 들어갈 짐"이에요.
 
-```bash
-git commit -m "feat: 첫 README 추가"
-```
+> ▶ **같이 쳐보기** — 본인의 첫 commit (root-commit)
+>
+> ```bash
+> git commit -m "feat: 첫 README 추가"
+> ```
 
 출력:
 ```
@@ -602,28 +612,8 @@ A. 본인이 push 전에 `git pull --rebase`(또는 H3에서 깐 `pull.rebase=tr
 
 ## 17. 추신
 
-추신 1. 데모는 한 번이 아니라 세 번 두드리세요. 첫 번은 30분, 두 번째는 15분, 세 번째는 7분. 세 번째에 본인 손가락이 무의식으로 들어가요.
+데모는 한 번이 아니라 세 번 두드리세요. 첫 번은 30분, 두 번째는 15분, 세 번째는 7분. 세 번째에 본인 손가락이 무의식으로 들어가요. `git status`를 두드리고 또 두드리세요 — 본인이 두드린 명령어의 두 배만큼 status를 두드려도 시간 낭비 아니에요. 모든 사고의 90%를 막아 줍니다. 사고가 났을 때 첫 단어는 `reflog`, commit 전 마지막 검문소는 `git diff`, force-push는 본인 가지에 한정 + 매번 `--force-with-lease`. `.gitignore`는 첫 commit 전에 박아야지 첫 commit 후엔 늦어요.
 
-추신 2. `git status`를 두드리고 또 두드리세요. 본인이 두드린 명령어의 두 배만큼 status를 두드려도 시간 낭비 아니에요. 모든 사고의 90%를 막아 줍니다.
+가지는 자유롭게 만들고 자유롭게 지우세요. 본인 가지는 본인의 사적 공간. main만 안 망치면 됩니다. PR 본문에 한 줄 그림(스크린샷·diff·테스트 결과)이 있으면 리뷰 시간이 절반으로 줄어요. commit 메시지는 한 팀 안에선 한 가지로 통일하시고, Conventional Commits(`feat:`·`fix:`·`chore:`·`docs:`·`refactor:`·`test:`·`style:`)를 표준으로 두면 자동화·릴리스 노트 생성에 유리해요.
 
-추신 3. `reflog`는 본인의 응급실. 사고 났을 때 첫 단어. 외워 두세요. 5년 차 동료를 신입 시절의 본인이 살릴 수 있는 한 단어가 이 단어예요.
-
-추신 4. `git diff`는 commit 전 마지막 검문소. 본인이 staging에 올린 모든 줄을 한 번 보고 commit하는 습관. 몇 초가 동료의 PR 코멘트 한 페이지를 절약해요.
-
-추신 5. force-push는 본인 가지에 한정. 매번 `--force-with-lease`로. H3에서 깐 alias `git fpush`가 평생의 안전장치. 손가락이 자동으로 lease 옵션을 붙이게 해 두세요.
-
-추신 6. `.gitignore`는 첫 commit 전에. 첫 commit 후엔 늦어요. 새 저장소의 첫 다섯 줄에 .gitignore 작성을 박아 두세요. 본인의 표준 루틴.
-
-추신 7. 가지는 자유롭게 만들고 자유롭게 지우세요. 본인 가지는 본인의 사적 공간. main만 안 망치면 됩니다. 가지를 무서워하지 마세요.
-
-추신 8. PR 본문에 한 줄 그림(스크린샷·diff·테스트 결과)이 있으면 리뷰 시간이 절반으로 줄어요. 본인이 동료의 시간을 아껴 주는 게 본인의 평판이에요. PR 본문은 짧지만 그림 한 장은 1000줄.
-
-추신 9. commit 메시지는 한국어로 써도 영어로 써도 돼요. 다만 한 회사·한 팀 안에선 한 가지로 통일. 자경단은 한국 커뮤니티니까 한국어 권장. 영어 commit 메시지를 흉내내려면 `feat:`·`fix:`·`chore:`·`docs:`·`refactor:`·`test:`·`style:` 7가지 prefix(Conventional Commits)를 본인 표준으로. 자동화·릴리스 노트 생성에 유리.
-
-추신 10. 본인의 git-demo 저장소를 평생 학습 실험실로 두세요. 새 명령어 배울 때마다 그 폴더로 가서 두드려 봐요. 본인의 git 일기장. 5년이 지나도 본인의 첫 commit이 거기 있어요.
-
-추신 11. 본인이 회사 첫 PR을 만드는 날, 이 H5의 13줄 흐름이 손가락에 자동으로 떠올라요. 본인은 안 떨려도 됩니다. 자경단에서 30번 두드린 손가락이 회사 첫 날에도 침착해요.
-
-추신 12. 데모를 친구·동료에게 가르쳐 보세요. 가르치면 본인이 더 깊게 이해해요. 본인이 신입을 가르칠 수 있는 사람이 되는 게 5년 차의 진짜 자격증. **이 H5가 본인이 가르칠 수 있는 첫 30분의 콘텐츠**예요. 본인이 카페에서 친한 친구에게 노트북 화면 보여 주며 30분만 시연해 보세요. 친구의 질문이 본인이 미처 못 봤던 구멍을 보여 줘요. 가르침이 학습의 가장 깊은 형태입니다. 다음 H6에서 운영의 시간으로. 🐾
-
-추신 13. 본 H5의 데모 폴더는 한 번 만들어 두면 다음 챕터들에서 계속 재활용해요. Ch005 협업 워크플로우에선 같은 폴더에 동료 한 명을 collaborator로 추가해서 PR을 주고받아 보고, Ch014 자동화에선 .github/workflows/ci.yml 한 장을 추가해서 push마다 테스트가 돌게 해 봐요. **한 폴더가 본 코스의 18챕터분 코드 진화의 모태**예요. 지우지 마세요. 본인의 가장 비싼 30분이 거기 박혀 있어요.
+본인의 git-demo 폴더를 평생 학습 실험실로 두세요. 한 폴더가 본 코스의 18챕터분 코드 진화의 모태예요. 회사 첫 PR을 만드는 날, 이 H5의 13줄 흐름이 손가락에 자동으로 떠올라요. 자경단에서 30번 두드린 손가락이 회사 첫 날에도 침착해요. 그리고 데모를 친구·동료에게 가르쳐 보세요 — 가르침이 학습의 가장 깊은 형태입니다. 다음 H6에서 운영의 시간으로. 🐾

@@ -85,9 +85,11 @@ git config --global commit.gpgsign true
 
 가장 먼저. 본인 노트북에 Git이 이미 깔려 있는지 봅시다. 터미널을 여세요.
 
-```bash
-git --version
-```
+> ▶ **같이 쳐보기** — Git 깔려 있는지 한 줄로 확인
+>
+> ```bash
+> git --version
+> ```
 
 세 가지 답이 나올 수 있어요. **(A) "git version 2.x.x"가 한 줄로 떠요.** 깔려 있어요. 이 절을 건너뛰고 3번으로 가셔도 됩니다. **(B) "command not found: git"이 떠요.** 안 깔려 있어요. 다음 절(3번)에서 깔아요. **(C) macOS에서 "xcode-select: note: no developer tools installed" 같은 메시지가 떠요.** macOS는 Git이 Xcode Command Line Tools에 묶여 있어서 그게 안 깔려 있으면 이 메시지가 떠요. 이때는 화면에 뜨는 안내대로 "Install" 버튼을 누르면 5~10분 뒤에 깔립니다. 한 가지 알아 두실 점 — Git의 안정 버전은 보통 2.40 이상이면 충분하고 2.43+가 권장이에요. 너무 낮은 버전(예 2.20대)이면 일부 명령(`git switch`, `git restore` 같은 새 명령)이 없을 수 있어요. 그럴 땐 다음 절에서 최신으로 업데이트하세요. **버전 확인이 첫 단추예요.**
 
@@ -107,10 +109,12 @@ Linux는 더 단순합니다. 배포판마다 패키지 매니저가 다른 게 
 
 Git을 깔았으면 본인 신분증을 박아야 해요. 본인이 만드는 모든 commit의 author 필드에 들어갈 정보예요. 다음 두 줄이 필수.
 
-```bash
-git config --global user.name "본인이름"
-git config --global user.email "you@example.com"
-```
+> ▶ **같이 쳐보기** — 모든 commit 의 author 에 박힐 본인 신분증 두 줄
+>
+> ```bash
+> git config --global user.name "본인이름"
+> git config --global user.email "you@example.com"
+> ```
 
 본인 이름은 한글이어도 영어여도 됩니다. 영어가 무난해요. 이메일은 GitHub 계정에 등록한 이메일과 같게 하세요. 다르면 GitHub의 contribution graph(녹색 점)에 본인 commit이 안 잡혀요. 회사 작업과 사이드 프로젝트 이메일을 분리하고 싶으면 repo별로 따로 설정할 수 있어요(`git config user.email work@company.com`을 그 repo 안에서). 셋째 줄은 권장 — `git config --global init.defaultBranch main`. Git 2.28부터 `git init`의 기본 브랜치 이름을 main으로 명시할 수 있게 됐어요(이전엔 master). 회사·오픈소스 컨벤션이 main으로 굳어졌으니 미리 깔아 두세요. 추가 권장 두 줄.
 
@@ -125,9 +129,11 @@ git config --global core.editor "code --wait"   # VS Code 사용자
 
 위에서 친 다섯 줄이 어디로 갔을까. 다음 한 줄을 쳐 보세요.
 
-```bash
-cat ~/.gitconfig
-```
+> ▶ **같이 쳐보기** — Git 의 모든 설정이 사람이 읽는 텍스트 한 파일
+>
+> ```bash
+> cat ~/.gitconfig
+> ```
 
 이런 게 떠요.
 
@@ -149,13 +155,15 @@ INI 형식의 평범한 텍스트 파일이에요. `git config --global` 한 줄
 
 명령어를 짧게 줄일 수 있어요. `git status`를 매일 100번 친다면 `git st`로 줄이면 손목이 산다는 일과예요. 다음 다섯 줄을 한 번 쳐 두세요.
 
-```bash
-git config --global alias.st "status -sb"
-git config --global alias.lg "log --oneline --graph --all -20"
-git config --global alias.co "checkout"
-git config --global alias.br "branch"
-git config --global alias.cm "commit -m"
-```
+> ▶ **같이 쳐보기** — 손목 보호용 alias 5개 한 번에 박기
+>
+> ```bash
+> git config --global alias.st "status -sb"
+> git config --global alias.lg "log --oneline --graph --all -20"
+> git config --global alias.co "checkout"
+> git config --global alias.br "branch"
+> git config --global alias.cm "commit -m"
+> ```
 
 이제 본인은 `git st`, `git lg`, `git co main`, `git br`, `git cm "메시지"`를 칠 수 있어요. `git st`는 짧은 형식 + 브랜치 정보. `git lg`는 최근 20개 commit을 그래프로. 두 줄이면 본인 repo의 현재 상태가 머리에 들어와요. 더 좋은 alias가 많아요. `dft = diff --stat`, `last = log -1 HEAD`, `unstage = reset HEAD --` 같은. 처음엔 위 다섯 개로 시작하시고, H4 명령어 카탈로그 끝에 본인 손에 맞는 alias를 한 페이지 추가하세요. 한 가지 — alias는 `~/.gitconfig`의 `[alias]` 섹션에 텍스트로도 직접 쓸 수 있어요. CLI보다 vim/code로 한꺼번에 쓰는 게 빠를 수 있습니다.
 
