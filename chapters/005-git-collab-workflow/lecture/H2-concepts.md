@@ -420,30 +420,8 @@ A. 두 가지 길. **Stack PR**(여러 PR을 차례대로 쌓아서 차례대로
 
 ## 11. 추신
 
-추신 1. 세 패턴은 진화. 5명 GitHub Flow → 50명 Git Flow → 500명 Trunk-based. 본인의 자경단도 5년 후 다른 패턴으로 갈 수도. **패턴은 살아 있는 계약**. 매년 회고로 점검, 매년 한 칸씩 진화. 진화의 한 칸이 5년의 깊이.
+세 패턴은 진화해요 — 5명 GitHub Flow → 50명 Git Flow → 500명 Trunk-based. 본인의 자경단도 5년 후 다른 패턴으로 갈 수도. **패턴은 살아 있는 계약** — 매년 회고로 점검, 매년 한 칸씩 진화. branch 모델 그래프를 손가락으로 그릴 수 있게 연습해 두세요. 면접에서 "Git Flow의 release branch 흐름을 그려 주세요"는 단골 질문이에요.
 
-추신 2. branch 모델 그래프를 손가락으로 그릴 수 있게 연습. 면접에서 "Git Flow의 release branch 흐름을 그려 주세요" 단골 질문. 종이에 한 번 그려 보면 머리에 박혀요.
+release ≠ deploy. 큰 회사의 비밀이고, 본인이 신입 때 이 분리를 알면 시니어 동료의 결정이 보여요. SemVer (major.minor.patch)도 — v0.1.0 → v0.5.0 → v1.0.0의 의미를 알면 release 결정이 가벼워져요. 환경 셋(dev·staging·prod)은 자경단이 처음엔 둘로, 성장하면 셋으로 — 셋 환경의 비용이 1사고 비용보다 100배 싸요. CI는 GitHub Flow의 안전벨트, branch는 짧게 유지(<1주, 길어지면 integration hell), hotfix는 패턴마다 다른 손가락. 워크플로우 = 도구 + 사람의 합의. branch protection 한 칸이 본인 합의 100마디보다 단단해요.
 
-추신 3. release ≠ deploy. 큰 회사의 비밀. 본인이 신입 때 이 분리를 알면 시니어 동료의 결정이 보여요. 두 단어가 다르다는 한 줄이 본인의 첫 시니어 신호.
-
-추신 4. SemVer (major.minor.patch). 자경단 v0.1.0 → v0.5.0 → v1.0.0의 의미를 알면 release 결정이 가벼워져요. 세 숫자가 다섯 결정을 압축.
-
-추신 5. 환경 셋(dev·staging·prod). 자경단은 처음엔 둘로 시작, 성장하면 셋. **셋 환경의 비용이 1사고의 비용보다 100배 싸요**.
-
-추신 6. feature flag는 trunk-based의 무기지만 모든 패턴에 유용. 자경단은 Ch090 이후 도입. 무기는 일찍 알면 일찍 적용 가능.
-
-추신 7. CI는 GitHub Flow의 안전벨트. 안전벨트 없는 GitHub Flow는 사고 직행. Ch005 H3에서 CI 셋업 첫 손. 안전벨트는 평생 자산.
-
-추신 8. branch 짧게 유지(<1주). 길어지면 integration hell. **자주 작게**가 황금 규칙. 황금 규칙 한 줄이 평생 손가락 습관.
-
-추신 9. hotfix는 일상. GitHub Flow는 feature branch로, Git Flow는 hotfix branch로, Trunk-based는 flag off로. 셋이 다 다른 손가락. 본인 패턴을 알면 hotfix 시 손가락이 자동. 새벽 3시에 손가락이 흔들리지 않아요.
-
-추신 10. 워크플로우는 도구 + 사람의 합의. 둘 다 있어야 작동. branch protection 한 칸이 본인 합의 100마디보다 단단. 도구가 합의를 평생 기억해 줘요.
-
-추신 11. 본 H의 이론을 종이 한 페이지로 적어 보세요. branch 그래프 셋 + release vs deploy 표 + 환경 셋 표. 한 페이지면 본인의 협업 사고 다 들어가요. 종이에 손으로 적는 게 머리에 박히는 가장 빠른 방법. 키보드 100번보다 펜 한 번이 깊어요.
-
-추신 12. 다음 H3는 환경점검 — GitHub 팀·organization 셋업, protected branch 7체크, CODEOWNERS 깊이. 본 H의 이론이 H3의 셋업으로 손에 잡혀요. 🐾
-
-추신 13. 본 H를 다 읽은 본인이 한 가지 실험 — 본인이 좋아하는 오픈소스 저장소 셋(예: React, FastAPI, VS Code)의 CONTRIBUTING.md를 열어 보세요. 어느 패턴인지 1분 안에 파악될 거예요. React는 Trunk-based 변형, FastAPI는 GitHub Flow, VS Code는 release branch 있는 GitHub Flow 변형. 셋이 다 다른 패턴. 본인의 자경단도 5년 후엔 어디일까요?
-
-추신 14. 마지막 — 패턴 이름에 매이지 마세요. 본질은 "main 보호 + branch 작업 + 리뷰 + 머지". 변수는 branch 종류 수와 release 주기뿐. 본질을 잡으면 어느 회사의 어느 패턴도 1주일 안에 적응. **이름이 표면, 본질이 영원**. 🐾🐾
+다음 H3은 환경점검 — GitHub 팀·organization 셋업, protected branch 7체크, CODEOWNERS 깊이. 본 H의 이론이 H3의 셋업으로 손에 잡혀요. 마지막 한 마디 — **패턴 이름에 매이지 마세요. 본질은 "main 보호 + branch 작업 + 리뷰 + 머지"**. 본질을 잡으면 어느 회사의 어느 패턴도 1주일 안에 적응. 🐾

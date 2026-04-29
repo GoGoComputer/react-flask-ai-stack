@@ -95,12 +95,14 @@
 
 `-s` short, `-b` branch. 출력이 5줄 이내. 매일 30번씩.
 
-```bash
-$ git status -sb
-## feat/cat-card...origin/feat/cat-card [ahead 2]
- M src/components/CatCard.tsx
-?? src/styles/CatCard.module.css
-```
+> ▶ **같이 쳐보기** — short + branch 한 줄 진단
+>
+> ```bash
+> git status -sb
+> # ## feat/cat-card...origin/feat/cat-card [ahead 2]
+> #  M src/components/CatCard.tsx
+> # ?? src/styles/CatCard.module.css
+> ```
 
 읽기 — `M`(modified, working), 첫 칸은 staged·둘째 칸은 working. `??`는 untracked. 위 2줄 = "feat/cat-card 브랜치, 원격보다 2 commit 앞섬, CatCard.tsx 수정됨, CatCard.module.css 새 파일".
 
@@ -116,17 +118,16 @@ $ git status -sb
 
 최근 20 commit + branch 그래프 한 줄씩.
 
-```bash
-$ git log --oneline --graph -20
-* 3717348 (HEAD -> main, origin/main) Ch005 H3: new 18k chars (...)
-* f5fe40f docs: add AI-WORK-GUIDE.md
-* fcca152 Ch005 H2: new 17k chars (...)
-* d27e7ed Ch005 H1: new 17k chars (...)
-*   5ce93d4 Merge pull request #12 from cat-vigilante/feat/cat-card
-|\
-| * a1b2c3d feat(cat-card): 신고 카드 컴포넌트
-|/
-```
+> ▶ **같이 쳐보기** — 최근 20 commit 의 그림 한 화면
+>
+> ```bash
+> git log --oneline --graph -20
+> # * 3717348 (HEAD -> main) Ch005 H3 ...
+> # *   5ce93d4 Merge pull request #12 from cat-vigilante/feat/cat-card
+> # |\
+> # | * a1b2c3d feat(cat-card): 신고 카드 컴포넌트
+> # |/
+> ```
 
 **alias 권장** — `git config --global alias.lg "log --oneline --graph --all -20"`. `git lg` 한 줄.
 
@@ -363,11 +364,13 @@ const cat = "노랑";
 
 conflict 풀다가 막히면 탈출. 시작 전 상태로 복원.
 
-```bash
-git merge --abort         # merge 중 취소
-git rebase --abort        # rebase 중 취소
-git cherry-pick --abort   # cherry-pick 중 취소
-```
+> ▶ **같이 쳐보기** — 비상 탈출 3종 (merge / rebase / cherry-pick)
+>
+> ```bash
+> git merge --abort         # merge 중 취소
+> git rebase --abort        # rebase 중 취소
+> git cherry-pick --abort   # cherry-pick 중 취소
+> ```
 
 **황금 규칙** — 5분 안에 안 풀리면 abort, 동료에게 페어 요청. 30분 혼자 끙끙대지 말 것. 페어 conflict 해결이 5분이면 끝나는 일이 많음.
 
@@ -654,40 +657,8 @@ A. 거의 없음. 새 commit 안 만들고 같은 commit·workflow를 재실행.
 
 ## 13. 추신
 
-추신 1. 30개 명령어 = 자경단 5년의 손가락. 매일 6개, 주간 7개, 월간 5개의 리듬이 쌓여요. **리듬이 협업의 음악**.
+30개 명령어 = 자경단 5년의 손가락. 매일 6개, 주간 7개, 월간 5개의 리듬이 쌓여요. 위험도 신호등 3색이 손가락의 안전벨트 — 빨강 6개 앞에서 1초 호흡, 1초가 1년의 안전. `gh`(GitHub CLI)를 1주일 안에 익혀 두세요 — 브라우저보다 5배 빠른 PR 흐름. `git switch`는 2.23(2019)부터 새 표준 — checkout 대신 switch + restore. `git pull --rebase`를 자경단 표준으로(`pull.rebase=true` 한 줄 config), 머지 직전 `git rebase -i HEAD~5`로 commit 정리.
 
-추신 2. 위험도 신호등 3색이 손가락의 안전벨트. 빨강 6개 앞에서 1초 호흡. 1초가 1년의 안전.
+`git push --force-with-lease`는 alias `fpush`로, mergetool + rerere + diff3 conflictstyle 셋이 conflict 한 시간을 5분으로. `git stash`는 컨텍스트 스위치의 친구, `git revert`는 main의 자물쇠(머지된 commit은 무조건 revert), `gh run watch`로 CI 실시간 모니터. 자경단 13줄 흐름 = 30개 카탈로그 중 9개라 90% PR이 같은 9개. 매일 6 + 주간 7 + 월간 5 = 18개 손가락이 자경단의 한 달로 충분.
 
-추신 3. `gh`(GitHub CLI)를 1주일 안에 설치·익히세요. 브라우저보다 5배 빠른 PR 흐름. 면접에서 "GitHub CLI 써 봤어요?" 단골.
-
-추신 4. `git switch`는 2.23(2019)부터 새 표준. checkout 대신 switch + restore. 두 명령 분리가 한 명령보다 명확. **분리가 명확함의 신호**.
-
-추신 5. `git pull --rebase`를 자경단 표준으로. merge commit 안 만듦. log 깔끔. `pull.rebase=true` 한 줄 config로 평생.
-
-추신 6. `git rebase -i HEAD~5`로 머지 직전 commit 정리. 5분 투자, 4명 리뷰 1분 절약. 5명이면 1년 100시간.
-
-추신 7. `git push --force-with-lease`를 alias로 박아 두세요. `git fpush`. 손가락이 자동으로 안전판을 부름.
-
-추신 8. mergetool + rerere + diff3 conflictstyle 셋이 conflict 한 시간을 5분으로. **셋 셋업이 자경단 5년의 무기**.
-
-추신 9. `git stash`는 컨텍스트 스위치의 친구. hotfix·급한 일에 본인 작업 잠시 보관. 5분의 컨텍스트 스위치 비용 1/5.
-
-추신 10. `git revert`는 main의 자물쇠. 머지된 commit은 무조건 revert(새 commit)로. reset(히스토리 삭제)은 응급용.
-
-추신 11. `gh run watch`로 CI 실시간 모니터. 출근 첫 일 또는 PR 머지 직후. 빨간불 5초 안에 발견.
-
-추신 12. 자경단 13줄 흐름 = 30개 카탈로그 중 9개. 90% PR이 같은 9개. 나머지 21개는 conflict·응급용. **단순함이 효율**.
-
-추신 13. 매일 6 손가락 + 주간 7 + 월간 5 = 18개 손가락. 자경단의 한 달이 18 명령어로 충분. 본인이 더 많이 외우면 시간 낭비. **충분의 미덕**.
-
-추신 14. 다음 H5는 데모 — 자경단의 30분 협업 시뮬레이션 (까미·노랭이가 conflict 일으키고 5명이 다같이 풀기). 본 H의 30개 명령어가 H5의 30분 손가락으로 살아 움직여요. 🐾
-
-추신 15. 본 H를 다 읽은 본인이 한 가지 실험 — 본인이 좋아하는 오픈소스의 한 PR을 골라 `gh pr checkout`으로 본인 노트북에 가져오세요. 그 PR의 변경을 직접 돌려 보세요. 5분의 실험이 5년의 협업 직관. **체험이 가장 빠른 학습**.
-
-추신 16. alias는 손목의 친구. `s`(status)·`lg`(log graph)·`co`(checkout)·`br`(branch)·`cm`(commit)·`fpush`(force-with-lease)·`amend`(commit --amend) 7개를 `~/.gitconfig`에 박아 두세요. 본인이 매일 1000번 치는 손가락이 1년 후 손목 통증을 1/10로 줄여 줘요. **alias는 5년의 보험**.
-
-추신 17. `gh`의 숨은 보석 — `gh repo clone owner/repo`(clone에 organization 자동 매칭), `gh issue create --web`(이슈 빠른 생성), `gh search prs`(전 GitHub PR 검색), `gh extension install`(서드파티 확장). 5개 보석을 한 달 안에 익히면 본인의 GitHub 손가락이 두 배 빨라져요.
-
-추신 18. 명령어 카탈로그를 종이 한 장에 적어 모니터 옆에 붙여 두세요. 처음 1주일은 매번 종이 봐도 OK. 1주일 지나면 손가락이 자동. 종이를 떼는 날이 본인이 자경단의 진짜 동료가 되는 날. **종이가 학습의 첫 도구**.
-
-추신 19. 30개 카탈로그를 한 페이지로 압축해 본인 GitHub Wiki나 Notion에 박아 두세요. 자경단 5명이 같은 페이지를 보면 합의 비용이 0. 페이지 하나가 5명의 합의 30분을 30초로. **공유가 협업의 곱셈**. 🐾🐾
+다음 H5는 데모 — 자경단의 30분 협업 시뮬레이션. 본 H의 30개 명령어가 H5의 30분 손가락으로 살아 움직여요. alias 7개(s·lg·co·br·cm·fpush·amend)를 `~/.gitconfig`에 박아 두세요 — 매일 1000번 치는 손가락이 1년 후 손목 통증을 1/10로. 30개 카탈로그를 한 페이지로 GitHub Wiki·Notion에 박아 두면 자경단 5명의 합의 비용이 0. **공유가 협업의 곱셈**. 🐾

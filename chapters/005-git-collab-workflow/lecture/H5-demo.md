@@ -44,15 +44,12 @@
 
 본인의 노트북에서:
 
-```bash
-# 0:00 — main 최신 동기화
-$ git switch main && git pull --rebase
-Already on 'main'
-Already up to date.
-
-$ git status -sb
-## main...origin/main
-```
+> ▶ **같이 쳐보기** — 5명 동시 시작 첫 의식 (main 동기화)
+>
+> ```bash
+> git switch main && git pull --rebase
+> git status -sb
+> ```
 
 까미 노트북도, 노랭이 노트북도, 미니·깜장이 노트북도 같은 두 줄. **모든 노트북의 main이 같은 commit**을 가리켜야 시작.
 
@@ -177,19 +174,14 @@ STATUS  TITLE                                        WORKFLOW  BRANCH  ELAPSED
 
 까미가 본인 PR 만들기 전 main 최신을 받아서 rebase.
 
-```bash
-# 15:00 — 까미가 main 최신
-$ git switch main
-$ git pull --rebase
-remote: Counting objects: 5, done.
-...
-   6c93ad1..4dab2f6  main -> main
-Successfully rebased and updated refs/heads/main.
-
-# 15:30 — 까미가 본인 branch로 돌아가서 main 위에 rebase
-$ git switch feat/cat-card
-$ git rebase main
-```
+> ▶ **같이 쳐보기** — main 위에 본인 가지 다시 쌓기 (rebase)
+>
+> ```bash
+> git switch main
+> git pull --rebase
+> git switch feat/cat-card
+> git rebase main
+> ```
 
 **여기서 진짜 conflict 발생** (본인이 demo repo에서 실행한 실제 출력):
 
@@ -598,70 +590,8 @@ $ git push origin v1.0.1
 
 ## 15. 추신
 
-추신 1. 본 H의 모든 git 출력은 강사가 `/tmp/cat-demo`에서 실제 실행한 결과. 거짓말 0. 본인이 같은 명령어를 본인 노트북에서 치면 비슷한 결과. **실행이 학습의 가장 빠른 길**.
+본 H의 모든 git 출력은 강사가 `/tmp/cat-demo`에서 실제 실행한 결과예요. 거짓말 0. 본인이 같은 명령어를 본인 노트북에서 치면 비슷한 결과가 나와요. 30분 시뮬레이션의 24 명령어 = 자경단의 매일. conflict는 매주 1~3번, 평균 5분 — 처음 10번은 답답하지만 50번 후엔 1분. 반복이 자동을 만들어요. push 전 rebase는 안전, push 후 rebase는 위험 — 타이밍 한 줄이 안전을 결정. `--force-with-lease`의 거부는 동료 commit 보호의 신호 — 거부 보면 호흡, fetch + rebase + 다시.
 
-추신 2. 30분 시뮬레이션의 24 명령어 = 자경단의 매일. 1년 250번. 손가락이 손가락을 가르쳐요.
+mergetool(VS Code)은 5분 → 1분의 가속기, 한 번 셋업이면 평생. CODEOWNERS의 마지막 매치 우선. auto-merge는 branch protection 7체크 + 1명 승인 + CI 3개 통과 후 안전 — 새벽 3시에 안 깨도 다음날 머지 완료. log의 한 직선이 rebase, 두 갈래가 merge — 자경단은 linear history. sha 변경(d888f37 → 13c3232)은 rebase의 본질이에요. 5명 페어로 conflict 5분 푸는 게 자경단의 강력함 — 혼자 30분 끙끙대지 말고 5분 페어로.
 
-추신 3. conflict는 매주 1~3번. 5분이 평균. 처음 10번은 답답하지만, 50번 후엔 1분. **반복이 자동을 만들어요**.
-
-추신 4. push 전 rebase는 안전, push 후 rebase는 위험. 타이밍 한 줄이 안전을 결정. **타이밍이 실력**.
-
-추신 5. `--force-with-lease`의 거부는 동료 commit 보호의 신호. 거부 보면 호흡, fetch + rebase + 다시. 5초가 5분을 사요.
-
-추신 6. mergetool은 5분 → 1분의 가속기. VS Code가 자경단 표준. 한 번 셋업, 평생 사용.
-
-추신 7. CODEOWNERS의 마지막 매치 우선. 첫 줄에 maintainers 깔고, 구체적 줄에 maintainers + team 둘 다. 본인이 모든 PR 보는 한 줄 합의.
-
-추신 8. auto-merge는 셋업 후 안전. branch protection 7체크 + 1명 승인 + CI 3개 통과. 새벽 3시에 안 깨도 다음날 머지 완료. **셋업이 잠을 사요**.
-
-추신 9. log의 한 직선이 rebase의 신호. 두 갈래는 merge의 신호. 자경단은 linear history 정책. 한 직선이 가독성.
-
-추신 10. sha 변경(d888f37 → 13c3232)은 rebase의 본질. 같은 변경이라도 부모가 다르면 다른 sha. **sha는 부모를 기억해요**.
-
-추신 11. demo repo(`/tmp/cat-demo`)는 5분이면 만들어요. 본인이 직접 만들어서 본 H의 명령어 24개를 친 손가락으로 따라해 보세요. 손가락 24개가 본인의 첫 협업 직관.
-
-추신 12. 5명 페어로 conflict 5분 푸는 게 자경단의 강력함. 혼자 30분 끙끙대지 말고, 5분 페어로 5분 안에. **페어가 시간의 곱셈**.
-
-추신 13. 다음 H6는 운영 — branch 자동 삭제·release 자동·conflict 통계·monorepo·workflow 갱신. 본 H의 시뮬레이션 30분이 H6의 운영 1년으로 확장돼요. 🐾
-
-추신 14. demo 시나리오를 본인의 자경단(또는 친구 4명과 임시 팀)으로 직접 실험. 30분 셋업 + 30분 시뮬레이션 = 1시간이 본인의 협업 5년 직관. **실전이 가장 빠른 학습**.
-
-추신 15. 본 H를 다 읽은 본인이 한 가지 실험 — `/tmp` 같은 임시 디렉토리에서 `git init` + 두 branch + 같은 파일 conflict + 해결을 5분 안에 해 보세요. 거대한 첫 자전거 5초 떨림이 5년의 자전거 자신감. **첫 떨림이 첫 깊이**.
-
-추신 16. hotfix 시연(13절)의 5단계가 자경단의 응급 표준. 새벽 3시에 prod 사이트가 깨져도 5분 안에 fix → tag → push. 5단계가 본인의 새벽을 사요.
-
-추신 17. SemVer patch +1 (1.0.0 → 1.0.1)의 손가락 — `git tag v1.0.1`. tag는 commit에 영원히 박힘. release 노트는 tag 사이의 commit log로 자동 생성. **tag가 release의 결정**.
-
-추신 18. `git merge --squash`는 fast-forward 아닌 squash 옵션. 머지 commit 안 만들고 한 commit으로 압축. main의 log가 깔끔.
-
-추신 19. 본 H의 시뮬레이션 sha 값 (`d888f37`·`4dab2f6`·`13c3232`·`82c515b`)은 강의 작성 시 실제 생성된 값. 본인이 다른 시간에 같은 명령어 치면 sha 다르지만 패턴 같음. **sha는 시간의 도장**.
-
-추신 20. demo의 conflict 마커 (`<<<<<<<`·`=======`·`>>>>>>>`)를 처음 보는 본인이 패닉하지 마세요. **세 줄이 두 사람의 의도 표시**. 마커 위가 main(또는 현재), 아래가 들어오는(또는 본인 commit). 둘 중 하나 또는 합치기.
-
-추신 21. `AA` 상태 (both added)는 conflict 종류 중 하나. `MM`(both modified)·`AU`(added by us)·`UA`(added by them)도 있음. `git status`의 두 글자 코드가 conflict 종류의 알람.
-
-추신 22. demo 시연에서 husky·lint-staged·commitlint 발동은 텍스트로만 표현. 실제 노트북에서 발동시키면 빨간 글씨·초록 글씨로 5초 안에 결과. 본인이 H3 셋업 + 본 H 시연을 같이 따라하면 살아 움직이는 커밋이 됨. **글로 본 것 + 손으로 친 것 = 첫 직관**.
-
-추신 23. 1년 250 사이클(매일 1회 × 250일)이 자경단의 commit history. 1년 후 본인이 `git log --oneline | wc -l` 치면 1500~3000 commit. 매 commit이 30분의 합의·30분의 손가락·30분의 합의. **commit 한 줄이 자경단의 30분**.
-
-추신 24. 본 H의 자경단 5명은 가상이지만, 본인이 실제 친구 4명 모아 `cat-vigilante` organization을 만들면 즉시 본 H의 시뮬레이션이 현실. 30분 셋업(H3) + 30분 시뮬(본 H) = 1시간이 5명 협업의 첫 날.
-
-추신 25. demo의 13줄 흐름은 자경단 표준. 13줄 외우면 매일 1 사이클. 5년이면 1만 줄. 한 줄이 5분의 합의를 사요.
-
-추신 26. force-with-lease 거부 출력(`! [rejected] stale info`)은 처음 보면 당황. 빨강 글씨지만 실은 안전 신호. lease가 깜장이 commit을 보호한 거라 까미는 감사. **거부가 친구**.
-
-추신 27. PR 번호는 자경단의 일기장. #1부터 #1000까지 한 줄씩이 자경단의 나이테. 1년 후 #500이면 자경단이 1년 살아 있다는 신호. **번호가 시간의 증인**.
-
-추신 28. demo의 `Auto-merging frontend/CatCard.tsx` 출력은 git이 두 변경을 자동 합치려 시도한 흔적. add/add conflict라 자동 안 됐지만, 다른 종류는 자동 머지가 흔함. **자동 머지가 90%, 수동이 10%**.
-
-추신 29. squash auto-merge가 본 H 시뮬의 가속기. 5명이 새벽에 안 깨도 다음날 머지 완료. 셋업 30분이 매일 30분을 사요. **셋업의 ROI 무한대**.
-
-추신 30. 본 H를 두 번 읽으세요. 첫 번째는 시나리오 흐름, 두 번째는 명령어 24개. 두 번 읽기가 한 번 읽기 + 한 번 따라치기보다 효율. 마지막 — 손으로 한 번 따라치기. **세 번째가 첫 번째 진짜 학습**.
-
-추신 31. 본 시뮬의 핵심 — 까미·노랭이가 같은 파일을 동시에 만들어도 5분 페어 + 7줄 합친 코드면 30분 안에 해결. 같은 파일이 두 사람의 협업 신호이지 사고 신호가 아니에요.
-
-추신 32. demo는 1인 강사가 5명을 흉내낸 짜집기. 본인이 친구 4명과 진짜 5명으로 같은 시나리오를 돌리면 화면 5개·노트북 5개·생각 5개의 동기화 비용이 추가. 그래도 30분 안에 가능 — 셋업이 단단하면.
-
-추신 33. 본 H를 다 읽은 본인이 마지막 결심 — Ch005 H6·H7·H8을 끝낸 후, 본인이 친구 4명을 모아 진짜 cat-vigilante organization을 만들고 30분 시뮬을 한 번 돌리세요. 첫 PR 머지의 짜릿함이 5년의 협업 자신감.
-
-추신 34. 본 H의 모든 sha 값(`6c93ad1`·`d888f37`·`4dab2f6`·`13c3232`·`82c515b`)이 진짜 commit의 도장. 본인이 본 강의를 읽은 시간이 본인의 협업 첫 시간. **읽기가 첫 손가락**. 🐾🐾🐾
+conflict 마커(`<<<<<<<`·`=======`·`>>>>>>>`)를 처음 보면 패닉하지 마세요. `AA`(both added)·`MM`(both modified)·`AU`/`UA`도 conflict 종류일 뿐이에요. hotfix 5단계(fix → tag → push)가 자경단의 응급 표준. SemVer patch +1 = `git tag v1.0.1`, tag는 commit에 영원히 박혀요. 본 H를 두 번 읽고 한 번 손으로 쳐 보세요 — 그 세 번째가 첫 번째 진짜 학습. 다음 H6는 운영(branch 자동 삭제·release 자동·conflict 통계). 마지막 결심 — 친구 4명을 모아 진짜 cat-vigilante organization을 만들고 30분 시뮬을 한 번 돌리세요. 첫 PR 머지의 짜릿함이 5년의 협업 자신감. 🐾
