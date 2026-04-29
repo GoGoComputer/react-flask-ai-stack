@@ -90,19 +90,27 @@ TCP만 있으면 안 되냐. 안 됩니다. 어떤 일은 "신뢰성"보다 "속
 
 본인이 한 번 dig를 쳐 보세요.
 
-```bash
-dig example.com               # A 기본
-dig example.com AAAA          # IPv6
-dig example.com NS            # 네임서버
-dig example.com MX            # 메일 서버
-dig example.com TXT           # 텍스트
-```
+> ▶ **같이 쳐보기** — 한 도메인의 7가지 신원 한 번에 펼치기
+>
+> ```bash
+> dig example.com               # A 기본
+> dig example.com AAAA          # IPv6
+> dig example.com NS            # 네임서버
+> dig example.com MX            # 메일 서버
+> dig example.com TXT           # 텍스트
+> ```
 
 다섯 줄이에요. 출력에 ANSWER SECTION이라는 부분이 있고 거기에 답이 줄줄이 있어요. TTL이라는 숫자도 같이 있는데, 이건 "이 답을 몇 초 동안 캐시해도 되는지"예요. 보통 300초(5분) ~ 86400초(24시간). TTL이 짧으면 변경 반영이 빠르고, 길면 DNS 서버 부하가 줄어요. DNS 마이그레이션 직전엔 TTL을 60초로 줄여서 배포 후 빠르게 롤백 가능하게 만드는 게 흔한 패턴이에요. Ch113 Route 53에서 다시 만납니다.
 
 ## 9. DNS resolver chain — 본인이 친 한 번이 다섯 곳을 거친다
 
-본인이 dig example.com 한 번을 치면 그 답이 어디서 오느냐. 다섯 단계를 거칩니다. (1) **본인 노트북의 stub resolver** — OS의 작은 DNS 라이브러리. 캐시가 있으면 거기서 답. 없으면 다음. (2) **로컬 recursive resolver** — 보통 통신사 DNS 또는 8.8.8.8/1.1.1.1. 캐시가 있으면 거기서 답. 없으면 다음. (3) **root DNS** — 13세트의 root 서버(a.root-servers.net ~ m.root-servers.net). "com이 어디 있는지 모르겠어, com 담당자에게 가." (4) **TLD DNS** — com을 담당하는 서버. "example.com의 권한 서버는 ns1.iana-servers.net이야." (5) **권한 DNS** — example.com의 진짜 답을 가진 서버. "A 레코드는 93.184.216.34야." 이 5단계를 한 번에 보려면 dig +trace example.com을 쳐 보세요. 한 화면에 위계가 펼쳐져요. 보통은 캐시 덕분에 (1)이나 (2)에서 끝나요. 그래서 두 번째 dig는 첫 번째보다 훨씬 빨라요. 그리고 한 가지 — **DNS는 UDP 위에서 돕니다.** 짧은 질문 하나에 짧은 답 하나라 TCP의 핸드셰이크 비용이 아까워서요. 답이 너무 길면(512바이트 초과) TCP로 fallback 합니다. DNSSEC, EDNS 같은 확장 때문이에요. 또 한 가지 — 본인 노트북의 DNS 서버는 어디 보면 되냐. macOS는 scutil --dns | head -20, Linux는 cat /etc/resolv.conf. 보통 공유기의 IP나 통신사 DNS가 적혀 있어요. 이걸 1.1.1.1로 바꾸시면 통신사 DNS 차단을 우회할 수 있고, 보통 더 빨라요. 일부 회사 네트워크에선 사내 DNS만 허용하니 함부로 바꾸면 안 돼요. H3에서 다룹니다.
+본인이 dig example.com 한 번을 치면 그 답이 어디서 오느냐. 다섯 단계를 거칩니다. (1) **본인 노트북의 stub resolver** — OS의 작은 DNS 라이브러리. 캐시가 있으면 거기서 답. 없으면 다음. (2) **로컬 recursive resolver** — 보통 통신사 DNS 또는 8.8.8.8/1.1.1.1. 캐시가 있으면 거기서 답. 없으면 다음. (3) **root DNS** — 13세트의 root 서버(a.root-servers.net ~ m.root-servers.net). "com이 어디 있는지 모르겠어, com 담당자에게 가." (4) **TLD DNS** — com을 담당하는 서버. "example.com의 권한 서버는 ns1.iana-servers.net이야." (5) **권한 DNS** — example.com의 진짜 답을 가진 서버. "A 레코드는 93.184.216.34야." 이 5단계를 한 번에 펼쳐 보세요.
+
+> ▶ **같이 쳐보기** — root → TLD → 권한 DNS 의 5단계 사다리 한 화면에
+>
+> ```bash
+> dig +trace example.com | head -30
+> ``` 한 화면에 위계가 펼쳐져요. 보통은 캐시 덕분에 (1)이나 (2)에서 끝나요. 그래서 두 번째 dig는 첫 번째보다 훨씬 빨라요. 그리고 한 가지 — **DNS는 UDP 위에서 돕니다.** 짧은 질문 하나에 짧은 답 하나라 TCP의 핸드셰이크 비용이 아까워서요. 답이 너무 길면(512바이트 초과) TCP로 fallback 합니다. DNSSEC, EDNS 같은 확장 때문이에요. 또 한 가지 — 본인 노트북의 DNS 서버는 어디 보면 되냐. macOS는 scutil --dns | head -20, Linux는 cat /etc/resolv.conf. 보통 공유기의 IP나 통신사 DNS가 적혀 있어요. 이걸 1.1.1.1로 바꾸시면 통신사 DNS 차단을 우회할 수 있고, 보통 더 빨라요. 일부 회사 네트워크에선 사내 DNS만 허용하니 함부로 바꾸면 안 돼요. H3에서 다룹니다.
 
 ## 10. HTTPS와 TLS 1.3 — 1-RTT 핸드셰이크
 
@@ -112,9 +120,11 @@ dig example.com TXT           # 텍스트
 
 TLS의 인증은 인증서로 합니다. 그 인증서는 신뢰할 수 있느냐 — 누가 보증하느냐의 문제예요. example.com 인증서는 보통 DigiCert나 Let's Encrypt가 발급합니다. 그럼 DigiCert는 누가 보증해요? — DigiCert Root CA. Root CA는 누가 보증해요? — 본인 OS와 브라우저가 미리 신뢰하는 Root CA 목록에 박혀 있어요. 약 100개의 Root CA가 미리 신뢰됩니다. 이게 인증서 체인이에요. example.com → DigiCert Intermediate → DigiCert Root → OS 신뢰. 보통 2~3단계예요. 이 체인이 한 군데라도 깨지면 — 인증서 만료, Root CA 폐기, 중간 인증서 누락 — 브라우저는 "보안 경고"를 띄웁니다. 한 가지 명령으로 본인이 직접 보세요.
 
-```bash
-echo | openssl s_client -connect example.com:443 2>/dev/null | openssl x509 -noout -dates -subject -issuer
-```
+> ▶ **같이 쳐보기** — example.com 인증서의 발급자·만료일 한 줄 진단
+>
+> ```bash
+> echo | openssl s_client -connect example.com:443 2>/dev/null | openssl x509 -noout -dates -subject -issuer
+> ```
 
 세 줄이 나와요. notBefore(언제부터 유효), notAfter(언제 만료), subject(이 인증서는 누구의 것), issuer(누가 발급했는지). 보통 발급일은 90일 ~ 1년 전이고, 만료는 90일 ~ 1년 뒤예요. Let's Encrypt는 90일 단기 인증서를 자동 갱신하는 모델이고, 이게 지금 인터넷의 표준이에요. 운영 사고 흔한 패턴 하나 — **인증서 갱신을 잊어서 만료**. 사이트가 갑자기 "보안 경고"를 띄우고 사용자가 줄어들어요. 그래서 인증서 만료 모니터링은 emergency.sh의 한 케이스로 추가할 만해요(Ch003 H8에서). 한 줄로 — `echo | openssl s_client -connect $D:443 2>/dev/null | openssl x509 -noout -enddate` — 이걸 30일 단위로 체크하는 cron을 거시면 됩니다. 회사 도메인이 여러 개면 for 루프로 돌리시고요. 인증서는 잠겨 있는 동안엔 보이지 않아요. 잠깐 늦게 알면 대형 사고예요. 자물쇠 아이콘 하나 안에 운영 위험이 한 칸 들어 있다고 보시면 됩니다.
 

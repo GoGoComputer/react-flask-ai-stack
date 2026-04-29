@@ -62,9 +62,11 @@ netstat -rn | head
 
 ping은 가장 작은 도구예요. ICMP echo request를 한 발 보내고 echo reply가 돌아오는 걸 기다리는 도구. 한 줄로 — "살아 있냐"라는 가장 짧은 질문이에요. 한 가지 풀어 두면, ICMP는 1교시 봉투 비유에서 "우체국 자체의 행정 명령"이에요. TCP·UDP가 일반 편지와 소포라면 ICMP는 다른 편지와 함께 가는 행정 메모예요. "이 주소에 당신이 살고 있느냐"라는 메모에 "예, 살고 있습니다"라는 메모가 돌아오는 게 ping의 사이클. 다른 편지와 함께 가는 메모라 일부 라우터는 이 메모를 무시해도 아무개 안 해요. 그래서 ping이 안 가는 경우가 세 가지가 될 수 있어요. (1) 서버가 진짜로 죽음. (2) 서버는 살아 있는데 방화벽이 ICMP만 차단. (3) 서버가 설정에서 ICMP를 무시 설정. 둘째·셋째가 이탈공구, AWS 같은 클라우드에서 흔해요. 그래서 ping은 첫 단서로만 쓰세요. "가면 살아 있음 확실, 안 가면 손다€." 자, 이제 한 줄을 쳐 봅시다.
 
-```bash
-ping -c 3 1.1.1.1
-```
+> ▶ **같이 쳐보기** — ping 3발: 살아 있냐 + 왕복시간
+>
+> ```bash
+> ping -c 3 1.1.1.1
+> ```
 
 세 발만 보내고 끝나요. macOS는 -c, Linux도 -c. Windows는 -n. 출력 한 줄 — `64 bytes from 1.1.1.1: icmp_seq=0 ttl=57 time=4.32 ms`. 풀어 보면 (1) 64바이트 — 페이로드 크기. (2) icmp_seq=0 — 첫 번째 발. (3) ttl=57 — Time To Live. 봉투가 라우터 한 대 넘을 때마다 1씩 줄어드는 카운터. 시작할 때 64였다면 7개 라우터를 거친 거예요. (4) time=4.32 ms — 왕복 시간. 5밀리초 안쪽이면 동네 안 또는 같은 ISP. 30밀리초면 같은 대륙, 200밀리초면 지구 반대편. 이게 RTT(round trip time)이에요. ping의 사용처 세 가지. (1) **인터넷 살아 있나 빠른 확인** — `ping -c 3 1.1.1.1`. 안 가면 게이트웨이 또는 그 너머 죽음. (2) **DNS 살아 있나** — `ping -c 3 example.com`. IP는 가는데 도메인 안 가면 DNS 문제. (3) **회선 품질 측정** — `ping -c 100 1.1.1.1` 100발 보내고 손실율(packet loss)과 표준편차 측정. 손실 5% 넘으면 회선 불량. 한 가지 함정 — 회사·일부 라우터·일부 클라우드 서버는 ICMP를 차단해요. ping 안 간다고 죽은 게 아닐 수 있어요. ping이 막힐 때는 nc(다음에 봅니다)로 TCP 한 발 보내는 게 답입니다. ping의 가장 짧은 한 줄 정의 — **"살아 있냐 ICMP 한 발 + 왕복시간"**.
 
@@ -88,11 +90,13 @@ mtr -rwc 30 example.com
 
 dig는 2교시에서 한 번 쥐었어요. 4교시에선 옵션 세 개를 추가합니다. (1) `+short` — 답만. (2) `+noall +answer` — 자세하지만 핵심만. (3) `@서버` — 특정 DNS 서버에 직접 묻기.
 
-```bash
-dig +short example.com
-dig @1.1.1.1 example.com A +noall +answer
-dig @8.8.8.8 example.com MX +short
-```
+> ▶ **같이 쳐보기** — dig 3 변주: 짧게 / 깔끔하게 / 다른 DNS 서버에 직접
+>
+> ```bash
+> dig +short example.com
+> dig @1.1.1.1 example.com A +noall +answer
+> dig @8.8.8.8 example.com MX +short
+> ```
 
 세 줄. 첫 줄은 IP만. 두 번째는 답 섹션만 보여요(질문 섹션·서버 정보 생략). 세 번째는 메일 서버 조회. dig는 +trace로 루트 DNS부터 직접 따라가는 모드도 있는데, 2교시에서 한 번 봤어요. nslookup은 dig의 옛날 친구예요. 윈도우와 일부 회사에선 dig가 막혀 있고 nslookup만 동작합니다.
 
@@ -112,17 +116,19 @@ host -t TXT example.com
 
 ## 5. curl — HTTP 만능 칼
 
-curl은 4교시에서 가장 많이 만질 도구예요. 조금 더 풀어 두면 curl은 1996년에 스웨덴의 Daniel Stenberg가 만들어서 30년 넘게 시장에서 괴롭혀온 도구예요. 세상 모든 macOS, Linux, Windows 10+, BSD에 기본 탑재. 테슬라 로켓에도, 화성 탐사선에도 curl이 돌아가고 있어요(진짜 이야기). HTTP만의 도구가 아니라 거의 모든 프로토콜(HTTP, HTTPS, FTP, SMTP, IMAP, MQTT 등 25개+)에서 써요. HTTP만의 도구가 아니라 거의 모든 프로토콜(HTTP, HTTPS, FTP, SMTP, IMAP, MQTT 등 25개+)에서 써요. 일상은 HTTP/HTTPS만 알면 됩니다. 옵션 일곱 개를 손에 쥡시다. (1) `-I` 헤더만. (2) `-v` 자세히. (3) `-s` 진행 표시 끔. (4) `-o 파일` 결과를 파일로. (5) `-L` 리다이렉트 따라감. (6) `-H "헤더: 값"` 헤더 추가. (7) `-d "데이터"` POST 본문.
+curl은 4교시에서 가장 많이 만질 도구예요. 조금 더 풀어 두면 curl은 1996년에 스웨덴의 Daniel Stenberg가 만들어서 30년 넘게 시장에서 괴롭혀온 도구예요. 세상 모든 macOS, Linux, Windows 10+, BSD에 기본 탑재. 테슬라 로켓에도, 화성 탐사선에도 curl이 돌아가고 있어요(진짜 이야기). HTTP만의 도구가 아니라 거의 모든 프로토콜(HTTP, HTTPS, FTP, SMTP, IMAP, MQTT 등 25개+)에서 써요. 일상은 HTTP/HTTPS만 알면 됩니다. 옵션 일곱 개를 손에 쥡시다. (1) `-I` 헤더만. (2) `-v` 자세히. (3) `-s` 진행 표시 끔. (4) `-o 파일` 결과를 파일로. (5) `-L` 리다이렉트 따라감. (6) `-H "헤더: 값"` 헤더 추가. (7) `-d "데이터"` POST 본문.
 
-```bash
-curl -I https://example.com
-curl -sv https://example.com -o /dev/null 2>&1 | head -25
-curl -sL https://example.com -o page.html
-curl -H "Authorization: Bearer abc" https://api.example.com/me
-curl -d '{"name":"Cat"}' -H "Content-Type: application/json" https://api.example.com/cats
-curl -X DELETE https://api.example.com/cats/42
-curl --resolve example.com:443:1.2.3.4 https://example.com  # /etc/hosts 임시 우회
-```
+> ▶ **같이 쳐보기** — curl 7 변주: 헤더만 / verbose / 리다이렉트 / 인증 / POST / DELETE / IP 강제
+>
+> ```bash
+> curl -I https://example.com
+> curl -sv https://example.com -o /dev/null 2>&1 | head -25
+> curl -sL https://example.com -o page.html
+> curl -H "Authorization: Bearer abc" https://api.example.com/me
+> curl -d '{"name":"Cat"}' -H "Content-Type: application/json" https://api.example.com/cats
+> curl -X DELETE https://api.example.com/cats/42
+> curl --resolve example.com:443:1.2.3.4 https://example.com  # /etc/hosts 임시 우회
+> ```
 
 일곱 줄. 마지막 한 줄(`--resolve`)이 디버깅의 비밀병기예요. /etc/hosts 안 건드리고 단 한 번만 IP를 강제로 박을 수 있어요. 새 서버 배포 검증할 때 가장 자주 씁니다. 그리고 한 가지 — `curl -v`의 출력을 H1·H2에서 한 번씩 손에 쥐었죠. 점차 손에 익을 거예요. SSL handshake 봉투 본 그 출력이에요. curl은 평생 가는 도구라 매일 한 번은 칠 거예요.
 
@@ -142,11 +148,13 @@ wget -r -np -k https://example.com/docs/
 
 nc는 진짜 손으로 TCP 연결을 만들어 보는 도구예요. ping은 ICMP만, curl은 HTTP만. nc는 그 어떤 TCP 또는 UDP 포트라도 직접 두드려요. 한 줄로 — "TCP의 스위스 군용 칼"이라고 불립니다. 1995년부터 있던 오래된 도구로, 그동안 fork·재구현이 많아 OpenBSD nc·GNU netcat·ncat(nmap) 셋이 시장에 같이 살아 있어요. 사용처 세 가지. (1) **포트 살아 있나 확인**.
 
-```bash
-nc -vz example.com 443
-nc -vz example.com 80
-nc -vz 192.168.0.1 22
-```
+> ▶ **같이 쳐보기** — ping 막혀도 통하는 TCP 노크 (3 포트)
+>
+> ```bash
+> nc -vz example.com 443
+> nc -vz example.com 80
+> nc -vz 192.168.0.1 22
+> ```
 
 -v 자세히, -z 데이터 안 보내고 연결만. 출력은 `Connection to example.com 443 port [tcp/https] succeeded!` 또는 실패. ping이 막혀 있어도 nc는 거의 항상 동작해요. (2) **TCP로 손으로 HTTP 보내기**.
 
