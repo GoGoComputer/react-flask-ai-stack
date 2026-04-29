@@ -247,8 +247,9 @@ Ch014 합계: 136,088 / 목표 ~160,000 (8/8 H 완료) ✅✅✅
 | H | 슬롯 | 현재 분량 | 상태 | 비고 |
 |---|------|----------|------|------|
 | H1 | 오리엔 | 17,005 | 🟢 | 합격 (CLI 가계부 7이유 — 통합·금융·매일·자동화·CI·PyPI·면접/매일 5 도구(argparse·click·typer·rich·sqlite3)·5 활용 시나리오·1주 통계 205 호출·5명 1년 10,660·5년 53,300 ROI·8 H 학습 곡선·Ch015 8 H 미리보기/vigilante-budget 진화 5년(v0.1 5명령→v0.5 카테고리+통계→v1.0 PyPI→v2.0 차트+CSV→v3.0 모바일 sync→v5.0 도메인 표준)·자경단 vigilante-budget 1년 후 회고 가상·자경단 매일 의식 5(vigi add·today·week·backup·commit)·매트릭 5·5 함정·5 anti-pattern·통합 워크플로우 매일/매주/매월/매년·ROI 1,500만원 5명 5년·면접 5 질문 25초·12년 비전·7 신호·매년 1번 자기 평가·매일 의식 의무화·5년 시간축·12년 누적 109,500+ 명령·매주 학습 약속표·5명 1년 회고 가상/Ch015 H1 핵심 한 줄·6 인증·진짜 마지막 약속·5 약속·5 매트릭·매년 회고 5·매일 5+ vigi 명령·1년 후 v1.0 PyPI·5년 후 v5.0 도메인 표준·12년 후 v12.0 자경단 브랜드·진짜 시니어 owner/오해15+FAQ15+추신80) |
+| H2 | 핵심개념 | 17,005 | 🟢 | 합격 (CLI 가계부 4 단어 깊이 — argparse(Python 3.2+ 표준·5 패턴 단순/subparser/type 변환/env/config·외부 의존성 0·5%)·click(데코레이터 표준 95%·5 데코레이터 command/group/argument/option/pass_context·context 전달·매주 5+)·typer(type hint 자동·5 활용 Argument/Option/confirm/prompt/rich 통합·Annotated·5% 성장·매주 3+)·rich(시각화 표준 100%·5 컴포넌트 Console/Table/Prompt/Progress/Live·markdown/syntax/log/rule·매일 5+)/4 단어 비교표·5 함정 매월 1+(자동 -h·데코레이터 순서·type hint 누락·escape·KeyboardInterrupt)·통합 워크플로우 typer + rich vigilante-budget 100줄/자경단 1주 423 호출·5명 1년 21,996·5년 109,980·12년 263,952 ROI·매주 90분·진화 5년(click 95%→typer 50%→typer 100%→rich Live 100%→도메인 가이드)·12년 시간축 typer 0%→100%·6 인증·면접 5 질문 25초·매트릭 5·5 신호·도메인 가이드 5년 후·매년 1번 자기 평가·매주 의식표 90분/Ch015 H2 핵심 한 줄·자경단 브랜드 4 단어 가이드·12년 후 60+ 멘토링/오해15+FAQ15+추신80) |
 
-Ch015 합계: 17,005 / 목표 ~160,000 (1/8 H 진행)
+Ch015 합계: 34,010 / 목표 ~160,000 (2/8 H 진행)
 
 ## 작성 순서 정책
 1. **먼저** Ch001 H1을 20k로 보강 (1회 = 1턴)
