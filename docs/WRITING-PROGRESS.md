@@ -231,8 +231,9 @@ Ch013 합계: 136,480 / 목표 ~160,000 (8/8 H 완료) ✅✅✅
 | H | 슬롯 | 현재 분량 | 상태 | 비고 |
 |---|------|----------|------|------|
 | H1 | 오리엔 | 17,007 | 🟢 | 합격 (venv/pip/pyproject 7이유 — 격리·lock·재현·CI·PyPI·차세대·면접/매주 5 도구 비교(venv·virtualenv·conda·pyenv·uv)·5 활용 시나리오·1주 통계 59 호출·5명 1년 3,068·5년 15,340 ROI·8 H 학습 곡선·Ch014 8 H 미리보기/uv 깊이(Rust·10-100배·PEP 723·5년 후 표준)·poetry 깊이(통합 5 명령·poetry.lock)·conda 깊이(데이터 과학·5 명령)·pyenv 깊이(버전 관리 5 명령·.python-version)·pip-tools 깊이(pip-compile lock·constraints·hash)/자경단 dev 환경 100% 자동(Makefile·Dockerfile·CI·.gitignore·pyproject.toml 5 표준)·5년 진화(uv→pre-commit→Renovate→Nix·시니어 owner)·자경단 본인 자동화 시나리오 1주차→1년·1년 후 단톡 가상·면접 5 질문 25초/매트릭 5 측정 매주(make install·CI·Docker·test·lint) 1년 후 6배 개선·5년 525h ROI·자경단 6 인증(venv 5·pip 5·pyproject 5·dev 환경 5·uv 차세대·면접 30)·본인 7 행동·5명 1년 회고 합 3,068 호출·5 약속(매일/매주/매월/매년/5년)·7일 학습 약속표·자경단 12년 dev 환경 표준 owner/오해15+FAQ15+추신80) |
+| H2 | 핵심개념 | 17,018 | 🟢 | 합격 (venv/pip/pyproject 4 단어 깊이 — venv 5 옵션(기본·--system-site-packages·--symlinks·--copies·--clear/--upgrade)·pip 5 고급(--no-deps·--no-cache-dir·--upgrade-strategy·--force-reinstall·--user)·pyproject 5 백엔드(setuptools 95%·hatchling 모던·flit 단순·poetry-core·pdm-backend)·uv 5 명령(venv·pip install·pip sync·run·tool)/setuptools 5 활용 src layout 95%·hatchling 5 활용 동적 버전·flit 5 활용 5줄 minimum·poetry-core 5 활용·pdm-backend 5 활용·uv 5 활용 + PEP 723 인라인·5 함정 × 4 단어 = 20 함정 면역/자경단 1주 211 호출·5명 1년 10,972·5년 54,860 ROI·매주 125분 깊이 의식·매트릭 측정 5·진화 5년(uv 50%→100%→백엔드 모두→도메인 표준)·면접 5 질문 25초·5 약속 매일/매주/매월/매년·매주 80분 학습 누적 1년 마스터/오해15+FAQ15+추신80) |
 
-Ch014 합계: 17,007 / 목표 ~160,000 (1/8 H 진행)
+Ch014 합계: 34,025 / 목표 ~160,000 (2/8 H 진행)
 
 ## 작성 순서 정책
 1. **먼저** Ch001 H1을 20k로 보강 (1회 = 1턴)
