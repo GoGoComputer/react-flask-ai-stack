@@ -26,9 +26,11 @@
 
 ### 1-1. Xcode Command Line Tools
 
-```bash
-$ xcode-select --install
-```
+> ▶ **같이 쳐보기** — 5분 한 줄: 개발 도구 토대 깔기
+>
+> ```bash
+> xcode-select --install
+> ```
 
 5분 다운로드. git·make·gcc 등 기본 도구. 한 번 설치, 평생.
 
@@ -36,21 +38,24 @@ $ xcode-select --install
 
 macOS의 패키지 매니저. 자경단 셋업의 토대.
 
-```bash
-$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-# 5~10분 설치
-# 끝나면 메시지대로 PATH 추가:
-$ echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
-$ eval "$(/opt/homebrew/bin/brew shellenv)"
-```
+> ▶ **같이 쳐보기** — Homebrew 설치 + PATH 등록 (Apple Silicon)
+>
+> ```bash
+> /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+> # 끝나면 메시지대로 PATH 추가:
+> echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+> eval "$(/opt/homebrew/bin/brew shellenv)"
+> ```
 
 **Apple Silicon = `/opt/homebrew`**. Intel Mac은 `/usr/local`. 자경단 표준은 Apple Silicon이라 `/opt/homebrew` 우선.
 
 ### 1-3. brew로 자경단 표준 도구 한 번에
 
-```bash
-$ brew install git gh node@20 python@3.12 ripgrep fd bat exa jq tldr starship tmux
-```
+> ▶ **같이 쳐보기** — 자경단 표준 도구 12종 한 번에 (10분)
+>
+> ```bash
+> brew install git gh node@20 python@3.12 ripgrep fd bat exa jq tldr starship tmux
+> ```
 
 10개 도구 동시 설치. 10분.
 
@@ -556,224 +561,7 @@ A. `.zshrc.local`로 분리. `~/.zshrc` 끝에 `[[ -f ~/.zshrc.local ]] && sourc
 
 ---
 
-## 11. 추신
+## 추신
 
-추신 1. 본 H의 6도구(brew·iTerm2·zsh·oh-my-zsh·starship·tmux)가 자경단의 셋업 평생 토대. 30분이 5년의 산소.
+본 H의 6도구(brew·iTerm2·zsh·oh-my-zsh·starship·tmux)가 자경단의 셋업 평생 토대. 30분이 5년의 산소. brew install 한 줄로 10도구. 본인의 첫 brew 명령이 자경단의 첫 환경. iTerm2의 단축키 5종(Cmd+T·Cmd+D·Cmd+Shift+D·Cmd+W·Cmd+`)이 매일 손가락. 5년 사용.
 
-추신 2. brew install 한 줄로 10도구. 본인의 첫 brew 명령이 자경단의 첫 환경.
-
-추신 3. iTerm2의 단축키 5종(Cmd+T·Cmd+D·Cmd+Shift+D·Cmd+W·Cmd+`)이 매일 손가락. 5년 사용.
-
-추신 4. oh-my-zsh의 git plugin이 60+ alias 자동 제공. `gst`·`gco`·`gcm`이 본인 손가락 자동.
-
-추신 5. zsh-autosuggestions의 회색 제안이 매일 손가락 절약. 한 줄 명령이 한 번 클릭.
-
-추신 6. starship 프롬프트가 git status + 명령 시간 + 언어 버전을 한 줄에. 가독성 무한대.
-
-추신 7. tmux의 5단축키(분할 2·이동·detach·attach)가 SSH 사용의 산소. 1주일 안에 손가락 자동.
-
-추신 8. dotfiles GitHub repo 셋업 5분이 5년 자산. 새 노트북 셋업이 30분 → 1줄.
-
-추신 9. 자경단 5명의 dotfiles가 한 repo로 모이면 1,000줄의 5명 공통 자산. 협업의 보너스.
-
-추신 10. 자경단 표준 .zshrc 50줄(7절)을 본인 첫 1주일에 박기. 첫 50줄이 5년의 토대.
-
-추신 11. brew의 PATH 우선순위 함정 — `/opt/homebrew/bin`이 PATH 앞. `which git` 결과가 brew git이어야.
-
-추신 12. oh-my-zsh + starship 조합이 자경단 표준. ZSH_THEME=""로 oh-my-zsh 테마 비우고 starship에 위임.
-
-추신 13. tmux의 첫 함정 — Ctrl-b prefix는 두 손 동작. 익숙하지 않으면 `~/.tmux.conf`에서 prefix를 Ctrl-a로 바꾸기.
-
-추신 14. 다음 H4는 명령어 카탈로그 — 30개 일상 명령어 + 위험도 신호등. 본 H의 6도구가 H4의 30 명령어로 손에 잡혀요. 🐾
-
-추신 15. 본 H를 끝낸 본인이 한 가지 행동 — 본인 노트북에서 brew 첫 명령 (`brew --version`)을 쳐 보세요. brew 설치 완료 신호.
-
-추신 16. 자경단 dotfiles repo의 첫 commit 메시지 — `feat: 자경단 본인 dotfiles 시작`. 5년 후 첫 commit이 본인의 자산 시작.
-
-추신 17. 본 H의 6도구는 무료. 모두 오픈소스. brew·iTerm2·zsh·oh-my-zsh·starship·tmux. 자경단 환경 비용 $0.
-
-추신 18. 본 H를 끝낸 본인이 자경단 5명에게 본 H의 install.sh를 공유. 5명 모두 1줄 셋업. 5분 × 5명 = 25분 절약.
-
-추신 19. 자경단의 1년 후 dotfiles는 200~500줄. 5년 후 1,000줄. 한 줄이 매일 30초.
-
-추신 20. 본 H의 마지막 한 줄 — **30분 셋업이 5년의 자경단 환경이고, 6도구가 5년의 손가락이며, dotfiles가 5명의 wiki예요. 본인의 첫 brew install 한 줄을 오늘 치세요.** 🐾🐾
-
-추신 21. brew의 cask 옵션 (`brew install --cask`)이 GUI 앱 설치. iTerm2·VS Code·Slack 등. 자경단 5명 표준 GUI도 brew로.
-
-추신 22. brew 5종 옵션 — install·uninstall·upgrade·list·search 5가지가 90%. 나머지는 검색.
-
-추신 23. iTerm2의 search (Cmd+F)가 셸 출력 검색의 강력한 도구. 긴 로그에서 한 단어 찾기.
-
-추신 24. zsh-syntax-highlighting의 빨강이 명령어 오타 신호. 빨강 보이면 1초 호흡, 다시 검사.
-
-추신 25. starship의 git_branch + git_status가 본인의 매일 PR 상태. 한 눈에 ahead·behind·modified.
-
-추신 26. tmux의 detach (Ctrl-b d)가 SSH 끊김 방지의 핵심. 긴 빌드 detach 후 다시 attach.
-
-추신 27. dotfiles의 install.sh는 idempotent (여러 번 실행 OK). `ln -sf`로 기존 링크 덮어씀. 안전.
-
-추신 28. 본 H를 다 끝낸 본인이 자경단 페어 (까미·노랭이·미니·깜장이 중 1명)와 같이 본 H를 한 번 따라하기. 페어 30분이 본인 1시간보다 단단.
-
-추신 29. brew의 자동 업데이트는 기본 OFF. 본인이 매주 `brew upgrade` 한 번. 새 보안 패치 적용.
-
-추신 30. 본 H의 마지막 진짜 한 줄 — **본인의 첫 자경단 환경 30분 셋업이 5년의 자산이고, dotfiles가 평생의 자기 표현이에요. 오늘 시작하세요.**
-
-추신 31. 본 H의 6도구 셋업 시간 표 — Xcode CLT 5분·brew 10분·iTerm2 5분·oh-my-zsh 3분·starship 2분·tmux 2분 = 27분. 30분 안에.
-
-추신 32. 자경단의 새 멤버 첫 날 30분이 본 H의 셋업. 30분 후 매일 30분 절약. ROI 무한대.
-
-추신 33. brew install 한 줄로 10도구. 본인이 손으로 10번 다운로드 안 해도 됨. 자동화의 첫 경험.
-
-추신 34. iTerm2의 단축키 5종을 첫 1주일에 손가락 박기. 한 단축키가 1초 절약 × 매일 50번 = 1년 5시간.
-
-추신 35. oh-my-zsh의 git plugin 60+ alias가 자경단 매일 손가락. `gst` (git status), `gco` (git checkout), `gcm` (git commit -m), `gp` (git push). 처음 1주일 답답하지만 1주일 후 자동.
-
-추신 36. zsh-autosuggestions의 회색 제안은 본인 history 기반. 첫 사용엔 안 보이지만 1주일 후 매 명령마다 제안. **history가 자동완성**.
-
-추신 37. zsh-syntax-highlighting의 빨강·초록이 본인의 매일 검수자. 빨강 보이면 1초 호흡 + 검사. 사고 1/10.
-
-추신 38. starship.toml의 형식은 TOML (Python pyproject.toml과 같음). 처음 헷갈리지만 1주일이면 손가락 자동. starship.rs 사이트에 풀 가이드.
-
-추신 39. starship의 [character] symbol → ➜ 보여주는 게 success. 빨강이면 직전 명령 실패. 한 눈에 exit code.
-
-추신 40. tmux의 prefix Ctrl-b는 두 손 동작. 자경단 권장 — `~/.tmux.conf`에서 `set -g prefix C-a`로 변경. Ctrl-a가 한 손.
-
-추신 41. tmux의 첫 1주일 학습 — 5단축키 (분할 2·이동·detach·attach)만. 1주일 후 자연.
-
-추신 42. dotfiles의 진짜 가치 — 본인의 5년 손가락이 GitHub repo 한 곳에 박힘. 5년 후 새 노트북에서도 본인의 1주일 학습이 1줄.
-
-추신 43. 자경단 5명의 dotfiles 협업 시나리오 — 본인 PR로 5줄 alias 추가, 4명이 리뷰, 머지, 4명 install.sh 다시 실행 → 5명 환경 동기화. 30분 사이클.
-
-추신 44. dotfiles에 secret 박지 마세요. `.zshrc.local` 분리. `[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local`. local은 .gitignore.
-
-추신 45. 자경단 .zshrc 50줄(7절)이 시작점. 1년 후 100줄, 5년 후 200줄. 매일 한 줄도 안 되는 누적이 평생 자산.
-
-추신 46. macOS·Linux·Windows WSL 변환표(8절)이 자경단의 OS 다양성. 5명이 다른 OS여도 명령어 90% 같음.
-
-추신 47. WSL2 (Windows Subsystem for Linux 2)는 Windows의 Linux 환경. 자경단의 Windows 사용자도 Linux 환경 사용. 본 H의 6도구 다 작동.
-
-추신 48. 자경단 5명이 6도구를 다 쓰면 30 도구 × 5명 = 150 도구 셋업. 같은 30분 셋업이 5명에게 5번. 한 페이지 install.sh가 그 5번을 5분으로.
-
-추신 49. 본 H의 마지막 회수 — 30분 셋업·6도구·dotfiles GitHub·5명 동기화 + .zshrc 50줄 = 본인의 자경단 평생 환경. 5년의 토대.
-
-추신 50. 본 H의 진짜 마지막 — 본인 노트북을 지금 열고 `brew --version` 한 번 치세요. 출력 보고 한 호흡. 그 한 호흡이 본인의 5년 셸 환경의 시작이에요.
-
-추신 51. brew install 한 줄로 10 도구. 본인이 5년 동안 10도구 다 써요. 한 줄이 5년 자산.
-
-추신 52. iTerm2의 폰트는 MesloLGS Nerd Font가 자경단 표준. starship의 아이콘 (🌱·📝·➜)이 깨지지 않음.
-
-추신 53. oh-my-zsh의 plugin은 `~/.oh-my-zsh/plugins/`에 위치. 새 plugin 추가 시 `plugins=(...)` 줄에 이름만.
-
-추신 54. zsh-autosuggestions의 강조 색상은 `~/.zshrc`의 `ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#5f5f5f'`로 커스터마이즈. 너무 흐리면 진하게.
-
-추신 55. starship의 모든 모듈은 starship.rs 사이트에 문서. 프로그래밍 언어 30+, 도구 50+ 지원. 본인 stack에 맞게.
-
-추신 56. tmux의 mouse on 옵션 (`set -g mouse on`)이 마우스로 분할·창 이동 가능. 키보드 + 마우스 둘 다.
-
-추신 57. dotfiles repo의 README에 "5분 셋업 가이드"를 첫 줄에. 새 멤버가 README만 보고 install.sh 실행. 1줄 → 1분.
-
-추신 58. 자경단 dotfiles의 commit 메시지 양식 — `feat(zshrc): alias quickfix 추가`. Conventional Commits (Ch005 H3 회수). 5년 후 git history 검색 가능.
-
-추신 59. Brewfile (`brew bundle dump`)로 brew 도구 목록 백업. dotfiles repo에 박으면 새 노트북에서 `brew bundle install` 한 줄로 모든 도구 복원.
-
-추신 60. **본 H의 진짜 마지막 결심** — 본인의 자경단 환경 30분 셋업을 오늘 시작. 30분 후 본인은 자경단의 진짜 메인테이너.
-
-추신 61. brew의 핵심 — 패키지 매니저 + 의존성 관리. 본인이 `brew install jq` 한 줄로 jq + 5개 의존성 자동. 의존성 지옥 0.
-
-추신 62. iTerm2의 hotkey window 옵션이 자경단 권장. Cmd+Space처럼 단축키로 어디서든 터미널 띄우기. 작업 중간 터미널 1초.
-
-추신 63. oh-my-zsh의 update — `omz update` 한 줄. 1년에 한 번 정도. plugin·테마 업데이트.
-
-추신 64. zsh-autosuggestions의 시간 절약 — 매일 50번 제안 수락 = 5초/일 = 30분/년. 1주일 셋업이 평생 30분/년 절약.
-
-추신 65. starship의 캐시 — 첫 실행 0.5초, 다음부턴 0.05초. Rust의 빠름. oh-my-zsh agnoster 0.3초보다 6배 빠름.
-
-추신 66. tmux의 buffer size 옵션 (`set -g history-limit 10000`)이 긴 출력 보존. 기본 2000줄. 자경단 표준 10000.
-
-추신 67. dotfiles의 첫 PR이 자경단의 첫 셋업 합의. 본인이 5줄 PR하면 4명이 1줄씩 추가. 1주일 후 50줄.
-
-추신 68. 본 H의 6도구를 본 H 끝나는 5분에 본인이 한 번 셋업해 보세요. 30분 한 번에 다 안 해도 됨. 1주일 동안 한 도구씩.
-
-추신 69. 본 H를 다 끝낸 본인은 macOS·zsh·brew·iTerm2·oh-my-zsh·starship·tmux 7도구를 알아요. 7도구가 자경단 환경의 80%.
-
-추신 70. **본 H의 진짜 진짜 마지막** — 본인이 본 H를 끝내고 30분 동안 자경단 환경 셋업을 한 번에 끝내세요. 그 30분이 본인의 5년 자산.
-
-추신 71. brew의 의존성 자동 — `brew install gh`은 `git`·`jq`·`openssl` 같은 의존성 자동 처리. 본인이 손으로 X.
-
-추신 72. iTerm2의 backup·restore — Preferences → General → Preferences → "Save changes to a folder" 체크. 5명 자경단의 같은 환경 동기화.
-
-추신 73. oh-my-zsh의 robbyrussell 테마는 시작점. 1년 후 starship으로 옮김. ZSH_THEME=""이 그 다리.
-
-추신 74. zsh-autosuggestions가 처음 보이면 답답할 수도. 회색 제안 무시 가능. 1주일 후 손가락이 자동.
-
-추신 75. starship.toml의 한 줄 추가가 새 모듈 활성. 예 — `[time] disabled = false`로 시간 표시 ON.
-
-추신 76. tmux의 prefix 변경 후엔 `Ctrl-b`가 안 됨. 새 prefix 사용. 처음 헷갈림.
-
-추신 77. dotfiles의 `.gitignore`엔 `.zshrc.local`·`.env`·`*.token`. 비밀 분리의 첫 줄.
-
-추신 78. 자경단의 dotfiles repo URL을 dotfile 첫 줄에 주석. `# https://github.com/cat-vigilante/dotfiles`. 5년 후에도 어디서 왔는지 알 수 있음.
-
-추신 79. 본 H의 6도구는 5년 후 더 진화. brew 1년에 1번 큰 업데이트, iTerm2 1년에 1번. starship·tmux 안정. 매년 한 번씩 업데이트.
-
-추신 80. **본 H 진짜 진짜 진짜 마지막** — 30분 셋업이 5년이고, 5년이 본인의 평생 셸 환경이며, 본인의 첫 brew install이 그 5년의 시작이에요.
-
-추신 81. 본 H의 6도구를 1주일에 하나씩 익혀도 괜찮아요. 첫 주 brew, 둘째 주 iTerm2, 셋째 주 zsh + oh-my-zsh, 넷째 주 starship, 다섯째 주 tmux, 여섯째 주 dotfiles. 6주의 자산.
-
-추신 82. brew의 분명한 가치 — 의존성 관리. `brew uninstall jq`이 jq만 제거하고 의존성은 다른 도구가 쓰면 그대로. 안전.
-
-추신 83. iTerm2의 "Triggers" 기능이 출력 보고 자동 동작. ERROR 보이면 Slack 알람 등. 자경단 1년 후 검토.
-
-추신 84. oh-my-zsh의 themes 디렉토리 (`~/.oh-my-zsh/themes/`)에서 100+ 테마 구경. 본인 취향 1년 후 정착.
-
-추신 85. zsh-syntax-highlighting이 명령어 검수자. 빨강이면 오타·존재 안 하는 명령. 1초 호흡.
-
-추신 86. starship의 git_status 모듈이 자경단 매일 PR 상태. ahead·behind·modified·staged 한 줄 표시.
-
-추신 87. tmux의 status bar 커스터마이즈 (`set -g status-style "bg=color,fg=color"`)가 본인의 셸 정체성. 색깔이 본인 표현.
-
-추신 88. dotfiles의 백업 — GitHub repo가 자동 백업. `git push` 한 줄. 5년 후 노트북 잃어버려도 본인 환경 그대로.
-
-추신 89. 본 H의 6도구가 자경단 5명의 매일 셸 환경. 5명이 같은 환경이면 매일 합의 비용 0.
-
-추신 90. **본 H 마지막 진짜 명령** — `brew install gh git node@20 python@3.12 starship tmux ripgrep fd bat jq` 한 줄을 본인 노트북에서 치세요. 10분 셋업이 5년 자산.
-
-추신 91. 본 H를 끝낸 본인이 자경단 5명에게 본 H의 install.sh 공유. 5명 모두 1줄로 5분 셋업. 25분 → 5분 절약.
-
-추신 92. 본 H의 6도구는 자경단 5년의 진짜 환경. 본인이 5명 다른 stack(백·프·인·디·메인)이여도 같은 6도구 위에서.
-
-추신 93. 본 H의 마지막 황금 규칙 — 셋업은 한 번에 끝내기. 30분 셋업을 6번에 나누면 산만. 한 번에 30분이 가장 효율.
-
-추신 94. 본 H를 다 끝낸 본인이 자경단 1년 후 회고에서 가장 자주 떠오르는 시점 — "그 30분 셋업이 매일 30분 절약". ROI 무한대.
-
-추신 95. 본 H의 6도구 + .zshrc 50줄 + tmux.conf + dotfiles GitHub repo = 본인의 자경단 환경. 5년 자산.
-
-추신 96. 본 챕터의 8H 중 본 H가 가장 실용적. 30분 셋업이 매일 손가락 절약. **실용이 최대 학습**.
-
-추신 97. 본 H의 마지막 회고 — 본인이 본 H를 끝낸 그 시점이 본인의 자경단 환경 첫 시작. 5년 후 회고에서 그 30분이 자산.
-
-추신 98. 본 챕터를 다 끝낸 본인은 셸의 80% + 환경의 80%. 나머지 20%는 5년 누적 + 새 도구.
-
-추신 99. **본 H의 마지막 진짜 마지막** — 30분 셋업·6도구·dotfiles GitHub·5명 동기화가 본인의 자경단 평생 환경이에요.
-
-추신 100. **본 H 끝** ✅ — 본인의 자경단 환경 셋업 30분 학습 완료. 다음 H4에서 30개 명령어 카탈로그.
-
-추신 101. 본 H의 6도구를 한 페이지로 압축한 카드를 모니터 옆에 — brew·iTerm2·zsh·oh-my-zsh·starship·tmux + dotfiles GitHub.
-
-추신 102. 자경단 5명이 본 H를 같이 끝내면 5명 환경 같음. 같은 화면·같은 단축키·같은 alias. **합의가 환경에**.
-
-추신 103. 본 H의 마지막 권장 — 본인의 첫 dotfile commit 메시지를 `feat: 자경단 본인 dotfiles 시작`으로. 5년 후 git history의 첫 줄.
-
-추신 104. 본 H를 끝낸 본인의 자경단 1년 후엔 본인이 5명에게 셸 환경 가르치는 메인테이너. 본인의 첫 셋업이 평생 학습 자산.
-
-추신 105. **본 H 진짜 진짜 끝** — 본인의 첫 자경단 환경 셋업 30분이 5년의 산소이고, 6도구가 매일 손가락이며, dotfiles GitHub가 5명 wiki예요. 오늘 시작하세요.
-
-추신 106. 자경단 환경 셋업의 ROI — 30분 × 365일/년 절약 = 1년 6시간. 5년 30시간. 셋업 1번이 5년 30시간을 사요.
-
-추신 107. 본 H의 핵심은 자동화. 본인이 손으로 6도구 셋업하면 3시간. install.sh 한 줄이 5분. **자동화의 첫 경험**.
-
-추신 108. 본인의 자경단 5년 후 dotfiles는 본인의 손가락 자서전. 매 줄이 본인의 한 결정. 200줄이 본인의 평생.
-
-추신 109. 본 H를 끝낸 본인이 자경단 5명과 매주 수요일 17:00 dotfile 회의 5분. 새 alias·새 함수 합의. **dotfile 회의가 협업 의식**.
-
-추신 110. **본 H 마지막 진짜 마지막** — 본인의 자경단 환경 셋업이 5년의 산소이고, 본인의 첫 brew install이 그 5년의 시작이며, dotfiles GitHub repo가 5명의 평생 wiki예요. 🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾
