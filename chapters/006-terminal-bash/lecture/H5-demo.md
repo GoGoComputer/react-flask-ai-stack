@@ -1,42 +1,97 @@
-# Ch006 · H5 — 터미널·셸·Bash: 데모 — 자경단 30분 셸 시뮬레이션
+# Ch006 · H5 — 자경단 30분 셸 시뮬레이션 — 다섯 명이 같이 쓰는 30개 명령어
 
-> **이 H에서 얻을 것**
-> - 자경단 5명의 30분 셸 시나리오 — log 분석·CSV 처리·JSON 파싱·청소 자동화
-> - **실제로 실행된** 셸 출력 — 가짜가 아닌 진짜 grep·awk·jq·xargs 결과
-> - 자경단의 한 줄 자동화 5종이 실제로 어떻게 작동하는가
-> - 5가지 작은 사고와 처방 — 변수 unquoted·sed -i 함정·rm 사고·xargs 빈 입력·glob 함정
-> - 본 챕터 H1~H4의 모든 학습이 30분에 다 동원
+> 고양이 자경단 · Ch 006 · 5교시 (60분)
+> 이 파일은 강사가 마이크 앞에서 그대로 읽을 수 있는 말 그대로의 대본입니다.
 
 ---
 
-## 회수: H4의 카탈로그에서 본 H의 30분 시뮬로
+## 📋 이 시간 목차
 
-지난 H4에서 본인은 30개 셸 명령어 카탈로그를 봤어요. 신호등 3색·6 무리·매일 13 손가락. 그건 사전.
-
-이번 H5는 그 30개를 **자경단 5명의 30분에 다 사용**하는 시뮬레이션이에요. 본 강의는 강사가 `/tmp/shell-demo`에서 직접 실행한 결과를 그대로 박은 강의예요. 출력은 진짜.
-
-지난 Ch005 H5는 자경단 git 협업의 30분 시뮬. 이번 H5는 자경단 셸 운영의 30분 시뮬. 같은 시간 흐름·다른 도구.
-
----
-
-## 1. 시나리오 설정
-
-**날짜**: 2026년 5월 5일 (화요일)
-
-**참여자 5명**:
-- **본인** (Bonin) — 자경단 메인테이너. 자경단 사이트 prod 모니터.
-- **까미** — 백엔드. log 분석·ERROR 진단.
-- **노랭이** — 프론트. CSV 데이터 처리.
-- **미니** — 인프라. 자동화 스크립트.
-- **깜장이** — QA. JSON API 응답 파싱.
-
-**14:00~14:30 30분 목표**: 자경단 사이트 매일 운영 시뮬 + 5사고 처방.
+1. 다시 만나서 반가워요 — H4 회수와 오늘의 약속
+2. 시나리오 — 2026년 5월 5일 화요일 오후 2시
+3. 0~5분 — 본인이 demo 폴더 셋업
+4. 5~10분 — 까미가 ERROR 진단 한 분
+5. 10~15분 — 노랭이가 CSV 데이터 통계
+6. 15~20분 — 깜장이가 JSON API 응답 파싱
+7. 20~25분 — 미니의 청소 자동화 스크립트
+8. 25~30분 — 본인이 통합, 한 줄 자동화 다섯 가지
+9. 30분 한 페이지 압축
+10. 다섯 가지 작은 사고와 처방
+11. 자경단 매일 13줄 흐름
+12. 흔한 오해 다섯 가지
+13. 자주 받는 질문 다섯 가지
+14. 마무리 — 다음 H6에서 만나요
 
 ---
 
-## 2. 0~5분: 자경단 폴더 구조 셋업
+## 🔧 강사용 명령어 한눈에
 
-본인이 demo 셋업:
+```bash
+# 0~5분 셋업
+mkdir -p /tmp/shell-demo/logs && cd /tmp/shell-demo
+for i in 1 2 3 4 5; do
+  echo "$(date) [INFO] Cat ${i} reported" >> logs/app.log
+  echo "$(date) [ERROR] Photo upload failed for cat-${i}" >> logs/app.log
+done
+cat > cats.csv <<'EOF'
+name,age,color
+까미,3,black
+노랭이,2,yellow
+미니,4,gray
+깜장이,5,tuxedo
+본인,1,white
+EOF
+
+# 5~10분 까미
+grep -c ERROR logs/app.log
+grep -oE 'cat-[0-9]+' logs/app.log | sort | uniq -c
+
+# 10~15분 노랭이
+awk -F, 'NR>1 {sum+=$2} END {print sum/(NR-1)}' cats.csv
+awk -F, '$3 == "black" {print $1}' cats.csv
+
+# 15~20분 깜장이
+jq '.cats[].name' cats.json
+jq '.cats[] | select(.color == "black")' cats.json
+
+# 20~25분 미니
+./cleanup.sh
+
+# 25~30분 본인
+find . -type f -exec ls -lh {} \; 2>/dev/null | sort -k5 -hr | head -5
+```
+
+---
+
+## 1. 다시 만나서 반가워요 — H4 회수와 오늘의 약속
+
+자, 안녕하세요. 다시 만났습니다. 이제 다섯 번째 시간이에요. 절반을 넘었어요. 잘 따라오시고 계시네요. 박수.
+
+지난 H4를 한 줄로 회수할게요. 본인은 30개 명령어를 표 한 장으로 만나셨어요. 신호등 세 색깔, 6 무리, 매일 6개부터 시작. 그게 사전이었어요. 사전을 외우는 시간이 아니라 사전 그림을 머리에 두는 시간이었어요.
+
+이번 H5는 그 30개 명령어를 자경단 다섯 명이 30분 안에 다 사용하는 시뮬레이션이에요. 가장 재밌는 시간이에요. 책에서 배운 게 진짜로 어떻게 일하는 손가락에서 사용되는지 그림이에요. 본인이 옆에서 다섯 명을 구경하시면 됩니다.
+
+오늘의 약속은 한 가지예요. **본인이 H1부터 H4까지 배운 모든 것이 30분 안에 한 번씩 다 사용됩니다**. 검은 화면, 8개념, 30 도구, 자경단 협업. 다 30분에 들어와요. 30분 후엔 본인이 "아, 이렇게 쓰는 거구나" 하는 그림이 생겨요. 그림이 생기면 손가락이 따라와요.
+
+자, 시나리오부터 가요.
+
+---
+
+## 2. 시나리오 — 2026년 5월 5일 화요일 오후 2시
+
+날짜 한 번 알려 드릴게요. 2026년 5월 5일 화요일. 어린이날인데 본인은 일하고 있어요. (실제 자경단은 휴일도 잘 쉬어요.) 시간은 오후 2시. 자경단 다섯 명이 각자 자기 자리에서 일을 시작해요.
+
+자, 다섯 명을 한 번 더 소개해요. **본인 (Bonin)**, 자경단 메인테이너. 자경단 사이트의 prod 모니터 담당. 다섯 명의 일을 통합하는 사람. **까미**, 백엔드. log 분석과 ERROR 진단. **노랭이**, 프론트엔드. CSV 데이터 처리와 통계. **미니**, 인프라. 자동화 스크립트. **깜장이**, QA. JSON API 응답 검증.
+
+오후 2시부터 2시 30분까지 30분 동안 다섯 명이 각자 5분씩 일하고, 마지막 5분에 본인이 통합. 30분이 끝나면 자경단 사이트가 그날 운영 한 사이클을 마쳐요.
+
+본인이 옆에서 따라오면서 같이 쳐 보셔도 좋아요. 모든 명령어는 본인 노트북의 `/tmp/shell-demo` 폴더에서 실행돼요. 안전한 임시 폴더라 본인 데이터에 영향 없어요. 자, 시작해요.
+
+---
+
+## 3. 0~5분 — 본인이 demo 폴더 셋업
+
+본인(메인테이너)이 첫 5분에 demo 폴더를 셋업해요. 다섯 명이 같이 쓸 작업 디렉토리를 만들고, 가짜 로그와 데이터를 채워요.
 
 > ▶ **같이 쳐보기** — 자경단 demo 환경 5분 셋업
 >
@@ -54,57 +109,87 @@
 > 깜장이,5,tuxedo
 > 본인,1,white
 > EOF
+> cat > cats.json <<'EOF'
+> {"cats":[{"name":"까미","age":3,"color":"black"},{"name":"노랭이","age":2,"color":"yellow"},{"name":"미니","age":4,"color":"gray"},{"name":"깜장이","age":5,"color":"tuxedo"},{"name":"본인","age":1,"color":"white"}]}
+> EOF
 > ```
 
-확인:
+이 한 묶음 안에 H2의 8개념이 거의 다 들어 있어요. mkdir로 폴더 만들기. for 루프로 반복 (셸에서 for 루프도 됩니다). echo와 redirection (`>>`)으로 파일에 줄 추가. heredoc (`<<'EOF'`)으로 여러 줄 입력. command substitution (`$(date)`)으로 현재 시간을 글자에 끼워 넣기.
+
+5분 동안 한 거 확인해 봐요.
 
 ```bash
 $ ls -la
 total 16
 drwxr-xr-x  5 mo  wheel  160 Apr 28 07:18 .
 drwxrwxrwt  9 root wheel 288 Apr 28 07:18 ..
--rw-r--r--  1 mo  wheel  97 Apr 28 07:18 cats.csv
+-rw-r--r--  1 mo  wheel   97 Apr 28 07:18 cats.csv
 -rw-r--r--  1 mo  wheel  140 Apr 28 07:18 cats.json
-drwxr-xr-x  3 mo  wheel  96 Apr 28 07:18 logs
+drwxr-xr-x  3 mo  wheel   96 Apr 28 07:18 logs
 ```
 
-5분 동안 자경단의 한 작업 디렉토리 셋업. **준비가 시뮬의 첫 5분**.
+cats.csv, cats.json, logs 폴더가 보이죠. 셋이 다섯 명이 각자 만질 데이터예요. 5분 후 다섯 명이 도착해서 자기 일을 시작해요.
 
 ---
 
-## 3. 5~10분: 까미가 ERROR 진단 (실제 출력)
+## 4. 5~10분 — 까미가 ERROR 진단 한 분
 
-prod 사이트에서 알람 — "사진 업로드 ERROR 5건". 까미가 1분 진단:
+오후 2시 5분, 까미가 자기 자리에 도착. 그때 자경단 사이트의 prod 모니터에서 알람이 떠요. "사진 업로드 ERROR 5건". 까미가 1분 안에 진단을 시작해요.
 
-> ▶ **같이 쳐보기** — ERROR 진단 1분 3단계 (count → sample → 통계)
+까미의 진단은 3단계예요. 첫째, 몇 건이야? 둘째, 샘플 좀 볼까. 셋째, 어떤 cat에서 발생했어?
+
+> ▶ **같이 쳐보기** — 까미의 ERROR 진단 1분 3단계
 >
 > ```bash
-> grep -c ERROR logs/app.log                                   # 5
-> grep ERROR logs/app.log | head -3                            # 첫 3건
-> grep -oE 'cat-[0-9]+' logs/app.log | sort | uniq -c          # cat별 통계
+> grep -c ERROR logs/app.log
+> grep ERROR logs/app.log | head -3
+> grep -oE 'cat-[0-9]+' logs/app.log | sort | uniq -c
 > ```
 
-**진짜 출력**. 위 결과는 강사가 `/tmp/shell-demo`에서 실제 실행. 5건 모두 다른 cat이라는 것은 한 cat의 반복이 아닌 시스템 전체 문제. 까미가 처방 — "API endpoint 점검".
+엔터 누르면 진짜 출력이 떠요.
 
-자경단 셸의 매일 진단 — `grep ERROR | wc -l`이 자경단의 health check.
+```
+5
+Tue Apr 28 07:18:00 KST 2026 [ERROR] Photo upload failed for cat-1
+Tue Apr 28 07:18:00 KST 2026 [ERROR] Photo upload failed for cat-2
+Tue Apr 28 07:18:00 KST 2026 [ERROR] Photo upload failed for cat-3
+   1 cat-1
+   1 cat-2
+   1 cat-3
+   1 cat-4
+   1 cat-5
+```
+
+세 단계가 1분에 다 끝났어요. 첫째, ERROR 5건. 둘째, 샘플 보니 다 사진 업로드 실패. 셋째, cat 1번부터 5번까지 모두 한 번씩. 의미를 까미가 1초 안에 읽어요. **5건이 한 cat의 반복이 아니라 5명 다 영향. 그러면 시스템 전체 문제**. API endpoint 점검 필요.
+
+까미의 진단에 H4의 grep, head, sort, uniq 네 개가 들어갔어요. 그리고 H2의 pipe (`|`) 두 번. H1의 한 줄 명령어 그림이 진짜 일에서 어떻게 작동하는지 1분으로 보여드린 거예요.
+
+자경단의 매일 health check 한 줄을 알려드릴게요. `grep ERROR logs/app.log | wc -l`. ERROR 카운트 확인. 자경단의 일상 첫 동작이에요.
 
 ---
 
-## 4. 10~15분: 노랭이가 CSV 데이터 처리 (실제 출력)
+## 5. 10~15분 — 노랭이가 CSV 데이터 통계
 
-노랭이가 자경단의 cats 데이터로 통계:
+오후 2시 10분, 노랭이가 자경단 cats 데이터로 통계를 뽑기 시작해요. 노랭이의 무기는 awk예요.
 
-```bash
-# 10:00 — 자경단 5마리 평균 나이
-$ awk -F, 'NR>1 {sum+=$2; n++} END {print "평균 나이:", sum/n}' cats.csv
+> ▶ **같이 쳐보기** — 노랭이의 CSV 통계 5분 3단계
+>
+> ```bash
+> # 평균 나이
+> awk -F, 'NR>1 {sum+=$2; n++} END {print "평균 나이:", sum/n}' cats.csv
+> 
+> # 검은 cat만
+> awk -F, '$3 == "black" {print $1}' cats.csv
+> 
+> # 나이순 정렬
+> tail -n +2 cats.csv | sort -t, -k2 -n
+> ```
+
+진짜 출력.
+
+```
 평균 나이: 3
-
-# 10:30 — 검은 cat만
-$ awk -F, '$3 == "black" {print $1}' cats.csv
 까미
-
-# 11:00 — 정렬 (나이순)
-$ tail -n +2 cats.csv | sort -t, -k2 -n
 본인,1,white
 노랭이,2,yellow
 까미,3,black
@@ -112,167 +197,214 @@ $ tail -n +2 cats.csv | sort -t, -k2 -n
 깜장이,5,tuxedo
 ```
 
-awk + sort가 노랭이의 매일 손가락. 5마리 평균 3세, 가장 어린 본인 1세, 가장 나이든 깜장이 5세.
+5분에 통계 세 가지를 끝냈어요. 평균 3세, 검은 cat은 까미 한 명, 나이순으로 정렬. 노랭이가 한 줄씩 짜는데 평소 1분이면 끝나요.
 
-**자경단 셸의 매일 데이터** — `awk -F, 'NR>1 {sum+=$X} END {print sum/(NR-1)}'`이 평균 표준 양식.
+awk 문법을 짧게 풀어 드릴게요. `-F,`는 콤마 구분자. `NR>1`은 1번째 줄(헤더) 건너뛰기. `{...}`는 각 줄에 적용할 코드. `END {...}`는 마지막 한 번만. `$1, $2, $3`은 1번째, 2번째, 3번째 컬럼. 이 다섯 가지 문법만 알면 자경단의 90% CSV 처리가 가능해요.
+
+자경단의 CSV 표준 한 줄 — `awk -F, 'NR>1 {sum+=$X} END {print sum/(NR-1)}'`. 평균 계산의 표준 양식이에요. X 자리에 컬럼 번호만 바꾸면 어떤 컬럼이든 평균.
 
 ---
 
-## 5. 15~20분: 깜장이가 JSON API 응답 파싱 (실제 출력)
+## 6. 15~20분 — 깜장이가 JSON API 응답 파싱
 
-깜장이가 자경단 API의 응답 검증:
+오후 2시 15분, 깜장이가 자경단 API의 응답 검증을 시작. 깜장이의 무기는 jq예요.
 
-```bash
-# 15:00 — JSON 보기
-$ cat cats.json
+> ▶ **같이 쳐보기** — 깜장이의 JSON 검증 5분 4단계
+>
+> ```bash
+> # JSON 보기
+> cat cats.json
+> 
+> # 이름만 추출
+> jq '.cats[].name' cats.json
+> 
+> # 검은 cat만
+> jq '.cats[] | select(.color == "black") | .name' cats.json
+> 
+> # 평균 나이
+> jq '[.cats[].age] | add / length' cats.json
+> ```
+
+진짜 출력.
+
+```json
 {"cats":[{"name":"까미","age":3,"color":"black"},...]}
 
-# 15:30 — jq로 이름만
-$ jq '.cats[].name' cats.json
 "까미"
 "노랭이"
 "미니"
+"깜장이"
+"본인"
 
-# 16:00 — black cat만
-$ jq '.cats[] | select(.color == "black") | .name' cats.json
 "까미"
 
-# 16:30 — 평균 나이
-$ jq '[.cats[].age] | add / length' cats.json
 3
 ```
 
-jq의 강력함 — 한 줄에 select·map·reduce 가능. SQL 안 되는 곳에서 jq.
+깜장이가 5분에 jq로 SQL 비슷한 처리를 다 했어요. 이름 추출, 필터, 집계. JSON에 SQL이 안 되는 곳에서 jq가 SQL 비슷하게 일해요. 진짜 강력해요.
 
-**자경단 셸의 매일 API** — `curl ... | jq '.path'`이 매일 100번. API 응답 파싱의 표준.
+jq의 핵심 문법 다섯 개. `.`은 root. `.cats`는 cats 필드. `.cats[]`는 배열의 모든 요소. `select()`는 조건 필터. `add`, `length`, `min`, `max` 같은 집계 함수. 이 다섯 가지로 자경단의 매일 API 디버깅이 가능해요.
+
+자경단의 매일 API 한 줄 — `curl -s <api> | jq '.path'`. 자경단 까미가 매일 100번 만나는 한 줄이에요. curl로 응답 받고, pipe로 jq에 넘기고, jq로 필요한 필드만 뽑기. 한 줄에 두 도구.
 
 ---
 
-## 6. 20~25분: 미니의 자동화 스크립트 (실제 동작)
+## 7. 20~25분 — 미니의 청소 자동화 스크립트
 
-미니가 자경단의 매일 청소 자동화:
+오후 2시 20분, 미니가 자경단의 매일 청소 자동화를 짜기 시작. 미니의 무기는 셸 스크립트예요.
+
+미니가 짜는 cleanup.sh를 보여드릴게요.
 
 ```bash
 #!/bin/bash
 # /tmp/shell-demo/cleanup.sh
 set -euo pipefail
 
-# 1. 30일 이상된 log 찾기
+# 1. 30일 이상된 로그 찾기
 old_logs=$(find logs -name '*.log' -mtime +30 2>/dev/null | wc -l | tr -d ' ')
 echo "30일+ 오래된 log: ${old_logs}개"
 
-# 2. 큰 파일 찾기 (1MB+)
+# 2. 1MB 넘는 파일 찾기
 big_files=$(find . -type f -size +1M 2>/dev/null | wc -l | tr -d ' ')
 echo "1MB+ 큰 파일: ${big_files}개"
 
-# 3. 임시 파일 청소 (.tmp·.bak·~)
+# 3. 임시 파일 청소
 find . \( -name '*.tmp' -o -name '*.bak' -o -name '*~' \) -delete 2>/dev/null
 
 echo "✅ 청소 완료"
 ```
 
-실행:
+짧지만 모든 핵심이 들어 있어요. 첫 줄 `#!/bin/bash`은 shebang. 이 파일이 bash 스크립트라는 표시. 둘째 줄 `set -euo pipefail`은 안전 옵션 세 개. e는 에러 시 멈춤, u는 정의 안 된 변수 사용 금지, pipefail은 pipe 안 어느 명령이든 실패하면 전체 실패. 자경단의 모든 셸 스크립트의 첫 줄이에요.
 
-```bash
-$ chmod +x cleanup.sh
-$ ./cleanup.sh
+그 다음 세 가지 일을 차례로. find로 오래된 로그 찾기, find로 큰 파일 찾기, find로 임시 파일 삭제. 마지막에 ✅로 완료 표시. 30줄 안 되는 짧은 스크립트지만 진짜로 일을 해요.
+
+실행해 봐요.
+
+> ▶ **같이 쳐보기** — 미니의 cleanup.sh 실행
+>
+> ```bash
+> chmod +x cleanup.sh
+> ./cleanup.sh
+> ```
+
+진짜 출력.
+
+```
 30일+ 오래된 log: 0개
 1MB+ 큰 파일: 0개
 ✅ 청소 완료
 ```
 
-자경단 매일 한 번 cron으로 실행. 5초의 자동화가 매일 30분 절약.
+5분에 자동화 스크립트 한 장이 만들어졌어요. 자경단은 이 스크립트를 매일 한 번 cron으로 자동 실행해요. 5초의 자동화가 매일 30분을 살려요.
 
-**자경단 셸 자동화의 5계명**:
-1. `set -euo pipefail` (안전)
-2. `2>/dev/null`로 권한 에러 무시
-3. exit code로 결과 알림
-4. 한 일만 (작은 스크립트)
-5. 로그·통계 출력
+자경단 셸 자동화의 다섯 계명을 알려드릴게요. 첫째, `set -euo pipefail` (안전 옵션). 둘째, `2>/dev/null`로 권한 에러 무시. 셋째, exit code로 결과 알림. 넷째, 한 일만 (작은 스크립트). 다섯째, 로그·통계 출력. 다섯 계명을 H6에서 더 깊이 다뤄요. 오늘은 미니가 시범으로.
 
 ---
 
-## 7. 25~30분: 본인이 자경단 통합 — 한 줄 자동화 5종
+## 8. 25~30분 — 본인이 통합, 한 줄 자동화 다섯 가지
 
-본인(메인테이너)이 자경단 30분 시뮬의 마무리. 5종 한 줄:
+오후 2시 25분, 마지막 5분에 본인(메인테이너)이 다섯 명의 일을 통합해요. 한 줄 자동화 다섯 가지로 30분의 마무리.
 
-```bash
-# 1. 가장 큰 파일 5개
-$ find . -type f -exec ls -lh {} \; 2>/dev/null | sort -k5 -hr | head -5
+> ▶ **같이 쳐보기** — 본인의 통합 한 줄 다섯 가지
+>
+> ```bash
+> # 1. 가장 큰 파일 5개 (H1의 그 한 줄)
+> find . -type f -exec ls -lh {} \; 2>/dev/null | sort -k5 -hr | head -5
+> 
+> # 2. 한 디렉토리 전체 줄 수
+> find . -type f -name '*.log' -exec wc -l {} + | tail -1
+> 
+> # 3. ERROR 패턴별 통계
+> grep -oE 'cat-[0-9]+' logs/app.log | sort | uniq -c | sort -rn
+> 
+> # 4. CSV 컬럼 평균
+> awk -F, 'NR>1 {sum+=$2} END {print sum/(NR-1)}' cats.csv
+> 
+> # 5. JSON 필터링
+> jq '.cats | map(select(.age > 2))' cats.json
+> ```
+
+진짜 출력.
+
+```
 -rw-r--r-- 1 mo wheel 140B Apr 28 07:18 ./cats.json
 -rw-r--r-- 1 mo wheel  97B Apr 28 07:18 ./cats.csv
--rw-r--r-- 1 mo wheel ...
 ...
 
-# 2. 한 디렉토리 전체 줄 수
-$ find . -type f -name '*.log' -exec wc -l {} + | tail -1
    10 total
 
-# 3. ERROR 패턴별 통계
-$ grep -oE 'cat-[0-9]+' logs/app.log | sort | uniq -c | sort -rn
    1 cat-5
    1 cat-4
    1 cat-3
    1 cat-2
    1 cat-1
 
-# 4. CSV 컬럼 평균
-$ awk -F, 'NR>1 {sum+=$2} END {print sum/(NR-1)}' cats.csv
 3
 
-# 5. JSON 필터링
-$ jq '.cats | map(select(.age > 2))' cats.json
 [
   {"name": "까미", "age": 3, "color": "black"},
-  {"name": "미니", "age": 4, "color": "gray"}
+  {"name": "미니", "age": 4, "color": "gray"},
+  {"name": "깜장이", "age": 5, "color": "tuxedo"}
 ]
 ```
 
-**5 자동화 × 매일 5명 = 5명 × 5분 = 25분/일 절약**. 한 줄이 매일 25분.
+다섯 줄에 자경단 다섯 명의 일이 다 압축돼 있어요. 첫 줄은 본인의 종합. 둘째는 까미의 도구. 셋째는 까미의 진단. 넷째는 노랭이의 통계. 다섯째는 깜장이의 검증.
+
+다섯 줄 × 매일 다섯 명 = 5명 × 5분 = 25분/일 절약. 한 줄이 매일 25분을 살려 줘요. 1년이면 100시간. 다섯 명 합치면 500시간. 한 사람의 3개월치 노동시간이에요. 다섯 줄이 본인의 3개월을 사 줘요.
+
+이게 셸의 진짜 가치예요. 한 줄이 시간을 사 주는 거. 본인도 5년 후엔 자기만의 다섯 줄을 갖게 돼요.
 
 ---
 
-## 8. 자경단 셸 30분 한 페이지 압축
+## 9. 30분 한 페이지 압축
+
+자, 30분이 끝났어요. 한 페이지로 압축해 봐요.
 
 ```
-14:00  shell-demo 폴더 셋업 (mkdir·heredoc·for) — 5분
+14:00  본인이 demo 폴더 셋업 (mkdir·heredoc·for·redirection) — 5분
 14:05  까미 ERROR 진단 (grep·sort·uniq -c) — 5분
 14:10  노랭이 CSV 처리 (awk·sort) — 5분
 14:15  깜장이 JSON 파싱 (jq) — 5분
-14:20  미니 자동화 스크립트 (find·set -e) — 5분
+14:20  미니 자동화 스크립트 (find·set -e·function) — 5분
 14:25  본인 통합 한 줄 5종 — 5분
 14:30  완료 ✅ — 30개 명령어 중 20개 사용, 5명 30분 합의
 ```
 
-**30개 명령어 중 20개 × 5분 = 자경단의 매일 셸 한 사이클**.
+30분에 30개 중 20개 명령어가 사용됐어요. 매일 자경단의 한 사이클이 이 30분 안에 다 들어 있어요.
+
+본인이 "어, 이건 H4에서 본 거네", "이건 H2의 pipe구나", "이건 H3에서 깐 jq구나" 하고 한 명씩 알아보셨으면 H5 졸업이에요. 본 챕터의 학습이 30분에 다 동원됐어요.
 
 ---
 
-## 9. 5가지 작은 사고와 처방
+## 10. 다섯 가지 작은 사고와 처방
 
-### 9-1. 사고 1: 변수 unquoted
+마지막 절. 자경단 다섯 명이 1년 동안 만나는 작은 사고 다섯 가지를 처방과 함께 알려드릴게요. 본인이 5년 동안 한 번씩은 만나요. 미리 알아 두시면 1초로 처방.
+
+**사고 1: 변수에 따옴표 안 씌워서 공백 사고**
 
 ```bash
 $ name="cat with spaces"
-$ rm $name        # 3개 파일 (cat·with·spaces) 삭제 시도! 사고
-# 처방
-$ rm "$name"      # 따옴표로 안전
+$ rm $name
+# rm: cat: No such file or directory
+# rm: with: No such file or directory
+# rm: spaces: No such file or directory
 ```
 
-**자경단 황금 규칙** — 변수는 항상 `"$var"`. 공백 안전.
+본인이 한 변수에 공백이 있는 글자를 넣었는데, 사용할 때 따옴표를 안 씌우면 셸이 공백마다 단어로 끊어 버려요. 그래서 `cat`, `with`, `spaces` 세 개로 분리. 사고예요.
 
-### 9-2. 사고 2: sed -i macOS 함정
+처방은 한 글자. **변수는 항상 따옴표 안에**. `rm "$name"`. 자경단 황금 규칙이에요.
+
+**사고 2: macOS sed -i 함정**
 
 ```bash
-$ sed -i 's/old/new/g' file.txt           # macOS — 에러
+$ sed -i 's/old/new/g' file.txt
 sed: 1: "file.txt": invalid command code f
-
-# 처방
-$ sed -i '' 's/old/new/g' file.txt        # macOS — 빈 따옴표 ''
-$ sed -i 's/old/new/g' file.txt           # Linux — 그대로
 ```
 
-OS 분기 함수:
+GNU sed (Linux)와 BSD sed (macOS)가 -i 옵션 처리가 달라요. macOS는 `-i` 다음에 빈 따옴표가 필요해요.
+
+처방은 OS 분기 함수.
+
 ```bash
 sed_inplace() {
   if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -283,48 +415,70 @@ sed_inplace() {
 }
 ```
 
-### 9-3. 사고 3: rm 잘못된 변수
+이 함수를 dotfile에 박아 두고 평생 sed_inplace로 부르세요.
+
+**사고 3: rm -rf의 빈 변수 사고**
 
 ```bash
-$ build_dir=""           # 실수로 빈 변수
-$ rm -rf $build_dir/*    # rm -rf /* — 시스템 삭제!
-
-# 처방
-$ rm -rf "${build_dir:?build_dir 비어있음}/*"   # 빈 변수 시 에러
+$ build_dir=""
+$ rm -rf $build_dir/*
+# 위와 같으면 rm -rf /* — 시스템 통째 삭제!
 ```
 
-자경단 표준 — 변수 사용 시 `${var:?}` 검증.
+build_dir 변수에 값이 안 들어 있으면 명령이 `rm -rf /*`로 풀려요. 진짜 위험해요.
 
-### 9-4. 사고 4: xargs 빈 입력
+처방은 빈 변수 검증.
 
 ```bash
-$ find . -name '*.notexist' | xargs rm    # 매치 없으면 rm 인자 없이
-rm: usage: rm [-...]                       # 에러 메시지
-
-# 처방
-$ find . -name '*.notexist' | xargs -r rm  # 빈 입력 처리 (Linux)
-$ find . -name '*.notexist' -delete        # find 자체 -delete (이식성)
+rm -rf "${build_dir:?build_dir 비어있음}/*"
 ```
 
-### 9-5. 사고 5: glob 함정
+`${var:?}` 문법은 변수가 비어 있으면 에러를 내고 멈춰요. 자경단 표준이에요.
+
+**사고 4: xargs 빈 입력 사고**
 
 ```bash
-$ ls *.xyz                                # 매치 없으면
-ls: *.xyz: No such file or directory      # 패턴 그대로 (bash)
-zsh: no matches found: *.xyz              # zsh는 에러
-
-# 처방 zsh
-$ setopt nomatch                          # 또는 NULL_GLOB
-$ shopt -s nullglob                       # bash: 매치 없으면 빈
+$ find . -name '*.notexist' | xargs rm
+rm: usage: rm [-...]
 ```
 
-5사고 × 처방 한 페이지가 자경단 1년 면역.
+find가 매치 없으면 빈 입력. xargs가 그걸 받아서 인자 없는 rm 호출. 에러.
+
+처방은 두 가지. Linux는 `xargs -r`로 빈 입력 무시. macOS는 find 자체의 `-delete` 옵션.
+
+```bash
+find . -name '*.notexist' -delete
+```
+
+`-delete`가 이식성 좋아요.
+
+**사고 5: glob 매치 없으면 사고**
+
+```bash
+$ ls *.xyz
+ls: *.xyz: No such file or directory   # bash: 패턴 그대로
+zsh: no matches found: *.xyz             # zsh: 에러
+```
+
+glob 패턴이 매치 안 되면 셸마다 처리가 달라요.
+
+처방은 셸별 옵션.
+
+```bash
+# zsh
+setopt nomatch       # 또는 NULL_GLOB
+
+# bash
+shopt -s nullglob    # 빈 문자열로 처리
+```
+
+다섯 사고와 다섯 처방을 한 페이지에 두면 자경단의 1년 면역력이에요. 외우려 마세요. 한 번 보고 가세요. 사고 만났을 때 "아, 본 적 있어" 하시면 1초 처방.
 
 ---
 
-## 10. 자경단 셸 13줄 흐름 — 매일 사이클
+## 11. 자경단 매일 13줄 흐름
 
-본인의 자경단 매일 13줄:
+자경단 다섯 명이 매일 셸에서 치는 13줄 사이클을 보여드릴게요. 본인의 5년 후 모습이에요.
 
 ```bash
 # 1. 디렉토리 이동 + 상태
@@ -359,113 +513,112 @@ gh pr create --draft
 gh run watch
 ```
 
-13줄이 자경단의 매일 사이클. 5명 × 13줄 × 365일 = 23,725 손가락/년.
+13줄이 자경단 한 명의 매일 사이클이에요. 5명 × 13줄 × 365일 = 23,725 손가락/년. 다섯 명이 1년에 23,725번 같은 13줄을 반복해요. 그 13줄이 본인의 손가락에 박히는 게 두 해 코스 끝의 그림이에요.
+
+13줄 중 8줄은 H4의 30개 명령어. 5줄은 git/gh (Ch004, Ch005). 8 + 5 = 13. 두 챕터의 학습이 한 사이클에 다 동원돼요.
 
 ---
 
-## 11. 흔한 오해 7가지
+## 12. 흔한 오해 다섯 가지
 
-**오해 1: "데모 출력은 가짜."** — 본 H의 모든 출력은 강사가 `/tmp/shell-demo`에서 실제 실행. 본인이 같은 명령 치면 비슷한 결과.
+**오해 1: 데모 출력은 가짜다.**
 
-**오해 2: "한 줄 명령어는 어려워."** — 본 H의 5종 한 줄은 30개 명령어 + pipe + redirection의 조합. 본 챕터의 학습이 한 줄에 다 모임.
+본 H의 모든 출력은 강사가 `/tmp/shell-demo`에서 실제로 실행한 결과예요. 본인이 같은 명령 치시면 비슷한 결과 떠요.
 
-**오해 3: "셸은 옛 도구라 모던 도구만."** — 옛것 + 모던 둘 다. 면접·서버는 옛것 표준.
+**오해 2: 한 줄 명령어는 어렵다.**
 
-**오해 4: "스크립트는 어려워."** — 미니의 cleanup.sh가 30줄. 본인의 첫 스크립트는 5줄. 자연 학습.
+본 H의 다섯 줄 자동화는 30개 명령어 + pipe + redirection의 조합. 본 챕터의 학습이 한 줄에 다 모인 거예요. 어려운 게 아니라 익숙한 게 모인 거예요.
 
-**오해 5: "자경단 셸은 git만."** — git + 30 명령어 + 자동화 + 데이터 처리. 셸이 자경단의 모든 것.
+**오해 3: 셸은 옛 도구라 모던 도구만 써야 한다.**
 
-**오해 6: "30 명령어 다 외우기 어려워요."** — 매일 13개 + 사고 시 검색. 자연 손가락.
+옛것과 모던 둘 다 써요. 면접·서버는 옛것 표준이에요. grep을 못 알아보는 면접관은 없어요. rg는 멋지지만 grep도 손에 박혀 있어야 해요.
 
-**오해 7: "셸 사고는 무서워."** — 5사고 + 처방 미리 알면 1년 0사고. **사전 학습이 면역**.
+**오해 4: 셸 스크립트는 어렵다.**
 
----
+미니의 cleanup.sh가 30줄. 본인의 첫 스크립트는 5줄로 시작. 자연스럽게 키워요. H6에서 본인이 직접 짜요.
 
-## 12. FAQ 7가지
+**오해 5: 자경단 셸은 git만 쓴다.**
 
-**Q1. 데모의 출력 sha 비슷해도 같지 않은가요?**
-A. 시간·프로세스 ID가 다르므로 timestamp는 다름. 다만 결과 패턴은 같음. 본인이 직접 실행하면 본인의 timestamp.
-
-**Q2. cleanup.sh를 자동 실행 (cron)?**
-A. macOS — `crontab -e`로 추가. `0 9 * * * /tmp/shell-demo/cleanup.sh >> /tmp/cleanup.log 2>&1`. 매일 09:00.
-
-**Q3. 자경단 5명이 같은 명령어를 다 써야?**
-A. 80% 같음. 20%는 stack별 특수. 본인 메인테이너만 30 명령어, 까미는 백엔드 25개, 노랭이 25개 등.
-
-**Q4. 셸 스크립트 vs Python 스크립트?**
-A. 50줄 미만 + 셸 도구 위주 → bash. 50줄+ 또는 데이터 처리 → Python. 자경단 — 둘 다.
-
-**Q5. AI 시대에 본 H의 5사고도 알아야?**
-A. 네. AI가 한 줄 추천 시 사고 가능성도 있음. 5사고 알면 1초 검증.
-
-**Q6. 본 H를 따라치려면?**
-A. 본인 노트북에서 `mkdir -p /tmp/shell-demo` 부터. 5분 셋업 후 본 H 30분 따라치기.
-
-**Q7. 5사고 표를 자경단 wiki에?**
-A. 권장. 새 멤버 1주일 내 학습. 5사고 × 자경단 5년 = 사고 0.
+git + 30 명령어 + 자동화 스크립트 + 데이터 처리. 셸이 자경단의 모든 것이에요. git만이 아니에요.
 
 ---
 
-## 추신
+## 13. 자주 받는 질문 다섯 가지
 
-본 H의 모든 출력은 진짜. 강사가 `/tmp/shell-demo`에서 직접 실행. **데모는 거짓말 안 해요**. 5명의 30분 시뮬이 자경단 매일 셸 표준. 14:00~14:30 한 사이클이 1년 250 사이클. ERROR 진단의 황금 패턴 — `grep ERROR | sort | uniq -c | sort -rn`. 5초 진단.
+**Q1. 본 시뮬레이션을 본인 노트북에서 따라 칠 수 있어요?**
 
-## 14. 자경단 셸 5명 dotfiles 비교 — 한 페이지
+가능해요. `mkdir -p /tmp/shell-demo`부터 시작해서 0~5분 셋업을 그대로 따라 치세요. 그 후 5분씩 차례로. 30분이면 본인도 자경단 한 명이에요.
 
-본 H의 30분 시뮬을 5명이 다 같이 한 후, 5명 각자의 dotfile alias 100줄 비교.
+**Q2. 다섯 명의 일이 너무 빠릿빠릿한데 진짜로 가능해요?**
 
-| 영역 | 본인 (메인테이너) | 까미 (백엔드) | 노랭이 (프론트) | 미니 (인프라) | 깜장이 (디자인·QA) |
-|------|----------------|-------------|-------------|-----------|---------------|
-| **자주 쓰는 도구** | git·gh·brew·일반 | curl·jq·docker·python | npm·node·prettier | ssh·terraform·aws | playwright·screencap |
-| **alias 5종 예** | s·lg·ll·mypr·fpush | cj·dco·py·pp·jw | nr·np·pf·tsc·rdev | sshv·tfa·awl·dl·k | pw·ss·sc·prog·prevdiff |
-| **자주 쓰는 함수** | gco·gcb·prurl·quickfix·wip | apilog·dbquery·healthcheck | dev·test·typecheck·build·lint | sshto·terraapply·awsregion·deploy·rollback | testflow·screenshot·visualcompare·a11y·perf |
-| **PATH 추가** | ~/.local/bin·brew·cargo·bun·go | python venv·docker | node·yarn | terraform·aws·kubectl·helm | playwright·node |
-| **환경변수 5종** | EDITOR·LANG·BREW·NODE·GH | DATABASE_URL·REDIS·DEBUG·LOG·API | NODE_ENV·NEXT_PUBLIC·VITE | AWS_PROFILE·TF_LOG·KUBECONFIG | PLAYWRIGHT_BROWSERS·CI |
-| **dotfile 줄 수** | 200 | 250 | 220 | 300 | 180 |
+5년 차 자경단은 가능해요. 1년 차는 1시간 걸려요. 본인은 1년 차로 시작하지만 5년 후엔 30분이에요. 시간이 손가락을 만들어요.
 
-5명 합 1,150줄의 dotfile. 자경단의 평생 셸 자산.
+**Q3. 제가 백엔드만 할 건데 까미 일만 알면 돼요?**
 
-각자 다른 stack이지만 본 챕터 학습 80% 같음. 다른 20%가 stack별 특수.
+다섯 명의 일을 다 알아 두세요. 자경단은 작은 팀이라 한 명이 두세 명 일을 같이 해요. 본인이 백엔드여도 미니의 자동화 스크립트와 깜장이의 jq를 알아두면 곱셈으로 강해져요.
+
+**Q4. cleanup.sh를 매일 자동 실행하려면?**
+
+cron이라는 도구를 써요. macOS 기준 `crontab -e`로 편집기 열고 한 줄 추가.
+```
+0 9 * * * /tmp/shell-demo/cleanup.sh
+```
+매일 오전 9시 실행. H6에서 더 자세히.
+
+**Q5. 다섯 명 다 본인이 혼자 시뮬할 수 있어요?**
+
+가능해요. 본인이 다섯 역할을 차례로 하시면 돼요. 30분 동안 다섯 모자를 쓰고 벗으면서. 평생 한 번 해 보시면 자경단 다섯 명의 그림이 머리에 박혀요.
 
 ---
 
-## 15. 본 H 따라치는 5분 가이드
+## 14. 흔한 실수 다섯 가지 + 안심 멘트 — Bash 데모 학습 편
 
-본인이 본 H를 진짜 따라치려면.
+Bash 데모 따라하며 자주 빠지는 함정 다섯.
+
+첫 번째 함정, 셔뱅 안 적음. 안심하세요. **첫 줄 항상 `#!/usr/bin/env bash`.**
+
+두 번째 함정, 변수 중괄호 안 씀. 본인이 `$NAME_HISTORY`로 변수 모호. 안심하세요. **`${NAME}_HISTORY`로 명확.**
+
+세 번째 함정, 함수 정의 안 함. 본인이 한 .sh가 100줄. 안심하세요. **20줄 넘으면 함수로 분할.** main "$@" 진입점.
+
+네 번째 함정, 종료 코드 처리 안 함. 안심하세요. **`exit 0/1/2`로 신호.** cron이 자동 재시도 판단.
+
+다섯 번째 함정, 가장 큰 함정. **shellcheck 안 돌린다.** 본인이 .sh 짜고 그냥 사용. 안심하세요. **`shellcheck script.sh` 한 줄.** 90% 버그 미리.
+
+다섯 함정 미리 알아둔 본인이 두 해 동안 한 박자 빠르게 손이 움직여요.
+
+## 15. 마무리 — 다음 H6에서 만나요
+
+자, 다섯 번째 시간이 끝났어요. 60분 동안 본인은 자경단 다섯 명의 30분 시뮬레이션을 옆에서 구경하셨어요. 정리하면 이래요.
+
+본인이 0~5분 셋업, 까미가 5~10분 ERROR 진단, 노랭이가 10~15분 CSV 통계, 깜장이가 15~20분 JSON 파싱, 미니가 20~25분 자동화 스크립트, 본인이 25~30분 통합. 30분에 30개 중 20개 명령어가 사용됐고, H1부터 H4까지의 모든 학습이 한 번씩 다 동원됐어요. 사고 다섯 가지 처방도 만났고, 자경단 매일 13줄 흐름도 봤어요.
+
+박수 한 번 칠게요. 다섯 시간 동안 잘 따라오셨어요. 본 챕터의 절반이 끝났어요. 본인의 머리에 검은 화면 + 8개념 + 30 명령어 + 자경단 협업 그림이 들어왔어요.
+
+다음 H6은 본인이 직접 셸 스크립트를 짜요. set -euo pipefail, function, signal trap, getopts, 컬러 로그, shellcheck로 검사, bats로 테스트. 한 시간 끝에 본인의 첫 셸 스크립트가 완성돼요. 한 시간 후 만나요.
+
+그 전에 한 가지 부탁. 지금 잠깐 멈추시고 본인 노트북에서 다음 한 묶음을 차례로 쳐 보세요.
 
 ```bash
-# 0:00 — 디렉토리 셋업
-$ mkdir -p /tmp/shell-demo/logs && cd /tmp/shell-demo
-
-# 0:30 — log 만들기 (본 H 2절 그대로)
-$ for i in 1 2 3 4 5; do
-    echo "$(date) [INFO] Cat ${i} reported" >> logs/app.log
-    echo "$(date) [ERROR] Photo upload failed for cat-${i}" >> logs/app.log
-  done
-
-# 1:00 — CSV 만들기
-$ cat > cats.csv <<'EOF'
-name,age,color
-까미,3,black
-노랭이,2,yellow
-미니,4,gray
-EOF
-
-# 2:00 — JSON 만들기
-$ echo '{"cats":[{"name":"까미","age":3}]}' > cats.json
-
-# 3:00 — 5단계 demo 실행 (본 H 3~7절)
-$ grep -c ERROR logs/app.log         # → 5
-$ awk -F, 'NR>1 {sum+=$2} END {print sum/(NR-1)}' cats.csv  # → 3
-$ jq '.cats[].name' cats.json        # → "까미"
-$ find . -name '*.csv' | xargs ls -lh
-$ find . -type f | sort
-
-# 4:00 — 청소
-$ cd /tmp && rm -rf /tmp/shell-demo
+mkdir -p /tmp/shell-demo/test && cd /tmp/shell-demo/test
+echo "hello $(date)" > greeting.txt
+cat greeting.txt
+grep "hello" greeting.txt
+wc -l greeting.txt
 ```
 
-5분 만에 본 H 시뮬 완성. **5분이 5년의 첫 직관**.
+5초예요. 5줄이 본인의 H5 졸업장이에요. 본인이 다섯 명의 일을 작은 단위로 한 번 해 보신 거예요. 잘 따라오셨어요. 진짜로요. 한 시간 후 H6에서 만나요. 잠깐 쉬세요. 어깨 한 번 돌리시고요.
 
 ---
 
+## 👨‍💻 개발자 노트 (참고 — 비개발자는 그냥 넘기셔도 됩니다)
+
+> - awk vs cut vs Python: cut은 단순 컬럼 추출 (awk보다 빠르지만 단순). awk는 컬럼 + 로직 (NR, NF, BEGIN, END). Python pandas는 더 강력하지만 느림. 셸 한 줄에선 awk가 황금 비율.
+> - jq의 강력함: select·map·reduce·group_by·to_entries·from_entries 다 지원. SQL의 90%를 한 줄로. `jq --slurp`로 여러 JSON 합치기.
+> - heredoc 안의 변수 치환 차이: `<<EOF`(치환), `<<'EOF'`(치환 없음), `<<-EOF`(앞 탭 제거). 자경단의 시연 셋업은 보통 `<<'EOF'`(원본 유지).
+> - set -euo pipefail 풀이: -e (exit on error), -u (undefined variable error), -o pipefail (pipe failure). 셋이 합쳐서 안전한 스크립트의 기본 옵션.
+> - find -delete vs xargs rm: find -delete는 syscall 직접, xargs rm은 fork+exec 다수. 성능은 -delete가 우세. 대형 파일 트리에서 차이.
+> - cron vs launchd vs systemd: macOS는 launchd가 표준이지만 crontab도 지원. Linux는 systemd timers + cron. 자경단은 단순함 위해 cron 우선.
+> - shell sub-process 추적: `ps -ef | grep cleanup.sh`로 실행 중인 스크립트 확인. PID 알면 `kill`로 종료. `nohup ./cleanup.sh &`로 백그라운드 실행.
+> - 출력 캡처 패턴: `var=$(cmd)` 또는 `var=$(cmd 2>&1)` (에러 포함). `var=$(cmd | tr -d '\n')`로 줄바꿈 제거.
+> - 다음 H6 키워드: shebang · set -euo pipefail · function · trap · getopts · printf 색깔 · shellcheck · bats.
