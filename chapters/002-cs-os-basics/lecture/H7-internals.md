@@ -26,7 +26,9 @@
 17. FAQ 5
 18. 두 해 후 본인이 만나는 두 공간 — 깊이의 진짜 가치
 19. 12회수 지도 — H7 의 자리
-20. 마무리 — H8 적용+회고로
+20. 흔한 실수 다섯 가지 + 안심 멘트 — 깊이 학습 편
+21. 마무리 — H8 적용+회고로
+👨‍💻 개발자 노트
 
 ---
 
@@ -117,6 +119,18 @@ ulimit -v
 이 모델이 두 해 후 본인이 만들 모든 코드의 진짜 작동 방식. 본인 브라우저 한 번 클릭이 100 번의 syscall. 본인 SQL 쿼리 한 번이 50 번의 syscall. 본인 ChatGPT 호출 한 번이 30 번의 syscall + 100 번의 네트워크 호출. **모든 게 syscall 위에서 돌아가요.**
 
 ## 4. CPU 모드 — ring 0 vs ring 3 (인텔 4링)
+
+본인 맥의 커널 정보부터 한 번 보고 가요.
+
+> ▶ **같이 쳐보기** — 내 커널 정보
+>
+> ```bash
+> sysctl kern.osrelease kern.osversion
+> uname -v
+> ```
+
+이 두 줄이 본인 맥 커널의 신분증. kern.osrelease 는 커널 버전, kern.osversion 은 빌드 번호. uname -v 는 컴파일 시각 + 일부 빌드 정보. 본인 맥의 kernel space 안 사람의 이름.
+
 
 CPU 자체가 두 공간 분리를 도와줘요. 인텔 x86 CPU 는 **4개의 보호 링** 을 가지고 있어요.
 
@@ -307,9 +321,11 @@ dtruss 는 macOS 의 DTrace 위에서 동작. SIP (System Integrity Protection) 
 
 본인이 지금 한 번 쳐 봐요. 본인 맥에서.
 
-```bash
-sudo dtruss -t open_nocancel ls / 2>&1 | head -30
-```
+> ▶ **같이 쳐보기** — syscall 한 번 직접 엿보기 (sudo 필요)
+>
+> ```bash
+> sudo dtruss -t open_nocancel ls / 2>&1 | head -30
+> ```
 
 (SIP 때문에 ls 직접은 못 볼 수 있음. 그러면 본인이 짠 작은 C 프로그램 또는 python:)
 
@@ -331,14 +347,14 @@ open("/dev/null\0", ...) = 3 0
 
 이게 두 공간 분리의 진짜 모습. 본인 ls 는 user space 에서 살고, 진짜 파일 열기는 모두 kernel 에 부탁. dtruss 가 그 부탁들을 본인에게 보여줌.
 
-**본인이 직접 시연:**
-```bash
-# 셸에서 진짜로 쳐 보기
-echo '#include <stdio.h>
-int main(){FILE*f=fopen("/etc/hosts","r");char b[100];fread(b,1,99,f);fclose(f);return 0;}' > /tmp/t.c
-clang /tmp/t.c -o /tmp/t
-sudo dtruss /tmp/t 2>&1 | head -20
-```
+> ▶ **같이 쳐보기** — 본인 5줄 C 프로그램의 syscall 보기
+>
+> ```bash
+> echo '#include <stdio.h>
+> int main(){FILE*f=fopen("/etc/hosts","r");char b[100];fread(b,1,99,f);fclose(f);return 0;}' > /tmp/t.c
+> clang /tmp/t.c -o /tmp/t
+> sudo dtruss /tmp/t 2>&1 | head -20
+> ```
 
 본인 5줄 C 프로그램이 약 10~30 번의 syscall 을 부름. 본인 fopen 한 번 + fread 한 번 + fclose 한 번 = 3번 본인 코드 호출이 — 실제로는 그 안에 추가 syscall 들. 본인이 두 공간의 경계를 진짜 본 첫 순간.
 
@@ -547,7 +563,23 @@ H1 이 정체성, H2 가 어휘, H3·H4 가 도구, H5 가 자동화, H6 가 응
 
 11번. 12 중 11번. **H8 한 시간만 남았어요.**
 
-## 20. 마무리 — H8 적용+회고로
+## 20. 흔한 실수 다섯 가지 + 안심 멘트 — 깊이 학습 편
+
+오늘 OS의 가장 깊은 곳을 만나셨어요. 자주 빠지는 학습 함정 다섯을 짚고 가요.
+
+첫 번째 함정, "이건 너무 어렵다" 자기 검열. ring 0/ring 3·trap·syscall·context switch·페이지 폴트·eBPF. 단어가 무거워요. 안심하세요. **첫 한 시간에 다 이해 안 가도 OK.** Ch001 H7에서 약속한 그 원칙. 두 해 동안 매번 만나요. 첫 만남에 30%, 두 번째에 50%, 평생 90%. 첫 한 번에 못 이해해서 그만두지 마세요. 다섯 번 만날 때까지 같이 가세요.
+
+두 번째 함정, 모든 코드를 syscall 줄이려고. 본인이 H7 끝나자마자 본인 코드를 mmap·io_uring·vDSO로 다 바꾸려고. 안심하세요. **First make it work, then make it fast.** 99% 코드는 syscall 안 신경 써도 돼요. 1% hot path만 의식. 두 해 후 프로파일러로 hot path 찾아서 그때 mmap 적용. 첫 챕터 H7부터 최적화 강박은 학습의 적.
+
+세 번째 함정, 사용자 모드와 커널 모드를 본인이 직접 다룰 수 있다고 오해. 본인이 "내 코드가 ring 0에서 도는 방법" 검색하세요. 안심하세요. **본인 코드는 영원히 ring 3에서만.** ring 0에 가는 유일한 길이 syscall. 본인은 ring 0 직접 못 만져요. 그게 보안의 비결이에요. 본인 코드가 ring 0에서 돈다는 환상을 빨리 버리세요. 그 분리가 본인의 자유의 비결이에요.
+
+네 번째 함정, strace·dtruss를 production에서 그냥 돈다. 본인이 디버깅한다고 production 서버에 strace -p PID. 안심하세요, 함정 풀이부터. **strace는 프로세스를 5~50배 느리게 해요.** ptrace 시스템 콜이 매번 syscall에 끼어들어서. production에서 strace 돌리면 본인이 진단하는 그 서비스를 본인이 죽일 수 있어요. 항상 (1) staging에서 먼저, (2) production은 짧게(strace -c 5초), (3) eBPF·perf 같은 더 가벼운 도구. 두 해 후 운영자 첫 규칙.
+
+다섯 번째 함정, 가장 큰 함정. **추신 18개 다 외우려고 한다.** H7 끝의 추신이 진짜 많았어요. 본인이 다 외우려고 끙끙대세요. 안심하세요. **외우는 게 아니라 한 번씩 만나는 거예요.** 추신 한 줄에 두 해 후 한 단어 — Meltdown·Spectre·KPTI·eBPF·io_uring·vDSO·Nitro·Firecracker. 한 단어씩 두 해 동안 다시 만나요. 그때마다 "어, 첫 챕터 H7에서 들었지" 떠올라요. 외워서 그러는 게 아니라 첫 만남이 친숙함을 만들어요. 첫 만남이 두 번째 만남을 부드럽게 해 줘요. 한 번 본 단어는 평생 가까운 친구. 외울 필요 없어요.
+
+다섯 함정 미리 알아둔 본인이 두 해 동안 한 박자 빠르게 손이 움직여요.
+
+## 21. 마무리 — H8 적용+회고로
 
 자, 7교시 끝. **본인 진짜 잘 견뎠어요.** 한 시간 동안 ring 0·ring 3·syscall 7단계·페이지 폴트·context switch·mmap·eBPF·XNU·Tanenbaum-Linus 논쟁까지. 이게 컴퓨터 사이언스 학과 OS 수업 한 학기 분량.
 
@@ -606,3 +638,20 @@ H1 이 정체성, H2 가 어휘, H3·H4 가 도구, H5 가 자동화, H6 가 응
 추신 열일곱. **본인이 오늘 한 약속 하나만.** 잠들기 전에 종이에 한 그림. **사용자 코드 → syscall → 커널 → sysret → 사용자 코드.** 화살표 4개. 1분. 그 1분이 본인의 30년 커리어를 바꾼다고 약속해요. 진짜. 본인이 두 해 후 면접관 앞에서 그 그림을 손으로 그릴 때 — 그 합격 통보가 오늘 잠들기 전 1분에서 시작. 자, 그러면 7교시 진짜 끝. 마지막 한 시간 H8 만나요.
 
 추신 열여덟. 본인이 두 해 후 가장 멋진 순간 한 장면. 새벽 2시 회사 사무실. 본인 옆자리 시니어 개발자가 본인에게 묻는 한 줄. "이 함수가 왜 100ms 나 걸리지?" 본인이 strace -c 한 줄. 5초 후 답. "read 가 5만 번 호출돼요. 버퍼 한 줄 추가하면 100배 빨라집니다." 시니어가 본인 얼굴 봐요. "어떻게 알았어?" 본인 답. "함수 호출 0.001μs vs syscall 0.1μs, 100배 차이. 두 공간 모델이요." 그 시니어가 본인을 다르게 봐요. 그 한 순간이 본인 연봉 올림. 본인 자리 올림. 본인 인생 바꿈. 그게 오늘 한 시간의 진짜 가치. 약속해요.
+
+---
+
+## 👨‍💻 개발자 노트 (참고 — 비개발자는 그냥 넘기셔도 됩니다)
+
+> - x86 ring 0~3 vs ARM EL0~EL3 — 개념은 같고 이름만 다름. ARM의 EL2(하이퍼바이저)·EL3(secure monitor)는 x86 ring에 직접 대응 없음. Apple Silicon은 ARM이라 EL 모델. 본 챕터는 학습 부담을 위해 ring 모델 우선.
+> - syscall 인스트럭션 — x86은 `syscall` (AMD K8 이후) 또는 `int 0x80` (구식). ARM은 `svc` (supervisor call). RISC-V는 `ecall`. 모두 같은 일 — ring 전환.
+> - context switch 비용 1~10µs는 Linux 5.x 기준. Spectre 패치 후 KPTI(페이지 테이블 격리)로 약 30% 증가. Meltdown 시대 직전 vs 직후 측정 차이가 OS 보안 비용의 진짜 모습.
+> - dtruss vs strace 차이 — strace는 ptrace syscall 사용, dtruss는 DTrace probe 사용. DTrace가 더 가벼움(< 5% 오버헤드 vs strace 5~50배). macOS는 dtruss 우선. SIP 때문에 시스템 바이너리는 못 보지만 본인 바이너리는 OK.
+> - eBPF는 2014년 Linux 3.18부터. 커널 안에서 도는 가벼운 가상 머신. 트레이싱·네트워크 필터링·보안 정책 등에 혁명. macOS는 eBPF 없고 DTrace로 일부 동등. Ch 091 성능 시간에 깊이.
+> - vDSO (virtual Dynamic Shared Object) — gettimeofday/getpid 같은 자주 부르는 syscall을 user space로 매핑하여 ring 전환 없이 답. macOS의 commpage가 동등. 시계 코드의 진짜 빠른 비결.
+> - Tanenbaum vs Linus 1992년 마이크로커널 vs 모놀리식 논쟁은 Usenet comp.os.minix 그룹. "Linux is obsolete" Tanenbaum 글이 시작. 30년 후 결과 — 모놀리식 Linux가 시장 90% 차지. 다만 마이크로커널 사상은 Mach (macOS XNU의 기반)·L4 (자동차/항공)에서 살아남.
+> - io_uring (Linux 5.1+, 2019)은 syscall 자체를 비동기화. user space와 kernel space가 공유 링 버퍼로 통신, ring 전환 비용 0. nginx·PostgreSQL·Redis가 채택 중. macOS는 비슷하게 dispatch_io / kqueue / Grand Central Dispatch.
+> - Meltdown(CVE-2017-5754)·Spectre(CVE-2017-5753, 5715)는 분기 예측을 악용한 user→kernel 메모리 누출. KPTI(Kernel Page Table Isolation) 패치로 ring 0/ring 3 메모리를 더 강하게 분리. 두 공간 모델의 한계와 강화의 사례.
+> - cold path / hot path 80/20 법칙 — Knuth의 "premature optimization is the root of all evil" (1974)와 같은 사상. profiler로 hot path 식별 후 그 자리만 최적화. Ch 091 성능에서 perf flame graph로 시연.
+> - §17 FAQ Q3의 "함수 호출 vs 시스템 콜 비용" 비교는 실제 면접 단골. 답: 함수 호출 ~1ns (CALL/RET 인스트럭션, 같은 ring), syscall ~500ns~1µs (ring 전환 + 인자 검증 + 권한 체크 + sysret).
+> - 분량: 이 H7은 약 19,500자(공백 제외). 음독 60~63분. 디벨롭 이력: 2026-04-30 ▶ 박스 0→3개 추가 (§4 커널 정보·§10 dtruss 두 곳) / §20 "흔한 실수 깊이 학습 편" 신설 +1,500자 / 개발자 노트 신설 / 목차 21항목 갱신.
