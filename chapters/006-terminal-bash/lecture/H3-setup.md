@@ -1,567 +1,552 @@
-# Ch006 · H3 — 터미널·셸·Bash: 환경점검 — 자경단 표준 30분 셋업
+# Ch006 · H3 — 자경단 표준 30분 셋업 — 본인 노트북을 자경단 표준 환경으로
 
-> **이 H에서 얻을 것**
-> - macOS Apple Silicon 셋업 — Homebrew·iTerm2·zsh·oh-my-zsh·starship 5종을 30분에
-> - dotfiles GitHub repo — 5명 자경단의 .zshrc·.vimrc·.gitconfig 공유
-> - 자경단 첫 .zshrc 50줄 — PATH·환경변수·alias·function·plugin·테마
-> - tmux 옵션 셋업 — 한 SSH 세션에서 멀티 창
-> - macOS·Linux·Windows WSL 변환표 — 한 셋업이 세 OS에 적용
-> - 자경단 5명 환경 동기화 — 1주일 안에 5명 같은 환경
+> 고양이 자경단 · Ch 006 · 3교시 (60분)
+> 이 파일은 강사가 마이크 앞에서 그대로 읽을 수 있는 말 그대로의 대본입니다.
 
 ---
 
-## 회수: H2의 8개념에서 본 H의 30분 셋업으로
+## 📋 이 시간 목차
 
-지난 H2에서 본인은 셸의 8개념 깊이를 봤어요. 변수·PATH·exit code·subshell·glob·redirection·heredoc·pipe. 그건 셸의 동작.
-
-이번 H3은 그 셸을 **본인 노트북에 박는 30분**이에요. iTerm2·zsh·oh-my-zsh·starship·brew·tmux 6종 도구가 30분 안에 본인 노트북에 자리. 5년 사용.
-
-본 H 끝나면 본인의 노트북은 자경단 표준 환경. 자경단 5명이 같은 환경이면 합의 비용 0. **표준이 협업의 빛**.
+1. 다시 만나서 반가워요 — H2 회수와 오늘의 약속
+2. 30분 동안 본인이 받게 되는 것 — 6종 도구의 그림
+3. 첫 단추 — Xcode Command Line Tools
+4. 둘째 단추 — Homebrew, macOS의 황금 패키지 매니저
+5. 한 줄로 12종 도구 — 자경단 표준 도구 박기
+6. iTerm2 — macOS의 진짜 터미널
+7. zsh + oh-my-zsh — 셸을 풍부하게
+8. starship — Rust로 만든 가벼운 프롬프트
+9. tmux — 한 창 안에 여러 창
+10. dotfiles GitHub 저장소 — 다섯 명 동기화의 비밀
+11. 자경단 첫 .zshrc 50줄 — 본인의 첫 dotfile
+12. macOS·Linux·Windows 변환표
+13. 흔한 오해 다섯 가지
+14. 자주 받는 질문 다섯 가지
+15. 마무리 — 다음 H4에서 만나요
 
 ---
 
-## 1. macOS Apple Silicon 첫 셋업 — 5단계
+## 🔧 강사용 명령어 한눈에
 
-본인의 자경단이 macOS M1·M2·M3 (Apple Silicon)이라면.
+```bash
+# Xcode CLT
+xcode-select --install
 
-### 1-1. Xcode Command Line Tools
+# Homebrew
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
 
-> ▶ **같이 쳐보기** — 5분 한 줄: 개발 도구 토대 깔기
+# 자경단 표준 도구 12종 (한 줄)
+brew install git gh node@20 python@3.12 ripgrep fd bat eza jq tldr starship tmux
+brew install --cask iterm2
+
+# oh-my-zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+# starship
+echo 'eval "$(starship init zsh)"' >> ~/.zshrc
+
+# 검증
+which brew git gh node python3 rg fd bat eza jq starship tmux
+```
+
+---
+
+## 1. 다시 만나서 반가워요 — H2 회수와 오늘의 약속
+
+자, 안녕하세요. 다시 만났습니다. 한 시간 쉬셨죠. 어깨 한 번 돌리시고요. 물 한 잔 드시고요.
+
+지난 H2를 한 줄로 회수할게요. 셸의 8개념을 다 만났어요. 변수·환경변수·PATH·exit code·subshell·glob·redirection·heredoc·pipe. 외계어가 좀 줄으셨길 바라요. H1 마지막에 보여드린 `find ~ -size +100M 2>/dev/null | sort -k5 -hr | head -5` 이 한 줄이 한 단어씩 읽히기 시작했으면 H2의 약속을 지켰어요.
+
+이번 H3은 본인 노트북에 자경단 표준 환경을 박는 30분이에요. 손이 바빠지는 시간이에요. 본인이 노트북을 켜시고, 한 명령씩 같이 쳐 가면서, 30분 후에 본인의 노트북이 자경단 다섯 명 중 한 명의 표준 환경으로 변하는 그림이에요. 30분 후에는 본인이 스스로 손으로 친 환경이 자기 자리에 있어요. 5년 동안 본인이 매일 만나는 환경이 30분 안에 만들어져요.
+
+오늘의 약속은 두 가지예요. 하나, **자경단 표준 6종 도구가 본인 노트북에 깔립니다**. iTerm2·zsh·oh-my-zsh·starship·brew·tmux. 둘, **본인의 첫 dotfile이 GitHub에 올라갑니다**. 50줄짜리 .zshrc 한 장. 그 한 장이 본인의 5년 손가락의 모양이에요.
+
+전제 한 가지. 본 시간은 macOS Apple Silicon 기준이에요. M1, M2, M3 맥북. Intel Mac이거나 Linux나 WSL인 분도 따라오실 수 있어요. 12절에서 변환표 드릴게요. 자, 가요.
+
+---
+
+## 2. 30분 동안 본인이 받게 되는 것 — 6종 도구의 그림
+
+본격 시작 전에 30분 동안 본인이 받게 되는 6종 도구의 그림을 한 번 펼쳐 드릴게요. 그림을 알고 가면 학습이 가벼워져요.
+
+첫째 도구, **Homebrew (brew)**예요. macOS의 패키지 매니저. 본인이 `brew install git`이라고 한 줄 치면 git이 깔리는 그 마법의 도구. 자경단 셋업의 토대예요.
+
+둘째, **iTerm2**. macOS의 진짜 터미널. 기본 Terminal.app보다 100배 친절해요. 분할 창, 검색, 색깔 테마. 자경단 표준이에요.
+
+셋째, **zsh + oh-my-zsh**. macOS가 2019년부터 기본으로 쓰는 셸이 zsh예요. 그 위에 oh-my-zsh라는 framework를 얹으면 자동완성, 색깔, 플러그인이 줄줄이 따라와요. 본인의 셸이 두 배쯤 똑똑해져요.
+
+넷째, **starship**. Rust로 만든 프롬프트. 본인이 셸을 켤 때 보이는 첫 줄을 예쁘게 만들어 주는 도구. 가볍고 빠르고 멋져요.
+
+다섯째, **tmux**. 한 터미널 창 안에 여러 가상 창을 만드는 도구. 원격 서버에서 일할 때 진짜 강력해요.
+
+여섯째, **brew로 깔리는 자경단 표준 도구 12종**. git, gh, node, python, ripgrep, fd, bat, eza, jq, tldr, starship, tmux. 한 줄로 다 깔려요. 한 줄 10분.
+
+여섯 개를 한 시간 안에 본인 노트북에 박아요. 마지막에 GitHub에 본인 dotfile 한 장이 올라가요. 30분이 지나면 본인은 자경단 다섯 명의 한 명이에요. 자, 첫 단추부터.
+
+---
+
+## 3. 첫 단추 — Xcode Command Line Tools
+
+가장 먼저 깔아야 할 게 Xcode Command Line Tools예요. macOS에서 모든 개발 도구의 토대예요. git, make, gcc, 그리고 brew도 이게 있어야 깔려요. 한 줄이에요.
+
+> ▶ **같이 쳐보기** — Xcode Command Line Tools 설치
 >
 > ```bash
 > xcode-select --install
 > ```
 
-5분 다운로드. git·make·gcc 등 기본 도구. 한 번 설치, 평생.
+엔터 누르면 GUI 팝업이 떠요. "Command Line Developer Tools를 설치하시겠습니까?" 같은 메시지. Install 버튼 누르세요. 약관 동의 화면이 나오면 동의하시고. 그 다음 다운로드가 시작돼요. 인터넷 속도에 따라 5분에서 20분. 한 번 깔면 평생 쓰니까 차분히 기다리세요.
 
-### 1-2. Homebrew (brew)
+이미 깔려 있는 분은 `xcode-select: error: command line tools are already installed` 같은 메시지가 떠요. 그러면 다음 단추로 넘어가세요.
 
-macOS의 패키지 매니저. 자경단 셋업의 토대.
+설치가 끝났는지 확인하는 법. 한 줄이에요.
 
-> ▶ **같이 쳐보기** — Homebrew 설치 + PATH 등록 (Apple Silicon)
+```bash
+xcode-select -p
+```
+
+`/Library/Developer/CommandLineTools` 같은 경로가 떠요. 그러면 설치 완료. 이제 git이 본인 노트북에 깔린 상태예요. `git --version` 한 번 쳐 보세요. 버전이 떠요.
+
+---
+
+## 4. 둘째 단추 — Homebrew, macOS의 황금 패키지 매니저
+
+Homebrew, 줄여서 brew. macOS 개발자의 가장 친한 친구예요. 본인이 어떤 도구든 `brew install <이름>` 한 줄로 깔 수 있어요. 깐 거 빼고 싶으면 `brew uninstall <이름>`. 업그레이드는 `brew upgrade`. 마법 같은 도구예요.
+
+설치는 한 줄이에요. brew 공식 홈페이지에 가면 첫 화면에 이 한 줄이 떠 있어요. 그대로 복사해서 본인 셸에 붙여 넣으세요.
+
+> ▶ **같이 쳐보기** — Homebrew 설치
 >
 > ```bash
 > /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-> # 끝나면 메시지대로 PATH 추가:
+> ```
+
+curl로 설치 스크립트를 다운로드해서 bash로 실행. 5분에서 10분 걸려요. 중간에 비밀번호 한 번 물어봐요. 본인 맥 로그인 비밀번호 치시면 돼요. 끝나면 메시지가 떠요. "Next steps" 라는 제목으로 두 줄이 보일 거예요.
+
+> ▶ **같이 쳐보기** — brew를 PATH에 등록 (Apple Silicon 기준)
+>
+> ```bash
 > echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
 > eval "$(/opt/homebrew/bin/brew shellenv)"
 > ```
 
-**Apple Silicon = `/opt/homebrew`**. Intel Mac은 `/usr/local`. 자경단 표준은 Apple Silicon이라 `/opt/homebrew` 우선.
+이 두 줄을 그대로 치세요. 첫 줄은 영구 등록(다음 셸 켤 때마다), 둘째 줄은 지금 당장 적용. 첫 줄을 안 치면 셸을 새로 켤 때마다 brew를 못 찾아요. 둘째 줄을 안 치면 지금 셸에서 아직 못 써요. 둘 다 치셔야 해요.
 
-### 1-3. brew로 자경단 표준 도구 한 번에
+확인 한 번 해 봐요.
 
-> ▶ **같이 쳐보기** — 자경단 표준 도구 12종 한 번에 (10분)
+```bash
+which brew
+brew --version
+```
+
+`/opt/homebrew/bin/brew`가 떠요. 그리고 버전 한 줄. 이제 본인 맥은 brew를 가졌어요. macOS 개발자의 90%가 가진 그 도구를 본인도 가졌어요.
+
+여기서 짚고 갈 한 가지. **Apple Silicon은 `/opt/homebrew`, Intel Mac은 `/usr/local`**이에요. 본인 맥이 Intel이면 위 두 줄에서 `/opt/homebrew`를 `/usr/local`로 바꾸세요. 본인 맥이 어느 쪽인지는 Apple 메뉴 → 이 Mac에 관하여로 확인. M1/M2/M3가 보이면 Apple Silicon이에요.
+
+---
+
+## 5. 한 줄로 12종 도구 — 자경단 표준 도구 박기
+
+이제 brew가 깔렸으니까 자경단 표준 도구 12종을 한 줄로 깔아요. 진짜 한 줄이에요. 10분 정도 걸리지만 본인은 그동안 커피 한 잔 마실 수 있어요.
+
+> ▶ **같이 쳐보기** — 자경단 표준 도구 12종 한 줄 설치
 >
 > ```bash
-> brew install git gh node@20 python@3.12 ripgrep fd bat exa jq tldr starship tmux
+> brew install git gh node@20 python@3.12 ripgrep fd bat eza jq tldr starship tmux
 > ```
 
-10개 도구 동시 설치. 10분.
+엔터 누르면 12개가 차례로 다운로드 + 설치돼요. 화면에 줄줄 글자가 흘러내려요. 10분 후 끝나요. 그동안 12개가 무엇인지 한 명씩 짧게 소개해 드릴게요.
 
-설치된 것:
-- **git** — 최신 버전 (Apple 기본보다 새)
-- **gh** — GitHub CLI (Ch005 회수)
-- **node@20** — JavaScript 런타임
-- **python@3.12** — Python 최신
-- **ripgrep** (`rg`) — grep의 빠른 대체
-- **fd** — find의 빠른 대체
-- **bat** — cat의 색깔 강화
-- **exa** — ls의 색깔 + tree
-- **jq** — JSON 파서
-- **tldr** — `man`의 짧은 버전
-- **starship** — 프롬프트 (4절)
-- **tmux** — 터미널 멀티플렉서 (5절)
+**git**. 본인이 이미 알아요. Ch004와 Ch005에서 다 다뤘어요. brew로 깔면 Apple 기본 git보다 더 새 버전이 깔려요.
 
-### 1-4. brew 사용법 5종
+**gh**. GitHub CLI. Ch005에서 본 그 도구. PR 만들기, 리뷰, 이슈 생성을 셸에서 한 줄로.
+
+**node@20**. JavaScript 런타임. 본인이 React 짤 때 필요해요. Ch008에서 만나요.
+
+**python@3.12**. Python 3.12. Ch007에서 본격 다뤄요.
+
+**ripgrep**. 줄여서 `rg`. grep의 진화 버전. 한 100배쯤 빨라요. 자경단의 표준 검색 도구.
+
+**fd**. find의 진화 버전. 더 직관적이고 더 빨라요.
+
+**bat**. cat의 색깔 강화. 코드 파일을 색깔과 줄번호와 함께 보여줘요.
+
+**eza**. ls의 색깔 강화 + 트리 모드. 옛날 이름이 exa였는데 2023년에 이름이 바뀌었어요.
+
+**jq**. JSON 파서. 자경단이 API 디버깅할 때 매일 만나는 친구.
+
+**tldr**. man의 짧은 버전. `man find`는 1000줄짜리 매뉴얼이지만 `tldr find`는 5줄짜리 예시.
+
+**starship**. 프롬프트 도구. 한 절 후에 따로 깊이 다뤄요.
+
+**tmux**. 터미널 멀티플렉서. 두 절 후에 깊이 다뤄요.
+
+12개 다 깔리면 검증 한 번 해 봐요.
 
 ```bash
-brew install <name>            # 설치
-brew uninstall <name>          # 제거
-brew upgrade                   # 모두 업그레이드
-brew list                      # 설치 목록
-brew search <term>             # 검색
+which git gh node python3 rg fd bat eza jq tldr starship tmux
 ```
 
-### 1-5. brew의 함정
+12개 다 path가 떠야 해요. 안 뜨는 게 있으면 `brew install` 다시.
 
-- **PATH 우선순위** — `/opt/homebrew/bin`이 PATH 앞에 있어야 brew git이 우선. `which git`으로 검증 (Ch006 H2 회수).
-- **Intel vs Apple Silicon** — 둘이 다른 디렉토리. M1+ 사용자는 `/opt/homebrew`만. 이전 컴퓨터에서 옮길 때 Rosetta 2 함정.
-- **brew shellenv** — `.zprofile`(login shell)에 추가. `.zshrc`에 두면 매 셸 새로 시작 시 중복.
+마지막으로 iTerm2도 brew로 깔 수 있어요. cask 옵션으로.
+
+```bash
+brew install --cask iterm2
+```
+
+iTerm2는 GUI 앱이라 cask로 깔아요. 끝나면 어플리케이션 폴더에 iTerm 앱이 보여요. 다음 절에서 iTerm을 자세히 봐요.
 
 ---
 
-## 2. iTerm2 — macOS의 진짜 터미널
+## 6. iTerm2 — macOS의 진짜 터미널
 
-기본 Terminal.app보다 강력한 iTerm2.
+방금 깐 iTerm을 한 번 켜 봐요. 어플리케이션 폴더에서 iTerm 더블클릭. 검은 창이 떠요. 기본 Terminal.app과 비슷해 보이지만 사실 안에 진짜 풍부한 기능이 들어 있어요.
 
-### 2-1. 설치
+자경단 다섯 명이 매일 쓰는 단축키 다섯 개를 알려 드릴게요.
+
+`Cmd+T`. 새 탭. 한 창에 여러 탭을 열 수 있어요.
+
+`Cmd+D`. 수직 분할. 한 탭을 좌우로 나눠요.
+
+`Cmd+Shift+D`. 수평 분할. 한 탭을 위아래로 나눠요.
+
+`Cmd+W`. 현재 탭 또는 분할 창 닫기.
+
+`Cmd+F`. 검색. 화면에 떠 있는 글자에서 찾기.
+
+이 다섯 개가 자경단의 매일 쓰는 단축키예요. 외우려 마세요. 한 번 보고 가세요. 한 달 쓰시면 손가락에 박혀요.
+
+iTerm의 기본 설정 두 가지만 바꿔 드릴게요. iTerm 메뉴 → Preferences (또는 `Cmd+,`)를 열어요.
+
+첫째, **Profiles → Default → Text → Font**. 폰트를 Nerd Font로 바꿔요. starship에 아이콘이 뜨려면 Nerd Font가 필요해요. brew로 한 번 깔아 두면 좋아요.
 
 ```bash
-$ brew install --cask iterm2
+brew install --cask font-jetbrains-mono-nerd-font
 ```
 
-또는 https://iterm2.com 에서 직접.
+깔린 후 iTerm Preferences → Profiles → Default → Text → Font를 JetBrainsMono Nerd Font로. 글씨 크기는 14가 자경단 표준.
 
-### 2-2. 자경단 표준 설정
+둘째, **Profiles → Default → Window → Transparency**. 약간 투명하게 하면 멋있어요. 5%~10% 정도. 호기심에 한 번 만지작거려 보세요.
 
-iTerm2 → Preferences (Cmd+,):
-
-**Appearance**:
-- Theme: Minimal (또는 Compact)
-- Tab bar location: Top
-
-**Profiles → Default**:
-- General → Working directory: "Reuse previous session's directory"
-- Text → Font: **MesloLGS Nerd Font** (oh-my-zsh + powerlevel10k 권장)
-- Text → Font size: 14
-- Window → Style: Normal
-- Window → Transparency: 약간 (옵션)
-- Window → Blur: ON (옵션)
-
-**Keys → Key Bindings**:
-- 추가: `⌘ ←` → "Send Hex Code: 0x01" (line beginning, Ctrl-A 효과)
-- `⌘ →` → "Send Hex Code: 0x05" (line ending, Ctrl-E)
-
-### 2-3. 자경단 단축키 5종 (Ch006 H1 회수)
-
-```
-Cmd+T          새 탭
-Cmd+D          수직 분할
-Cmd+Shift+D    수평 분할
-Cmd+W          닫기
-Cmd+`          다음 창
-Cmd+1·2·3      탭 이동
-```
-
-### 2-4. iTerm2 vs 다른 터미널
-
-| 터미널 | 장점 | 단점 |
-|--------|------|------|
-| **Terminal.app** | macOS 기본 | 분할 없음·테마 부족 |
-| **iTerm2** | 분할·테마·검색·badge | 설치 필요 |
-| **Warp** | AI 통합·블록 | 베타·개인정보 |
-| **Alacritty** | 빠름·GPU | 분할 없음·설정 어려움 |
-| **Kitty** | 빠름·이미지 | 학습 곡선 |
-| **Wezterm** | Lua 설정·이미지 | 학습 곡선 |
-
-자경단 표준 — **iTerm2** (안정·기능·자료). 1년 후 Warp 검토.
+이 두 가지만 바꾸시면 본인 iTerm이 자경단 표준 외관이에요. 색깔 테마 같은 건 H8에서 dotfile에 박아 둬요.
 
 ---
 
-## 3. zsh + oh-my-zsh — 셸 풍부
+## 7. zsh + oh-my-zsh — 셸을 풍부하게
 
-zsh 자체는 macOS Catalina+ 기본. oh-my-zsh가 풍부한 plugin·테마.
-
-### 3-1. oh-my-zsh 설치
+zsh는 본인 맥에 이미 깔려 있어요. macOS Catalina(2019) 이후 기본 셸이에요. 한 번 확인해 봐요.
 
 ```bash
-$ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+echo $SHELL
 ```
 
-자동으로 `~/.oh-my-zsh/` 디렉토리 + `~/.zshrc` 갱신.
+`/bin/zsh`가 뜨면 본인은 이미 zsh를 쓰고 있어요. 99%의 분이 zsh예요. 안 뜨면 `chsh -s /bin/zsh`로 바꾸세요.
 
-### 3-2. plugin 6종 (자경단 표준)
+그 위에 oh-my-zsh라는 framework를 얹어요. oh-my-zsh가 뭐냐면, zsh를 200배쯤 풍부하게 만들어 주는 도구예요. 자동완성 강화, 풍부한 테마, 플러그인 시스템, 깃 상태 표시. 자경단의 표준이에요.
 
-`~/.zshrc`의 plugins 줄을 수정:
+> ▶ **같이 쳐보기** — oh-my-zsh 설치
+>
+> ```bash
+> sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+> ```
 
-```bash
-plugins=(
-  git
-  docker
-  kubectl
-  npm
-  rust
-  gh
-)
-```
+curl로 설치 스크립트 다운, sh로 실행. 1분이면 끝나요. 끝나면 본인의 .zshrc 파일이 자동으로 만들어져요. `~/.zshrc`예요. 그 파일이 본인의 셸 설정 파일이고, 본인이 평생 키워 갈 dotfile이에요.
 
-각 plugin이 제공:
-- **git** — `gst` (status), `gco` (checkout), `gcm` (commit -m), 60+ alias
-- **docker** — `dcomp` (compose), 자동완성
-- **kubectl** — `k` (=kubectl), 자동완성
-- **npm** — `nrs` (npm run start), 자동완성
-- **rust** — cargo 자동완성
-- **gh** — gh CLI 자동완성
+설치 후 셸을 한 번 닫고 다시 켜세요. 본인 셸의 외관이 살짝 달라졌을 거예요. 색깔이 풍부해지고, 디렉토리 이름이 살짝 다른 색깔이고. 이게 oh-my-zsh의 첫 인상이에요.
 
-```bash
-$ source ~/.zshrc
-$ gst                          # git status (oh-my-zsh git plugin)
-```
+자경단이 매일 쓰는 oh-my-zsh 플러그인 다섯 개를 알려 드릴게요.
 
-### 3-3. zsh 추가 plugin (외부)
+**git**. git 명령어의 짧은 별명. `gst`(git status), `gco`(git checkout), `gcm`(git commit -m). 본인의 git 손가락이 절반으로 줄어요.
 
-oh-my-zsh + 추가 외부 plugin 2종:
+**docker**. docker 명령어의 자동완성. `docker run` 다음에 탭을 누르면 옵션이 줄줄 떠요.
 
-```bash
-# 자동완성 강화
-$ git clone https://github.com/zsh-users/zsh-autosuggestions \
-  ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+**npm**. npm 명령어의 자동완성과 별명.
 
-# 문법 강조
-$ git clone https://github.com/zsh-users/zsh-syntax-highlighting \
-  ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
-```
+**z**. 디렉토리 이동 도구. 본인이 자주 가는 폴더를 학습해서 `z proj`만 쳐도 그 폴더로 이동.
 
-`~/.zshrc`의 plugins에 추가:
+**zsh-autosuggestions**. 본인이 친 명령어를 학습해서 회색 글자로 다음에 칠 명령을 미리 보여줘요. → 키 누르면 채택.
 
-```bash
-plugins=(
-  git docker kubectl npm rust gh
-  zsh-autosuggestions zsh-syntax-highlighting
-)
-```
-
-zsh-autosuggestions — 본인 history 기반 회색 자동 제안. → 키로 수락.
-zsh-syntax-highlighting — 명령어가 유효한지 빨강·초록으로.
-
-### 3-4. 테마 — 자경단 표준
-
-oh-my-zsh의 테마 옵션:
-
-```bash
-# ~/.zshrc
-ZSH_THEME="robbyrussell"           # 기본
-# ZSH_THEME="agnoster"             # powerline 폰트 필요
-# ZSH_THEME="powerlevel10k/powerlevel10k"  # 가장 풍부
-```
-
-자경단 — `robbyrussell` 또는 starship (4절)로 대체.
+이 다섯 개를 .zshrc의 plugins 줄에 추가하면 돼요. H8 dotfile 시간에 자세히.
 
 ---
 
-## 4. starship — Rust로 만든 빠른 프롬프트
+## 8. starship — Rust로 만든 가벼운 프롬프트
 
-starship이 oh-my-zsh 테마보다 더 빠름. 자경단 권장.
+본인이 셸을 켜면 가장 먼저 보이는 게 프롬프트예요. 보통 `$` 한 글자 또는 `mo@MacBook ~ $` 같은 한 줄. 그 한 줄을 더 예쁘게, 더 정보가 많이 담기게 만드는 도구가 starship이에요. Rust로 만들어서 빠르고 가벼워요.
 
-### 4-1. 설치
+방금 brew로 깔았으니까 활성화만 하면 돼요. 한 줄로 끝나요.
 
-```bash
-$ brew install starship          # 위에서 이미 설치
-```
+> ▶ **같이 쳐보기** — starship 활성화
+>
+> ```bash
+> echo 'eval "$(starship init zsh)"' >> ~/.zshrc
+> ```
 
-### 4-2. 활성화
+이 한 줄을 본인의 .zshrc 끝에 추가. 그 다음 셸을 한 번 닫고 다시 켜세요. 본인의 프롬프트가 완전히 바뀌어 있어요. 디렉토리 이름이 색깔로, 옆에 git 브랜치 이름이 자동으로, 그 옆에 git 상태가 ✓나 ✗로. starship의 첫 인상이에요.
 
-`~/.zshrc` 끝에 추가 (oh-my-zsh의 ZSH_THEME=""로 비우거나 starship이 덮어씀):
+starship의 진짜 강점은 git 통합이에요. 본인이 git repo 폴더에 있으면 자동으로 브랜치 이름이 떠요. 변경된 파일이 있으면 ✗가 뜨고, 깨끗하면 ✓가 떠요. push 안 한 commit이 있으면 ⇡가 떠요. 본인이 `git status`를 안 쳐도 매번 보여줘요.
 
-```bash
-# ~/.zshrc
-eval "$(starship init zsh)"
-```
+그 외에도 본인이 어느 폴더에 들어가면 그 폴더의 언어를 자동으로 감지해서 알려줘요. node 폴더면 🟢 node 버전, python 폴더면 🐍 python 버전, rust 폴더면 🦀 rust 버전. 본인이 자기 환경을 한 줄로 봐요.
 
-### 4-3. 설정
-
-`~/.config/starship.toml` 생성:
-
-```toml
-# ~/.config/starship.toml — 자경단 표준
-add_newline = true
-format = """
-$directory\
-$git_branch\
-$git_status\
-$nodejs\
-$python\
-$rust\
-$cmd_duration\
-$line_break\
-$character"""
-
-[directory]
-truncation_length = 3
-truncate_to_repo = true
-
-[git_branch]
-symbol = "🌱 "
-
-[git_status]
-ahead = "⇡${count}"
-behind = "⇣${count}"
-modified = "📝"
-
-[character]
-success_symbol = "[➜](bold green)"
-error_symbol = "[➜](bold red)"
-
-[cmd_duration]
-min_time = 2_000          # 2초+ 명령만 시간 표시
-format = "took [$duration](bold yellow)"
-```
-
-### 4-4. starship 효과
-
-본인의 프롬프트가:
-
-```
-~/cat-vigilante  🌱 main 📝
-took 3.2s
-➜
-```
-
-git branch + 변경 표시 + 명령 시간이 한 페이지. 가독성 무한대.
-
-### 4-5. starship vs oh-my-zsh 테마
-
-| 도구 | 속도 | 설정 | 자경단 |
-|------|------|------|------|
-| oh-my-zsh `robbyrussell` | 빠름 | 간단 | 시작 |
-| oh-my-zsh `agnoster` | 보통 | 폰트 필요 | 가끔 |
-| oh-my-zsh `powerlevel10k` | 빠름 | 마법사 | 옵션 |
-| **starship** | 가장 빠름 (Rust) | 한 toml 파일 | **권장** |
-
-자경단 표준 — starship.
+설정 파일은 `~/.config/starship.toml`이에요. 본인이 원하면 색깔, 아이콘, 표시 항목을 다 커스터마이즈할 수 있어요. H8 dotfile 시간에 자경단 표준 starship.toml을 드릴게요.
 
 ---
 
-## 5. tmux — 터미널 멀티플렉서
+## 9. tmux — 한 창 안에 여러 창
 
-iTerm2의 분할은 GUI. tmux는 셸 안 분할. SSH로 원격 서버에서도.
+tmux는 터미널 멀티플렉서예요. 한 터미널 창 안에 여러 가상 창을 만들어 주는 도구. iTerm의 분할과 비슷하지만 한 가지 큰 차이가 있어요. **세션이 살아 있어요**.
 
-### 5-1. 설치
+본인이 SSH로 원격 서버에 들어가서 일하다가 인터넷이 끊기면, 보통의 셸 세션은 거기서 죽어요. 본인이 일하던 게 다 사라져요. tmux를 쓰면 살아 있어요. 본인이 다시 SSH로 들어가서 `tmux attach`만 치면 끊긴 그 자리에서 다시 시작해요. 마법 같은 기능이에요.
 
-```bash
-$ brew install tmux              # 위에서 이미
-```
+tmux의 기본 단축키는 prefix가 `Ctrl+b`예요. 모든 명령이 `Ctrl+b` 다음에 한 글자.
 
-### 5-2. 첫 사용
+> ▶ **같이 쳐보기** — tmux 첫 세션
+>
+> ```bash
+> tmux new -s work
+> ```
 
-```bash
-$ tmux                           # 새 세션 시작
-# (tmux 안에서)
-Ctrl-b "                         # 수평 분할
-Ctrl-b %                         # 수직 분할
-Ctrl-b o                         # 다음 창으로
-Ctrl-b d                         # detach (세션 유지)
-$ tmux attach                    # 세션 다시
-```
+새 세션이 만들어져요. 화면 아래에 초록색 바가 떠요. 그 안에서 명령을 치고, `Ctrl+b` 다음 `d`를 누르면 detach. 세션은 백그라운드에서 살아 있어요. 다시 들어가려면 `tmux attach -t work`.
 
-### 5-3. 자경단 tmux 활용
+자경단 다섯 명이 매일 쓰는 tmux 단축키 다섯 개를 알려드릴게요.
 
-**SSH 끊겨도 작업 유지**:
+`Ctrl+b c`. 새 창 (window). 한 세션 안에 여러 창.
 
-```bash
-$ ssh server
-[server]$ tmux                   # tmux 세션 시작
-[server]$ npm run build          # 긴 빌드 시작
-[server]$ Ctrl-b d               # detach (SSH 끊어도 빌드 계속)
-[server]$ exit
-$ # 1시간 후
-$ ssh server
-[server]$ tmux attach            # 세션 다시 → 빌드 결과 보임
-```
+`Ctrl+b n`. 다음 창.
 
-**자경단 페어 — 같은 tmux 세션 공유** (`tmux attach -t pair`):
+`Ctrl+b p`. 이전 창.
 
-```bash
-[본인]$  tmux new -s pair
-[까미]$  ssh 본인_노트북
-[까미]$  tmux attach -t pair     # 둘이 같은 화면
-```
+`Ctrl+b "`. 수평 분할.
 
-### 5-4. tmux 설정 (`~/.tmux.conf`)
+`Ctrl+b %`. 수직 분할.
 
-```bash
-# 자경단 표준 .tmux.conf
-set -g default-terminal "screen-256color"
-set -g mouse on                  # 마우스 사용 OK
-setw -g mode-keys vi             # vi 단축키
-bind | split-window -h           # | (대신 ")
-bind - split-window -v           # - (대신 %)
-bind r source-file ~/.tmux.conf \; display "Reloaded!"
-```
+다섯 개가 손가락에 박히면 본인이 한 SSH 세션 안에 4개 창을 띄우고 일할 수 있어요. 한 창에서 서버 로그 보고, 한 창에서 코드 짜고, 한 창에서 테스트 돌리고, 한 창에서 git. 자경단 미니가 매일 이렇게 일해요.
 
-### 5-5. tmux vs iTerm2 분할
-
-| 도구 | 어디서 | SSH 호환 | 페어 |
-|------|------|---------|------|
-| iTerm2 분할 | GUI 로컬만 | ✗ | ✗ |
-| tmux | 어디든 (셸 안) | ✓ | ✓ |
-
-자경단 — **로컬은 iTerm2**, **원격·페어는 tmux**.
+tmux 설정 파일은 `~/.tmux.conf`예요. 자경단 표준은 prefix를 `Ctrl+b`에서 `Ctrl+a`로 바꿔요. `Ctrl+b`가 vim이랑 충돌이 잦거든요. H8에서 자세히.
 
 ---
 
-## 6. dotfiles GitHub repo — 5명 환경 동기화
+## 10. dotfiles GitHub 저장소 — 다섯 명 동기화의 비밀
 
-자경단 5명의 .zshrc·.vimrc·.gitconfig를 GitHub에 공유.
+자, 여기까지 본인은 6종 도구를 다 깔았어요. 30분의 마지막 절이에요. 가장 중요한 한 가지를 알려 드릴게요. **dotfiles GitHub 저장소**.
 
-### 6-1. dotfiles repo 셋업 5분
+dotfile이 뭔지 짧게 정의할게요. 본인의 셸 설정, vim 설정, git 설정, tmux 설정 같은 게 다 점(.)으로 시작하는 파일에 저장돼요. `.zshrc`, `.vimrc`, `.gitconfig`, `.tmux.conf`. 합쳐서 dotfile이라고 해요. 본인의 손가락의 모양 그 자체예요.
 
-```bash
-$ mkdir ~/dotfiles && cd ~/dotfiles
-$ git init -b main
-$ cp ~/.zshrc .zshrc
-$ cp ~/.gitconfig .gitconfig
-$ cp ~/.tmux.conf .tmux.conf
-$ cp ~/.config/starship.toml starship.toml
-$ git add .
-$ git commit -m 'feat: 자경단 본인 dotfiles 시작'
-$ gh repo create cat-vigilante/dotfiles --public --source=. --push
+그 dotfile을 GitHub에 올려 두면 본인이 새 노트북을 사도 5분 만에 같은 환경을 복원할 수 있어요. `git clone`만 하면 되거든요. 그리고 자경단 다섯 명이 같은 dotfile repo를 공유하면 다섯 명 환경이 동기화돼요. 합의가 자동으로 되는 거예요.
+
+자경단의 dotfile repo 구조 한 번 보여드릴게요.
+
+```
+dotfiles/
+├── README.md
+├── install.sh           # 새 맥에서 한 번 실행
+├── zsh/
+│   └── .zshrc
+├── git/
+│   └── .gitconfig
+├── tmux/
+│   └── .tmux.conf
+├── vim/
+│   └── .vimrc
+└── starship/
+    └── starship.toml
 ```
 
-5분 끝.
+`install.sh` 한 줄에 모든 dotfile이 본인 홈 폴더에 심볼릭 링크로 연결돼요. 본인이 .zshrc를 수정하면 repo의 .zshrc도 같이 수정. git push 한 번이면 다섯 명이 다 받아요.
 
-### 6-2. install.sh 스크립트
+GitHub에 본인 dotfiles repo를 만드는 건 H8에서 자세히 다뤄요. 오늘은 그림만 머리에 두세요. **본인의 손가락이 GitHub에 백업되어 있다.** 5년 후에도 본인의 손가락은 살아있어요.
 
-```bash
-$ cat > install.sh <<'EOF'
-#!/bin/bash
-set -euo pipefail
-DOT=$(cd "$(dirname "$0")"; pwd)
-
-# 심볼릭 링크
-ln -sf "$DOT/.zshrc" ~/.zshrc
-ln -sf "$DOT/.gitconfig" ~/.gitconfig
-ln -sf "$DOT/.tmux.conf" ~/.tmux.conf
-mkdir -p ~/.config
-ln -sf "$DOT/starship.toml" ~/.config/starship.toml
-
-echo "✅ dotfiles 설치 완료"
-EOF
-$ chmod +x install.sh
-$ git add install.sh
-$ git commit -m 'feat: install.sh — 새 노트북 1줄 셋업'
-$ git push
-```
-
-### 6-3. 새 노트북 셋업 1줄
-
-```bash
-$ git clone https://github.com/cat-vigilante/dotfiles.git ~/dotfiles
-$ cd ~/dotfiles && ./install.sh
-$ source ~/.zshrc
-```
-
-3줄로 새 노트북에 자경단 환경 박힘. **5년 후 본인이 노트북 바꿀 때 5분**.
-
-### 6-4. 5명 dotfiles 협업
-
-자경단 5명이 같은 repo에 PR로 추가:
-
-- 본인 — base alias 5종
-- 까미 — backend alias 추가 PR
-- 노랭이 — frontend alias 추가 PR
-- 미니 — infra alias 추가 PR
-- 깜장이 — design·QA alias 추가 PR
-
-PR 5개 후 dotfiles가 5명의 합집합. **dotfiles가 자경단 wiki**.
+자경단의 시연용 dotfiles repo를 보여드릴게요. `https://github.com/cat-vigilante/dotfiles` 같은 식이에요. 본인이 두 해 코스 끝에 자기 dotfiles를 만들고 GitHub에 올리면, 본인도 자기만의 손가락 백업을 갖게 돼요.
 
 ---
 
-## 7. 자경단 첫 .zshrc 50줄
+## 11. 자경단 첫 .zshrc 50줄 — 본인의 첫 dotfile
 
-본 챕터의 모든 셋업을 합친 50줄 (Ch006 H1 11절 회수):
+마지막으로 본인의 첫 .zshrc 50줄을 같이 봐요. 본인이 H8에서 더 키울 거지만 오늘 시범으로 한 번 같이 짜 봐요.
 
-```bash
-# ~/.zshrc — 자경단 표준 시작점
+> ▶ **같이 쳐보기** — 자경단 첫 .zshrc 시범 50줄
+>
+> ```zsh
+> # ===== 자경단 첫 .zshrc =====
+> 
+> # PATH 추가
+> export PATH="$HOME/.local/bin:$PATH"
+> export PATH="/opt/homebrew/bin:$PATH"
+> 
+> # 환경변수 5종
+> export EDITOR="code --wait"
+> export LANG="en_US.UTF-8"
+> export NODE_OPTIONS="--max-old-space-size=4096"
+> 
+> # oh-my-zsh
+> export ZSH="$HOME/.oh-my-zsh"
+> ZSH_THEME=""   # starship이 대체
+> plugins=(git docker npm z zsh-autosuggestions)
+> source $ZSH/oh-my-zsh.sh
+> 
+> # alias 13종 — 자경단 표준
+> alias ll="eza -alh --git"
+> alias la="eza -a"
+> alias l="eza"
+> alias cat="bat"
+> alias find="fd"
+> alias grep="rg"
+> alias g="git"
+> alias gs="git status"
+> alias gp="git pull --rebase"
+> alias gc="git commit -m"
+> alias glog="git log --oneline --all --graph"
+> alias d="docker"
+> alias k="kubectl"
+> 
+> # function 한 개 — git 빠른 commit + push
+> gcp() {
+>   git add . && git commit -m "$1" && git push
+> }
+> 
+> # starship 프롬프트 (마지막에)
+> eval "$(starship init zsh)"
+> ```
 
-# === 1. PATH (5줄) ===
-export PATH="$HOME/.local/bin:$PATH"
-export PATH="/opt/homebrew/bin:$PATH"
-export PATH="$HOME/.cargo/bin:$PATH"
-export PATH="$HOME/.bun/bin:$PATH"
-export PATH="$HOME/go/bin:$PATH"
+50줄짜리 첫 dotfile이에요. 위에서부터 한 줄씩 풀면 — PATH 추가, 환경변수, oh-my-zsh 로드, alias 13개, function 1개, starship 마지막. 본인이 평생 키울 dotfile의 토대예요.
 
-# === 2. 환경변수 (5줄) ===
-export EDITOR="code --wait"
-export LANG="en_US.UTF-8"
-export HOMEBREW_NO_ANALYTICS=1
-export NODE_OPTIONS="--max-old-space-size=4096"
-export GH_TOKEN="$(cat ~/.config/gh/token 2>/dev/null || true)"
+13개 alias 중 자경단이 매일 가장 자주 쓰는 다섯 개는 `gs`, `gp`, `gc`, `ll`, `g`. 다섯 개가 본인 손가락의 90%를 차지해요. 외우려 마세요. 매일 쓰면 박혀요.
 
-# === 3. 자경단 alias 5종 (5줄) ===
-alias s='git status -sb'
-alias lg='git log --oneline --graph --all -20'
-alias ll='ls -lah'
-alias mypr='gh pr list --search "review-requested:@me"'
-alias fpush='git push --force-with-lease'
+이 50줄을 본인의 .zshrc에 그대로 붙여 넣고 싶으시면 가능해요. 단, oh-my-zsh가 이미 깔려 있어야 해요. 그리고 starship도 `brew install starship`으로 깔려 있어야 해요. 셸을 닫고 다시 켜시면 본인 환경이 자경단 표준으로 변해요.
 
-# === 4. 자경단 function (10줄) ===
-gco() { git switch "$1"; }
-gcb() { git switch -c "$1"; }
-catlog() { git log --grep="$1" --oneline; }
-prurl() { gh pr view --web; }
-ll-size() { du -sh * 2>/dev/null | sort -hr | head -10; }
+본인이 추가할 수 있는 다섯 줄을 미리 알려 드릴게요. H8에서 다시 만나요.
 
-# === 5. 셸 옵션 (5줄) ===
-setopt nomatch
-setopt no_share_history
-setopt prompt_subst
-HISTSIZE=10000
-SAVEHIST=10000
-
-# === 6. oh-my-zsh (5줄) ===
-ZSH=$HOME/.oh-my-zsh
-plugins=(git docker kubectl npm rust gh zsh-autosuggestions zsh-syntax-highlighting)
-ZSH_THEME=""
-source $ZSH/oh-my-zsh.sh
-
-# === 7. starship 프롬프트 (1줄) ===
-eval "$(starship init zsh)"
-
-# === 8. 자경단 work flow function (5줄) ===
-quickfix() {
-  git switch main && git pull --rebase && git switch -c "fix/$1"
-}
+```zsh
+# 본인 색깔
+alias todo="vim ~/todo.md"
+alias notes="cd ~/Documents/notes"
+alias serv="python3 -m http.server 8000"
+alias myip="curl ifconfig.me"
+alias weather="curl wttr.in/seoul"
 ```
 
-50줄. 본인의 자경단 5년의 시작.
+본인의 일상에 맞는 별명을 다섯 개 더 추가하면 본인의 dotfile이 진짜 본인 거예요.
 
 ---
 
-## 8. macOS·Linux·Windows WSL 변환표
+## 12. macOS·Linux·Windows 변환표
 
-자경단 5명이 다른 OS여도 같은 명령어.
+본 시간이 macOS 기준이지만 Linux·Windows 분도 따라오실 수 있게 변환표 한 줄 드릴게요.
 
-| 작업 | macOS (brew) | Ubuntu/Debian | Windows WSL |
-|------|--------------|--------------|-------------|
-| 패키지 매니저 | `brew install X` | `apt install X` | WSL → apt |
-| 셸 | zsh (기본) | bash (기본) → zsh | bash (기본) |
+| 항목 | macOS | Linux (Ubuntu) | Windows WSL2 |
+|------|-------|----------------|--------------|
+| 패키지 매니저 | brew | apt | apt (WSL 안에서) |
 | 터미널 | iTerm2 | gnome-terminal | Windows Terminal |
-| 프롬프트 | starship | starship | starship |
-| ssh | OpenSSH | OpenSSH | OpenSSH |
-| open file | `open file` | `xdg-open file` | `wslview file` |
-| clipboard | `pbcopy`·`pbpaste` | `xclip` | `clip.exe`·`powershell.exe` |
-| package | `brew` | `apt`·`dnf`·`pacman` | apt (WSL) |
+| 셸 | zsh | bash 또는 zsh | zsh (선택) |
+| brew 경로 | /opt/homebrew | (없음, apt 사용) | (없음, apt 사용) |
+| oh-my-zsh | 같음 | 같음 | 같음 |
+| starship | brew | curl 스크립트 | curl 스크립트 |
+| tmux | brew | apt | apt |
 
-**core 90% 같음**. 차이 10%는 OS별 특수.
+핵심은 oh-my-zsh, starship, tmux는 세 OS에서 거의 같다는 거예요. 패키지 매니저만 다르고, 그 위에 얹는 도구는 다 동일. Linux나 WSL 분은 brew 절을 apt로 바꿔서 따라오시면 돼요. `apt install git gh nodejs python3 ripgrep fd-find bat eza jq tldr tmux`.
 
----
-
-## 9. 흔한 오해 5가지
-
-**오해 1: "Apple Silicon이면 Intel brew 안 됨."** — `/opt/homebrew` (Apple Silicon)·`/usr/local` (Intel) 둘 다 가능. 다만 Rosetta 2로 Intel brew 돌리면 느림. 자경단 — 100% Apple Silicon 네이티브.
-
-**오해 2: "iTerm2는 옛 도구."** — 2024년에도 활발. Warp가 새 옵션이지만 안정·자료가 iTerm2 우위. 자경단 — 1년 후 Warp 검토.
-
-**오해 3: "oh-my-zsh가 셸을 느리게."** — plugin 많으면 0.5~1초 시작 지연. starship + 핵심 6 plugin이면 0.2초. 자경단 표준이 안 느림.
-
-**오해 4: "tmux는 어려워."** — 5단축키(분할 2개·이동·detach·attach)만 알면 80%. 1주일 안에 손가락. 5년의 자산.
-
-**오해 5: "dotfiles는 시니어 도구."** — 신입도 5분. 첫 .zshrc 5줄을 GitHub repo로. 5년 후 본인의 평생 자산.
+자경단 다섯 명 중 미니가 사실 Linux에서 일해요. 미니의 셋업이 까미·노랭이·본인·깜장이의 macOS 셋업과 90% 같아요. 5년 전엔 OS가 다르면 환경이 다 달랐어요. 지금은 거의 동일해요. 좋은 시대예요.
 
 ---
 
-## 10. FAQ 5가지
+## 13. 흔한 오해 다섯 가지
 
-**Q1. brew 외에 다른 macOS 패키지 매니저?**
-A. MacPorts·Nix 등 있지만 자경단 표준 brew. 90% 사용자가 brew. 자료 많음.
+**오해 1: brew는 Apple Silicon에서만 된다.**
 
-**Q2. iTerm2의 Warp로 옮길 시점?**
-A. 1년 후. Warp의 AI 통합이 강력하지만 베타. 자경단 1년 안정 후 검토.
+아니에요. Intel Mac도 됩니다. 경로만 달라요. Apple Silicon은 `/opt/homebrew`, Intel은 `/usr/local`. 둘 다 brew를 같은 식으로 써요.
 
-**Q3. zsh-autosuggestions가 보이는데 자동 완성 안 돼요.**
-A. 회색 제안이 보이면 → (오른쪽 화살표)로 수락. 또는 End. 처음 익숙하지 않을 수 있음.
+**오해 2: oh-my-zsh가 셸을 느리게 한다.**
 
-**Q4. starship.toml의 항목 다 외워야?**
-A. 본 H의 자경단 표준 toml을 그대로. 1년 후 본인 취향에 맞게 갱신. 처음엔 복사 + 사용.
+플러그인 50개 깔면 느려요. 하지만 자경단 표준 5개 정도는 충분히 빨라요. 느리면 starship과 z 같은 가벼운 도구로 줄이세요.
 
-**Q5. dotfiles에 secret 박지 마세요.**
-A. `.zshrc.local`로 분리. `~/.zshrc` 끝에 `[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local`. local 파일은 .gitignore.
+**오해 3: starship과 oh-my-zsh 테마는 동시에 못 쓴다.**
+
+쓸 수 있지만 충돌해요. `ZSH_THEME=""`로 oh-my-zsh 테마를 끄고 starship만 쓰는 게 자경단 표준이에요.
+
+**오해 4: tmux는 너무 어려워서 배울 필요 없다.**
+
+처음만 어렵고 다섯 단축키만 박으면 평생 갑니다. SSH 끊김 방지 하나만으로도 배울 가치 있어요.
+
+**오해 5: dotfile은 시니어 되어서 만들면 된다.**
+
+신입 1년 차에 만드세요. 1년 차의 dotfile이 5년 차에 200줄로 자라요. 시니어가 되어서 만들면 1년 차의 무지가 dotfile에 안 박혀서 학습이 빠져요. 일찍 만드세요.
 
 ---
 
-## 추신
+## 14. 자주 받는 질문 다섯 가지
 
-본 H의 6도구(brew·iTerm2·zsh·oh-my-zsh·starship·tmux)가 자경단의 셋업 평생 토대. 30분이 5년의 산소. brew install 한 줄로 10도구. 본인의 첫 brew 명령이 자경단의 첫 환경. iTerm2의 단축키 5종(Cmd+T·Cmd+D·Cmd+Shift+D·Cmd+W·Cmd+`)이 매일 손가락. 5년 사용.
+**Q1. 30분 안에 다 못 끝낼 것 같아요.**
 
+괜찮아요. 두 번에 나눠서 하셔도 돼요. 1차로 brew + 12종 도구 + iTerm2까지. 2차로 oh-my-zsh + starship + tmux + dotfile. 한 번에 안 되시면 두 번에 나눠 가세요.
+
+**Q2. brew 설치가 자꾸 실패해요.**
+
+대부분 인터넷이 느린 경우예요. VPN 켜져 있으면 끄세요. 그래도 안 되면 `xcode-select --install`이 안 끝났을 가능성. xcode-select -p 한 번 확인.
+
+**Q3. zsh로 안 바뀌고 bash가 떠요.**
+
+`chsh -s /bin/zsh` 한 줄로 기본 셸 변경. 그 다음 셸을 닫고 새로 켜세요. macOS 10.14 이하라면 zsh가 기본이 아니라서 그래요.
+
+**Q4. iTerm2와 Warp 중 뭘 쓸까요?**
+
+자경단 표준은 iTerm2예요. 5년 검증된 도구. Warp는 새 도구라 AI 통합이 멋지지만 아직 진화 중. 본인이 원하면 둘 다 쓰셔도 돼요. 자경단 다섯 명 중 두 명이 Warp, 세 명이 iTerm2.
+
+**Q5. dotfile을 GitHub public으로 올려도 안전해요?**
+
+비밀번호나 토큰만 안 적으면 안전해요. 자경단의 dotfile에는 토큰을 직접 안 적고, `$(cat ~/.config/gh/token)` 같이 별도 파일에서 읽어와요. dotfile은 public, 토큰 파일은 local only. 이 패턴이 자경단 표준이에요.
+
+---
+
+## 15. 흔한 실수 다섯 가지 + 안심 멘트 — 터미널 환경 학습 편
+
+터미널 환경 셋업하며 자주 빠지는 함정 다섯.
+
+첫 번째 함정, .zshrc 안 만든다. 본인이 매번 alias 안 깔림. 안심하세요. **첫날 .zshrc 5줄.** export PATH·alias·history 설정.
+
+두 번째 함정, dotfiles 안 만든다. 안심하세요. **GitHub dotfiles 레포 첫날.** 두 해 후 새 컴퓨터 5분 셋업.
+
+세 번째 함정, oh-my-zsh 무거움. 안심하세요. **starship 또는 powerlevel10k가 가벼움.** oh-my-zsh는 옛날 표준.
+
+네 번째 함정, brew를 sudo로 깔려고. 안심하세요. **Homebrew는 사용자 권한.** sudo 절대 금지.
+
+다섯 번째 함정, 가장 큰 함정. **PATH 직접 편집해서 망침.** 본인이 PATH 잘못 박아서 셸 명령 안 듦. 안심하세요. **항상 `export PATH="새경로:$PATH"`.** $PATH 보존이 안전벨트.
+
+다섯 함정 미리 알아둔 본인이 두 해 동안 한 박자 빠르게 손이 움직여요.
+
+## 16. 마무리 — 다음 H4에서 만나요
+
+자, 세 번째 시간이 끝났어요. 60분 동안 본인은 자경단 표준 환경을 본인 노트북에 박으셨어요. 정리하면 이래요.
+
+Xcode CLT 첫 단추, Homebrew 둘째 단추, brew로 12종 도구를 한 줄. iTerm2, oh-my-zsh, starship, tmux를 차례로 깔았어요. dotfile GitHub repo의 그림을 봤고, 첫 .zshrc 50줄을 같이 짜 봤어요. 본인의 노트북이 30분 안에 자경단 다섯 명 중 한 명의 표준 환경으로 변했어요.
+
+박수 한 번 칠게요. 진짜로요. 본인이 새 셋업 한 번 한 게 5년 환경의 토대예요. 박수 치세요. 작은 일 같지만 큰 일이에요.
+
+다음 H4는 명령어 카탈로그예요. 30개 명령어를 표 한 장에 누이고, 위험도를 신호등으로 표시해요. 매일 쓰는 6개, 주간 7개, 월간 5개, 응급 6개. 6주면 30개가 본인 손가락에 박혀요. 한 시간 후 만나요.
+
+그 전에 한 가지 부탁. 지금 잠깐 멈추시고 본인 셸을 한 번 닫고 새로 켜 보세요. 그 다음 다섯 줄을 차례로 쳐 보세요.
+
+```bash
+which brew git starship tmux   # 다 깔렸나
+echo $SHELL                     # zsh 인가
+ls -la ~/.zshrc                 # dotfile 있나
+brew list | head -5             # brew로 깐 거
+starship --version              # starship 살아있나
+```
+
+5초예요. 5줄이 본인의 H3 졸업장이에요. 본인이 30분 동안 한 일을 본인 손가락이 다섯 줄로 확인해요. 잘 따라오셨어요. 진짜로요. 한 시간 후 H4에서 만나요.
+
+---
+
+## 👨‍💻 개발자 노트 (참고 — 비개발자는 그냥 넘기셔도 됩니다)
+
+> - Apple Silicon Homebrew 경로 `/opt/homebrew` 이유: Intel과 ARM64 바이너리 분리. Rosetta 모드는 `/usr/local` 사용. Apple Silicon은 두 brew를 동시에 운용 가능.
+> - oh-my-zsh 성능 이슈: 플러그인 로드 시간 합계가 셸 시작 시간 결정. `time zsh -i -c exit`로 측정. 1초 넘으면 lazy loading 또는 zinit 같은 더 빠른 plugin manager 고려.
+> - starship vs powerlevel10k: starship은 Rust, 모든 셸 호환, 단순. p10k는 zsh 전용, 더 빠른 첫 렌더, 더 풍부. 자경단은 단순함 우선해 starship.
+> - tmux vs screen: screen은 옛 도구, tmux는 새 도구. tmux는 vertical split, copy mode, plugin 시스템. screen은 BSD 기본, tmux는 GNU. SSH 환경에선 둘 다 쓰지만 자경단은 tmux.
+> - dotfile 관리 전략 3종: (1) 직접 git repo, (2) GNU stow + repo, (3) chezmoi. 자경단은 (1) 단순 repo + symlink. 100줄 이하에선 (1)이 충분.
+> - Nerd Font 종류: JetBrainsMono, FiraCode, Hack, Meslo. 자경단 표준은 JetBrainsMono. 폰트는 brew cask로 설치.
+> - alias vs function vs script 위계: 한 줄 → alias, 여러 줄 + 인자 → function (.zshrc), 여러 줄 + 재사용 → script (~/bin/*.sh). 위계로 dotfile 정리.
+> - PATH 우선순위 디버그: `which -a git`으로 모든 git 위치 확인. `type git`으로 zsh가 인식한 git 종류 확인 (alias·builtin·function·external).
+> - brew 업그레이드 정책: 자경단은 매주 월요일 `brew update && brew upgrade`. 자동화는 weekly cron으로. 보안 패치는 즉시.
+> - 다음 H4 키워드: 30개 명령어 카탈로그·위험도 신호등·매일 6·주간 7·월간 5·응급 6.
