@@ -1,714 +1,597 @@
-# Ch006 · H2 — 터미널·셸·Bash: 핵심개념 — 셸 8개념 깊이
+# Ch006 · H2 — 셸 8개념 깊이 — 한 줄 명령을 한 단어씩 읽는 시간
 
-> **이 H에서 얻을 것**
-> - 셸 변수 vs 환경변수 — `var=foo` vs `export VAR=foo`의 진짜 차이
-> - PATH 검색 우선순위 — `:` 구분 디렉토리, 같은 이름 두 곳일 때 누가 이김
-> - exit code 표준 — `0=성공`·`1~255 실패`·`$?`로 확인·`&&` `||` 흐름 제어
-> - subshell `(...)` vs `{...}` — 환경 격리 vs 그룹화의 차이
-> - glob `*`·`**`·`?`·`[abc]`·`{a,b}` — 자주 쓰는 5종 패턴
-> - redirection 7종 — `>`·`>>`·`<`·`<<<`·`2>`·`2>&1`·`/dev/null`
-> - heredoc `<<EOF` — 여러 줄 입력 표준
-> - pipe `|`·command substitution `$(...)` — 셸 조합의 두 무기
+> 고양이 자경단 · Ch 006 · 2교시 (60분)
+> 이 파일은 강사가 마이크 앞에서 그대로 읽을 수 있는 말 그대로의 대본입니다.
 
 ---
 
-## 회수: H1의 4단어에서 본 H의 8개념으로
+## 📋 이 시간 목차
 
-지난 H1에서 본인은 4핵심 단어(터미널·셸·프로세스·파일시스템)를 봤어요. 그건 셸의 토대.
-
-이번 H2는 그 셸이 **어떻게 동작하는가의 8개념** 깊이예요. 변수·PATH·exit code·subshell·glob·redirection·heredoc·pipe. 8개가 본인의 매일 셸 손가락의 90%.
-
-본 H 끝나면 본인은 한 줄 명령어 (`find ~ -size +100M 2>/dev/null | sort -k5 -hr | head -5`)를 분해해서 읽을 수 있어요. 8개념이 한 줄에 다 들어 있어요.
+1. 다시 만나서 반가워요 — H1 회수와 오늘의 약속
+2. 첫째 개념 — 셸 변수, 단 한 셸 안에 사는 메모
+3. 둘째 개념 — 환경변수, 자식한테 물려주는 유산
+4. 셋째 개념 — PATH, 명령어가 어디서 오는지
+5. 넷째 개념 — exit code, 명령의 마지막 한 마디
+6. 다섯째 개념 — subshell, 작은 방을 잠깐 빌리는 일
+7. 여섯째 개념 — glob, 파일 이름의 패턴 그림
+8. 일곱째 개념 — redirection, 강물의 방향을 바꾸기
+9. 여덟째 개념 — heredoc, 여러 줄을 한 번에 넘기기
+10. 보너스 — pipe와 command substitution, 조합의 두 무기
+11. 한 줄 분해 — 8개념을 한 줄에 모아 보기
+12. 흔한 오해 다섯 가지
+13. 자주 받는 질문 다섯 가지
+14. 마무리 — 다음 H3에서 만나요
 
 ---
 
-## 1. 셸 변수 vs 환경변수 — `=` vs `export`
+## 🔧 강사용 명령어 한눈에
 
-가장 헷갈리는 첫 개념.
+```bash
+# 변수
+name="자경단"; echo $name
+export NAME="자경단"; bash -c 'echo $NAME'
 
-### 1-1. 셸 변수
+# PATH
+echo $PATH | tr ':' '\n'
+which git; type cd
 
-`=` 한 줄로 셸 안의 변수.
+# exit code
+ls /tmp; echo $?
+ls /없는폴더 2>/dev/null; echo $?
 
-> ▶ **같이 쳐보기** — 변수 한 개 만들고 읽기
+# subshell
+(cd /tmp && pwd); pwd
+
+# glob
+ls *.md
+ls **/*.md
+
+# redirection
+echo "hi" > out.txt
+ls /없는 2>/dev/null
+ls / > all.txt 2>&1
+
+# heredoc
+cat <<'EOF'
+여러 줄
+입력
+EOF
+
+# pipe + substitution
+ls | wc -l
+echo "오늘은 $(date +%Y-%m-%d)"
+```
+
+---
+
+## 1. 다시 만나서 반가워요 — H1 회수와 오늘의 약속
+
+자, 안녕하세요. 다시 만났습니다. 한 시간 쉬셨죠. 물 한 잔 드시고 오셨길 바라요. 어깨 한 번 돌리고 오셨으면 더 좋고요.
+
+지난 H1을 한 줄로 회수할게요. 검은 화면 안에 친구가 네 명 살고 있다고 했어요. 터미널·셸·프로세스·파일시스템. 네 명이 같이 일해서 본인의 한 줄 명령어가 0.3초 만에 결과를 뱉는다고. 그 큰 그림을 받아 가셨어요.
+
+이번 H2는 그 네 명 중 두 번째 친구, **셸**의 안쪽으로 한 발자국 더 들어가요. 셸이 어떻게 일을 처리하는지, 그 일하는 방식을 8개념으로 풀어 드려요. 변수·PATH·exit code·subshell·glob·redirection·heredoc·pipe. 여덟 개. 처음 들으면 외계어 같으시죠. 괜찮아요. 한 시간 후에는 이 여덟 단어가 본인의 일상 어휘예요.
+
+오늘 시간의 약속은 한 가지예요. **본인이 H1에서 봤던 한 줄 명령어를 한 단어씩 풀어 읽을 수 있게 만들어 드립니다**. 기억하시죠. `find ~ -size +100M 2>/dev/null | sort -k5 -hr | head -5`. 이 한 줄 안에 오늘 배울 8개념이 거의 다 들어 있어요. 한 시간 후 본인이 이 한 줄을 보고 "아, 여기 redirection이 있네, 여기 pipe가 있네" 하고 읽으시게 되면 본 시간은 졸업이에요.
+
+자, 가요. 첫째 개념부터.
+
+---
+
+## 2. 첫째 개념 — 셸 변수, 단 한 셸 안에 사는 메모
+
+본인이 셸에 처음으로 변수를 만드는 방법이에요. 등호 하나로 끝나요. 정말로요.
+
+> ▶ **같이 쳐보기** — 변수 하나 만들어 보기
 >
 > ```bash
 > name="고양이 자경단"
 > echo $name
 > ```
 
-**자식 프로세스에 전달 안 됨**. 이 변수는 본인의 zsh 셸 안에서만.
+엔터 두 번 누르면 두 번째 줄에 "고양이 자경단"이라는 글자가 떠요. 본인이 방금 변수 하나를 만들어서 그 안에 글자를 넣은 거예요. 그리고 echo로 그 변수를 다시 꺼내 본 거고요. 정말 간단하죠.
 
-```bash
-$ name="자경단"
-$ bash -c 'echo $name'      # 자식 bash에선 빈 문자열
-                            # (자식이 못 봄)
-```
+여기서 짚고 갈 게 두 가지 있어요. 첫째, 등호 양옆에 공백이 없어야 해요. `name="자경단"`은 되고, `name = "자경단"`은 안 돼요. 한 칸 띄우면 셸이 "name이라는 명령을 찾아서 실행해라" 하고 해석해서 에러를 뱉어요. Python이나 JavaScript에 익숙하신 분은 이거 자주 틀리세요. 저도 처음에 한 100번쯤 틀렸어요. 셸은 등호 양옆 공백 금지. 외우세요. 한 번만 외우시면 평생 안 틀리세요.
 
-### 1-2. 환경변수
+둘째, 변수를 꺼낼 때는 앞에 달러 기호를 붙여야 해요. `name`은 그냥 글자 name이고, `$name`은 변수 name의 내용이에요. 달러가 변수의 신호예요. 이것도 한 번에 박으세요.
 
-`export`로 마킹한 변수. **자식 프로세스에 전달**.
+자, 그런데 이 변수는 작은 비밀이 있어요. **본인의 zsh 셸 한 명만 알아요**. 옆에 새 셸을 켜거나 자식 프로그램을 하나 띄우면 그 친구는 이 변수를 못 봐요. 한 번 확인해 보시면 좋아요.
 
-> ▶ **같이 쳐보기** — export 한 변수가 자식 프로세스에 전달되는지
+> ▶ **같이 쳐보기** — 셸 변수가 자식한테 전달 안 되는 걸 확인
 >
 > ```bash
-> export NAME="자경단"
-> bash -c 'echo $NAME'      # 자식이 받음
+> name="자경단"
+> bash -c 'echo $name'
 > ```
 
-**이미 정의된 변수도 export 가능**:
+엔터 누르시면 두 번째 줄이 빈 줄로 떠요. 본인이 만든 zsh 셸 안에서만 살아 있는 name이, 새로 띄운 자식 bash한테는 전달이 안 됐어요. 자식이 "name이 뭐예요?" 하고 물었는데 아무도 안 알려준 거죠. 그래서 빈 칸.
 
-```bash
-$ name="자경단"
-$ export name              # 이제 환경변수
-$ bash -c 'echo $name'
-자경단
-```
-
-### 1-3. 양식 함정
-
-```bash
-# 잘못된 양식 (= 양옆에 공백)
-$ name = "자경단"          # bash: name: command not found
-                          # = 옆 공백 = 명령으로 해석
-
-# 올바른 양식
-$ name="자경단"            # = 옆 공백 없음
-```
-
-`=` 양옆 공백 없음이 셸 표준. Python·JS와 다름.
-
-### 1-4. 자경단 환경변수 5종
-
-본인의 자경단 dotfile에 자주 박는 5종:
-
-```bash
-export EDITOR="code --wait"          # git commit 에디터
-export LANG="en_US.UTF-8"            # 한글 깨짐 방지
-export PATH="$HOME/.local/bin:$PATH" # PATH 추가
-export NODE_OPTIONS="--max-old-space-size=4096"  # Node 메모리
-export GH_TOKEN="$(cat ~/.config/gh/token)"      # gh 인증
-```
-
-5종이 자경단의 첫 환경변수.
-
-### 1-5. `env` 명령어
-
-현재 모든 환경변수 보기:
-
-```bash
-$ env | head -10
-PATH=/opt/homebrew/bin:/usr/local/bin:...
-HOME=/Users/mo
-SHELL=/bin/zsh
-LANG=en_US.UTF-8
-EDITOR=code --wait
-...
-```
-
-`env -i command`은 깨끗한 환경(환경변수 0개)에서 실행. 격리 테스트에 유용.
+그러면 자식한테도 알려주려면 어떻게 해야 할까요. 그게 다음 개념, 환경변수예요. 자연스럽게 넘어가요.
 
 ---
 
-## 2. PATH 검색 — 명령어가 어디서 오나
+## 3. 둘째 개념 — 환경변수, 자식한테 물려주는 유산
 
-본인이 `ls`를 치면 셸이 `ls`를 어디서 찾나?
+환경변수는 셸 변수에 한 글자 더 붙인 거예요. 그 한 글자가 `export`예요.
 
-### 2-1. PATH 변수
+> ▶ **같이 쳐보기** — export로 자식한테 변수 전달
+>
+> ```bash
+> export NAME="자경단"
+> bash -c 'echo $NAME'
+> ```
 
-`:` 구분 디렉토리 목록. 셸이 이 순서로 검색.
+이번엔 두 번째 줄에 "자경단"이 떠요. 똑같이 변수를 만들었는데 앞에 export 한 단어 붙였더니 자식 bash가 그 변수를 봐요. 신기하죠. 그게 환경변수의 본질이에요.
 
-> ▶ **같이 쳐보기** — 본인 PATH 의 검색 순서 한 줄씩
+비유로 가 볼게요. 본인이 부모고 자식이 한 명 있다고 해 봐요. 본인이 일기장에 "오늘은 비가 와요"라고 적었어요. 그건 본인의 일기장이에요. 자식은 못 봐요. 그게 셸 변수예요. 그런데 본인이 가족 게시판에 "오늘은 비가 와요"라고 적었어요. 그건 자식도 봐요. 그게 환경변수예요. 일기장(셸 변수)과 가족 게시판(환경변수). 한 글자 export가 일기장을 가족 게시판으로 옮기는 행위예요.
+
+자경단 dotfile에 본인이 평생 박아 둘 환경변수가 다섯 개 있어요. 한 번 보시면 좋아요.
+
+```bash
+export EDITOR="code --wait"           # git commit 메시지 에디터
+export LANG="en_US.UTF-8"             # 한글 깨짐 방지
+export PATH="$HOME/.local/bin:$PATH"  # PATH에 본인 폴더 추가
+export NODE_OPTIONS="--max-old-space-size=4096"  # Node.js 메모리 제한
+export GH_TOKEN="$(cat ~/.config/gh/token)"      # gh CLI 인증
+```
+
+다섯 줄. 자경단 다섯 명이 첫날 dotfile에 박는 다섯 줄이에요. 본인도 H8에서 이 다섯 줄을 자기 dotfile에 박게 됩니다.
+
+지금 본인의 셸에 환경변수가 몇 개 살고 있는지 한 번 보고 가요.
+
+> ▶ **같이 쳐보기** — 본인 셸의 환경변수 일부 보기
+>
+> ```bash
+> env | head -10
+> ```
+
+10줄 떠요. SHELL, USER, HOME, PATH, TERM 같은 게 보이죠. 이게 다 본인이 셸을 켤 때 미리 셋업되어 있는 환경변수들이에요. 본인이 만든 게 아니에요. macOS와 zsh가 같이 만들어 둔 거예요. 본인이 원하면 여기에 다섯 줄을 더해서 본인만의 환경변수를 추가하실 수 있어요.
+
+---
+
+## 4. 셋째 개념 — PATH, 명령어가 어디서 오는지
+
+여기 환경변수 중에 가장 중요한 한 명이 있어요. 이름이 PATH예요. 본인이 셸에서 ls라고 치면 "ls라는 게 도대체 어디 있는 프로그램이지?" 하는 질문이 떠올라요. 그 답을 PATH가 알고 있어요. PATH는 폴더의 목록이에요. 셸이 ls를 찾을 때 그 목록 위에서부터 차례로 훑어요.
+
+> ▶ **같이 쳐보기** — 본인의 PATH가 어떤 폴더를 가지고 있는지
 >
 > ```bash
 > echo $PATH | tr ':' '\n'
 > ```
 
-`/opt/homebrew/bin` 첫 번째 (Apple Silicon brew 우선). `/usr/bin` 다음.
+엔터 누르면 폴더 목록이 줄줄이 떠요. /opt/homebrew/bin, /usr/local/bin, /usr/bin, /bin, /usr/sbin, /sbin 같은 게 차례로 나와요. 이 목록이 본인 셸의 명령어 검색 경로예요. 위에서 아래로 훑어 가면서 첫 번째로 발견한 ls를 실행해요.
 
-### 2-2. 검색 순서
+여기서 신기한 점 한 가지. 같은 이름의 명령어가 두 곳에 있으면 위에 있는 게 이겨요. 예를 들어 본인이 brew로 새 git을 깔면 /opt/homebrew/bin/git이 생겨요. 그런데 macOS에 기본으로 깔린 git이 /usr/bin/git에 있어요. 본인의 PATH에서 /opt/homebrew/bin이 /usr/bin보다 위에 있으면 본인이 git이라고 칠 때 새 git이 실행돼요. 순서가 중요해요.
 
-본인이 `git`을 치면:
-1. `/opt/homebrew/bin/git` 있나? — 있으면 사용 (brew git)
-2. 없으면 `/usr/local/bin/git` — 있으면 사용
-3. 없으면 `/usr/bin/git` — Apple 기본 git
-4. 없으면 → `git: command not found`
+본인이 어떤 git을 쓰고 있는지 확인하는 명령이 which예요.
 
-### 2-3. `which` vs `type`
+> ▶ **같이 쳐보기** — 본인이 쓰는 명령어가 어디서 오는지
+>
+> ```bash
+> which git
+> which ls
+> which cd
+> ```
 
-```bash
-# which — 외부 명령의 PATH 위치
-$ which git
-/opt/homebrew/bin/git
+git은 /opt/homebrew/bin/git 같은 경로가 떠요. ls는 /bin/ls가 떠요. 그런데 cd는 한 번 보세요. cd는 path가 안 떠요. "cd: shell built-in command" 같은 게 떠요. 셸 자체에 박혀 있는 명령이라 path가 없어요. cd는 셸의 일부예요. ls는 셸 외부의 프로그램이에요. 둘이 다른 종류예요.
 
-# type — 더 자세 (built-in·alias·function·외부)
-$ type git
-git is /opt/homebrew/bin/git
-
-$ type cd
-cd is a shell builtin           # 셸 내부
-
-$ type ll
-ll is an alias for ls -lah      # alias
-```
-
-### 2-4. PATH 우선순위 함정
-
-같은 이름 명령이 두 곳에 있을 때 첫 번째가 이김.
-
-```bash
-# 자경단 본인이 새 ~/bin/git 만듦 (실험용)
-$ ls -la ~/bin/git
--rwxr-xr-x  1 mo  staff  ... ~/bin/git
-
-# PATH에 ~/bin이 첫 번째면 ~/bin/git 우선
-$ export PATH="$HOME/bin:$PATH"
-$ which git
-/Users/mo/bin/git              # 본인의 실험용 git
-```
-
-**우선순위 활용** — 본인의 자경단이 새 alias·실험 명령 첨부 시 PATH 앞에. 우선순위 안 헷갈리려면 `~/bin`을 PATH 첫 번째로.
-
-### 2-5. PATH 셋업 표준
-
-`~/.zshrc`의 PATH 5줄 (Ch006 H1 회수):
+PATH의 함정 하나만 짚고 갈게요. 본인이 자기 폴더에 직접 만든 스크립트를 어디서나 부르고 싶으면 PATH에 그 폴더를 추가해야 해요. 그게 dotfile에 자주 보이는 한 줄이에요.
 
 ```bash
 export PATH="$HOME/.local/bin:$PATH"
-export PATH="/opt/homebrew/bin:$PATH"
-export PATH="$HOME/.cargo/bin:$PATH"
-export PATH="$HOME/.bun/bin:$PATH"
-export PATH="$HOME/go/bin:$PATH"
 ```
 
-위에서 아래로. 마지막 추가가 가장 우선.
+이 한 줄의 뜻을 풀면 — 본인의 ~/.local/bin이라는 폴더를 PATH의 맨 앞에 추가해라. 그 다음 기존 PATH는 그대로 뒤에 붙여라. 콜론이 구분자고, $PATH가 기존 값을 가리켜요. 5년 동안 dotfile을 키우다 보면 이런 한 줄이 다섯 개 정도 쌓여요. PATH가 본인 손가락의 모양이에요.
 
 ---
 
-## 3. exit code — 명령어의 성공·실패
+## 5. 넷째 개념 — exit code, 명령의 마지막 한 마디
 
-명령어가 끝나면 0~255 숫자를 반환. **0 = 성공, 1~255 = 실패**.
+본인이 셸에 명령어를 한 줄 치고 엔터를 누르면, 그 명령이 끝날 때 마지막으로 한 마디 남기고 가요. "잘 됐어요" 또는 "안 됐어요". 그 마디가 0과 1 같은 숫자로 표현돼요. 그게 exit code예요.
 
-### 3-1. `$?`로 확인
+규칙은 간단해요. **0이면 성공, 0이 아니면 실패**. 보통 1이 일반 실패, 2가 잘못된 사용법, 127이 명령어 없음, 130이 사용자가 Ctrl+C로 끊은 경우. 외우실 필요 없어요. 그냥 0은 성공이라고만 머리에 두세요.
 
-```bash
-$ ls /
-(파일 목록)
-$ echo $?
-0                              # 성공
+본인이 직전 명령의 exit code를 확인하는 법이에요.
 
-$ ls /nonexistent
-ls: /nonexistent: No such file or directory
-$ echo $?
-1                              # 실패
-```
+> ▶ **같이 쳐보기** — 성공/실패 exit code 비교
+>
+> ```bash
+> ls /tmp
+> echo $?
+> ls /없는폴더 2>/dev/null
+> echo $?
+> ```
 
-### 3-2. 표준 exit code
+첫 번째 ls는 성공이라 `$?`가 0. 두 번째 ls는 폴더가 없어서 실패라 `$?`가 1 또는 2가 떠요. `$?`가 직전 명령의 exit code를 담은 특별한 변수예요. 매번 직전 명령 직후에 `$?`로 결과를 확인할 수 있어요.
 
-| 코드 | 의미 |
-|------|------|
-| 0 | 성공 |
-| 1 | 일반 에러 |
-| 2 | 사용법 에러 (옵션 잘못) |
-| 126 | 권한 거부 (chmod 안 됨) |
-| 127 | 명령 못 찾음 |
-| 130 | Ctrl+C로 종료 (SIGINT 128+2) |
-| 137 | SIGKILL (128+9) — `kill -9`·OOM |
-| 139 | SIGSEGV (128+11) — segfault |
+이 exit code가 진짜 빛나는 건 명령어를 연결할 때예요. 두 가지 연결자가 있어요. `&&`와 `||`.
 
-### 3-3. `&&`·`||` 흐름 제어
+`&&`는 "앞에 게 성공하면 뒤에 거 실행". 한국어로 "그리고". 예를 들어 `mkdir test && cd test`. 폴더 만들고 그게 성공하면 그 안으로 들어가라. 폴더 만들기가 실패하면 cd는 시도조차 안 해요.
+
+`||`는 "앞에 게 실패하면 뒤에 거 실행". 한국어로 "또는". 예를 들어 `git pull || echo "pull 실패"`. git pull 시도하고 실패하면 메시지 출력. 실패의 fallback이에요.
+
+자경단의 일상 한 줄 예시예요.
 
 ```bash
-# A 성공 시 B 실행
-$ git pull --rebase && git push
-
-# A 실패 시 B 실행
-$ git push || echo "push failed!"
-
-# 셋 차례
-$ npm install && npm test && npm run build
-
-# 무조건 차례
-$ git add . ; git commit -m wip ; git push     # `;` = 무조건
+git pull --rebase && npm install && npm run dev
 ```
 
-`&&` `||`이 `if`보다 짧고 자주 쓰임.
-
-### 3-4. 자경단 exit code 활용
-
-CI 스크립트에서:
-
-```bash
-#!/bin/bash
-set -e                         # 한 명령 실패 시 즉시 exit
-npm run lint                   # 0이어야
-npm run test                   # 0이어야
-npm run build                  # 0이어야
-echo "전체 통과"                # 여기 도달 = 0
-```
-
-`set -e`이 자경단의 안전장치. exit code 무시 안 함.
-
-### 3-5. exit code 사용자 정의
-
-스크립트 작성 시:
-
-```bash
-#!/bin/bash
-if [ ! -f config.json ]; then
-  echo "config.json 없음"
-  exit 2                       # 사용자 정의 exit code
-fi
-echo "OK"
-exit 0
-```
-
-자경단의 스크립트는 표준 exit code 사용. 0=성공·1=일반·2=설정 에러.
+세 단계를 차례로 하고, 어느 한 단계라도 실패하면 거기서 멈춰요. 예전엔 세 줄로 따로 쳤지만 한 줄로 묶으면 사고가 나도 안전해요. 자경단이 매일 아침 회사 도착해서 치는 한 줄이에요. exit code가 그 한 줄을 가능하게 해 줘요.
 
 ---
 
-## 4. subshell `(...)` vs 그룹 `{...}`
+## 6. 다섯째 개념 — subshell, 작은 방을 잠깐 빌리는 일
 
-비슷해 보이지만 다른 동작.
+본인이 셸 안에서 잠깐만 다른 폴더에 들어가서 일하고, 끝나면 원래 폴더로 돌아오고 싶을 때가 있어요. 매번 cd 두 번 치는 건 귀찮죠. subshell이 그 일을 한 줄로 해 줘요.
 
-### 4-1. subshell `(...)` — 자식 프로세스
+문법은 괄호 한 쌍. `(...)` 안에 넣으면 그 안에서 일어나는 일은 작은 방 안에서 일어나요. 방을 나오면 본인은 원래 자리.
+
+> ▶ **같이 쳐보기** — subshell이 cd를 격리해 주는 모습
+>
+> ```bash
+> pwd
+> (cd /tmp && pwd)
+> pwd
+> ```
+
+세 줄 떠요. 첫 pwd가 본인 현재 폴더. 두 번째가 /tmp. 세 번째가 다시 본인 원래 폴더. 가운데 줄이 작은 방 안에서 일어난 일이에요. 방을 나오면 본인은 원래 자리. cd가 본인의 진짜 셸엔 영향을 안 줘요. 신기하죠.
+
+비교해 볼게요. 괄호 없이 그냥 cd를 치면 어떻게 될까요.
 
 ```bash
-$ var=원래
-$ (var=새값; echo "안: $var")
-안: 새값
-$ echo "밖: $var"
-밖: 원래                       # 부모는 안 바뀜
-```
-
-`(...)`는 **자식 셸**. 안에서 변수 바꿔도 부모에 영향 없음.
-
-활용 — 임시로 환경 바꿔 명령 실행:
-
-```bash
-$ (cd /tmp && ls)              # 일시적으로 /tmp로 이동
-$ pwd                          # 본인은 원래 디렉토리
+$ pwd
 /Users/mo
+$ cd /tmp && pwd
+/tmp
+$ pwd
+/tmp        # 본인이 /tmp로 옮겨졌음
 ```
 
-### 4-2. 그룹 `{...}` — 같은 셸
+괄호가 없으면 cd가 진짜로 본인 셸에 영향을 줘요. 본인이 /tmp로 이사 가 버린 거죠. 다시 원래 폴더로 돌아오려면 cd ~를 또 쳐야 해요. 그게 귀찮으면 처음부터 괄호로 묶으세요.
+
+subshell의 또 다른 쓰임은 환경변수 임시 변경이에요. 한 번만 다른 환경변수로 명령을 실행하고 싶을 때.
 
 ```bash
-$ var=원래
-$ { var=새값; echo "안: $var"; }
-안: 새값
-$ echo "밖: $var"
-밖: 새값                        # 부모도 바뀜!
+$ export NODE_ENV=production
+$ (export NODE_ENV=test && npm test)   # 작은 방 안에서만 test
+$ echo $NODE_ENV
+production              # 본인의 진짜 셸은 그대로
 ```
 
-`{...}`는 **같은 셸**. 그룹화만. 변수 바꾸면 영향.
+작은 방 안에서 NODE_ENV를 test로 바꿨지만 방을 나오면 본인의 진짜 셸엔 영향이 없어요. test 한 번만 돌리고 싶을 때 진짜 유용해요.
 
-**주의 — `{...}`는 양옆 공백 + 끝 `;` 또는 줄바꿈** 필요. `{var=새값;}` ❌, `{ var=새값; }` ✓.
-
-### 4-3. 자경단 활용
-
-**subshell — 환경 격리**:
+subshell과 비슷하지만 다른 게 하나 있어요. 중괄호 그룹이에요. `{...}`. 이건 subshell이 아니에요. 본인 셸 안에서 그냥 묶는 거예요. 환경 격리가 안 돼요.
 
 ```bash
-# (1) 임시 환경 변수
-$ (export DEBUG=1; npm test)   # DEBUG는 자식만, 본인 셸엔 영향 없음
-
-# (2) 임시 cd
-$ (cd /tmp/test && python script.py)
+$ pwd
+/Users/mo
+$ { cd /tmp; pwd; }
+/tmp
+$ pwd
+/tmp        # 본인이 옮겨졌음
 ```
 
-**그룹 — 출력 묶기**:
-
-```bash
-$ { echo "A"; echo "B"; } > combined.txt
-$ cat combined.txt
-A
-B
-```
-
-**`(...)` vs `{...}` 한 줄 표**:
-
-| 양식 | 환경 | 변수 격리 | 사용 |
-|-----|------|---------|-----|
-| `(...)` | 자식 셸 | ✓ 격리 | 임시 환경, 임시 cd |
-| `{...}` | 같은 셸 | ✗ 공유 | 출력 묶기, 명령 그룹 |
+괄호와 중괄호의 차이는 — 괄호는 작은 방, 중괄호는 그냥 묶음. 본인은 보통 괄호를 더 많이 쓰세요. 안전하니까요.
 
 ---
 
-## 5. glob 5종 — 파일 패턴
+## 7. 여섯째 개념 — glob, 파일 이름의 패턴 그림
 
-본인이 `ls *.py` 칠 때 셸이 `*`을 해석.
+본인이 폴더에 markdown 파일이 100개 있어요. 그중 .md로 끝나는 것만 보고 싶어요. ls 명령에 한 글자 패턴을 줘요.
 
-### 5-1. 5종 패턴
+> ▶ **같이 쳐보기** — glob의 가장 기본 패턴
+>
+> ```bash
+> ls *.md
+> ls *.txt
+> ls Ch00*
+> ```
 
-| 패턴 | 의미 | 예 |
-|------|------|-----|
-| `*` | 0개 이상 글자 (한 디렉토리) | `*.py` = `.py`로 끝 |
-| `**` | 재귀 (zsh + bash 4+ globstar) | `**/*.py` = 어디든 |
-| `?` | 한 글자 | `?.py` = `a.py`·`b.py` |
-| `[abc]` | 집합 | `[abc].py` = `a.py`·`b.py`·`c.py` |
-| `{a,b}` | brace 확장 | `{a,b}.py` = `a.py`·`b.py` |
+별표가 "아무 글자든 0개 이상"이라는 뜻이에요. `*.md`는 ".md로 끝나는 모든 파일". `Ch00*`은 "Ch00로 시작하는 모든 파일". 진짜 자주 쓰는 한 글자예요.
 
-### 5-2. 자경단 사용
+자경단이 매일 쓰는 glob 패턴 다섯 가지가 있어요.
 
-```bash
-# 모든 .py 파일
-$ ls *.py
+첫째, 별표 하나. 한 폴더 안의 아무 글자든 매치. `*.md`가 그 예시.
 
-# 모든 하위의 .py
-$ ls **/*.py                   # zsh OK / bash 4+ globstar 옵션
+둘째, 별표 두 개. 폴더의 폴더의 폴더까지 깊이 들어가서 매치. `**/*.md`는 모든 하위 폴더의 .md 파일. zsh는 기본으로 켜져 있고, bash는 `shopt -s globstar`로 켜야 해요. 자경단에선 zsh로 항상 켜진 상태로 사용해요.
 
-# 한 글자 파일명
-$ ls ?.txt                     # a.txt·b.txt 등
+셋째, 물음표. 정확히 한 글자 매치. `?.md`는 "글자 하나 + .md"인 파일.
 
-# 특정 글자만
-$ ls [abc]*.txt                # a로 시작·b로 시작·c로 시작
+넷째, 대괄호. 한 글자가 그 안 중 하나. `[abc].md`는 "a 또는 b 또는 c + .md".
 
-# brace로 여러 파일 한 번에
-$ touch test.{js,ts,jsx,tsx}   # 4파일 동시 생성
-```
+다섯째, 중괄호 펼침. `{a,b,c}.md`가 `a.md b.md c.md`로 풀려요. `cp file.{txt,bak}`는 file.txt를 file.bak로 복사.
 
-### 5-3. zsh vs bash 글로브 함정
+> ▶ **같이 쳐보기** — 다섯 가지 glob 한 번씩
+>
+> ```bash
+> ls *.md          # 별표 하나
+> ls **/*.md       # 별표 두 개
+> ls ?.md          # 물음표
+> ls [HJ]*.md      # 대괄호
+> echo {a,b,c}.md  # 중괄호 펼침
+> ```
 
-**zsh** — 글로브 매치 없으면 에러:
-
-```bash
-$ ls *.xyz
-zsh: no matches found: *.xyz
-```
-
-**bash** — 글로브 매치 없으면 패턴 그대로:
-
-```bash
-$ ls *.xyz
-ls: cannot access '*.xyz': No such file or directory
-```
-
-자경단 표준 — `setopt nomatch` (zsh) 또는 `shopt -s nullglob` (bash).
-
-### 5-4. 숨은 파일
-
-`.zshrc`·`.gitignore` 같은 `.`으로 시작하는 파일은 `*`에 매치 안 됨.
-
-```bash
-$ ls *                         # .zshrc 안 보임
-$ ls -a                        # 다 보임
-$ ls .*                        # .으로 시작하는 것만
-$ ls .[!.]*                    # . 단독·..은 제외
-```
-
-### 5-5. 자경단 권장 셋업
-
-```bash
-# .zshrc
-setopt nomatch                 # 매치 없으면 에러
-setopt extendedglob            # 강력한 글로브 (^·#·~)
-setopt globstar                # ** 재귀 (zsh 기본 ON)
-```
+다섯 개 한 번씩 쳐 보세요. 본인 폴더에서 결과가 달라요. 외우려고 하지 마세요. 매일 별표 하나만 쓰셔도 충분해요. 5년에 한 번 별표 두 개 쓰실 일이 와요. 그 한 번을 위한 도구가 다섯 개 다 있어요.
 
 ---
 
-## 6. redirection 7종 — 입출력 방향
+## 8. 일곱째 개념 — redirection, 강물의 방향을 바꾸기
 
-본인이 `ls > out.txt` 칠 때 `>`이 redirection.
+본인이 셸 명령어의 결과를 화면이 아니라 파일에 저장하고 싶을 때가 있어요. 그게 redirection이에요. 명령어가 뱉는 글자의 흐름을 다른 곳으로 바꾸는 거.
 
-### 6-1. 7종
+여기서 짚고 갈 한 가지. 모든 명령어는 세 개의 흐름을 가지고 있어요.
 
-| 양식 | 의미 |
-|------|------|
-| `>` | stdout을 파일에 쓰기 (덮어쓰기) |
-| `>>` | stdout을 파일에 추가 |
-| `<` | 파일을 stdin으로 |
-| `<<<` | here-string (한 줄 stdin) |
-| `2>` | stderr를 파일에 쓰기 |
-| `2>&1` | stderr를 stdout으로 합치기 |
-| `/dev/null` | 출력 버리기 |
+첫째, **stdin** — 입력. 본인이 키보드로 치는 글자. 번호 0번.
+둘째, **stdout** — 출력. 명령어가 뱉는 결과. 번호 1번.
+셋째, **stderr** — 에러. 명령어가 뱉는 에러 메시지. 번호 2번.
 
-### 6-2. 사용 예
+본인이 ls를 치면 결과가 stdout(1번)으로 나와요. 화면에 보이죠. 본인이 ls /없는폴더를 치면 에러가 stderr(2번)으로 나와요. 역시 화면에 보이지만 채널이 달라요. 두 채널이 따로 있다는 게 핵심.
+
+자, 일곱 가지 redirection 기호를 한 번씩 짚어 갈게요. 외우실 필요 없어요. 그냥 한 번 보고 가요.
+
+`>` (덮어쓰기). 명령어의 stdout을 파일에 저장. 파일이 있으면 내용 다 지우고 새로 쓰기.
 
 ```bash
-# stdout 저장
-$ ls > files.txt
-$ cat files.txt
-README.md
-package.json
-
-# 추가 (덮어쓰지 않고 끝에)
-$ date >> log.txt
-$ date >> log.txt
-$ cat log.txt
-2026-04-28 14:00
-2026-04-28 14:30
-
-# stdin
-$ wc -l < files.txt
-2
-
-# here-string
-$ wc -w <<< "고양이 자경단 5명"
-3
-
-# stderr만 저장
-$ command-that-fails 2> error.log
-
-# stderr + stdout 합치기
-$ command 2>&1 > combined.log
-
-# stderr 버리기
-$ find / -name '*.txt' 2>/dev/null
-
-# stderr와 stdout 따로
-$ command > stdout.log 2> stderr.log
-
-# 둘 다 한 파일에
-$ command > both.log 2>&1
-$ command &> both.log          # 약식 (bash 4+, zsh)
+echo "안녕" > greeting.txt    # greeting.txt에 "안녕" 저장
+ls / > root.txt               # root.txt에 ls 결과 저장
 ```
 
-### 6-3. `/dev/null` — 블랙홀
-
-출력을 버리는 가상 파일. 매우 자주 사용.
+`>>` (이어쓰기). stdout을 파일에 추가. 기존 내용 보존.
 
 ```bash
-# 권한 에러 무시
-$ find / -name '*.tmp' 2>/dev/null
-
-# 출력 다 버리기
-$ npm install >/dev/null 2>&1
+echo "또 만나" >> greeting.txt   # greeting.txt 끝에 한 줄 추가
 ```
 
-### 6-4. 자경단 활용 예
+`<` (입력 받기). 파일을 명령어의 stdin으로 넘기기.
 
 ```bash
-# 자경단 build 로그
-$ npm run build > build.log 2> build.err.log
-$ cat build.log                # 결과
-$ cat build.err.log            # 에러만
-
-# CI 스크립트
-$ npm test 2>&1 | tee test.log # 화면 + 파일 동시 (tee)
+sort < names.txt   # names.txt를 sort에 입력
 ```
+
+`<<<` (here-string). 짧은 문자열 한 줄을 stdin으로.
+
+```bash
+cat <<< "한 줄짜리 입력"
+```
+
+`2>` (에러를 파일로). stderr만 파일에 저장.
+
+```bash
+ls /없는 2> errors.txt    # 에러 메시지를 errors.txt로
+```
+
+`2>&1` (에러를 출력으로). stderr를 stdout과 같은 곳으로.
+
+```bash
+ls / 2>&1 > all.txt   # 출력과 에러를 다 all.txt로
+```
+
+`/dev/null` (블랙홀). 보고 싶지 않은 출력을 버리는 곳.
+
+```bash
+ls /없는 2>/dev/null   # 에러 메시지 버리기
+```
+
+자경단이 매일 쓰는 패턴은 두 개예요. `> 파일`로 결과 저장하기, `2>/dev/null`로 에러 숨기기. H1에서 봤던 한 줄 명령어 기억하시죠. `find ~ -size +100M 2>/dev/null | sort -k5 -hr | head -5`. 여기 `2>/dev/null`이 보이죠. 권한 없는 폴더에서 나오는 에러 메시지를 다 무시해 버린 거예요. 결과만 깔끔하게 받기 위해서.
 
 ---
 
-## 7. heredoc `<<EOF` — 여러 줄 stdin
+## 9. 여덟째 개념 — heredoc, 여러 줄을 한 번에 넘기기
 
-긴 텍스트를 명령어에 stdin으로.
+본인이 명령어에 한 줄이 아니라 여러 줄을 입력으로 넘기고 싶을 때가 있어요. 그때 쓰는 게 heredoc이에요. `<<` 두 개 + 어떤 종료 단어.
 
-### 7-1. 기본 양식
+> ▶ **같이 쳐보기** — 가장 단순한 heredoc
+>
+> ```bash
+> cat <<EOF
+> 첫째 줄
+> 둘째 줄
+> 셋째 줄
+> EOF
+> ```
 
-```bash
-$ cat <<EOF
-첫 줄
-둘째 줄
-EOF
-첫 줄
-둘째 줄
-```
+엔터 누르면 세 줄이 그대로 화면에 떠요. cat 명령에 세 줄짜리 입력을 한 번에 넘긴 거예요. EOF는 "여기까지가 끝"이라고 표시하는 단어. EOF 말고 END든 STOP이든 본인이 원하는 단어를 쓰셔도 돼요. 자주 EOF를 쓰는 게 관습이에요.
 
-`EOF`는 임의의 마커. `END`·`STOP`·`HERE` 다 가능. 시작·끝이 같으면 됨.
-
-### 7-2. 자경단 활용
-
-**파일 생성**:
-
-```bash
-$ cat > config.json <<EOF
-{
-  "name": "cat-vigilante",
-  "version": "1.0.0"
-}
-EOF
-```
-
-**SSH로 원격 실행**:
-
-```bash
-$ ssh server <<EOF
-cd /var/www
-git pull
-npm restart
-EOF
-```
-
-**Python·SQL 실행**:
-
-```bash
-$ python3 <<EOF
-print("Hello from Python")
-print(2 + 3)
-EOF
-Hello from Python
-5
-
-$ psql -d mydb <<EOF
-SELECT name FROM cats LIMIT 5;
-EOF
-```
-
-### 7-3. 변수 확장
-
-기본 — 변수 확장 ON:
+heredoc의 깊은 함정 하나. EOF에 따옴표를 씌우면 변수 치환을 막을 수 있어요. 안 씌우면 변수가 풀려요.
 
 ```bash
 $ name="자경단"
 $ cat <<EOF
-이름: $name
-EOF
-이름: 자경단
-```
+> 안녕 $name
+> EOF
+안녕 자경단         # 변수 풀림
 
-확장 OFF — `'EOF'` 또는 `\EOF`로 quoted:
-
-```bash
 $ cat <<'EOF'
-$name 그대로 출력 (확장 안 됨)
-EOF
-$name 그대로 출력 (확장 안 됨)
+> 안녕 $name
+> EOF
+안녕 $name         # 변수 안 풀림 (그대로)
 ```
 
-자경단 — 보통 확장 ON. 스크립트 안 코드 박을 때만 OFF.
+본인이 진짜 의도를 골라서 따옴표를 쓰세요. 변수 풀어 쓰고 싶으면 EOF 그대로, 그대로 두고 싶으면 'EOF'.
 
-### 7-4. `<<-` indent 허용
-
-`<<-EOF`는 줄 앞 탭 무시. 코드 안 indent 가능:
-
-```bash
-$ cat <<-EOF
-	들어간 줄 (탭이 무시됨)
-	EOF
-들어간 줄 (탭이 무시됨)
-```
-
-스크립트 안 heredoc 깔끔.
+heredoc은 셸 스크립트에서 SQL이나 JSON 같은 여러 줄 데이터를 직접 넣을 때 진짜 유용해요. H6에서 셸 스크립트 짤 때 다시 만나요.
 
 ---
 
-## 8. pipe `|`·command substitution `$(...)` — 셸 조합의 무기
+## 10. 보너스 — pipe와 command substitution, 조합의 두 무기
 
-본 H의 마지막 두 무기.
+8개념을 다 봤어요. 이제 8개념을 조합하는 두 개의 무기를 보여드릴게요. 이게 셸의 진짜 힘이에요. pipe와 command substitution.
 
-### 8-1. pipe `|`
+**pipe** (`|`)는 한 명령의 stdout을 다른 명령의 stdin으로 연결해요. 강물처럼 흐르게 만드는 거예요.
 
-한 명령의 stdout을 다음 명령의 stdin으로.
+> ▶ **같이 쳐보기** — pipe로 명령어 연결
+>
+> ```bash
+> ls | wc -l
+> ps | grep zsh
+> echo $PATH | tr ':' '\n' | sort
+> ```
 
-```bash
-# 한 줄 데모 분해 (Ch006 H1 회수)
-$ find ~ -type f -size +100M 2>/dev/null | sort -k5 -hr | head -5
-#   1단계: 큰 파일 찾기      | 2: 정렬   | 3: 5개만
-```
+첫 줄은 ls 결과를 wc -l에 넘겨서 줄 수를 세는 거예요. ps 결과를 grep에 넘겨서 zsh 프로세스만 골라내요. PATH를 tr로 줄바꿈으로 바꿔서 sort로 정렬. 한 줄에 명령어 두세 개를 강물로 연결한 거예요.
 
-3개 명령이 하나 흐름. 각자 독립이지만 pipe로 한 줄.
+자경단의 매일 한 줄 예시 — `git log --oneline | head -10`. 최근 커밋 10개만. `find . -name "*.md" | wc -l`. markdown 파일 개수. pipe가 셸의 정수예요.
 
-### 8-2. 자경단 자주 쓰는 pipe 5종
+**command substitution** (`$(...)`)은 명령어의 결과를 다른 명령어의 인자로 넣는 거예요. 안에서부터 실행해서 결과로 치환.
 
-```bash
-# 1. log에서 ERROR 찾기
-$ cat app.log | grep ERROR | head -10
+> ▶ **같이 쳐보기** — command substitution 한 번씩
+>
+> ```bash
+> echo "오늘은 $(date +%Y-%m-%d)"
+> echo "내 셸은 $(echo $0)"
+> cd $(git rev-parse --show-toplevel)   # git repo 루트로 이동
+> ```
 
-# 2. 파일 줄 수
-$ ls *.md | wc -l
+첫 줄은 date 명령 결과를 글자에 끼워 넣었어요. "오늘은 2026-04-30" 같은 게 떠요. 셋째 줄은 git rev-parse의 결과를 cd의 인자로 넣어서 git 저장소 루트로 이동. 한 줄로 두 명령을 합친 거예요.
 
-# 3. 가장 큰 디렉토리
-$ du -sh * | sort -hr | head -5
-
-# 4. 중복 제거
-$ cat names.txt | sort | uniq
-
-# 5. JSON 파싱
-$ curl https://api.example.com/cats | jq '.cats[] | .name'
-```
-
-### 8-3. command substitution `$(...)`
-
-명령 결과를 변수처럼.
-
-```bash
-# 결과를 변수에
-$ today=$(date +%Y-%m-%d)
-$ echo $today
-2026-04-28
-
-# 명령 안에 명령
-$ echo "오늘은 $(date) 입니다"
-
-# 백틱도 같음 (옛 양식)
-$ today=`date +%Y-%m-%d`        # 옛 양식, 자경단은 $(...) 권장
-```
-
-### 8-4. 자경단 자주 쓰는 substitution 5종
-
-```bash
-# 1. 현재 branch 이름
-$ branch=$(git branch --show-current)
-
-# 2. 가장 최근 commit sha
-$ sha=$(git rev-parse --short HEAD)
-
-# 3. PR 번호
-$ pr=$(gh pr view --json number -q .number)
-
-# 4. 파일 줄 수를 변수에
-$ count=$(wc -l < log.txt)
-$ echo "줄 수: $count"
-
-# 5. 명령 출력으로 cd
-$ cd "$(git rev-parse --show-toplevel)"   # repo 루트로
-```
-
-### 8-5. pipe + substitution 조합 시나리오
-
-자경단의 한 줄 자동화:
-
-```bash
-# main에 머지된 PR 중 본인 것만 5개
-$ gh pr list --state merged --author "$(git config user.name)" --limit 5
-
-# 어제 변경 파일
-$ git log --since=yesterday --pretty=format: --name-only | sort -u | head -10
-
-# 현재 가장 큰 파일 5개
-$ find . -type f -exec ls -lh {} \; 2>/dev/null | sort -k5 -hr | head -5
-```
-
-8개념이 한 줄에 다 모여요.
+옛날 문법으로 `\`...\``(backtick)도 같은 일을 하지만 자경단은 `$(...)`만 써요. 가독성이 좋아요. 중첩도 가능해요.
 
 ---
 
-## 9. 흔한 오해 5가지
+## 11. 한 줄 분해 — 8개념을 한 줄에 모아 보기
 
-**오해 1: "셸 변수와 환경변수 같은 거예요."** — 다름. `=`이 셸 변수, `export`이 환경변수. 자식 프로세스에 전달되는지가 차이.
+자, 약속을 지킬 시간이에요. H1에서 본인이 봤던 한 줄을 분해해 드릴게요.
 
-**오해 2: "PATH는 그냥 디렉토리 목록."** — 순서가 중요. 같은 이름 두 곳이면 첫 번째 이김. PATH 앞에 추가가 우선.
+```bash
+find ~ -type f -size +100M -exec ls -lh {} \; 2>/dev/null | sort -k5 -hr | head -5
+```
 
-**오해 3: "exit code는 신경 안 써도 돼요."** — `&&`·`||` 흐름 제어와 CI 안전장치(`set -e`)의 토대. 자경단 매일 손가락.
+이 한 줄을 단어 단위로 풀어 가요.
 
-**오해 4: "subshell과 그룹 차이는 미묘."** — 변수 격리 vs 공유라는 큰 차이. 잘못 쓰면 사고. 자경단 첫 1년에 한 번 만남.
+`find` — 명령어. 파일을 찾는 표준 도구.
 
-**오해 5: "redirection 7종은 너무 많아."** — 자주 5종(`>`·`>>`·`2>`·`2>&1`·`/dev/null`)만 외워도 90%. 나머지는 사고 시 검색.
+`~` — 본인의 홈 폴더 (`/Users/mo` 같은 것). glob 비슷하게 셸이 풀어 줘요.
+
+`-type f` — 일반 파일만 (디렉토리 제외).
+
+`-size +100M` — 100MB 넘는 것만.
+
+`-exec ls -lh {} \;` — 찾은 각 파일에 대해 ls -lh 실행. {}가 파일 이름 자리.
+
+`2>/dev/null` — **redirection!** stderr(2번)을 /dev/null로 버리기. 권한 없는 폴더의 에러 메시지 무시.
+
+`|` — **pipe!** find의 결과를 sort로 흘려 보내기.
+
+`sort -k5 -hr` — 5번째 칼럼(파일 크기) 기준, human-readable, reverse(큰 순).
+
+`|` — **pipe!** sort 결과를 head로 흘려 보내기.
+
+`head -5` — 첫 5줄만.
+
+자, 이 한 줄에 redirection이 한 번, pipe가 두 번 들어 있어요. H1에서 외계어로 보였던 게 이제 한 단어씩 읽히죠. 본인이 8개념을 다 들으셨으니까. 약속 지켰어요.
+
+이 한 줄 안에 안 들어간 개념도 짚고 갈게요. 변수, 환경변수, PATH, exit code, subshell, glob, heredoc. 다 다른 한 줄에서 만나요. 매일 만나는 게 redirection과 pipe예요. 그래서 이 두 개를 가장 자주 쓰세요.
 
 ---
 
-## 10. FAQ 5가지
+## 12. 흔한 오해 다섯 가지
 
-**Q1. 환경변수 이름은 대문자 관례인가요?**
-A. 표준. `EDITOR`·`PATH`·`HOME` 다 대문자. 셸 변수는 소문자 (`name`·`count`). 구분에 도움.
+마지막으로 8개념에 대한 흔한 오해 다섯 개를 부숩니다.
 
-**Q2. PATH가 깨지면 (모든 명령어 안 됨)?**
-A. `/bin/ls`·`/usr/bin/which` 절대 경로로 직접 실행. 그 다음 `export PATH="/usr/bin:/bin:$PATH"`로 응급 복원.
+**오해 1: 변수 만들 때 등호 양옆에 공백 넣어도 된다.**
 
-**Q3. exit code 130(Ctrl+C)을 처리하려면?**
-A. `trap 'echo cleanup' INT`로 SIGINT 잡기. 정리 후 정상 exit. H6에서 깊이.
+안 돼요. `name = "자경단"`은 에러. `name="자경단"`만 돼요. 셸 표준이에요. Python·JS와 다르니 한 번 외우세요.
 
-**Q4. subshell이 느린가요?**
-A. fork 비용. 보통 1~5ms. 매일 100번 써도 0.5초. 무시 가능. 빠른 명령 안에서 1만 번 subshell이면 5초 — 그땐 그룹으로.
+**오해 2: export 안 한 변수도 자식이 본다.**
 
-**Q5. heredoc과 다중 echo의 차이?**
-A. 가독성. 5줄 이상이면 heredoc. 1~2줄은 `echo` 또는 `cat <<<`. 자경단 표준.
+안 봐요. 셸 변수와 환경변수의 본질적 차이예요. 자식한테 전하고 싶으면 export 해야 해요.
+
+**오해 3: PATH는 외워야 한다.**
+
+아니에요. dotfile에 한 줄로 박아 두고 평생 잊어도 돼요. `echo $PATH | tr ':' '\n'`로 언제든 확인 가능해요.
+
+**오해 4: exit code 0이 실패다.**
+
+정반대예요. **0이 성공이고 0이 아니면 실패**입니다. 처음 듣는 분이 자주 헷갈려요. 0은 "에러 없음"의 0이에요.
+
+**오해 5: pipe와 redirection은 같은 거다.**
+
+다른 거예요. pipe는 명령어와 명령어를 잇는 것이고, redirection은 명령어와 파일을 잇는 것. `cmd1 | cmd2`는 pipe, `cmd > file`은 redirection. 비슷해 보이지만 역할이 달라요.
 
 ---
 
-## 추신
+## 13. 자주 받는 질문 다섯 가지
 
-본 H의 8개념이 본인의 매일 셸 손가락 90%. 8개를 손가락에 박으면 한 줄 명령어가 살아 움직여요. 셸 변수와 환경변수의 차이를 면접에서 1분 답할 수 있게. "var=foo는 셸 변수, export VAR=foo는 환경변수, 차이는 자식 프로세스 전달". PATH의 우선순위는 본인 dotfiles의 첫 결정. 우선순위가 잘못되면 매일 사고. 자경단 표준 — `~/.local/bin`·brew·언어별 bin 차례.
+**Q1. 변수 이름은 어떤 규칙으로 짓나요?**
 
+소문자는 본인 셸 변수, 대문자는 환경변수가 관습이에요. `name="자경단"` (셸 변수), `EXPORT_NAME="자경단"` (환경변수). 강제는 아니지만 자경단 표준은 이래요. 다른 사람 코드 읽을 때도 이 관습을 보면 의도가 빠르게 읽혀요.
+
+**Q2. 변수 안에 공백이 있으면 어떻게 처리하나요?**
+
+따옴표로 감싸세요. `name="고양이 자경단"`. 그리고 꺼낼 때도 `"$name"`. 따옴표 안 씌우면 공백이 단어 구분자로 인식돼서 사고 나요.
+
+**Q3. PATH에 새 폴더를 추가하고 싶어요.**
+
+`export PATH="$HOME/bin:$PATH"` 한 줄을 dotfile에 박아 두세요. 새 폴더를 맨 앞에 두면 우선순위가 높아져요. 맨 뒤에 두면 우선순위가 낮아요.
+
+**Q4. exit code를 if문에서 어떻게 쓰나요?**
+
+```bash
+if git pull --rebase; then
+  echo "성공"
+else
+  echo "실패"
+fi
+```
+
+if 옆에 명령어를 직접 두면 exit code 0이면 성공 분기, 아니면 실패 분기로 가요. 아주 자연스러운 셸 패턴이에요. H6에서 셸 스크립트 짤 때 자주 만나요.
+
+**Q5. heredoc 안에서 변수가 풀리는 게 헷갈려요.**
+
+규칙은 한 줄. **EOF에 따옴표 있으면 안 풀림, 없으면 풀림**. `<<EOF`는 풀림, `<<'EOF'`는 안 풀림. 본인이 의도를 분명히 정하고 쓰세요.
+
+---
+
+## 14. 흔한 실수 다섯 가지 + 안심 멘트 — Bash 핵심 학습 편
+
+Bash 핵심 만나며 자주 빠지는 함정 다섯.
+
+첫 번째 함정, 변수에 `=` 양옆 공백 두기. 본인이 `X = 5` 침. command not found. 안심하세요. **`X=5` 공백 없이.** Bash 표준.
+
+두 번째 함정, 변수 따옴표 안 붙임. 본인이 `$FILE` 사용 시 공백 있으면 깨짐. 안심하세요. **항상 `"$FILE"` 큰따옴표.**
+
+세 번째 함정, 단일/이중 따옴표 헷갈림. 안심하세요. **이중("...")은 변수 치환 OK, 단일('...')은 그대로.** $는 이중 안에서만.
+
+네 번째 함정, 파이프 vs 리다이렉션 헷갈림. 안심하세요. **파이프 | = 명령 → 명령, 리다이렉션 > = 명령 → 파일.**
+
+다섯 번째 함정, 가장 큰 함정. **set -e 안 쓴다.** 본인이 셸 스크립트에 -e 없음. 명령 실패해도 진행. 안심하세요. **모든 .sh 첫 줄에 `set -euo pipefail`.** 안전벨트.
+
+다섯 함정 미리 알아둔 본인이 두 해 동안 한 박자 빠르게 손이 움직여요.
+
+## 15. 마무리 — 다음 H3에서 만나요
+
+자, 두 번째 시간이 끝났어요. 60분 동안 본인은 셸의 8개념을 다 만나셨어요. 정리하면 이래요.
+
+셸 변수는 한 셸 안에 사는 메모. 환경변수는 자식한테 물려주는 유산. export 한 단어가 둘을 가르는 차이. PATH는 명령어가 어디서 오는지 답해 주는 폴더 목록. exit code는 명령의 마지막 한 마디로, 0이 성공. subshell은 작은 방을 잠깐 빌리는 것, cd와 환경변수를 격리. glob은 파일 이름의 패턴 그림, 별표가 가장 자주 쓰는 한 글자. redirection은 강물의 방향을 바꾸기, `>`로 저장하고 `2>/dev/null`로 에러 숨기기. heredoc은 여러 줄을 한 번에 넘기기. 그리고 보너스로 pipe와 command substitution. 두 무기가 셸의 진짜 힘이에요.
+
+여덟 개를 다 외우려고 마세요. 매일 쓰시는 건 변수, PATH, redirection, pipe 네 개예요. 나머지 네 개는 매주 한 번. 매일 네 개만 손에 박아 두시면 H4 명령어 카탈로그가 가벼워져요.
+
+박수 한 번 칠게요. 이번 시간이 1교시보다 더 빽빽했어요. 외계어가 좀 줄었으면 좋겠어요. 한 줄 명령어 보고 "아, 여기 redirection이 있구나, 여기 pipe가 있구나" 하고 한 단어씩 읽히기 시작했으면 좋겠어요.
+
+다음 H3는 본인 노트북 셋업이에요. iTerm2 깔고, oh-my-zsh 깔고, starship 프롬프트 깔고, brew로 자경단 표준 도구 12개를 한 줄로 깔아요. 30분이면 본인 노트북이 자경단 표준 환경으로 변해요. 한 시간 후 만나요.
+
+그 전에 한 가지 부탁. 지금 잠깐 멈추시고 본인 셸에서 다음 다섯 줄을 차례로 쳐 보세요.
+
+```bash
+echo $PATH | tr ':' '\n'   # PATH 펼쳐 보기
+echo $0                     # 현재 셸
+ls; echo $?                 # exit code 확인
+ls *.md 2>/dev/null         # glob + redirection
+echo "오늘 $(date +%H:%M)"  # command substitution
+```
+
+5초예요. 5줄이 본인의 H2 졸업장이에요. 8개념이 손가락 끝에서 한 번 다녀가요. 잠깐 쉬세요. 한 시간 후 H3에서 만나요. 잘 따라오셨어요. 진짜로요.
+
+---
+
+## 👨‍💻 개발자 노트 (참고 — 비개발자는 그냥 넘기셔도 됩니다)
+
+> - 셸 변수와 환경변수의 진짜 구현: 환경변수는 process control block의 environ 배열에 저장, fork 시 자식이 복사. 셸 변수는 셸 프로세스 메모리 안에만 존재.
+> - PATH 검색 알고리즘: hash table 캐싱(zsh `hash`, bash `hash` 명령으로 확인). `which`는 hash 무시 검색, `type`은 hash 활용.
+> - exit code 표준: 0=성공, 1=일반 실패, 2=잘못된 사용법, 126=실행 권한 없음, 127=명령 없음, 128+N=신호 N에 의한 종료(예: 130 = 128+SIGINT(2)). `man bash` EXIT STATUS 절 참고.
+> - subshell vs `{}`: 괄호는 fork() 호출, 중괄호는 같은 프로세스. 성능 차이 미세. `(...)` 안의 변수 변경은 부모에 전파 안 됨, `{...}`는 됨.
+> - glob 처리는 셸이 명령어 실행 전에 펼침(brace expansion → tilde → variable → command substitution → glob 순). `set -f`로 끄기 가능.
+> - redirection 순서: `cmd > out 2>&1`과 `cmd 2>&1 > out`은 다름. 셸은 좌→우로 처리. 첫 번째는 모두 out으로, 두 번째는 stderr만 화면.
+> - heredoc 변수 치환: `<<EOF`(치환), `<<'EOF'`(치환 없음), `<<-EOF`(앞 탭 제거), `<<<"string"`(here-string).
+> - pipe는 fork() + pipe() syscall + dup2()로 구현. `cmd1 | cmd2`는 두 프로세스가 동시 실행, cmd1 stdout과 cmd2 stdin이 같은 pipe fd 공유.
+> - command substitution `$(cmd)`은 새 subshell에서 cmd 실행 후 stdout 캡처. backtick `cmd`도 같지만 중첩이 어려움.
+> - 다음 H3 키워드: iTerm2 · oh-my-zsh · starship · brew · 자경단 표준 도구 12개.
