@@ -1,165 +1,263 @@
-# Ch007 · H5 — Python 입문 1: 데모 — 자경단 환율 계산기 30분 시뮬
+# Ch007 · H5 — 자경단 환율 계산기 30분 — 본인의 첫 진짜 Python 스크립트
 
-> **이 H에서 얻을 것**
-> - 자경단 환율 계산기 (KRW → USD/JPY/EUR) 30분 시뮬 — 첫 진짜 Python 스크립트
-> - **실제로 실행된** 출력 (강사가 `/tmp/python-demo`에서 진짜 실행)
-> - H1~H4의 모든 학습 (4단어·5 자료형·18 연산자·f-string·18 도구)이 한 스크립트에
-> - 5 사고 + 처방 — Python 첫 1년 면역
-> - 자경단 5명 매일 사용 시나리오 + 한 줄 자동화 5종
+> 고양이 자경단 · Ch 007 · 5교시 (60분)
+> 이 파일은 강사가 마이크 앞에서 그대로 읽을 수 있는 말 그대로의 대본입니다.
 
 ---
 
-## 회수: H1~H4의 학습이 본 H의 첫 진짜 코드로
+## 📋 이 시간 목차
 
-지난 H1·H2·H3·H4에서 본인은 Python의 도구·개념·환경·명령어를 봤어요. 4단어·5 자료형·18 연산자·f-string·18 도구. 그건 **사전**.
-
-이번 H5는 그 사전을 **본인의 첫 진짜 Python 스크립트**로 묶어요. 자경단 5명이 매월 사료 예산 ($50/마리) 환산하는 환율 계산기. 30분 시뮬로 **변수·자료형·연산자·함수·f-string·dict·import**가 한 스크립트에.
-
-지난 Ch005 H5는 git 30분 시뮬, Ch006 H5는 셸 30분 시뮬. 본 H는 Python 30분 시뮬. 셋이 합쳐 자경단의 매일 90분 작업.
-
-본 강의의 모든 출력은 강사가 `/tmp/python-demo/exchange.py`에서 **실제 실행한 결과** 그대로. 본인이 같은 코드를 본인 노트북에서 치면 비슷한 결과.
-
----
-
-## 1. 시나리오 설정
-
-**자경단 미니의 의뢰**: "자경단 5명의 매월 사료 예산을 KRW·USD·JPY·EUR 4 통화로 환산해 주세요. 외국 후원자가 USD·JPY·EUR로 보내고 싶어 해요."
-
-**자경단 5명** (Ch005 회수): 본인·까미·노랭이·미니·깜장이.
-
-**예산**: $50/마리/월 (USD 기준).
-
-**작업 시간**: 30분 (오후 14:00~14:30).
-
-**완성 코드**: `/tmp/python-demo/exchange.py` (50줄 미만).
+1. 다시 만나서 반가워요 — H4 회수와 오늘의 약속
+2. 시나리오 — 자경단 미니의 의뢰
+3. 0~5분 — 폴더 셋업 + RATES dict
+4. 5~10분 — convert() 함수
+5. 10~15분 — format_result() f-string
+6. 15~20분 — cat_budget_demo() 자경단 적용
+7. 20~25분 — main() 함수와 입력 받기
+8. 25~30분 — 실행과 검증
+9. 30분 한 페이지 압축
+10. 다섯 가지 작은 사고와 처방
+11. 한 줄 자동화 다섯 가지
+12. 흔한 오해 다섯 가지
+13. 자주 받는 질문 다섯 가지
+14. 마무리 — 다음 H6에서 만나요
 
 ---
 
-## 2. 0~5분: 폴더 셋업 + RATES dict
+## 🔧 강사용 명령어 한눈에
 
 ```bash
-$ mkdir -p /tmp/python-demo && cd /tmp/python-demo
-$ python3 -V
-Python 3.12.0
-$ touch exchange.py
-$ code exchange.py
+mkdir -p /tmp/python-demo && cd /tmp/python-demo
+python3 -m venv .venv
+source .venv/bin/activate
+touch exchange.py
+
+# 코드 작성 후
+python3 exchange.py
 ```
 
-VS Code 열고 첫 코드:
+```python
+# exchange.py 핵심
+RATES = {"USD": 1300.0, "JPY": 9.0, "EUR": 1400.0}
+
+def convert(amount, from_curr, to_curr):
+    krw = amount * RATES[from_curr]
+    return krw / RATES[to_curr]
+
+def format_result(amount, currency):
+    return f"{amount:,.2f} {currency}"
+
+def main():
+    amount = float(input("금액: "))
+    from_c = input("부터: ").upper()
+    to_c = input("로: ").upper()
+    result = convert(amount, from_c, to_c)
+    print(format_result(result, to_c))
+```
+
+---
+
+## 1. 다시 만나서 반가워요 — H4 회수와 오늘의 약속
+
+자, 안녕하세요. 다시 만났습니다. 이제 다섯 번째 시간이에요. 절반을 넘었어요. 잘 따라오시고 계시네요. 박수.
+
+지난 H4를 한 줄로 회수할게요. 본인은 Python 18 도구를 표 한 장으로 만나셨어요. 인터프리터 6, 패키지 5, 가상환경 3, 품질 3, 테스트 1. 자경단 매일 13줄 흐름. 그게 사전이었어요.
+
+이번 H5는 그 사전을 본인의 첫 진짜 Python 스크립트로 묶는 시간이에요. 자경단 다섯 명이 매월 사료 예산을 환산하는 환율 계산기. 30분 시뮬로 본인이 직접 50줄을 짜요.
+
+오늘의 약속은 한 가지예요. **본인이 H1부터 H4까지 배운 모든 것이 30분 안에 한 스크립트로 묶입니다**. 변수, 자료형 다섯, 연산자, f-string, 함수, dict, input/output, import. 다 한 스크립트에 들어가요. 30분 후엔 본인의 첫 Python 스크립트가 GitHub에 올라가요.
+
+자, 시나리오부터.
+
+---
+
+## 2. 시나리오 — 자경단 미니의 의뢰
+
+자경단의 미니가 어느 날 본인에게 와서 한 가지 부탁을 해요. "본인, 자경단 다섯 마리의 매월 사료 예산을 환산해 주세요. 외국 후원자가 USD, JPY, EUR로 보내고 싶어 해요."
+
+조건은 다음과 같아요. 한 마리당 월 $50 (USD 기준). 자경단이 다섯 마리. 환율은 1 USD = 1,300 KRW, 1 JPY = 9 KRW, 1 EUR = 1,400 KRW. 본인이 30분 안에 KRW·USD·JPY·EUR 네 통화 환산기를 짜야 해요.
+
+본인은 미니의 부탁을 받고 셸을 켜요. 30분 동안 본인이 짤 환율 계산기 50줄. 5단계로 나눠 짜요. 5분씩 한 단계.
+
+자, 시작.
+
+---
+
+## 3. 0~5분 — 폴더 셋업 + RATES dict
+
+첫 5분은 폴더 셋업이에요.
+
+> ▶ **같이 쳐보기** — 폴더 셋업과 venv
+>
+> ```bash
+> mkdir -p /tmp/python-demo && cd /tmp/python-demo
+> python3 -m venv .venv
+> source .venv/bin/activate
+> code exchange.py     # VS Code로 빈 파일 열기
+> ```
+
+VS Code에서 새 파일이 열렸어요. 첫 줄부터 짜요.
 
 ```python
-"""자경단 환율 계산기 (Ch007 H5 데모)
-KRW를 USD·JPY·EUR로 변환.
-"""
+# exchange.py — 자경단 환율 계산기
+"""자경단 5명 사료 예산 환산기 (KRW/USD/JPY/EUR)"""
 
-# 1. 환율 데이터 (2026년 4월 기준 가상)
 RATES = {
-    "USD": 1380.50,   # 1 USD = 1,380.50 KRW
-    "JPY": 9.10,      # 100 JPY = 910 KRW (1 JPY = 9.10)
-    "EUR": 1495.30,   # 1 EUR = 1,495.30 KRW
+    "KRW": 1.0,
+    "USD": 1300.0,
+    "JPY": 9.0,
+    "EUR": 1400.0,
 }
-
-CAT_NAMES = ["까미", "노랭이", "미니", "깜장이", "본인"]
 ```
 
-**5 학습 사용**:
-1. **docstring** `"""..."""` (Ch007 H2)
-2. **comment** `# ...` (Ch007 H2)
-3. **dict** `{...}` (Ch007 H1·H2)
-4. **str** `"USD"` (Ch007 H2)
-5. **float** `1380.50` (Ch007 H2)
-6. **list** `[...]` (Ch007 H1)
+세 가지를 짚고 갈게요.
 
-5 자료형이 6번 사용 됨.
+첫째, 첫 줄의 `#`은 주석이에요. Python에서 한 줄 주석은 `#`으로 시작. 이 줄은 실행 안 돼요. 본인이 코드의 의도를 적어 두는 곳.
+
+둘째, 둘째 줄의 `"""..."""`. 모듈 docstring이에요. 파일 첫 줄에 적으면 그 파일의 설명이 돼요. 자경단 표준 — 모든 .py 파일은 첫 줄에 docstring.
+
+셋째, RATES는 dict예요. 중괄호 `{}` 안에 key:value 쌍. KRW를 기준 1.0으로 두고, USD는 1,300배, JPY는 9배, EUR는 1,400배. 환율은 변할 수 있으니 코드 위에 dict로 둬요. 나중에 한 줄 수정으로 바꿀 수 있게.
+
+dict는 Python의 핵심 자료구조예요. H8 (collections)에서 더 깊이 다뤄요. 오늘은 "key로 value 찾는 자료구조"만 머리에 두세요. RATES["USD"]가 1300.0을 돌려줘요.
+
+5분 끝났어요. 다음 5분.
 
 ---
 
-## 3. 5~10분: `convert()` 함수
+## 4. 5~10분 — convert() 함수
+
+이제 환율 변환 함수를 짜요.
 
 ```python
-def convert(amount_krw: float, currency: str) -> float:
-    """KRW를 다른 통화로 변환."""
-    if currency not in RATES:
-        raise ValueError(f"지원 안 함: {currency}")
-    return amount_krw / RATES[currency]
+def convert(amount: float, from_curr: str, to_curr: str) -> float:
+    """from_curr를 to_curr로 환산.
+    
+    예: convert(50, "USD", "KRW") = 65000.0
+    """
+    krw = amount * RATES[from_curr]
+    return krw / RATES[to_curr]
 ```
 
-**5 학습 사용**:
-1. **`def` 함수 정의** (Ch008 미리보기)
-2. **type hint** `float`·`str`·`-> float` (Ch020 미리보기)
-3. **docstring** 함수 문서
-4. **`if`·`not in`** 조건 + 멤버십 연산자 (Ch007 H2)
-5. **`raise ValueError`** 예외 (Ch008 미리보기)
-6. **f-string** `f"지원 안 함: {currency}"` (Ch007 H2)
-7. **`return` + `/`** 연산자 (Ch007 H2)
+함수의 문법을 풀어 드릴게요.
 
-7 학습이 한 함수에. 본 H의 모든 학습이 살아 움직임.
+`def 함수이름(인자):`로 시작. `def`는 define의 약자. `convert`가 함수 이름. 괄호 안에 인자 세 개. 콜론으로 끝.
+
+`amount: float`은 type hint. amount가 float이라고 명시. Python 3.5+의 표준이에요. 자경단 표준은 모든 함수 인자에 type hint. 안 써도 되지만 쓰면 mypy가 검사해 줘서 안전.
+
+`-> float`은 반환 type. 이 함수가 float을 돌려준다는 표시. 셋 다 명시하면 mypy가 100% 검증해요.
+
+함수 안의 첫 줄 `"""..."""`은 함수 docstring. 함수 설명. `help(convert)`로 볼 수 있어요.
+
+논리는 간단해요. amount를 KRW로 한 번 환산하고, 그 KRW를 to_curr로 환산. 두 단계. 
+
+테스트해 봐요.
+
+> ▶ **같이 쳐보기** — convert 함수 시범
+>
+> ```python
+> >>> convert(50, "USD", "KRW")
+> 65000.0
+> >>> convert(50, "USD", "JPY")
+> 7222.222222222222
+> >>> convert(50, "USD", "EUR")
+> 46.42857142857143
+> ```
+
+세 줄. 미니가 부탁한 환산이 다 됐어요. $50 = 65,000원 = 7,222엔 = 46유로. 환산기의 핵심이 한 함수에 다 들어 있어요.
 
 ---
 
-## 4. 10~15분: `format_result()` f-string 활용
+## 5. 10~15분 — format_result() f-string
+
+결과를 예쁘게 출력하는 함수를 짜요.
 
 ```python
-def format_result(amount_krw: float, currency: str, converted: float) -> str:
-    """결과 포맷팅 (f-string 활용)."""
-    return f"{amount_krw:>12,.0f} KRW = {converted:>10,.2f} {currency}"
+def format_result(amount: float, currency: str) -> str:
+    """결과를 천 단위 콤마와 함께 포맷팅."""
+    return f"{amount:,.2f} {currency}"
 ```
 
-**f-string의 형식 지정 5요소**:
-- `:>12` — 12자 너비, 오른쪽 정렬
-- `,` — 천 단위 콤마
-- `.0f` — 소수 0자리, float
-- `.2f` — 소수 2자리, float
-- 변수 직접 삽입 `{currency}`
+f-string의 강력한 옵션을 한 번에 두 개 써요. `:,`로 천 단위 콤마, `.2f`로 소수점 둘째 자리.
 
-자경단 매일 f-string 활용 — 표·로그·사용자 출력. **f-string의 형식 지정이 자경단 매일 손가락**.
+테스트.
+
+```python
+>>> format_result(65000.0, "KRW")
+'65,000.00 KRW'
+>>> format_result(46.428571, "EUR")
+'46.43 EUR'
+>>> format_result(7222.22, "JPY")
+'7,222.22 JPY'
+```
+
+깔끔하죠. f-string 한 줄이 1990년대 C printf의 다섯 줄을 대체해요.
+
+format_result는 H2의 f-string을 진짜로 사용하는 곳이에요. H2에서 보여드린 다섯 가지 옵션 중 두 가지 (천 단위 콤마, 소수점)를 한 줄에 묶어요.
 
 ---
 
-## 5. 15~20분: `cat_budget_demo()` 자경단 적용
+## 6. 15~20분 — cat_budget_demo() 자경단 적용
+
+이제 자경단 다섯 마리의 예산 환산을 짜요.
 
 ```python
 def cat_budget_demo() -> None:
-    """자경단 5명의 매월 사료 예산 ($50/마리)."""
-    monthly_usd = 50
-    print("\n=== 자경단 5명 매월 사료 예산 ===")
-    for cat in CAT_NAMES:
-        krw = monthly_usd * RATES["USD"]
-        print(f"  {cat:<6} {krw:>10,.0f} KRW (${monthly_usd})")
-    total_krw = monthly_usd * RATES["USD"] * len(CAT_NAMES)
-    print(f"  {'총계':<6} {total_krw:>10,.0f} KRW")
+    """자경단 5명의 매월 사료 예산 환산."""
+    cats = ["본인", "까미", "노랭이", "미니", "깜장이"]
+    monthly_usd = 50.0
+    
+    print(f"\n=== 자경단 사료 예산 ({len(cats)}명, $50/마리) ===\n")
+    
+    total_usd = monthly_usd * len(cats)
+    
+    for currency in ["KRW", "JPY", "EUR"]:
+        result = convert(total_usd, "USD", currency)
+        print(f"  {format_result(result, currency)}")
 ```
 
-**5 학습 사용**:
-1. **`for` 루프** (Ch008 미리보기)
-2. **dict 인덱싱** `RATES["USD"]`
-3. **`*` 곱하기** + 산술 연산자
-4. **`len()` 내장 함수** (Ch008 미리보기)
-5. **f-string `<6`** 왼쪽 정렬
+새로운 문법 두 가지.
 
-자경단 5명 페르소나가 실제 코드에 등장.
+첫째, `for ... in ...`. 반복문이에요. 리스트의 각 요소에 대해 한 번씩 실행. 다른 언어의 for/while과 비슷하지만 더 직관적.
+
+둘째, `len(cats)`. 리스트의 길이. 5가 떠요. Python의 표준 함수.
+
+테스트.
+
+```python
+>>> cat_budget_demo()
+
+=== 자경단 사료 예산 (5명, $50/마리) ===
+
+  325,000.00 KRW
+  36,111.11 JPY
+  232.14 EUR
+```
+
+다섯 마리 사료 예산이 세 통화로 환산. 미니가 외국 후원자에게 보낼 자료가 한 줄로 만들어졌어요.
 
 ---
 
-## 6. 20~25분: `main()` + 실행
+## 7. 20~25분 — main() 함수와 입력 받기
+
+마지막 5분은 사용자 입력 받기. 본인이 환율 계산기를 인터랙티브하게 쓸 수 있게.
 
 ```python
 def main() -> None:
-    print("=== 자경단 환율 계산기 ===\n")
+    """메인 진입점. 사용자 입력을 받아서 환산."""
+    print("=== 자경단 환율 계산기 ===")
+    print(f"지원 통화: {', '.join(RATES.keys())}\n")
     
-    # 시연: 100,000 KRW를 3 통화로
-    amount = 100_000
-    print(f"100,000 KRW 변환:")
-    for currency in ["USD", "JPY", "EUR"]:
-        converted = convert(amount, currency)
-        print(f"  {format_result(amount, currency, converted)}")
+    try:
+        amount = float(input("금액을 입력하세요: "))
+        from_c = input("부터 (예: USD): ").upper().strip()
+        to_c = input("로 (예: KRW): ").upper().strip()
+        
+        result = convert(amount, from_c, to_c)
+        print(f"\n결과: {format_result(amount, from_c)} = {format_result(result, to_c)}")
+    except (KeyError, ValueError) as e:
+        print(f"에러: {e}")
     
-    # 5 통화 표
-    print("\n=== 환율 표 ===")
-    for currency, rate in RATES.items():
-        print(f"  1 {currency} = {rate:>10,.2f} KRW")
-    
-    # 자경단 사료 예산
+    print()
     cat_budget_demo()
 
 
@@ -167,686 +265,250 @@ if __name__ == "__main__":
     main()
 ```
 
-**`if __name__ == "__main__"`이 자경단 매 스크립트** — 직접 실행 시만 main() 호출, import 시는 skip.
+새 문법 세 가지.
 
-**5 학습 사용**:
-1. **함수 호출** `convert()`·`format_result()`·`cat_budget_demo()`
-2. **숫자 리터럴 `100_000`** (가독성 _)
-3. **`.items()` dict 메서드**
-4. **`__name__` 매직 변수**
-5. **`__main__` 패턴**
+첫째, `input("...")`. 사용자에게 글자 한 줄 입력 받기. 항상 str 반환. 그래서 숫자가 필요하면 `float()` 또는 `int()`로 변환.
+
+둘째, `.upper().strip()`. 메서드 chaining. 입력을 대문자로 바꾸고 양쪽 공백 제거. "  usd  "도 "USD"로 변환.
+
+셋째, `try...except`. 예외 처리. 에러가 나면 except 블록 실행. KeyError는 dict에 없는 key, ValueError는 float() 변환 실패.
+
+마지막에 `if __name__ == "__main__": main()`. Python 표준 양식. 이 파일을 직접 실행할 때만 main() 호출. import 됐을 땐 안 실행.
 
 ---
 
-## 7. 25~30분: 실행 + 검증 (실제 출력)
+## 8. 25~30분 — 실행과 검증
+
+이제 다 짰으니 실행. 진짜 출력을 보여드릴게요.
 
 ```bash
 $ python3 exchange.py
-```
 
-**진짜 출력** (강사가 `/tmp/python-demo`에서 실제 실행):
-
-```
 === 자경단 환율 계산기 ===
+지원 통화: KRW, USD, JPY, EUR
 
-100,000 KRW 변환:
-       100,000 KRW =      72.44 USD
-       100,000 KRW =  10,989.01 JPY
-       100,000 KRW =      66.88 EUR
+금액을 입력하세요: 100
+부터 (예: USD): usd
+로 (예: KRW): krw
 
-=== 환율 표 ===
-  1 USD =   1,380.50 KRW
-  1 JPY =       9.10 KRW
-  1 EUR =   1,495.30 KRW
+결과: 100.00 USD = 130,000.00 KRW
 
-=== 자경단 5명 매월 사료 예산 ===
-  까미         69,025 KRW ($50)
-  노랭이        69,025 KRW ($50)
-  미니         69,025 KRW ($50)
-  깜장이        69,025 KRW ($50)
-  본인         69,025 KRW ($50)
-  총계        345,125 KRW
+=== 자경단 사료 예산 (5명, $50/마리) ===
+
+  325,000.00 KRW
+  36,111.11 JPY
+  232.14 EUR
 ```
 
-**30분 후 자경단의 답** — 5명 매월 사료 예산 합 **345,125 KRW** (약 $250 = €230 = ¥38,000).
+본인의 첫 Python 스크립트가 동작했어요. 50줄 미만의 코드. 30분 안에 짠 거예요. 박수.
 
-**진짜 출력 확인**: `100,000 / 1380.50 = 72.4375...` → `72.44` (소수 2자리 반올림). `100,000 / 9.10 = 10,989.01` (정확). 본인이 같은 코드를 본인 노트북에서 치면 같은 출력.
+이 한 스크립트 안에 H1부터 H4까지의 모든 학습이 들어 있어요. 자료형 (float, str, dict, list), 연산자 (*, /, ==), f-string (천 단위, 소수점), 함수 (def, type hints, docstring), 입출력 (input, print), 제어 흐름 (for, try/except), 모듈 진입점 (`if __name__`).
+
+품질 검사도 한 번.
+
+```bash
+black exchange.py
+ruff check exchange.py
+mypy exchange.py
+```
+
+세 도구 다 통과하면 자경단 표준 코드. PR 만들 준비 완료.
 
 ---
 
-## 8. 자경단 30분 시뮬 한 페이지 압축
+## 9. 30분 한 페이지 압축
 
 ```
-14:00  exchange.py 셋업 (mkdir + touch + code) — 1분
-14:01  RATES dict + CAT_NAMES list — 4분
-14:05  convert() 함수 (type hint + raise) — 5분
+14:00  폴더 셋업 + venv + RATES dict — 5분
+14:05  convert() 함수 — 5분
 14:10  format_result() f-string — 5분
 14:15  cat_budget_demo() 자경단 적용 — 5분
-14:20  main() + if __name__ — 5분
-14:25  python3 exchange.py 실행 + 검증 — 3분
-14:28  pytest로 테스트 (미리보기) — 2분
-14:30  완료 ✅
+14:20  main() + 입력 받기 — 5분
+14:25  실행 + 검증 — 5분
+14:30  완료 ✅ — 50줄 미만, H1~H4 학습 다 동원
 ```
 
-**30분 × 7 학습 = 자경단 첫 진짜 Python 스크립트**.
-
-50줄 미만 코드에 H1~H4의 모든 학습이 다 들어옴 — 4단어·5 자료형·18 연산자·f-string·18 도구.
+30분 = 50줄. 평균 줄당 36초. 본인의 첫 코드 속도예요. 5년 후엔 같은 코드 5분에. 시간이 손가락을 만들어요.
 
 ---
 
-## 9. 5 사고 + 처방
+## 10. 다섯 가지 작은 사고와 처방
 
-### 9-1. 사고 1: ZeroDivisionError
+본인이 첫 1년에 만나는 사고 다섯 가지.
 
-**증상**: `RATES["USD"] = 0`로 잘못 입력 → `100_000 / 0` → ZeroDivisionError.
+**사고 1: KeyError**
 
-**처방**:
 ```python
-def convert(amount_krw: float, currency: str) -> float:
-    rate = RATES[currency]
-    if rate == 0:
-        raise ValueError(f"환율 0: {currency}")
-    return amount_krw / rate
+>>> RATES["KRR"]    # 오타
+KeyError: 'KRR'
 ```
 
-자경단 표준 — 0 검증 항상.
+처방. dict.get()을 쓰거나 try/except로 잡기.
 
-### 9-2. 사고 2: KeyError
-
-**증상**: `convert(100_000, "GBP")` → `KeyError: 'GBP'` (RATES에 없음).
-
-**처방**: 위 코드의 `if currency not in RATES: raise ValueError(...)`. 명확한 에러 메시지.
-
-### 9-3. 사고 3: float 정확도 (Ch007 H2 회수)
-
-**증상**: `0.1 + 0.2 = 0.30000000000000004`. 화폐는 `Decimal` 권장.
-
-**처방**:
 ```python
-from decimal import Decimal
-RATES = {"USD": Decimal("1380.50"), ...}
+RATES.get("KRR", 0)   # 없으면 0
 ```
 
-자경단 prod — Decimal. 학습용 — float OK.
+**사고 2: ValueError**
 
-### 9-4. 사고 4: f-string 들여쓰기 함정
-
-**증상**: f-string 안의 `{}` 안에 들여쓰기·줄바꿈 있으면 에러.
-
-**처방**:
 ```python
-# X — SyntaxError
-result = f"안녕 {
-    name
-}"
-
-# O — 한 줄
-result = f"안녕 {name}"
-
-# O — Python 3.12+ 다중 줄 OK
-result = f"안녕 {
-    name
-}"
+>>> float("abc")
+ValueError: could not convert string to float
 ```
 
-3.12+에선 다중 줄 OK. 옛 버전은 한 줄.
+처방. try/except.
 
-### 9-5. 사고 5: print의 default sep·end 혼동
+**사고 3: None과 비교**
 
-**증상**: `print("a", "b")` → `"a b"` (공백 sep). `print("a", "b", sep="-")` → `"a-b"`.
+```python
+result = some_function()
+if result == None:    # 안 좋은 스타일
+```
 
-**처방**: `print()`의 keyword 인자 `sep`·`end`·`file`·`flush` 5종 알기.
+처방. `is None` 사용.
+
+**사고 4: 들여쓰기 사고**
+
+```python
+if True:
+print("hi")    # IndentationError
+```
+
+처방. VS Code의 자동 들여쓰기. Tab은 4칸 spaces.
+
+**사고 5: import 누락**
+
+```python
+print(datetime.now())
+# NameError: name 'datetime' is not defined
+```
+
+처방. 파일 위에 `from datetime import datetime`.
+
+다섯 사고와 처방을 한 페이지로. 1년 면역.
 
 ---
 
-## 10. 자경단 5명 매일 Python 한 페이지
+## 11. 한 줄 자동화 다섯 가지
 
-| 시점 | 본인 | 까미 | 노랭이 | 미니 | 깜장이 |
-|------|------|------|------|------|------|
-| 09:00 | `python3 -V` 환경 | uvicorn FastAPI 시작 | npm dev | aws s3 ls | playwright test |
-| 11:00 | PR 리뷰 | API 모델 추가 (Pydantic) | 빌드 | terraform apply | E2E test |
-| 14:00 | pytest 통합 | DB query 최적화 | bundle 분석 | CloudWatch | visual diff |
-| 16:00 | 회고 + commit | API doc 갱신 | Storybook | backup script | bug report |
-| 17:00 | release tag | feature flag | Lighthouse | cost 분석 | regression |
+자경단이 매일 쓰는 Python 한 줄 자동화 다섯 개.
 
-5명 × 5 시점 = 25 매일 Python 손가락. 본 H의 환율 계산기 30분이 자경단 매일 한 사이클의 모범.
+```python
+# 1. 한 줄 HTTP 서버
+python3 -m http.server 8000
+
+# 2. JSON 예쁘게 출력
+cat data.json | python3 -m json.tool
+
+# 3. 가짜 데이터 생성
+python3 -c "import random; print([random.randint(1,100) for _ in range(10)])"
+
+# 4. 시간 측정
+python3 -c "import timeit; print(timeit.timeit('sum(range(100))', number=1000))"
+
+# 5. UUID 생성
+python3 -c "import uuid; print(uuid.uuid4())"
+```
+
+다섯 줄. 자경단 매일 한 번씩 만나요.
 
 ---
 
-## 11. 한 줄 자동화 5종 (Python 버전)
+## 12. 흔한 오해 다섯 가지
+
+**오해 1: 첫 코드는 완벽해야 한다.**
+
+50줄 코드는 절대 첫 시도에 완벽하지 않아요. 5번 고쳐야 통과. 그게 정상이에요.
+
+**오해 2: type hints 없으면 Python이 안 도는다.**
+
+도네요. 선택적이에요. 하지만 자경단 표준은 항상.
+
+**오해 3: 함수 짧을수록 좋다.**
+
+너무 짧으면 분리비용. 한 일에 한 함수. 보통 5~30줄.
+
+**오해 4: 주석은 많을수록 좋다.**
+
+코드가 좋은 이름이면 주석 적게. docstring으로 함수 설명.
+
+**오해 5: f-string은 어렵다.**
+
+가장 쉬운 방법이에요. 다른 두 방법 (% , .format)이 더 어려워요.
+
+---
+
+## 13. 자주 받는 질문 다섯 가지
+
+**Q1. type hints 매번 써야?**
+
+자경단 표준은 모든 함수에. 작은 스크립트는 생략 가능.
+
+**Q2. 50줄 안에 다 못 끝나면?**
+
+천천히. 한 시간 걸려도 됨. 첫 시도는 시간이 걸려요.
+
+**Q3. dict 대신 list 쓰면?**
+
+가능하지만 RATES는 dict가 직관적. key로 빠르게 찾기.
+
+**Q4. 함수 분리 기준?**
+
+한 일에 한 함수. 5줄 짧으면 분리 안 해도 OK.
+
+**Q5. main 함수가 꼭 필요한가요?**
+
+자경단 표준은 항상. 모듈 import 시 자동 실행 안 되게.
+
+---
+
+## 14. 흔한 실수 다섯 가지 + 안심 멘트 — Python 데모 학습 편
+
+Python 데모 따라하며 자주 빠지는 함정 다섯.
+
+첫 번째 함정, finish/ 먼저 본다. 안심하세요. **start/에서 30분 시도 후만.**
+
+두 번째 함정, 들여쓰기 한 칸 차이로 멈춤. 안심하세요. **Python 들여쓰기 4칸 표준.** Tab vs Space 헷갈리면 reformat.
+
+세 번째 함정, 복잡한 한 줄 list comprehension. 안심하세요. **for 두 줄이 한 줄 comprehension보다 가독성 100배.**
+
+네 번째 함정, print 디버깅만. 안심하세요. **breakpoint() 또는 pdb로 한 번.** 5분 학습이 5시간 디버깅.
+
+다섯 번째 함정, 가장 큰 함정. **에러 메시지 안 읽음.** 본인이 빨간 글씨 보고 닫음. 안심하세요. **Traceback 마지막 줄이 답.** 30초 읽으면 90% 해결.
+
+다섯 함정 미리 알아둔 본인이 두 해 동안 한 박자 빠르게 손이 움직여요.
+
+## 15. 마무리 — 다음 H6에서 만나요
+
+자, 다섯 번째 시간이 끝났어요. 60분 동안 본인은 첫 Python 스크립트를 직접 짜셨어요. 정리하면 이래요.
+
+자경단 미니의 환율 계산기 의뢰. 5단계 30분에 50줄 작성. RATES dict, convert 함수, format_result f-string, cat_budget_demo 자경단 적용, main 함수와 입력 받기. H1부터 H4까지의 모든 학습이 한 스크립트에 동원됐어요. 사고 다섯 가지 처방도 만났고요.
+
+박수 한 번 칠게요. 정말 큰 박수예요. 본인이 자기 손으로 첫 진짜 Python 스크립트를 짠 거예요. 5년 후엔 본인이 1만 줄 짜리 자경단 백엔드를 짜는 사람이에요. 첫 50줄이 가장 어려워요. 그 첫 줄을 오늘 끝냈어요.
+
+다음 H6는 운영 시간이에요. PEP 8 스타일 가이드, type hints 깊이, docstring 양식, black/ruff/mypy 자동화, pre-commit hook, 본인의 첫 pytest 테스트. 한 시간 끝에 본인의 첫 패키지가 GitHub에 올라가요. 한 시간 후 만나요.
+
+그 전에 한 가지 부탁. 본인의 exchange.py를 black으로 한 번 돌려 보세요.
 
 ```bash
-# 1. JSON에서 cat 이름 5개
-$ curl api/cats | python3 -c 'import sys, json; [print(c["name"]) for c in json.load(sys.stdin)[:5]]'
-
-# 2. CSV의 평균 나이
-$ python3 -c 'import csv; rows = list(csv.DictReader(open("cats.csv"))); print(sum(int(r["age"]) for r in rows) / len(rows))'
-
-# 3. log에서 ERROR timestamp
-$ python3 -c 'import re, sys; [print(re.search(r"\d{4}-\d{2}-\d{2}", l).group()) for l in sys.stdin if "ERROR" in l]' < app.log
-
-# 4. dict to JSON
-$ python3 -c 'import json; print(json.dumps({"name": "까미", "age": 3}, ensure_ascii=False))'
-
-# 5. http 서버 즉석 (디렉토리 공유)
-$ python3 -m http.server 8000
+black exchange.py
+ruff check exchange.py
+mypy exchange.py
 ```
 
-5 자동화 × 5명 매일 = 자경단 매일 25 한 줄 Python. 본 H의 학습이 매일 손가락.
+3초예요. 본인의 H5 졸업장이에요. 본인이 짠 코드가 자경단 표준 통과.
 
 ---
 
-## 12. 흔한 오해 5가지
-
-**오해 1: "30분에 진짜 코드 못 만들어요."** — 본 H의 50줄이 30분. 자경단 첫 진짜 코드.
-
-**오해 2: "환율 데이터는 API로 받아야."** — 학습용 — 하드코딩 OK. prod — `requests`로 ECB·exchangerate.host API.
-
-**오해 3: "type hint 첫부터 강제."** — Ch020에서 깊이. 처음 1년은 가벼운 type hint.
-
-**오해 4: "if __name__ 패턴은 옛."** — 표준. 모든 자경단 스크립트.
-
-**오해 5: "f-string의 형식 지정 어려움."** — 5 양식 (`:>12`·`,`·`.2f`·`<6`·`{var:format}`) 외우면 90% 사용.
-
----
-
-## 13. FAQ 5가지
-
-**Q1. 본 H 코드를 본인 노트북에서 따라치려면?**
-A. 5분 — `mkdir -p ~/python-demo && cd ~/python-demo && code exchange.py` 후 본 H의 코드 복사. `python3 exchange.py` 실행.
-
-**Q2. 환율 API 연동은?**
-A. Ch041 백엔드에서. 본 H는 학습용 하드코딩.
-
-**Q3. Decimal 첫부터 써야?**
-A. prod 화폐 — Decimal. 학습 — float OK. 자경단 1년 후 Decimal 도입 검토.
-
-**Q4. pytest로 테스트는?**
-A. Ch022에서 깊이. 본 H 미리보기 — `def test_convert(): assert convert(1380.50, "USD") == 1.0`.
-
-**Q5. 본 H 30분이 짧은가요?**
-A. 자경단 첫 30분이 짧음. 1년 후엔 같은 작업 5분.
-
----
-
-## 14. 추신
-
-추신 1. 본 H의 모든 출력은 진짜. 강사가 `/tmp/python-demo/exchange.py`에서 직접 실행. 데모는 거짓말 안 해요.
-
-추신 2. 30분 시뮬에 50줄 미만 코드. H1~H4의 모든 학습이 한 스크립트.
-
-추신 3. 자경단 5명 매월 사료 예산 345,125 KRW. 본인이 같은 코드 치면 같은 출력.
-
-추신 4. RATES dict이 자경단 매일 dict 활용. key·value·items·get.
-
-추신 5. CAT_NAMES list이 자경단 5명 페르소나. 매일 코드에 등장.
-
-추신 6. convert() 함수 type hint이 mypy 검증의 토대.
-
-추신 7. format_result()의 f-string 5 양식 — `:>12`·`,`·`.0f`·`.2f`·`<6`. 자경단 매일 손가락.
-
-추신 8. cat_budget_demo()의 for 루프가 자경단 매일. 5명 × 매일.
-
-추신 9. main() + `if __name__ == "__main__"`이 자경단 모든 스크립트.
-
-추신 10. 본 H의 30분 시뮬이 자경단 매일 사이클. 1년 250 사이클.
-
-추신 11. 본 H의 5 사고 면역 — ZeroDivision·KeyError·float 정확도·f-string 함정·print sep. 자경단 1년 면역.
-
-추신 12. 본 H의 한 줄 자동화 5종이 자경단 매일 5분 Python. 5명 × 25 사용.
-
-추신 13. 다음 H6는 운영 — PEP 8·black·ruff·docstring·type hint 깊이. 본 H의 코드가 H6의 품질 검사로. 🐾
-
-추신 14. 본 H를 끝낸 본인이 자경단 5명에게 본 H 코드 + PDF 공유. 5명이 같은 시뮬 1시간.
-
-추신 15. 본 H의 자경단 첫 진짜 코드 50줄이 본인의 평생 Python 자산. 첫 줄을 평생 기억.
-
-추신 16. 본 H의 진짜 출력이 본인 머리에 박힘. 1년 후 사고 시 회수.
-
-추신 17. 본 H의 5 학습 사용 (절마다)이 H1~H4의 학습 다 사용. 18 학습이 50줄에.
-
-추신 18. 본 H의 30분 시뮬을 본인이 직접 따라치면 평생 직관. 5분의 학습.
-
-추신 19. 본 H의 진짜 결론 — 자경단 30분 Python 시뮬이 본인의 매일이고, 본 H의 50줄이 5년의 시작이며, 5 사고 면역이 1년 자산이에요.
-
-추신 20. **본 H 끝** ✅ — Python 환율 계산기 30분 시뮬 학습 완료. 본인의 첫 진짜 코드를 오늘. 다음 H6 운영! 🐾🐾
-
-추신 21. 본 H의 코드를 본인이 직접 따라치는 30분이 본인의 Python 첫 진짜 시작. 그 30분을 평생 기억.
-
-추신 22. 본 H의 5 사고 표를 본인 dotfile 주석 또는 자경단 wiki에. 1년 면역.
-
-추신 23. 본 H의 한 줄 자동화 5종을 자경단 wiki에. 5명 같은 페이지.
-
-추신 24. 본 H의 진짜 출력 (345,125 KRW 등)이 본인 머리에 박힘.
-
-추신 25. 본 H의 자경단 5명 페르소나가 실제 코드에 등장. 자경단 도메인이 학습 토대.
-
-추신 26. 본 H의 50줄 코드 + 30분 시뮬 + 5 사고 + 5 자동화 = 자경단 첫 진짜 Python 평생 자산.
-
-추신 27. 본 H를 끝낸 본인이 1년 후 회고에서 — "본 H 30분 시뮬이 첫 Python 자신감". ROI 무한.
-
-추신 28. AI 시대의 본 H — Claude가 환율 코드 추천 → 본인이 본 H 학습으로 검증. 80/20.
-
-추신 29. 본 H의 진짜 마지막 한 줄 — 자경단 30분 Python 시뮬·50줄 코드·5 사고 면역·5 자동화가 본인의 평생 자산이에요. 본인의 첫 진짜 코드 오늘 따라치기.
-
-추신 30. **본 H 진짜 끝** ✅ — 자경단 환율 계산기 30분 시뮬 학습 완료. 본인의 첫 진짜 Python 코드를 오늘. 다음 H6 Python 운영 (PEP 8·black·ruff·docstring 깊이)!
-
----
-
-## 15. 자경단 환율 계산기 진화 5단계
-
-본 H의 환율 계산기가 5년에 걸쳐 어떻게 진화하는가.
-
-### 15-1. 1주차 (현재 H5) — 50줄 스크립트
-- 하드코딩 환율
-- 함수 3개
-- main() + if __name__
-
-### 15-2. 1개월 후 — API 연동 (Ch013 모듈, Ch014 venv)
-```python
-import requests
-
-def fetch_rates() -> dict:
-    """exchangerate.host API에서 실시간 환율."""
-    r = requests.get("https://api.exchangerate.host/latest?base=KRW")
-    return r.json()["rates"]
-
-RATES = fetch_rates()    # 매 실행 시 갱신
-```
-
-### 15-3. 6개월 후 — class 도입 (Ch016 OOP)
-```python
-class ExchangeCalculator:
-    def __init__(self, base: str = "KRW"):
-        self.base = base
-        self.rates = self._fetch()
-    
-    def convert(self, amount: float, currency: str) -> float:
-        return amount / self.rates[currency]
-```
-
-### 15-4. 1년 후 — FastAPI 웹 API (Ch041 백엔드)
-```python
-from fastapi import FastAPI
-
-app = FastAPI()
-calc = ExchangeCalculator()
-
-@app.get("/convert")
-async def convert(amount: float, currency: str):
-    return {"converted": calc.convert(amount, currency)}
-```
-
-### 15-5. 5년 후 — SaaS 서비스
-- 다중 사용자
-- 환율 history (DB)
-- 알람·알람·차트
-- 자경단 사이트의 한 모듈
-
-**5년 진화의 토대 = 본 H 50줄**.
-
----
-
-## 16. 본 H 5분 따라치기 가이드
-
-본인이 본 H를 진짜 따라치려면.
-
-```bash
-# 0:00 — 폴더 셋업
-$ mkdir -p ~/python-demo && cd ~/python-demo
-
-# 0:30 — venv (Ch007 H3 회수)
-$ python3 -m venv .venv
-$ source .venv/bin/activate
-
-# 1:00 — 코드 작성 (본 H 2~6절 그대로)
-$ touch exchange.py
-$ code exchange.py
-# (본 H 코드 복붙)
-
-# 4:00 — 실행
-$ python3 exchange.py
-# 본 H의 진짜 출력 확인
-
-# 4:30 — 검증
-$ python3 -c 'from exchange import convert; print(convert(100_000, "USD"))'
-72.4375
-
-# 5:00 — 청소
-$ deactivate
-$ cd .. && rm -rf ~/python-demo
-```
-
-5분의 손가락이 본인의 평생 Python 자신감.
-
----
-
-## 17. 본 H 코드의 H1~H4 학습 매핑
-
-| 코드 줄 | 사용 학습 | 출처 |
-|---------|----------|------|
-| `"""..."""` (docstring) | docstring | H2 |
-| `# comment` | comment | H2 |
-| `RATES = {...}` | dict, str, float | H1·H2 |
-| `CAT_NAMES = [...]` | list, str | H1 |
-| `def convert()` | 함수 | H2 (미리보기) |
-| `: float`·`: str`·`-> float` | type hint | H2 |
-| `if currency not in RATES` | if, not in 연산자 | H2 |
-| `raise ValueError` | 예외 | (Ch008) |
-| `f"지원 안 함: {currency}"` | f-string | H2 |
-| `return amount_krw / rate` | / 연산자, return | H2 |
-| `f"{amount:>12,.0f}"` | f-string 형식 5요소 | H2 |
-| `for cat in CAT_NAMES` | for 루프 | (Ch008) |
-| `RATES["USD"]` | dict 인덱싱 | H1 |
-| `*` 곱하기 | 산술 연산자 | H2 |
-| `len(CAT_NAMES)` | 내장 함수 | (Ch008) |
-| `100_000` | 숫자 리터럴 _ | H2 |
-| `for currency, rate in RATES.items()` | dict 메서드 | H2 |
-| `print()` | 표준 출력 | H1 |
-| `if __name__ == "__main__"` | main 패턴 | H7 (미리보기) |
-
-본 H의 50줄에 H1·H2의 학습 18 항목 + Ch008·H7 미리보기 6 = **24 학습 항목**. 한 스크립트가 한 학기 학습.
-
----
-
-## 18. 추신 계속
-
-추신 31. 본 H의 50줄 코드에 24 학습 항목. H1~H4 + Ch008 미리보기.
-
-추신 32. 본 H의 진화 5단계가 본인의 5년 Python 진화 — 1주 스크립트 → 1개월 API → 6개월 class → 1년 FastAPI → 5년 SaaS.
-
-추신 33. 본 H의 5분 따라치기 가이드를 본인이 한 번 따라치면 평생 직관.
-
-추신 34. 본 H의 코드 매핑 (17절)이 본 H가 H1~H4의 모든 학습을 어떻게 사용하는지 보여줌.
-
-추신 35. 본 H의 30분 시뮬이 자경단 매일 Python 사이클의 모범. 1년 250 사이클.
-
-추신 36. 본 H의 환율 계산기가 자경단의 첫 도구. 1년 후 API 연동, 5년 후 SaaS.
-
-추신 37. 본 H의 진짜 결론 — 50줄 코드가 본인의 평생 Python 자산이고, 30분 시뮬이 자경단 매일이며, 본인의 첫 진짜 코드가 5년의 시작이에요.
-
-추신 38. 본 H의 자경단 5명 매월 사료 예산 345,125 KRW가 본인 머리에 박힘. 진짜 데이터.
-
-추신 39. 본 H를 끝낸 본인이 자경단 1년 후 회고에서 — "본 H 30분이 첫 Python 자신감". ROI 무한.
-
-추신 40. **본 H 진짜 진짜 끝** ✅ — 자경단 환율 계산기 30분 시뮬 + 50줄 코드 + 24 학습 + 5단계 진화 = 본인의 평생 Python 자산이에요. 본인의 첫 진짜 코드 오늘. 다음 H6 Python 운영!
-
----
-
-## 19. 본 H 보너스 — pytest 미리보기
-
-본 H의 환율 계산기에 첫 테스트 5개.
-
-```python
-# tests/test_exchange.py
-import pytest
-from exchange import convert, format_result, RATES
-
-
-def test_convert_usd():
-    """100,000 KRW → USD 변환."""
-    assert convert(100_000, "USD") == pytest.approx(72.4375, rel=1e-3)
-
-
-def test_convert_jpy():
-    """100,000 KRW → JPY 변환."""
-    assert convert(100_000, "JPY") == pytest.approx(10989.01, rel=1e-3)
-
-
-def test_convert_invalid_currency():
-    """존재하지 않는 통화는 ValueError."""
-    with pytest.raises(ValueError, match="지원 안 함"):
-        convert(100_000, "GBP")
-
-
-def test_format_result():
-    """포맷팅 결과 확인."""
-    result = format_result(100_000, "USD", 72.44)
-    assert "100,000 KRW" in result
-    assert "72.44 USD" in result
-
-
-def test_rates_present():
-    """RATES dict에 3 통화 모두 있음."""
-    assert all(c in RATES for c in ["USD", "JPY", "EUR"])
-```
-
-실행:
-
-```bash
-$ pytest tests/test_exchange.py -v
-======== test session starts ========
-collected 5 items
-tests/test_exchange.py::test_convert_usd PASSED                    [ 20%]
-tests/test_exchange.py::test_convert_jpy PASSED                    [ 40%]
-tests/test_exchange.py::test_convert_invalid_currency PASSED       [ 60%]
-tests/test_exchange.py::test_format_result PASSED                  [ 80%]
-tests/test_exchange.py::test_rates_present PASSED                  [100%]
-======== 5 passed in 0.05s ========
-```
-
-5 테스트 × 10줄 = 50줄 테스트. **본 H의 50줄 코드 + 50줄 테스트 = 자경단 표준 1:1 비율**. Ch022에서 깊이.
-
----
-
-## 20. 본 H 마지막 추신 (10개)
-
-추신 41. 본 H의 보너스 — pytest 5 테스트가 본 H 50줄 코드의 안전벨트. 1:1 비율.
-
-추신 42. 본 H의 진짜 진짜 진짜 결론 — 자경단 환율 계산기 50줄 코드 + 50줄 테스트 + 24 학습 + 5단계 진화 + 5 사고 면역 = 본인의 평생 Python 자산이에요.
-
-추신 43. 본 H의 5분 따라치기 가이드 + 본 H 코드 매핑 (17절) = 본인의 첫 Python 진짜 시작.
-
-추신 44. 본 H의 모든 학습 = 본인 평생 자산. 1년 후 새 신입 가르침.
-
-추신 45. 본 H를 끝낸 본인이 자경단 5명에게 본 H 코드 + 테스트 + PDF 공유. 5명 같은 30분 시뮬.
-
-추신 46. 본 H의 자경단 환율 계산기가 본인의 첫 도구. 1년 후 API, 5년 후 SaaS.
-
-추신 47. 본 H의 진짜 마지막 회고 — 자경단 30분 Python 시뮬이 본인 매일이고, 본 H 50줄 + 50줄 테스트가 5년의 시작이며, 5 사고 면역이 1년 자산이에요.
-
-추신 48. **본 H 진짜 진짜 진짜 끝** ✅ — 자경단 환율 계산기 30분 시뮬 + 50줄 코드 + 50줄 테스트 + 24 학습 + 5단계 진화 + 5 사고 면역 = 본인의 평생 Python 자산이에요.
-
-추신 49. 본 H를 끝낸 본인이 자경단 1년 후 회고에서 — "본 H 30분이 첫 Python 자신감 시작". ROI 무한.
-
-추신 50. **본 H 끝** ✅✅✅ — 자경단 환율 계산기 30분 시뮬 학습 완료. 본인의 첫 진짜 Python 코드를 오늘. 다음 H6 Python 운영 (PEP 8·black·ruff·docstring·type hint 깊이)!
-
----
-
-## 21. 본 H 한 페이지 요약 (자경단 wiki용)
-
-**자경단 환율 계산기 30분 시뮬 — 본 H 한 페이지**
-
-```
-시간: 30분 (14:00~14:30)
-파일: exchange.py (50줄) + test_exchange.py (50줄)
-학습: H1~H4의 24 항목 + Ch008·H7 미리보기
-
-사용 자료형 (H2 회수): str·float·dict·list·bool·None
-사용 연산자 (H2): / · * · in · not in · == · =
-사용 문법: def · if · for · raise · return · import · class (미리보기)
-사용 도구 (H4): python3 · venv · activate · pytest
-
-자경단 5명 매월 사료 예산: $50/마리 × 5 = $250 = 345,125 KRW
-
-5 사고 면역:
-  1. ZeroDivisionError → 0 검증
-  2. KeyError → not in 검증
-  3. float 정확도 → Decimal (prod)
-  4. f-string 들여쓰기 → 한 줄
-  5. print sep → keyword 인자
-
-진화 5단계:
-  1주 → 1개월(API) → 6개월(class) → 1년(FastAPI) → 5년(SaaS)
-```
-
-본 페이지를 자경단 wiki·README에 박으면 새 멤버 30분 안에 본 H 학습 완료.
-
----
-
-## 22. 본 H 진짜 마지막 추신
-
-추신 51. 본 H의 자경단 wiki 한 페이지 (21절)이 새 멤버 30분 학습 가이드.
-
-추신 52. 본 H의 50줄 코드 + 50줄 테스트가 자경단 표준 1:1 비율.
-
-추신 53. 본 H의 5 사고 면역이 자경단 1년 0사고. 사전 학습이 평생.
-
-추신 54. 본 H의 5단계 진화가 본인의 5년 Python 진화 지도.
-
-추신 55. **본 H 진짜 진짜 끝** ✅✅✅✅ — 자경단 환율 계산기 30분 시뮬 + 50줄 코드 + 50줄 테스트 + 24 학습 + 5단계 진화 + 5 사고 면역 + 자경단 wiki 한 페이지 = 본인의 평생 Python 자산이에요. 본인의 첫 진짜 코드 오늘. 다음 H6 Python 운영!
-
----
-
-## 23. 보너스 — 자경단 환율 계산기 v2 (1년 후 미리보기)
-
-본 H의 환율 계산기에 다음 기능 추가 (1년 차):
-
-```python
-"""자경단 환율 계산기 v2 (1년 후)"""
-import requests
-from datetime import datetime
-from typing import Optional
-
-
-class ExchangeCalculator:
-    def __init__(self, base: str = "KRW"):
-        self.base = base
-        self.rates: dict[str, float] = {}
-        self.last_updated: Optional[datetime] = None
-    
-    def fetch(self) -> None:
-        """exchangerate.host API에서 실시간 환율."""
-        r = requests.get(f"https://api.exchangerate.host/latest?base={self.base}")
-        self.rates = r.json()["rates"]
-        self.last_updated = datetime.now()
-    
-    def convert(self, amount: float, currency: str) -> float:
-        if not self.rates:
-            self.fetch()
-        return amount * self.rates[currency]
-    
-    def cat_budget(self, monthly_usd: float, num_cats: int) -> dict[str, float]:
-        """자경단 N마리 매월 예산을 4 통화로."""
-        usd_total = monthly_usd * num_cats
-        return {
-            currency: usd_total * self.rates.get(currency, 0)
-            for currency in ["USD", "JPY", "EUR", "KRW"]
-        }
-
-
-if __name__ == "__main__":
-    calc = ExchangeCalculator(base="USD")
-    budget = calc.cat_budget(monthly_usd=50, num_cats=5)
-    for currency, amount in budget.items():
-        print(f"{amount:>12,.2f} {currency}")
-```
-
-본 H 50줄 → v2의 30줄 (class로 압축). 1년 학습 후 본인의 진짜 백엔드 토대.
-
----
-
-## 24. 본 H의 진짜 마지막 추신
-
-추신 56. 본 H의 v2 미리보기 (23절)이 본인의 1년 후 자경단 환율 계산기. class·API·type hint·dict comprehension.
-
-추신 57. 본 H의 1년 진화 5단계 (15절) + v2 코드 (23절)이 본인의 5년 Python 진화 지도.
-
-추신 58. **본 H 진짜 진짜 진짜 끝** ✅✅✅✅✅ — 자경단 환율 계산기 30분 시뮬 + v1 50줄 + v2 30줄 미리보기 + 50줄 테스트 + 24 학습 + 5단계 진화 + 5 사고 면역 + 자경단 wiki 한 페이지 = 본인의 평생 Python 자산이에요.
-
-추신 59. 본 H를 끝낸 본인이 자경단 5명에게 본 H 코드·테스트·v2 미리보기·PDF 공유. 5명 같은 30분 시뮬.
-
-추신 60. **본 H 끝** ✅ — 자경단 환율 계산기 30분 시뮬 학습 완료. 본인의 첫 진짜 Python 코드를 오늘. 다음 H6 Python 운영 (PEP 8·black·ruff·docstring·type hint 깊이)!
-
----
-
-## 25. 자경단 5명이 본 H를 같이 따라하는 1시간
-
-본 H를 자경단 5명이 같이 따라하는 1시간 시뮬:
-
-```
-14:00  본인이 화상 회의에서 본 H의 시나리오 설명 (5분)
-14:05  5명 각자 자기 노트북에서 venv·exchange.py 작성 (30분)
-14:35  본인이 demo 실행 + 5명 같이 실행 (5분)
-14:40  5명 각자 1 사고 일부러 만들기 → 5 사고 학습 (15분)
-14:55  pytest 테스트 추가 (5분)
-15:00  완료 ✅ — 5명 합 5시간 학습이지만 5명 같은 직관
-```
-
-5명 합 5시간 학습 = 5명 같은 Python 첫 진짜 직관. 합의 비용 0.
-
----
-
-## 26. 본 H의 진짜 마지막 마지막 추신
-
-추신 61. 본 H의 자경단 5명 1시간 같이 따라하기 (25절)이 5명 합 5시간 학습 + 5명 같은 직관.
-
-추신 62. 본 H의 5명 1시간 시뮬 = 5명 같은 Python 첫 진짜 시작. 합의 비용 0.
-
-추신 63. **본 H 진짜 진짜 진짜 진짜 끝** ✅✅✅✅✅✅ — 자경단 환율 계산기 30분 시뮬 + 5명 1시간 같이 + v1 50줄 + v2 30줄 미리보기 + 50줄 테스트 + 24 학습 + 5단계 진화 + 5 사고 면역 + 자경단 wiki 한 페이지 = 본인의 평생 Python 자산이에요.
-
-추신 64. 본 H를 끝낸 본인이 자경단 5명에게 본 H 코드·테스트·v2 미리보기·자경단 5명 1시간 시뮬·PDF 공유.
-
-추신 65. **본 H 끝** ✅ — 자경단 환율 계산기 30분 시뮬 학습 완료. 본인의 첫 진짜 Python 코드를 오늘. 다음 H6 Python 운영 (PEP 8·black·ruff·docstring·type hint 깊이)!
-
----
-
-## 27. 자경단 환율 계산기 5사고 일지 — 자경단 1년 후
-
-본인의 자경단 1년 후 환율 계산기 운영 시 마주칠 5사고:
-
-### 27-1. 사고 1: API rate limit
-**증상**: exchangerate.host API 무료 tier 100 req/일 → 자경단 사용자 많아져서 limit 초과.
-**처방**: cache (functools.lru_cache 또는 Redis), API 키 유료 plan, 또는 환율 매일 1번만 fetch.
-
-### 27-2. 사고 2: 환율 변동 (한 번에 5%+)
-**증상**: 환율이 한 번에 5%+ 변동 (정치·금융 사고). 자경단 사용자 혼란.
-**처방**: 환율 변동 알람 (Slack), 7일 평균 사용, 또는 ECB 공식 환율 사용.
-
-### 27-3. 사고 3: float 누적 오차
-**증상**: 5명 매월 사료 예산 합 계산 시 float 누적 오차 (1원 차이 등).
-**처방**: Decimal 도입 (Ch007 H2 회수). 화폐는 무조건 Decimal.
-
-### 27-4. 사고 4: timezone 함정
-**증상**: API의 환율 timestamp가 UTC, 자경단 KST. 1일 오차.
-**처방**: zoneinfo 또는 pendulum 라이브러리. timezone 명시.
-
-### 27-5. 사고 5: 통화 코드 오타
-**증상**: `convert(100_000, "USDT")` (USDT = Tether crypto, not USD).
-**처방**: ISO 4217 코드 검증, IntelliSense 활용, type hint Literal.
-
-5사고 면역이 자경단 1년 면역.
-
----
-
-## 28. 본 H의 진짜 마지막 마지막 추신
-
-추신 66. 본 H의 자경단 1년 후 5사고 일지 (27절)이 본인의 면역 학습.
-
-추신 67. 본 H의 환율 계산기 30분 시뮬이 1년 후 5사고를 미리 알게 함.
-
-추신 68. **본 H 진짜 진짜 진짜 진짜 진짜 끝** ✅✅✅✅✅✅✅ — 자경단 환율 계산기 30분 시뮬 + 5명 1시간 같이 + v1 50줄 + v2 30줄 + 50줄 테스트 + 24 학습 + 5단계 진화 + 5 사고 면역 + 1년 후 5 사고 일지 + 자경단 wiki 한 페이지 = 본인의 평생 Python 자산이에요. 본인의 첫 진짜 Python 코드를 오늘 따라치기.
-
-추신 69. 본 H의 진짜 결론 — 50줄 + 50줄 테스트 + 24 학습 + 5단계 진화 + 5 사고 + 5 사고 일지 + 자경단 wiki + v2 미리보기 + 5명 1시간 시뮬 + 환율 계산기 = 자경단 평생 Python 첫 작품이에요.
-
-추신 70. **본 H 마지막** ✅ — 자경단 환율 계산기 30분 시뮬 학습 완료. 본인의 첫 진짜 Python 코드를 오늘. 다음 H6 Python 운영 (PEP 8·black·ruff·docstring·type hint 깊이)!
-
-추신 71. 본 H의 진짜 진짜 진짜 결론 — 자경단의 첫 진짜 Python 30분 시뮬은 본인의 평생 Python 첫 진짜 시작이에요. 50줄 + 50줄 테스트 + 24 학습 + 5단계 진화 + 5 사고 면역.
-
-추신 72. 본 H의 자경단 5명 1시간 시뮬 (25절)이 5명 같은 Python 첫 직관. 합의 비용 0.
-
-추신 73. 본 H의 1년 후 5 사고 일지 (27절)이 자경단 1년 면역. 사전 학습이 평생.
-
-추신 74. 본 H의 진화 5단계 (15절)이 본인의 5년 Python 진화 지도.
-
-추신 75. **본 H 진짜 마지막 끝** ✅✅✅ — 자경단 환율 계산기 30분 시뮬 학습 완료. 본인의 첫 진짜 Python 코드를 오늘. 5분 따라치기 가이드 (16절) 그대로!
-
-추신 76. 본 H의 자경단 5명 매월 사료 예산 345,125 KRW가 본인 머리에 박힘. 진짜 데이터.
-
-추신 77. 본 H의 환율 표 — 1 USD = 1,380.50 KRW · 1 JPY = 9.10 KRW · 1 EUR = 1,495.30 KRW. 본인 머리에 박힘.
-
-추신 78. 본 H의 진짜 결론 — 자경단의 첫 진짜 Python이 본 H의 환율 계산기이고, 본인의 5년 Python 시작이에요.
-
-추신 79. **본 H 진짜 진짜 진짜 끝** ✅✅✅✅ — 본인의 첫 진짜 Python 코드를 오늘! 다음 H6 Python 운영!
-
-추신 80. **본 H 끝** ✅✅✅✅✅ — 자경단 환율 계산기 30분 시뮬·50줄 코드·24 학습·5단계 진화·5 사고 면역·5명 1시간 시뮬·v2 미리보기·1년 후 5사고 일지·자경단 wiki = 본인의 평생 Python 자산. 본인의 첫 진짜 Python 코드를 오늘 따라치세요. 🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾
+## 👨‍💻 개발자 노트 (참고 — 비개발자는 그냥 넘기셔도 됩니다)
+
+> - dict 내부: hash table. O(1) lookup. Python 3.7+에서 insertion order 유지.
+> - type hints 런타임 검증: 기본은 안 함. Pydantic, typeguard 같은 라이브러리로 가능.
+> - docstring 양식: Google, NumPy, Sphinx. 자경단 표준은 Google.
+> - f-string 성능: % > .format() < f-string. f-string이 가장 빠름.
+> - input() 보안: 사용자 입력은 항상 검증. eval() 절대 금지.
+> - try/except 범위: 좁게. 한 줄만 감싸기. 전체를 감싸면 디버깅 어려움.
+> - if __name__ 패턴: 모듈을 직접 실행 vs import 구분. 자경단 표준.
+> - .strip()의 미묘함: 공백뿐 아니라 줄바꿈, 탭도 제거. .strip(',') 같이 특정 문자만도 가능.
+> - 천 단위 콤마: f"{n:,}". Python 3.6+. 다른 locale은 locale 모듈.
+> - 다음 H6 키워드: PEP 8 · black · ruff · mypy · docstring · pytest · pre-commit.
