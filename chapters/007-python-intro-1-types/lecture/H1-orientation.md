@@ -1,77 +1,169 @@
-# Ch007 · H1 — Python 입문 1: 오리엔테이션 — 셸 다음의 첫 진짜 언어
+# Ch007 · H1 — Python 입문 1 오리엔테이션 — 셸 다음의 첫 진짜 언어
 
-> **이 H에서 얻을 것**
-> - Python 7이유 — 가독성·다용도·생태계·AI 시대·면접·자경단 백엔드·셸과 만남
-> - 4핵심 단어 — 인터프리터·변수·자료형·연산자
-> - 한 줄 print() 0.10초 흐름 — 타이핑→python→파싱→bytecode→VM→출력 6단계
-> - 8H 큰그림 — H1 오리엔·H2 핵심개념·H3 셋업·H4 명령어/도구·H5 환율 계산기·H6 운영 코드 스타일·H7 내부 GIL/PEP·H8 적용
-> - 자경단 5명 적용 — 까미 백엔드·노랭이 도구·미니 AWS·깜장이 QA·본인 메인테이너
+> 고양이 자경단 · Ch 007 · 1교시 (60분)
+> 이 파일은 강사가 마이크 앞에서 그대로 읽을 수 있는 말 그대로의 대본입니다.
 
 ---
 
-## 회수: Ch006의 셸에서 본 챕터의 Python으로
+## 📋 이 시간 목차
 
-지난 Ch006에서 본인은 자경단의 셸 평생 토대를 봤어요. 30 명령어·5스크립트·6 syscall. 그건 **언어 위의 언어** (셸).
-
-이번 Ch007는 본인의 첫 **진짜 프로그래밍 언어** Python이에요. 셸이 명령어 조합이라면, Python은 **로직의 언어**. 셸이 도구의 손가락이라면, Python은 본인의 두뇌.
-
-지난 Ch005·Ch006이 자경단 협업 + 셸 토대였어요. Ch007부터 본격 코딩. 자경단의 까미가 백엔드를 Python으로 작성. **Python이 자경단의 진짜 언어**.
-
----
-
-## 1. Python 7이유 — 왜 첫 언어로 Python인가
-
-### 1-1. 7이유
-
-1. **가독성** — `for cat in cats: print(cat.name)` 한 줄이 영어 읽듯. 신입의 첫 친구.
-2. **다용도** — 백엔드·데이터·AI·자동화·웹스크래핑·DevOps 다 가능. 한 언어로 5분야.
-3. **생태계** — PyPI에 50만+ 패키지. 본인이 만들고 싶은 거 90% 이미 있음.
-4. **AI 시대 표준** — TensorFlow·PyTorch·OpenAI·Anthropic SDK 모두 Python. AI 도구 80% Python.
-5. **면접 단골** — 신입 면접의 70% Python 또는 JS. 둘 중 Python이 첫 추천.
-6. **자경단 백엔드** — 까미가 Python(FastAPI). 자경단의 절반이 Python.
-7. **셸과 만남** — `python script.py | jq`·`python -m`. 셸 위에서 Python.
-
-본인의 5년 후엔 Python을 매일 1,000줄 이상 작성·읽기. **Python이 본인의 평생 두뇌**.
-
-### 1-2. Python vs 다른 언어
-
-| 언어 | 특징 | 자경단 사용 |
-|------|------|----------|
-| **Python** | 가독성·다용도·AI | 백엔드 (까미)·자동화 (미니)·QA (깜장이) |
-| JavaScript/TypeScript | 브라우저·Node | 프론트 (노랭이) |
-| Go | 빠름·simple·동시성 | 인프라 (미니 future) |
-| Rust | 안전·빠름 | 시스템 (5년 후) |
-| Java | 엔터프라이즈 | 큰 회사 |
-
-자경단 표준 — Python (백엔드) + TS (프론트) + Bash (운영). 셋이 본인의 5년 stack.
+1. 다시 만나서 반가워요 — Ch006 회수와 오늘의 약속
+2. Python 첫 인상 — 영어처럼 읽히는 언어
+3. 옛날 이야기 — 제가 처음 Python을 켰던 그 날
+4. 왜 첫 언어가 Python인가 — 일곱 가지 이유
+5. 같이 쳐 보기 — 한 줄로 인사하기
+6. Python 네 친구 — 인터프리터·변수·자료형·연산자
+7. 0.1초의 여행 — print() 한 줄이 거치는 6단계
+8. Python vs 다른 언어 한 표
+9. 자경단 다섯 명의 Python — 누가 무엇을 짜는지
+10. 8교시 미리보기 — H2부터 H8까지
+11. Python 30년 — Guido 할아버지부터 AI 시대까지
+12. AI 시대의 Python — Copilot이 Python을 가장 먼저 배우는 이유
+13. 자주 받는 질문 다섯 가지
+14. 흔한 오해 다섯 가지
+15. 마무리 — 다음 H2에서 만나요
 
 ---
 
-## 2. 4핵심 단어 — 인터프리터·변수·자료형·연산자
-
-본 챕터 8H의 토대 4개.
-
-### 2-1. 인터프리터
-
-Python 코드를 한 줄씩 읽고 실행하는 프로그램. C·Java처럼 컴파일 안 함.
+## 🔧 강사용 명령어 한눈에
 
 ```bash
-$ python3 -c 'print("Hello 자경단")'
-Hello 자경단
+# Python 버전 확인
+python3 --version
 
-$ python3                       # REPL (Read-Eval-Print Loop)
+# 한 줄 실행
+python3 -c 'print("Hello 자경단")'
+
+# REPL
+python3
 >>> 2 + 3
-5
->>> print("test")
-test
+>>> name = "자경단"
+>>> print(name)
 >>> exit()
+
+# 파일 실행
+echo 'print("Hello")' > hello.py
+python3 hello.py
+
+# 자료형 확인
+python3 -c 'print(type(42), type(3.14), type("hello"), type(True))'
 ```
 
-**인터프리터 vs 컴파일러** — 인터프리터는 한 줄씩, 컴파일러는 전체를 한 번에 변환. Python은 인터프리터.
+---
 
-### 2-2. 변수
+## 1. 다시 만나서 반가워요 — Ch006 회수와 오늘의 약속
 
-값에 이름을 붙임. 메모리의 위치를 가리키는 라벨.
+자, 안녕하세요. 다시 만났습니다. 7번째 챕터예요. 두 주 만이죠. 그동안 본인은 어떻게 지내셨어요. 지난 주말에 dotfile 한 번 손보셨어요? 안 하셨다고요. 괜찮아요. 살아있는 부탁이에요. 두 해 코스 끝까지 유효해요.
+
+지난 Ch006을 한 줄로 회수할게요. 본인은 검은 화면을 평생 친구로 만드셨어요. 30개 명령어, 5종 도구, 자경단 다섯 명의 30분 시뮬레이션, 그리고 본인의 첫 50줄 deploy.sh. 그게 도구의 토대였어요. 셸은 본인이 5년 동안 매일 만지는 손가락이고요.
+
+이번 챕터 Ch007부터는 본인의 첫 진짜 프로그래밍 언어인 Python을 배워요. 셸이 명령어 조합이라면, Python은 로직의 언어예요. 셸이 도구의 손가락이라면, Python은 본인의 두뇌. 둘이 합쳐서 본인이 자경단 다섯 명 중 한 명의 손과 머리가 되는 거예요.
+
+오늘 8시간의 약속은 세 가지예요. 하나, 본인이 Python을 영어처럼 읽기 시작합니다. 둘, 본인 노트북에서 직접 한 줄을 쳐 보고 결과가 뜨는 그 마법을 손가락에 넣어 드립니다. 셋, 8시간 끝에 본인의 첫 환율 계산기가 한 장 완성됩니다. 약속드릴게요. 자, 가요.
+
+---
+
+## 2. Python 첫 인상 — 영어처럼 읽히는 언어
+
+Python을 처음 보시는 분께 한 줄 보여 드릴게요. 본인이 만약에 5세 어린이고 영어를 처음 배운다고 해 봐요. 그 어린이가 다음 한 줄을 본다고 가정해 봐요.
+
+```python
+for cat in cats:
+    print(cat.name)
+```
+
+이게 무슨 뜻일까요. 영어로 읽어 봐요. "for cat in cats: print cat.name". "각 cat에 대해 cats 안에서, cat의 이름을 출력해라." 그렇게 읽혀요. 진짜로 영어 그대로예요. 5세 어린이도 50%는 알아들어요.
+
+Python의 첫 인상은 그래요. **다른 언어보다 영어에 가까운 언어**. C 언어로 같은 일을 하면 30줄. JavaScript로 하면 5줄. Python은 2줄. 짧고 명료해요. 30년 동안 Python이 가장 인기 있는 첫 언어가 된 이유가 그거예요.
+
+Python을 만든 사람이 Guido van Rossum이라는 네덜란드 사람이에요. 1989년 크리스마스 휴가 때 심심해서 만들었대요. 진짜로요. 그러다가 30년 후엔 세계 1위 언어가 됐어요. 인생 모를 일이에요. 이름 Python은 영국 코미디 그룹 "몬티 파이튼"에서 따왔어요. 뱀이 아니에요. 코미디예요.
+
+본인이 5년 후엔 Python을 매일 1,000줄 이상 읽고 짜요. 1년이면 25만 줄. 5년이면 125만 줄. Python이 본인의 평생 두뇌가 됩니다.
+
+---
+
+## 3. 옛날 이야기 — 제가 처음 Python을 켰던 그 날
+
+옛날 이야기 하나 할게요. 제가 처음 Python을 켰던 날. 한 13년 전이에요. 회사에서 사수 형이 어느 날 "이 데이터 처리 좀 해 줘" 하면서 CSV 파일 하나를 줬어요. 5만 줄이었어요. 저는 Excel로 30분 끙끙댔어요. 정렬하고 필터하고 집계하고. 30분이 지나도 안 끝났어요.
+
+사수 형이 옆에 와서 "Python으로 5초에 끝내자" 하더라고요. 터미널 켜고 python3 치고 들어갔어요. 거기에 다섯 줄 정도 짜더라고요. csv.reader, sum, len, print. 5초에 결과가 떴어요. 저는 그때 Python을 처음 봤어요. 충격받았어요. Excel이 30분 못 한 일을 5줄이 5초에 끝낸 거예요.
+
+그날 저녁 집에 와서 "Python 입문" 같은 책 한 권 빌려 왔어요. 첫 장에 Hello World가 있었어요. `print("Hello, World!")` 한 줄. 외워서 다음 날 회사에서 같은 결과 만들어 봤어요. 그 한 줄이 제 인생을 바꿨어요. 그날 이후로 저는 매일 30줄씩 Python 코드를 짜기 시작했어요. 1년 뒤엔 1만 줄짜리 사이드 프로젝트를 가진 사람이 됐어요. 5년 뒤엔 회사의 백엔드를 Python으로 짜는 사람이.
+
+그런데 정말 충격은 한 5년 후에 왔어요. 어느 날 후배가 저한테 와서 "5만 줄 데이터 처리 좀 도와주세요" 하고 부탁했어요. 저는 5분에 끝내 줬어요. 후배가 "어떻게 그렇게 빨리?" 하고 물었어요. 저는 그때 깨달았어요. **5년 전 사수 형이 저한테 한 일을, 제가 지금 후배한테 똑같이 해 주고 있구나**. 5년 동안 제가 Python을 매일 30줄씩 짠 게 그 5분의 차이를 만든 거예요. 본인도 5년 후 똑같이 돼요. 약속드려요.
+
+---
+
+## 4. 왜 첫 언어가 Python인가 — 일곱 가지 이유
+
+본인이 Python을 첫 언어로 배워야 하는 이유가 일곱 개 있어요. 한 개씩 짚어 드릴게요. 외우려고 하지 마세요. 한 번 들어 두시면 충분해요.
+
+첫째, **가독성** 때문이에요. 위에서 본 그 한 줄. `for cat in cats: print(cat.name)`. 영어 그대로 읽혀요. C나 Java 같은 언어는 같은 일에 10줄, 20줄이 필요해요. 짧으면 사고 가능성도 줄어요. 본인의 5년 야근이 가독성에 달려 있어요.
+
+둘째, **다용도**예요. Python 한 언어로 백엔드, 데이터 분석, AI, 자동화, 웹 스크래핑, DevOps. 다섯 분야가 한 언어에 다 있어요. 본인이 5년 동안 다섯 분야를 다 만나도 같은 언어로 해결돼요. 한 언어 깊이 파면 다섯 일자리가 열려요.
+
+셋째, **생태계**예요. PyPI라는 Python 패키지 저장소에 50만 개가 넘는 패키지가 있어요. 본인이 만들고 싶은 거 90%가 이미 누가 만들어 놨어요. `pip install`로 한 줄에 다 깔려요. 본인은 그걸 조립만 하면 돼요.
+
+넷째, 이게 정말 새로운 이유인데요. **AI 시대 표준**이에요. TensorFlow, PyTorch, OpenAI SDK, Anthropic SDK — 이 모든 게 Python이에요. AI 도구의 80%가 Python이에요. 본인이 5년 후 AI를 다루려면 Python이 첫째 도구예요. 신기하죠.
+
+다섯째, **면접 단골**이에요. 신입 개발자 면접의 70%가 Python 또는 JavaScript. 둘 중 Python을 첫 추천하는 회사가 더 많아요. "Python 기본기 면접 질문"으로 검색하면 표준 50개 질문이 나와요. 본인이 그 50개 답할 수 있으면 합격.
+
+여섯째, **자경단 백엔드**예요. 까미가 Python으로 백엔드를 짜요. FastAPI라는 framework로. 자경단의 절반이 Python이에요. 본인이 두 해 코스 끝에 자경단 사이트 백엔드 짤 때 Python이 첫째 도구예요.
+
+일곱째, **셸과 만남**이에요. Python은 셸과 진짜 잘 어울려요. `python3 script.py | jq`처럼 셸 pipe 안에 들어갈 수도 있고, `python3 -m http.server`처럼 한 줄 도구로 쓸 수도 있고. 본인이 Ch006에서 배운 셸이 Python의 무대가 돼요.
+
+일곱 가지 다 외우실 필요 없어요. 한 가지만 머리에 두세요. **Python은 본인의 평생 두뇌다**. 그 두뇌를 잘 키워 두면 5년, 10년이 가벼워져요. 키우지 않으면 평생 어색해요.
+
+---
+
+## 5. 같이 쳐 보기 — 한 줄로 인사하기
+
+말로만 하면 졸리잖아요. 한 번 손을 풀어 봅시다. 본인 노트북 켜셨죠. 터미널 열고 다음 한 줄 쳐 보세요.
+
+> ▶ **같이 쳐보기** — Python 첫 인사
+>
+> ```bash
+> python3 -c 'print("Hello, 자경단!")'
+> ```
+
+엔터 누르면 한 줄 떠요. "Hello, 자경단!". 본인의 Python 첫 줄이에요. 박수.
+
+`python3 -c '...'`은 한 줄 명령으로 Python을 실행하는 방법이에요. 더 많은 코드 짤 때는 파일을 만들어요. 한 번 해 봐요.
+
+> ▶ **같이 쳐보기** — Python 첫 파일
+>
+> ```bash
+> echo 'print("Hello, 자경단!")' > hello.py
+> python3 hello.py
+> ```
+
+`hello.py`라는 파일을 만들고 그 안에 한 줄을 적은 거예요. 그 다음 `python3 hello.py`로 실행. 같은 결과가 떠요. 이게 Python의 두 가지 실행 방식이에요. 한 줄짜리는 `-c` 옵션, 여러 줄은 파일.
+
+세 번째 방식이 REPL이에요. Read-Eval-Print Loop의 약자.
+
+> ▶ **같이 쳐보기** — Python REPL
+>
+> ```bash
+> python3
+> >>> 2 + 3
+> >>> name = "자경단"
+> >>> print(name)
+> >>> exit()
+> ```
+
+`python3`만 치면 REPL이 떠요. `>>>` 프롬프트가 나타나요. 거기에 한 줄씩 치면 즉시 결과를 보여줘요. 본인이 작은 실험할 때 진짜 유용해요. `exit()`이나 Ctrl+D로 나가기.
+
+세 가지 방식 — `-c` 한 줄, 파일, REPL. 본인이 5년 동안 다 써요. 한 줄짜리 실험은 `-c`나 REPL, 진짜 코드는 파일.
+
+---
+
+## 6. Python 네 친구 — 인터프리터·변수·자료형·연산자
+
+Python 안에는 네 명의 친구가 살고 있어요. 이 네 명이 본인이 8시간 동안 만나는 토대예요. 한 명씩 만나러 가요.
+
+첫 친구는 **인터프리터**예요. Python 코드를 한 줄씩 읽고 실행하는 프로그램. C나 Java는 컴파일러가 전체 코드를 한 번에 변환하는데, Python은 한 줄씩 읽고 즉시 실행해요. 그래서 REPL이 가능한 거예요. 본인이 한 줄 치면 한 줄 실행되는 친근함.
+
+두 번째 친구는 **변수**예요. 값에 이름을 붙이는 행위. 셸에서 본 `name="자경단"`과 비슷하지만 Python은 따옴표 양쪽이 더 자유로워요.
 
 ```python
 name = "자경단"
@@ -80,572 +172,252 @@ pi = 3.14
 is_active = True
 ```
 
-`=`이 할당. 이름 = 값. 양옆 공백 OK (셸과 다름).
+네 줄에 변수 네 개. 글자, 정수, 실수, 참/거짓. Python은 변수의 자료형을 자동으로 추론해요. C나 Java처럼 타입을 명시하지 않아도 돼요.
 
-### 2-3. 자료형 (Data Type)
+세 번째 친구는 **자료형**이에요. Python의 기본 자료형 다섯 종류만 머리에 두세요.
 
-값의 종류. Python의 5 기본:
-- **int** — 정수. `5`·`-100`·`0`
-- **float** — 실수. `3.14`·`-0.5`·`1e10`
-- **str** — 문자열. `"hello"`·`'자경단'`
-- **bool** — 참/거짓. `True`·`False`
-- **NoneType** — 없음. `None`
+`int` — 정수. 1, 42, -5.
+`float` — 실수. 3.14, 0.0, -2.5.
+`str` — 글자. "hello", "자경단".
+`bool` — 참/거짓. True, False.
+`None` — 없음. 빈 값.
 
-확인: `type(value)`.
+다섯 가지가 Python의 토대예요. H2에서 더 깊이 만나요.
 
-```python
->>> type(5)
-<class 'int'>
->>> type("자경단")
-<class 'str'>
->>> type(True)
-<class 'bool'>
+> ▶ **같이 쳐보기** — 자료형 확인
+>
+> ```bash
+> python3 -c 'print(type(42), type(3.14), type("hello"), type(True))'
+> ```
+
+네 가지 type이 떠요. `<class 'int'>`, `<class 'float'>`, `<class 'str'>`, `<class 'bool'>`. Python에서 모든 것이 class예요. 첫 시간엔 그냥 자료형 다섯 가지로 알아 두세요.
+
+네 번째 친구는 **연산자**예요. 변수와 값에 적용하는 기호. 사칙연산은 다 똑같아요. `+`, `-`, `*`, `/`. Python에 특별한 연산자 두 개를 알려드릴게요.
+
+`//`는 몫. 10 // 3 = 3.
+`%`는 나머지. 10 % 3 = 1.
+`**`는 제곱. 2 ** 10 = 1024.
+
+세 가지가 Python 특이 연산자. 다른 언어에도 비슷한 게 있지만 Python은 직관적이에요.
+
+네 친구. 외우려 마세요. 8시간 동안 한 명씩 다시 만나요. 지금은 "아, Python 안에 친구가 네 명 있구나"만 머리에 두세요.
+
+---
+
+## 7. 0.1초의 여행 — print() 한 줄이 거치는 6단계
+
+본인이 `print("Hello")`라고 한 줄 치고 엔터를 눌렀을 때, 그 0.1초 사이에 일어나는 일을 한 번 따라가 봅시다.
+
+0초. 본인이 키보드의 p를 누르고, r를 누르고, 차례로 모든 글자를 친 후 엔터를 눌렀어요.
+
+0.005초. 그 글자들이 셸에 도착했어요. 셸이 `python3` 명령을 실행해요. PATH에서 python3을 찾아서 fork+exec.
+
+0.01초. python3 인터프리터가 시작했어요. Python 표준 라이브러리를 메모리에 로드. 1만 줄짜리 표준 라이브러리가 0.005초 안에 다 올라가요. 빠르죠.
+
+0.02초. 인터프리터가 본인이 친 코드를 파싱해요. `print("Hello")`를 토큰으로 쪼갠 다음 AST(추상 구문 트리)로 만들어요. 영어 문장을 주어, 동사, 목적어로 쪼개는 거랑 비슷.
+
+0.05초. AST를 bytecode로 컴파일해요. bytecode는 Python 가상 머신이 읽을 수 있는 중간 형태. C 언어의 컴파일과 비슷하지만 즉시 일어나요.
+
+0.08초. Python 가상 머신(PVM)이 bytecode를 한 줄씩 실행. `print` 함수를 찾아서 호출. "Hello"를 인자로 넘겨요. 함수 안에서 stdout에 글자 쓰기.
+
+0.1초. 화면에 "Hello"가 떠요. 본인이 결과를 봐요. 끝.
+
+6단계. 0.1초. 진짜 빠르죠. 셸의 0.3초보다 더 빨라요. Python이 인터프리터라서 컴파일러보다 살짝 느릴 줄 알았는데, 한 줄짜리는 거의 동시에 끝나요. 본인은 이 0.1초 안에 살고 있어요. 그 안의 6단계를 한 번 들여다보면 Python이 마법에서 정직한 일터로 변해요.
+
+이 6단계가 H7에서 한 시간 통째로 다시 다뤄집니다. 인터프리터의 GIL, 가비지 컬렉터, 모듈 로딩까지 깊이 들어가요. 오늘은 큰 그림 한 장만.
+
+---
+
+## 8. Python vs 다른 언어 한 표
+
+본인이 평생 만날 가장 흔한 언어 다섯 가지를 한 표로 보여드릴게요.
+
+| 언어 | 한 줄 인상 | 자경단 사용 |
+|------|------------|------------|
+| Python | 영어처럼 읽힘, AI 시대 표준 | 백엔드(까미), 자동화(미니), QA(깜장이) |
+| TypeScript | JavaScript의 타입 추가, 브라우저·Node | 프론트엔드(노랭이) |
+| Go | 빠름, 단순, 동시성 강함 | 인프라(미니 future) |
+| Rust | 안전, 빠름, 학습 어려움 | 시스템(5년 후) |
+| Java | 엔터프라이즈, 큰 회사 | 큰 회사 |
+
+자경단 표준 stack은 **Python (백엔드) + TypeScript (프론트) + Bash (운영)**. 이 셋이 본인의 5년 stack이에요. Python을 첫째로 깊이 파는 게 자경단 표준이에요.
+
+언어 선택의 황금 규칙 한 줄. **첫 언어는 Python. 둘째 언어는 TypeScript. 그 다음은 본인의 길에 따라**. 5년 차에 Go나 Rust를 더 깊이 파는 사람도 있고, Python만 깊이 파는 사람도 있어요. 둘 다 좋아요. 첫 언어가 Python이면 길이 다 열려 있어요.
+
+---
+
+## 9. 자경단 다섯 명의 Python — 누가 무엇을 짜는지
+
+자경단 다섯 명이 매일 Python으로 무엇을 짜는지 한 번 그려 볼게요.
+
+**까미**는 백엔드 개발자예요. 자경단 사이트의 모든 API를 Python의 FastAPI framework로 짜요. 매일 약 200줄. 새로운 endpoint, 데이터 모델, 인증 로직. 까미의 Python이 자경단 사이트의 두뇌예요.
+
+**노랭이**는 프론트엔드라 Python을 직접은 안 짜지만, 자동화 도구를 Python으로 만들어요. 디자인 시스템 자동 생성, 컴포넌트 카탈로그 빌드. 매일 약 50줄.
+
+**미니**는 인프라. AWS 자동화 스크립트를 Python으로 짜요. boto3 라이브러리로 EC2, S3, RDS를 다뤄요. Terraform과 Python을 같이 써요. 매일 약 100줄.
+
+**깜장이**는 디자인·QA. Selenium과 Playwright를 Python으로 다루면서 E2E 테스트를 자동화해요. 시각적 회귀 테스트. 매일 약 80줄.
+
+**본인**은 메인테이너. 다섯 명의 Python 코드를 리뷰하고, 공통 라이브러리를 만들어요. 매일 약 150줄. 가장 다양한 Python을 만져요.
+
+다섯 명이 매일 합치면 약 580줄의 Python을 짜요. 1년이면 약 20만 줄. 5년이면 100만 줄. 자경단 사이트의 두뇌가 100만 줄로 자라요.
+
+본인이 두 해 코스 끝엔 까미와 비슷하게 백엔드를 짤 줄 알아요. 시작은 오늘 H1.
+
+---
+
+## 10. 8교시 미리보기 — H2부터 H8까지
+
+오늘 8시간이 어떻게 흘러가는지 한 번 펼쳐 드릴게요.
+
+H1, 지금 이 시간. 큰 그림. Python이 무엇이고, 왜 배워야 하는지, 안에 누가 사는지를 봤어요.
+
+H2는 핵심 개념 8개. 변수, 자료형 5종, 연산자, 입력·출력, 주석, 타입 변환, 문자열 포매팅, None. 8개가 한 시간에 본인의 어휘로 들어와요.
+
+H3는 환경 점검. pyenv로 Python 다중 버전, venv로 가상 환경, pip와 requirements.txt, IDE 셋업(VSCode + Pylance + Ruff). 30분이면 본인 노트북에 Python 표준 환경이 박혀요.
+
+H4는 명령어와 도구 카탈로그. python3 명령 옵션, pip 명령 10개, ipython, black, ruff, mypy. 매일 6개부터 6주에 30개 도구가 손에 박혀요.
+
+H5는 30분 환율 계산기. 본인이 직접 짜요. input() → float() → if/else → print(). 5단계 + 5사고 처방.
+
+H6은 운영. PEP 8 스타일 가이드, type hints, docstring, black/ruff/mypy로 자동화, pytest 첫 테스트. 한 시간 끝에 본인의 첫 패키지가 GitHub에 올라가요.
+
+H7은 깊이. CPython 내부, GIL, 가비지 컬렉터, 모듈 로딩, bytecode. 0.1초 6단계가 0.001초 단위로 풀려요.
+
+H8은 적용과 회고. Ch008 control flow와 다리. 자경단 dotfile에 Python 환경 추가.
+
+8시간이 마라톤 같지만 한 시간 한 시간이 다르게 생겼어요.
+
+---
+
+## 11. Python 30년 — Guido 할아버지부터 AI 시대까지
+
+쉬어 가는 한 절. Python의 30년 역사를 한 번 보고 가요.
+
+1989년 12월. Guido van Rossum이 네덜란드 CWI 연구소에서 크리스마스 휴가 중 심심해서 새 언어를 만들기 시작. 이름은 영국 코미디 그룹 "Monty Python"에서 따옴.
+
+1991년. Python 0.9.0 첫 공개 발표. 함수, 예외 처리, 자료형 다섯 가지가 첫 버전부터 있었어요.
+
+1994년. Python 1.0 정식 출시. 이때부터 "스타일이 가독성을 결정한다"는 철학이 박혔어요.
+
+2000년. Python 2.0. 가비지 컬렉터, 유니코드, 리스트 컴프리헨션 등 추가. 10년 표준이 됐어요.
+
+2008년. Python 3.0 출시. Python 2와 호환 깨짐. 한 10년 동안 2와 3이 공존하면서 개발자들이 머리 아팠어요.
+
+2014년. NumPy + pandas + scikit-learn이 데이터 과학의 표준이 됨. Python이 데이터 분야를 점령.
+
+2018년. TensorFlow와 PyTorch가 둘 다 Python 우선이라 AI도 Python이 표준.
+
+2020년 1월. Python 2 EOL. 30년 만에 Python 3 한 가지로 정리.
+
+2022년. ChatGPT 등장. AI 시대의 표준 언어가 Python으로 굳혀졌어요.
+
+2023~2024년. Claude Code, Cursor 같은 AI 도구가 Python을 가장 먼저 지원. 본인의 모든 AI 도구가 Python부터 알아들어요.
+
+30년 진화의 한 줄 — **Guido (1989) → Python 1 (1994) → Python 3 (2008) → 데이터·AI (2014~) → AI 시대 표준 (2022~)**. 본인이 매일 짜는 Python이 30년 진화의 정점이에요.
+
+---
+
+## 12. AI 시대의 Python — Copilot이 Python을 가장 먼저 배우는 이유
+
+AI 도구가 어느 언어를 가장 잘 다루는지 아세요. 정답은 Python이에요. 이유는 두 가지.
+
+첫째, **데이터가 많아요**. GitHub에 공개된 Python 코드가 가장 많아요. AI는 학습 데이터가 많을수록 잘해요. Python은 학습 데이터의 정점이에요.
+
+둘째, **AI 자체가 Python으로 만들어져 있어요**. ChatGPT, Claude, Gemini의 백엔드가 거의 다 Python이에요. AI가 자기 모국어를 가장 잘 알아듣는 거죠. 신기하죠.
+
+본인이 두 해 코스에서 AI를 매일 부르게 되는데, 그때 본인이 Python을 알면 AI가 본인의 짧은 한 줄 부탁을 정확하게 알아들어요. "이 함수에 type hints 추가해 줘", "이 코드에 unit test 짜 줘", "이 알고리즘을 더 효율적으로 다시 짜 줘". AI가 1초에 답을 줘요.
+
+자경단의 AI 80/20 황금비. 본인이 80%를 Python으로 직접 이해하고, 모르는 20%만 AI에 묻는 거. 비율이 0%/100%이면 본인이 AI 앵무새가 돼요. 비율이 100%/0%이면 본인이 5분짜리 검색을 평생 하고 있어요. 80/20이 자경단 표준이에요. 본 챕터 8시간이 그 80%를 만들어 드려요.
+
+자경단 다섯 명이 2026년에 쓰는 AI + Python 도구를 살짝 보여드릴게요. 본인은 Claude Code로 코드 리뷰. 까미는 Cursor로 백엔드 자동완성. 노랭이는 Copilot으로 React + Python 도구. 미니는 Claude로 Terraform과 Python 자동화. 깜장이는 ChatGPT로 테스트 케이스 생성. 다섯 명이 각자 다른 AI 도구지만 다섯 명 다 Python의 기본을 알아요. AI가 자경단의 6번째 멤버예요.
+
+---
+
+## 13. 자주 받는 질문 다섯 가지
+
+오늘 시간이 끝나기 전에 자주 받는 질문 다섯 개에 답해 드릴게요.
+
+**Q1. Python 2와 Python 3 어느 걸 쓰나요?**
+
+무조건 Python 3. Python 2는 2020년에 EOL이 됐어요. 본 챕터의 모든 코드는 Python 3.12 기준이에요. macOS에 깔려 있는 python3가 보통 3.9 이상이라 그대로 쓰셔도 돼요.
+
+**Q2. JavaScript와 Python 둘 다 첫 언어로 좋은가요?**
+
+둘 다 좋아요. 자경단 표준은 Python이 첫째, TypeScript가 둘째. JavaScript와 TypeScript는 거의 같은 언어예요. 두 해 코스에선 Python을 더 깊이 파고, TypeScript는 Ch020에서 만나요.
+
+**Q3. 코딩 처음인데 너무 어려울 것 같아요.**
+
+Python은 코딩 처음인 분에게 가장 친절한 언어예요. 5세 어린이도 50% 알아듣는 영어 같은 문법. 매일 30분만 하시면 1주일이면 첫 프로그램, 1개월이면 자경단 백엔드의 작은 부분. 천천히 가시면 됩니다.
+
+**Q4. macOS·Linux·Windows 다 가능한가요?**
+
+다 됩니다. macOS는 기본 깔려 있고, Linux도 거의 다 깔려 있고, Windows는 python.org에서 다운로드하시거나 WSL2 안에서. 본 챕터는 macOS 기준이지만 다 따라오실 수 있어요.
+
+**Q5. 8시간이 너무 길지 않아요?**
+
+길어요. 솔직히 길어요. 그런데 Python은 5년 도구예요. 본인이 5년 동안 매일 쓸 도구라서 깊이 한 번 박아 두는 게 가벼운 학습이에요. 8시간을 한 번에 다 들으실 필요 없어요. 한 시간씩 두 주에 한 번. 4주면 8시간. 본인 페이스로.
+
+---
+
+## 14. 흔한 오해 다섯 가지
+
+**오해 1: Python은 느려서 진짜 백엔드엔 못 쓴다.**
+
+Instagram, YouTube, Dropbox, Spotify. 다 Python 백엔드예요. 5억 명이 매일 쓰는 사이트가 Python으로 돌아가요. 느려서 못 쓰는 게 아니에요.
+
+**오해 2: Python 2와 3은 거의 같다.**
+
+다른 언어예요. Python 3만 쓰세요.
+
+**오해 3: type hints가 강제다.**
+
+선택이에요. 안 써도 돼요. 다만 자경단 표준은 type hints. 큰 코드베이스에서 안전 곱셈으로 좋아요.
+
+**오해 4: Python 코드는 들여쓰기 안 맞으면 죽는다.**
+
+맞아요. Python은 들여쓰기가 문법이에요. 4칸 띄어쓰기가 표준. 다행히 모든 IDE가 자동으로 해 줘요.
+
+**오해 5: Python으로 모바일 앱은 못 만든다.**
+
+Kivy, BeeWare 같은 framework가 있어요. 단, 자경단 표준은 모바일은 Swift/Kotlin 또는 React Native. Python은 백엔드 우선.
+
+---
+
+## 15. 마무리 — 다음 H2에서 만나요
+
+자, 첫 시간이 끝났어요. 60분 동안 본인은 Python의 큰 그림 한 장을 받아 가셨어요. 정리하면 이래요.
+
+Python은 본인의 평생 두뇌예요. 가독성·다용도·생태계·AI 시대·면접·자경단 백엔드·셸과 만남, 일곱 가지 이유가 본인을 Python으로 보내요. 그 친구는 사실 네 친구로 되어 있어요. 인터프리터·변수·자료형·연산자. 그리고 한 줄 print() 안에 0.1초의 6단계 여행이 있어요. 자경단 다섯 명이 매일 580줄의 Python을 짜고, 1년에 20만 줄.
+
+그 친구는 30년 전 Guido 할아버지부터 시작해서 오늘 본인의 Python 3.12까지 진화했어요. 그리고 2022년부터는 AI 시대의 표준 언어가 됐어요. 본인이 Python 80%를 알고 AI 20%로 가속하면 5년 후 시니어가 돼요.
+
+박수 한 번 칠게요. 진짜로요. 박수 치세요. 첫 시간을 끝까지 들으셨다는 것만으로도 이미 두 해 코스의 큰 마디 한 칸을 더 채우신 거예요.
+
+다음 H2는 핵심 개념 8개를 깊이 봐요. 변수, 자료형 5종, 연산자, input(), print(), 주석, 타입 변환, f-string. 그 8개가 본인의 H4 도구 카탈로그의 토대예요.
+
+그 전에 한 가지 부탁. 지금 잠깐 멈추시고 본인 노트북에서 다음 네 줄을 차례로 쳐 보세요.
+
+```bash
+python3 --version
+python3 -c 'print("Hello, 자경단")'
+echo 'print(2+3)' > test.py && python3 test.py
+python3 -c 'print(type(42))'
 ```
 
-### 2-4. 연산자
-
-값을 조합·비교·변환.
-
-| 종류 | 연산자 | 예 |
-|------|-------|-----|
-| 산술 | `+` `-` `*` `/` `//` `%` `**` | `2 + 3 = 5` |
-| 비교 | `==` `!=` `<` `>` `<=` `>=` | `5 > 3 = True` |
-| 논리 | `and` `or` `not` | `True and False = False` |
-| 할당 | `=` `+=` `-=` `*=` `/=` | `x += 1` |
-| 멤버십 | `in` `not in` | `'까미' in cats` |
-
-### 2-5. 4단어의 관계
-
-```
-[인터프리터] (python3)
-   └── 코드 한 줄씩 실행
-          └── [변수] = [값(자료형)] (할당)
-                 └── [연산자]로 변수·값 조합
-                        └── 결과 → 출력 또는 다음 변수
-```
-
-본인이 `name = "자경단"; print(name)` 친 흐름:
-1. **인터프리터** 실행
-2. `name` **변수**에 `"자경단"` (**str 자료형**) 할당
-3. `print(name)` 호출
-4. 출력 → 터미널
-
-**4 단어가 Python의 토대**.
+5초예요. 4줄이 본인의 H1 졸업장이에요. 본인이 Python을 처음 만지는 그 손가락이에요. 잘 따라오셨어요. 진짜로요. 60분 끝까지 들으신 본인이 자랑스러워요. 한 시간 후 H2에서 만나요. 잠깐 쉬세요. 물 한 잔 드시고요.
 
 ---
 
-## 3. 한 줄 print() 0.10초 — 6단계 흐름
-
-본인이 `python3 hello.py` 친 그 0.10초 안에 6단계.
-
-```
-0.000초  [본인] python3 hello.py 키보드 입력
-0.005초  [셸] /usr/bin/env python3 fork-exec (Ch006 H7 회수)
-0.020초  [Python] hello.py 파일 읽기 + 파싱
-0.030초  [Python] AST(Abstract Syntax Tree) 생성
-0.040초  [Python] AST → bytecode 컴파일 (.pyc 캐시)
-0.050초  [Python] CPython VM 실행
-0.080초  [Python] print() → C 함수 호출 → write(stdout, "Hello\n")
-0.100초  [터미널] 출력 → Python 종료
-```
-
-**0.10초에 6단계**. 셸의 0.30초보다 빠름 — Python 자체는 빠른 인터프리터. 다만 `python` 시작 시간이 약 50ms.
-
-자경단 의미 — `python script.py` 매번 0.1초 + 셸 fork 0.02초. 매일 100번 = 12초 오버헤드. 무시 가능.
-
----
-
-## 4. 8H 큰그림
-
-| H | 슬롯 | 무엇을 다루나 |
-|---|------|------------|
-| H1 | 오리엔 | 본 H — Python 7이유, 4단어, 0.10초 6단계 |
-| H2 | 핵심개념 | 변수 깊이·5 자료형·연산자 18개·string formatting·comment·indentation |
-| H3 | 환경점검 | python3 설치(brew/pyenv)·python -V·REPL·Jupyter·VS Code Python ext |
-| H4 | 명령카탈로그 | python·pip·python -m·python -c·-i·-X·-O·sys.argv·virtualenv 18개 |
-| H5 | 데모 | **환율 계산기** — 자경단의 첫 진짜 Python 스크립트 (KRW→USD·JPY·EUR) |
-| H6 | 운영 | 코드 스타일(PEP 8)·black formatter·ruff linter·docstring·type hint 미리보기 |
-| H7 | 원리/내부 | CPython VM·GIL·bytecode (.pyc)·PEP 프로세스·메모리 관리(refcount + GC) |
-| H8 | 적용+회고 | Ch007 마무리·자경단 첫 Python 스크립트·Ch008 (if/for/while) 예고 |
-
----
-
-## 5. 자경단 5명 적용 — 각자의 Python
-
-| 누구 | Python 사용 | 자경단 시나리오 |
-|------|-----------|------------|
-| **본인** (메인테이너) | 코드 리뷰·통합 | 모든 PR 1차 리뷰 |
-| **까미** (백엔드) | FastAPI·SQLAlchemy·Pydantic | 자경단 API 서버 |
-| **노랭이** (프론트) | 도구만 (build script·prettier) | 빌드 자동화 |
-| **미니** (인프라) | boto3·terraform CDK·Ansible | AWS 자동화 |
-| **깜장이** (디자인·QA) | Playwright·pytest·visual diff | 자동 테스트 |
-
-5명 중 4명이 Python 매일. 노랭이도 도구로. **자경단의 80%가 Python**.
-
----
-
-## 6. 12회수 지도 — Ch007이 다른 챕터에서
-
-| 챕터 | 만나는 주제 |
-|------|----------|
-| Ch008 Python 입문 2 | if/for/while — 본 H의 변수·연산자가 흐름 제어로 |
-| Ch013 모듈 | `import` — 본 H의 print()이 표준 라이브러리 |
-| Ch014 venv | 가상 환경 — 본 H의 python3가 격리된 환경 |
-| Ch020 typing | type hint — 본 H의 자료형이 명시 |
-| Ch022 pytest | 테스트 — 본 H의 print()가 assert로 |
-| Ch041 백엔드 | FastAPI — 까미의 본격 Python |
-| Ch060 풀스택 | API + Front — 본 H의 변수가 JSON으로 |
-| Ch080 ML 통합 | TensorFlow/PyTorch — 본 H의 자료형이 tensor |
-| Ch091 AWS | boto3 — 본 H의 함수가 AWS 호출 |
-| Ch103 CI/CD | GitHub Actions Python steps |
-| Ch118 면접 | Python 단골 5질문 |
-| Ch120 회고 | 5년 Python 진화 |
-
-본 챕터를 깊이 보면 12 챕터 매끈히.
-
----
-
-## 7. 흔한 오해 5가지
-
-**오해 1: "Python은 느려서 prod에 안 써요."** — 90% 사용처에선 충분히 빠름. Instagram·YouTube·Pinterest·Spotify가 Python 백엔드. 정말 느린 곳만 C로 보강.
-
-**오해 2: "Python 2 vs 3 어느 거?"** — Python 2는 2020년 EOL. 무조건 Python 3.
-
-**오해 3: "Python 들여쓰기는 답답해요."** — 1주일이면 자동. 가독성 큰 이득.
-
-**오해 4: "Python은 첫 언어로 너무 쉬워요."** — 쉬운 시작이 깊은 학습. 5년 후 깊이는 다른 언어와 같음.
-
-**오해 5: "Python은 AI 시대에 사라질 거."** — 거꾸로. AI 시대일수록 더 표준. PyTorch·TensorFlow·LangChain 다 Python.
-
----
-
-## 8. FAQ 5가지
-
-**Q1. Python 3 어느 버전?**
-A. 자경단 표준 — Python 3.12 (2023 release, LTS). 새 기능 + 안정. 1년 후 3.13 검토.
-
-**Q2. 첫 Python IDE 추천?**
-A. VS Code + Python extension. 무료 + 강력. PyCharm은 1년 후 검토.
-
-**Q3. Python 학습 책 추천?**
-A. 신입 — 본 강의 시리즈. 1년 후 — "Effective Python", "Fluent Python".
-
-**Q4. Python vs Go·Rust 어느 거 다음?**
-A. 자경단 5명 — Python 충분. 1년 후 Go (인프라 미니), 5년 후 Rust (시스템).
-
-**Q5. 본 챕터 8H 학습 시간?**
-A. 매일 30분 × 16일 = 8시간. 또는 주말 2일 압축. 본인 페이스.
-
----
-
-## 9. 추신
-
-추신 1. Python 7이유 중 가장 큰 — AI 시대 표준. Claude·ChatGPT·LangChain 다 Python.
-
-추신 2. 4핵심 단어(인터프리터·변수·자료형·연산자)가 8H의 토대. 4단어를 손가락에 박으면 H2~H8 매끈.
-
-추신 3. 한 줄 print() 6단계가 본인의 매일 Python 직관. 한 번 이해하면 평생.
-
-추신 4. 자경단 5명 중 4명이 Python 매일. 80%의 자경단 언어.
-
-추신 5. 셸 + Python = 자경단의 진짜 stack. Ch006 + Ch007이 자경단의 토대.
-
-추신 6. Python 3.12가 자경단 표준. 3.13은 1년 후.
-
-추신 7. VS Code + Python extension이 자경단 IDE. 1년 후 PyCharm 검토.
-
-추신 8. Python 들여쓰기는 1주일이면 자동. 가독성 큰 이득.
-
-추신 9. Python 면접 단골 — `==` vs `is`, mutable vs immutable, GIL, list comprehension. H2~H7에서 다룸.
-
-추신 10. 본 챕터의 다음 H5는 환율 계산기. 본인의 첫 진짜 Python 스크립트.
-
-추신 11. Python의 매일 가독성 — 영어 읽듯. 신입에게 친절.
-
-추신 12. Python 50만+ PyPI 패키지. 본인이 만들고 싶은 거 90% 이미 있음.
-
-추신 13. Python의 단점 — 속도 (C보다 100배 느림). 다만 90% 사용처에선 충분.
-
-추신 14. Python의 장점 — 생태계 + 가독성 + AI. 셋이 단점을 압도.
-
-추신 15. 다음 H2는 핵심개념 — 5 자료형 + 연산자 18개 + string formatting 깊이. 본 H의 4단어가 H2의 깊이로. 🐾
-
-추신 16. 본 H를 끝낸 본인이 한 가지 행동 — 본인 노트북에서 `python3 -c 'print("자경단")'` 한 번 치기. 첫 Python 직접.
-
-추신 17. 자경단 까미가 본 챕터를 끝내면 FastAPI 시작 가능. Ch041에서 만남.
-
-추신 18. 본 챕터의 자경단 도메인 — 모든 예제가 cat·자경단. 본인의 학습이 자경단의 코드.
-
-추신 19. Python의 PEP 8 (코드 스타일)이 자경단 표준. H6에서 깊이.
-
-추신 20. 본 H의 마지막 한 줄 — **Python은 본인의 평생 두뇌이고, 4단어가 토대이며, 본인의 첫 print()가 5년의 시작이에요. 오늘 5분 시작하세요.** 🐾🐾
-
-추신 21. Python 첫 학습의 황금 규칙 — 매일 코드 1줄. 1년 365줄. 5년 1,800줄.
-
-추신 22. Python REPL (`python3` 단독)이 학습의 친구. 즉시 실행 + 결과.
-
-추신 23. Jupyter 노트북이 데이터·실험 표준. 1년 후 도입.
-
-추신 24. Python의 모듈·패키지·프로젝트 셋의 차이 — Ch013에서 깊이.
-
-추신 25. Python 3.x 마이너 버전마다 새 기능. 3.10 match·3.12 type alias·3.13 free-threaded.
-
-추신 26. Python 면접 5질문 — `==` vs `is`·mutable·GIL·list comp·decorator. 본 챕터·다음 챕터에서.
-
-추신 27. AI 시대의 Python — Claude API·OpenAI API·LangChain·LlamaIndex 모두 Python. 자경단의 미래.
-
-추신 28. 본 챕터를 끝낸 본인은 Python의 5%. 8H × 1년 = 5년 누적이 80%.
-
-추신 29. 자경단 5명이 본 챕터를 같이 익히면 5명 합 Python 직관. 한 명이 친 코드를 4명이 1초 이해.
-
-추신 30. **본 H 끝** ✅ — 본인의 Python 첫 1시간 학습 완료. 다음 H2에서 5 자료형 깊이.
-
-추신 31. Python의 진화 30년 — 1991년 Guido van Rossum 첫 release. 2008년 Python 3, 2020년 Python 2 EOL, 2023년 3.12. 30년의 진화가 본인의 매일.
-
-추신 32. Python의 영혼 — "There should be one — and preferably only one — obvious way to do it". `import this`로 The Zen of Python 보기.
-
-추신 33. Python의 가독성 — `for cat in cats: print(cat.name)`이 영어 같음. 신입 친구.
-
-추신 34. Python의 다용도 5분야 — 백엔드(Django/FastAPI)·데이터(pandas)·AI(PyTorch)·자동화(scripts)·웹스크래핑(scrapy/beautifulsoup).
-
-추신 35. Python의 PyPI 50만+ 패키지. 본인이 만들고 싶은 게 90% 이미 있음. 검색 + pip install.
-
-추신 36. Python의 AI 시대 표준 — TensorFlow(Google)·PyTorch(Meta)·OpenAI SDK·Anthropic SDK·LangChain·LlamaIndex 다 Python.
-
-추신 37. Python의 면접 70% — 신입 면접 단골. JS와 Python 둘 중 하나 70%.
-
-추신 38. Python의 자경단 백엔드 — 까미가 FastAPI. 자경단 API 매일 Python.
-
-추신 39. Python의 셸과 만남 — `python script.py | jq '.cats[]'`이 자경단 매일 데이터.
-
-추신 40. Python vs JS — Python 가독성 + 표준 라이브러리 + AI. JS 브라우저 + Node + 빠른 발전.
-
-추신 41. Python vs Go — Python 가독성·생태계. Go 빠름·simple·동시성. 자경단은 Python 우선.
-
-추신 42. Python vs Rust — Python 학습 곡선 낮음. Rust 안전·빠름·어려움. 5년 후 검토.
-
-추신 43. Python vs Java — Python 짧음·동적. Java 엔터프라이즈·정적. 자경단 Python 표준.
-
-추신 44. Python의 인터프리터 — CPython이 표준 (95%). PyPy 빠른 대체. Jython JVM 위. IronPython .NET. 자경단 CPython.
-
-추신 45. Python의 변수 — 이름 + 값. 동적 타입 (런타임 결정). type hint으로 정적 명시 가능 (Ch020).
-
-추신 46. Python의 5 자료형 — int·float·str·bool·NoneType. H2에서 깊이.
-
-추신 47. Python의 연산자 18개 — 산술 7·비교 6·논리 3·할당 8·멤버십 2·기타. 18개가 본인의 매일.
-
-추신 48. Python의 4 단어가 8H 토대. 4단어를 1주일 안에 손가락에.
-
-추신 49. 본 H의 print() 6단계가 본인의 매일 Python 직관. 1만 번 발동.
-
-추신 50. **본 H의 마지막 진짜** — 본인의 첫 Python 한 줄을 오늘 노트북에 치세요. `python3 -c 'print("자경단")'`. 5초의 첫 손가락이 5년의 시작.
-
-추신 51. Python 3.12의 새 기능 5종 — type alias·error message 개선·f-string 다중·sys.monitoring·perf trampoline. 자경단 신 기능.
-
-추신 52. Python 3.13 (2024 release) free-threaded GIL 옵션. 멀티코어 진짜 활용. 1년 후 검토.
-
-추신 53. Python의 Walrus operator `:=` (3.8) — `if (n := len(cats)) > 5: ...`. 자경단 가끔.
-
-추신 54. Python의 match (3.10) — switch 문 같은 패턴 매칭. 자경단 가끔.
-
-추신 55. Python의 dict union `|` (3.9) — `dict1 | dict2`. 자경단 매일.
-
-추신 56. Python 학습 5단계 — 1주(기본)·1개월(OOP)·6개월(고급)·1년(framework)·5년(전문가).
-
-추신 57. Python의 매일 학습 1줄. 1년 365줄. 5년 1,800줄. 한 줄이 매일.
-
-추신 58. Python의 자경단 5명이 본 챕터를 같이 익히면 5명 합 Python 직관. 한 명이 친 코드를 4명이 1초 이해.
-
-추신 59. AI 시대의 Python — Claude·ChatGPT가 Python 코드 추천 → 본인이 본 챕터 학습으로 검증. 80/20 비율.
-
-추신 60. **본 H 진짜 끝** ✅✅ — 본인의 Python 첫 1시간 학습 완료. 본인의 첫 print()를 오늘. 다음 H2에서 5 자료형 깊이. 🐾🐾🐾🐾
-
-추신 61. Python의 첫 학습 — `python3` REPL에서 `1 + 1`. 2 출력 보면 평생 첫 Python 직관.
-
-추신 62. Python의 자경단 첫 코드 — `print("자경단 5명")`. 본인의 첫 Python 한 줄.
-
-추신 63. Python의 변수 첫 학습 — `name = "까미"; print(name)`. 두 줄이 변수 + 출력의 토대.
-
-추신 64. Python의 자료형 첫 학습 — `type(5)`, `type("자경단")`, `type(True)`. 셋이 자료형 직관.
-
-추신 65. Python의 연산자 첫 학습 — `2 + 3`, `"a" + "b"`, `5 > 3`. 셋이 연산자 직관.
-
-추신 66. Python의 매일 학습 의식 — 매일 5분 REPL. 한 표현식 + 결과 봄. 1년 1,800 표현식.
-
-추신 67. Python의 dotfile — `~/.python_history` (REPL history). 자경단 매일 손가락 자동 기록.
-
-추신 68. Python의 import this의 19원칙. The Zen of Python. 자경단의 영혼.
-
-추신 69. **본 H의 마지막 한 줄** — Python은 본인의 평생 두뇌이고, 본 챕터 8H가 그 첫 만남이며, 본인의 첫 print()가 5년의 시작이에요. 오늘 시작하세요.
-
-추신 70. Python의 인터프리터 깊이 — CPython이 C로 작성. Python 코드 → bytecode → CPython VM 실행. H7에서 깊이.
-
-추신 71. Python의 변수 = 라벨. 메모리의 객체를 가리킴. mutable 객체 (list·dict)는 변수가 같은 객체 공유. H2에서.
-
-추신 72. Python의 자료형 동적 — 변수에 타입 없음. 객체에 타입. `name = 5; name = "string"` OK.
-
-추신 73. Python의 연산자 우선순위 — `**` > `*/%` > `+-` > `<>==` > `not` > `and` > `or`. 괄호로 명시 권장.
-
-추신 74. Python의 string 3종 — `"..."`·`'...'`·`"""..."""` (multiline). 셋 다 같은 str 자료형.
-
-추신 75. Python의 number 3종 — int (무한대 정수)·float (IEEE 754)·complex (복소수). 자경단 매일 int·float.
-
-추신 76. Python의 bool — `True`·`False` (대문자). 1과 0의 alias. `True + 1 = 2`.
-
-추신 77. Python의 None — null·nil·NULL의 Python 버전. 함수 return 안 하면 None 반환.
-
-추신 78. Python의 type() vs isinstance() — type은 정확한 타입, isinstance은 상속 포함. 자경단 isinstance 권장.
-
-추신 79. Python의 == vs is — == 값 비교, is 객체 동일성. `5 == 5.0` True, `5 is 5.0` False.
-
-추신 80. **본 H의 진짜 마지막** — 본인의 첫 Python 한 줄을 오늘 노트북에 치세요. 5초가 5년의 시작이에요. 🐾🐾🐾🐾🐾🐾
-
-추신 81. Python의 print() — 표준 출력 함수. `print(*args, sep=' ', end='\n')`이 양식.
-
-추신 82. Python의 input() — 표준 입력. `name = input("이름? ")`이 자경단 첫 인터랙션.
-
-추신 83. Python의 f-string (3.6) — `f"안녕 {name}"`이 자경단 표준. % 옛 양식·.format() 중간 양식.
-
-추신 84. Python의 주석 — `#`이 한 줄. `"""..."""`은 docstring (함수·클래스 문서).
-
-추신 85. Python의 들여쓰기 — 4 공백 표준 (PEP 8). 탭 X. 1주일이면 자동.
-
-추신 86. Python의 라인 길이 — 79자 (PEP 8). 자경단 표준 100자 (현실적).
-
-추신 87. Python의 file 확장자 — `.py` (소스)·`.pyc` (compiled bytecode)·`.pyi` (type stub).
-
-추신 88. Python의 실행 3가지 — `python script.py`·`python -c "code"`·`python -m module`.
-
-추신 89. Python의 REPL의 매일 활용 — 빠른 계산·문법 검증·라이브러리 탐색.
-
-추신 90. **본 H 끝 ✅✅✅** — 본인의 Python 첫 1시간 학습 완료. 다음 H2에서 5 자료형 깊이. 🐾🐾🐾🐾🐾🐾🐾
-
-추신 91. Python의 자경단 매일 5명 — 까미 백엔드 100% Python·노랭이 도구 20%·미니 인프라 60%·깜장이 QA 80%·본인 메인테이너 50%.
-
-추신 92. Python의 자경단 5년 진화 — 1년 5,000줄·5년 50,000줄/사람. 5명 합 25만 줄.
-
-추신 93. Python의 자경단 첫 1주일 — H1·H2 (오리엔·개념) → 5분 REPL → 30 표현식 학습.
-
-추신 94. Python의 자경단 1개월 — H1~H4 (오리엔·개념·셋업·카탈로그) → 첫 100줄 스크립트.
-
-추신 95. Python의 자경단 6개월 — H1~H8 + Ch008 if/for/while + Ch009 함수 + Ch010 컬렉션. 1,000줄 스크립트.
-
-추신 96. Python의 자경단 1년 — Python 입문 8 챕터 (Ch007~014) + 본격 백엔드 (Ch041 FastAPI). 5,000줄.
-
-추신 97. Python의 자경단 5년 — 백엔드 + 데이터 + AI + 자동화 다 Python. 50,000줄/사람.
-
-추신 98. Python 학습의 ROI — 8H × 1주일 = 56시간 학습 + 매일 1줄 × 1년 = 365줄 손가락 = 1년 후 자경단 백엔드 시작 가능.
-
-추신 99. **본 H의 진짜 진짜 마지막** — Python은 본인의 평생 두뇌이고, 본 챕터 8H가 첫 만남이며, 본인의 첫 print()가 5년의 시작이에요.
-
-추신 100. **본 H 끝 ✅✅✅✅** — 본인의 Python 첫 1시간 학습 완료. 본인의 첫 print()를 오늘. 다음 H2에서 5 자료형! 🐾🐾🐾🐾🐾🐾🐾🐾
-
-추신 101. Python의 import — `import os`로 표준 라이브러리. `import datetime`으로 시간. 자경단 매일.
-
-추신 102. Python의 from import — `from datetime import datetime`로 특정 이름만. 자경단 권장.
-
-추신 103. Python의 as — `import numpy as np`로 별칭. 표준 별칭 — np·pd·plt·tf·torch.
-
-추신 104. Python의 내장 함수 약 70개 — print·input·len·range·enumerate·zip·map·filter·sorted·sum·min·max·abs·all·any·type·isinstance 등. 매일 30개.
-
-추신 105. Python의 표준 라이브러리 200+ 모듈 — os·sys·datetime·json·re·collections·itertools·functools 등. 매일 5개.
-
-추신 106. Python의 외부 라이브러리 50만+ — pip install로 설치. 자경단 매일 5~10개.
-
-추신 107. Python의 자경단 매일 라이브러리 — requests·httpx·pydantic·fastapi·sqlalchemy·pytest·black·ruff·mypy·rich·typer·click. 12개가 자경단 표준.
-
-추신 108. Python의 자경단 가끔 라이브러리 — pandas·numpy·matplotlib·scrapy·playwright·boto3·terraform-cdk·anthropic. 8개가 가끔.
-
-추신 109. Python의 자경단 5년 후 라이브러리 — 100+ 사용. 본 챕터의 12+8 = 20개가 시작.
-
-추신 110. **본 H 마지막 진짜 진짜** — 본인의 첫 Python 한 줄을 오늘. 5초가 5년의 시작. 🐾🐾🐾🐾🐾🐾🐾🐾🐾
-
-추신 111. Python의 학습 황금 규칙 — 매일 한 줄·매주 한 함수·매월 한 스크립트·매년 한 라이브러리.
-
-추신 112. Python의 자경단 매일 1줄 = 1년 365줄. 5명 × 5년 = 9,125 줄. 한 줄이 매일.
-
-추신 113. Python의 자경단 5년 후 50,000줄/사람 = 250,000줄/팀. 큰 자산.
-
-추신 114. AI 시대의 Python 8/2 비율 — 본인 80% 코딩 + AI 20% 보조. 본 챕터가 80% 토대.
-
-추신 115. Python의 모든 학습이 본인의 평생 자산. 1년 후 본인이 새 신입에게 가르침.
-
-추신 116. **본 H 진짜 끝 ✅** — 본인의 Python 첫 1시간 학습 완료. 본인의 첫 print()를 오늘. 다음 H2에서 5 자료형 깊이!
-
-추신 117. Python의 자경단 첫 진짜 코드 — `cats = ["까미", "노랭이", "미니"]; for c in cats: print(c)`. 3 명의 자경단 출력.
-
-추신 118. Python의 자경단 첫 함수 — `def greet(name): return f"안녕 {name}"`. 함수가 자경단 매일.
-
-추신 119. Python의 자경단 첫 클래스 — `class Cat: def __init__(self, name): self.name = name`. OOP의 첫 만남 (Ch016).
-
-추신 120. Python의 자경단 첫 import — `import json; data = json.loads('{"name": "까미"}')`. 표준 라이브러리.
-
-추신 121. Python의 자경단 첫 외부 라이브러리 — `pip install requests; import requests; r = requests.get('https://api.cat-vigilante.org/cats')`. API 호출.
-
-추신 122. Python의 자경단 첫 테스트 — `pytest tests/test_cats.py`. 테스트가 자경단 표준.
-
-추신 123. Python의 자경단 첫 lint — `ruff check .`로 코드 검사. CI 표준.
-
-추신 124. Python의 자경단 첫 format — `black .`로 자동 포맷. PEP 8 자동.
-
-추신 125. Python의 자경단 첫 type check — `mypy .`로 타입 검사. type hint 검증.
-
-추신 126. Python의 자경단 5명 매일 12 도구 — pip·python·pytest·black·ruff·mypy·requests·pydantic·fastapi·sqlalchemy·rich·typer. 12개가 자경단 매일.
-
-추신 127. Python의 자경단 1년 차 100 도구. 5년 차 500 도구. 본 챕터의 12개가 시작.
-
-추신 128. Python의 자경단 wiki에 본 챕터의 4단어 + 8H + 5명 + 12도구 = 한 페이지. 5명이 같은 페이지.
-
-추신 129. Python의 진짜 결론 — 본인의 평생 두뇌이고, 본 챕터 8H가 첫 만남이며, 자경단 5명의 80%가 Python이에요.
-
-추신 130. **본 H 진짜 진짜 끝 ✅✅** — 본인의 Python 첫 1시간 학습 완료. 본인의 첫 print()를 오늘. 다음 H2에서 5 자료형 깊이! 🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾
-
-추신 131. Python의 자경단 첫 1주일 — REPL 5분 × 7일 = 35분 학습 + 본 챕터 H1·H2 학습 + 첫 100줄 스크립트.
-
-추신 132. Python의 자경단 1개월 — H1~H4 + 5 자료형 + 18 연산자 + 30 명령어 + 1,000줄.
-
-추신 133. Python의 자경단 6개월 — H1~H8 + Ch008 if/for + Ch009 함수 + 첫 10,000줄.
-
-추신 134. Python의 자경단 1년 — Ch007~014 (Python 입문 8 챕터) 완료 + 첫 50,000줄 + 첫 라이브러리 사용 100개.
-
-추신 135. Python의 자경단 5년 — 백엔드 + 데이터 + AI 다 Python + 첫 자경단 라이브러리 작성 + 자경단 5명 합 250,000줄.
-
-추신 136. Python의 자경단 진화 5단계 — 1주(REPL)·1개월(스크립트)·6개월(함수)·1년(framework)·5년(전문가).
-
-추신 137. Python의 학습 ROI — 8H 학습 × 1주일 손가락 = 5년 매일 1시간 코딩 = 5년 1,825시간 코딩 = 본인의 평생 백엔드 자산.
-
-추신 138. Python의 자경단 매일 1시간 코딩 = 1년 365시간 = 5년 1,825시간. 본인의 평생.
-
-추신 139. Python의 자경단 5명 합 5년 9,125시간 코딩. 큰 자산.
-
-추신 140. **본 H의 진짜 진짜 진짜 끝 ✅✅✅** — 본인의 Python 첫 1시간 학습 완료. 본인의 첫 print()를 오늘. 다음 H2에서 5 자료형 깊이! 🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾
-
-추신 141. Python의 자경단 매일 가장 큰 가치 — 가독성. 영어 읽듯 코드 읽음. 신입에게 친절·시니어에게 빠름.
-
-추신 142. Python의 자경단 매일 두 번째 가치 — 라이브러리. 50만+ 패키지가 자경단의 어깨에.
-
-추신 143. Python의 자경단 매일 세 번째 가치 — 다용도. 한 언어로 백엔드 + 데이터 + AI + 자동화.
-
-추신 144. Python의 자경단 매일 네 번째 가치 — AI 시대 표준. Claude·OpenAI 다 Python.
-
-추신 145. Python의 자경단 매일 다섯 번째 가치 — 면접 70%. 신입 입사의 첫 도구.
-
-추신 146. **본 H의 마지막 마지막 진짜 끝 ✅✅✅✅** — Python의 5 가치(가독성·라이브러리·다용도·AI·면접)가 본인의 5년 직관이에요. 본인의 첫 print()를 오늘! 🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾
-
-추신 147. Python의 진짜 마지막 회수 — 본 챕터를 끝낸 본인은 Python의 5%. 8H × 1년 × 5년 = 5년 후 80%.
-
-추신 148. 본 챕터의 모든 학습이 본인의 평생 자산. 1년 후 본인이 새 신입에게 가르침.
-
-추신 149. 본 H의 진짜 마지막 한 줄 — Python은 본인의 평생 두뇌이고, 본 챕터 8H가 첫 만남이며, 본인의 첫 print()가 5년의 시작이에요.
-
-추신 150. **본 H 끝 ✅** — 본인의 Python 첫 1시간 학습 완료. 본인의 첫 print()를 오늘. 다음 H2에서 5 자료형 깊이로!
-
-추신 151. Python의 자경단 도메인 — 모든 예제가 cat·자경단. 본인의 학습이 자경단의 코드. 가상 → 실전.
-
-추신 152. Python의 자경단 5명 페르소나 — 까미·노랭이·미니·깜장이·본인. 5명이 본 챕터의 5가지 사용처.
-
-추신 153. Python의 자경단 wiki — 본 챕터 8H 한 페이지·5명 적용·12 도구 = 자경단 Python 사전.
-
-추신 154. Python의 자경단 PR 첫 — `feat(api): 첫 cat 모델`. 5줄 Pydantic. 본인의 첫 백엔드.
-
-추신 155. Python의 자경단 5년 — 250,000줄 코드 + 100+ 라이브러리 + 5명 백엔드 전문. 본 챕터가 시작.
-
-추신 156. **본 H 진짜 끝 ✅✅✅✅✅** — 본인의 Python 첫 1시간 학습 완료. 다음 H2에서 5 자료형 깊이!
-
-추신 157. Python의 진짜 진짜 마지막 — 본인이 본 챕터를 끝낸 그 시점이 본인의 Python 첫 진짜 시작. 그 시점을 평생 기억하세요.
-
-추신 158. 본 H의 모든 학습이 본인의 평생 자산. 1년 후 본인이 새 신입에게 가르침.
-
-추신 159. **본 H 마지막 진짜 진짜 끝 ✅✅✅✅✅✅** — Python은 본인의 평생 두뇌이고, 본 챕터 8H가 첫 만남이며, 본인의 첫 print()가 5년의 시작이에요.
-
-추신 160. **본 H 끝 진짜** — 본인의 Python 첫 1시간 학습 완료. 본인의 첫 print()를 오늘. 다음 H2에서 5 자료형 깊이로!
-
-추신 161. Python의 학습 마인드셋 — 코드는 손가락 + 머리. 매일 한 줄 손가락 + 한 개념 머리.
-
-추신 162. Python의 자경단 매일 1시간 — 5분 REPL + 30분 코딩 + 25분 리뷰. 1시간이 5년의 매일.
-
-추신 163. Python의 자경단 매주 4시간 — 매일 + 주말 4시간 깊이. 매주 4시간이 5년 자산.
-
-추신 164. Python의 자경단 매월 회고 — 매월 마지막 금요일 1시간. 한 달 코드 회고.
-
-추신 165. Python의 자경단 매년 회고 — 12월 마지막 주 1시간. 1년 진화 점검.
-
-추신 166. **본 H의 진짜 진짜 진짜 마지막** — Python은 본인의 평생 두뇌이고, 본 챕터 8H가 첫 만남이며, 본인의 첫 print()가 5년의 시작이에요. 오늘 5분 시작하세요.
-
-추신 167. **본 H 끝** ✅✅✅✅✅✅✅ — 본인의 Python 첫 1시간 학습 완료. 다음 H2에서 5 자료형 깊이!
-
-추신 168. Python의 자경단 5명이 본 챕터를 같이 익히면 5명 합 Python 직관. 한 명이 친 코드를 4명이 1초 이해.
-
-추신 169. Python의 면접 5질문 — `==` vs `is`·mutable·GIL·list comp·decorator. 본 챕터·다음 챕터에서.
-
-추신 170. AI 시대의 Python — Claude·OpenAI·Anthropic SDK 다 Python. 자경단의 미래.
-
-추신 171. 본 챕터를 끝낸 본인은 Python의 5%. 8H × 1년 = 5년 누적이 80%.
-
-추신 172. **본 H의 진짜 진짜 마지막** — Python은 본인의 평생 두뇌이고, 본 챕터 8H가 첫 만남이며, 본인의 첫 print()가 5년의 시작이에요. 오늘 5분.
-
-추신 173. 본 H의 모든 학습이 본인의 평생 자산. 1년 후 본인이 새 신입에게 가르침.
-
-추신 174. 본 H의 진짜 마지막 한 줄 — Python은 본인의 평생 두뇌이고, 본 챕터 8H가 첫 만남이며, 본인의 첫 print()가 5년의 시작이에요.
-
-추신 175. **본 H 진짜 진짜 끝 ✅✅✅✅✅✅✅✅** — 본인의 Python 첫 1시간 학습 완료. 본인의 첫 print()를 오늘. 다음 H2에서 5 자료형 깊이로!
-
-추신 176. Python의 7이유를 종이 한 장에 적기. 면접에서 "왜 Python?" 답이 1분이면 시니어.
-
-추신 177. Python의 4 단어를 1주일 안에 손가락에. 인터프리터·변수·자료형·연산자.
-
-추신 178. Python의 0.10초 6단계가 매일 1만 번 발동. 본인의 평생 직관.
-
-추신 179. Python의 8H가 본인의 첫 1주일~1개월 학습. 매일 30분 × 16일 = 8시간.
-
-추신 180. **본 H의 마지막 마지막 진짜 끝 ✅✅✅✅✅✅✅✅✅** — Python은 본인의 평생 두뇌이고, 본 챕터 8H가 첫 만남이며, 본인의 첫 print()가 5년의 시작이에요. 오늘 시작하세요.
-
-추신 181. 본 H의 진짜 진짜 진짜 결론 — Python은 본인의 평생 두뇌이고, 자경단 5명의 80%가 Python이며, 본 챕터 8H가 본인의 5년 백엔드 토대예요.
-
-추신 182. 본 챕터의 12회수 지도가 다음 92 챕터의 입장권. Ch008부터 본 챕터 회수가 매일.
-
-추신 183. 본 챕터의 7이유가 본인의 평생 Python 직관. 가독성·다용도·생태계·AI·면접·자경단·셸과 만남.
-
-추신 184. **본 H 끝 ✅✅✅✅✅✅✅✅✅✅** — 본인의 Python 첫 1시간 학습 완료. 본인의 첫 print()를 오늘. 다음 H2에서 5 자료형 깊이! 🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾
-
-추신 185. 본 H의 진짜 마지막 한 줄 — Python은 본인의 평생 두뇌이고, 본 챕터 8H가 그 첫 만남이며, 본인의 첫 print()가 5년의 시작이에요. 오늘 5분 시작하세요.
-
-추신 186. Python의 자경단 5명 80% 사용은 자경단의 평생 stack. 본 챕터가 그 80%의 시작.
-
-추신 187. 본 챕터의 8H × 17,000자 = 136,000자가 본인의 평생 Python 사전. 1년에 한 번씩 다시.
-
-추신 188. **본 H 진짜 진짜 진짜 끝 ✅✅✅✅✅✅✅✅✅✅✅** — 본인의 Python 첫 1시간 학습 완료. 본인의 첫 print()를 오늘. 다음 H2에서 5 자료형 깊이! 🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾
-
-추신 189. 본 H의 모든 학습이 본인의 평생 자산. 1년 후 본인이 새 신입에게 가르침.
-
-추신 190. **본 H 끝** — 본인의 Python 첫 시작. 본인의 첫 print()를 오늘. 다음 H2!
-
-추신 191. Python의 자경단 면접 단골 — "왜 Python?" 답이 가독성·다용도·AI 표준의 3 단어면 시니어.
-
-추신 192. Python의 자경단 면접 둘째 — "Python 2 vs 3?" 답이 "Python 2 EOL, 무조건 3"이면 OK.
-
-추신 193. Python의 자경단 면접 셋째 — "PEP 8?" 답이 "Python 코드 스타일 표준, 4 공백 들여쓰기, 79자 (자경단 100자)" 이면 OK.
-
-추신 194. Python의 자경단 면접 넷째 — "GIL?" 답이 "Global Interpreter Lock, CPython의 단일 스레드 제한, multiprocessing으로 우회" 이면 시니어.
-
-추신 195. Python의 자경단 면접 다섯째 — "list comprehension?" 답이 "`[x*2 for x in cats]` 한 줄 변환, for 루프 대체" 이면 OK.
-
-추신 196. **본 H의 진짜 진짜 진짜 끝 ✅✅✅✅✅✅✅✅✅✅✅✅** — Python은 본인의 평생 두뇌이고, 본 챕터 8H가 첫 만남이며, 본인의 첫 print()가 5년의 시작이에요. 오늘 시작하세요.
-
-추신 197. Python의 자경단 매일 import 5종 — `os·sys·datetime·json·collections`. 매일 사용.
-
-추신 198. Python의 자경단 매주 import 5종 — `re·itertools·functools·pathlib·typing`. 매주.
-
-추신 199. Python의 자경단 매월 import 5종 — `subprocess·threading·multiprocessing·logging·pytest`. 매월.
-
-추신 200. **본 H 진짜 끝 ✅** — Python의 평생 두뇌·본 챕터 8H의 첫 만남·본인의 첫 print()가 5년의 시작이에요. 오늘 5분!
-
-추신 201. Python의 자경단 매일 외부 라이브러리 5종 — requests·pydantic·fastapi·sqlalchemy·rich. 매일 백엔드.
-
-추신 202. Python의 자경단 매주 외부 라이브러리 5종 — pytest·black·ruff·mypy·typer. 매주 도구.
-
-추신 203. Python의 자경단 매월 외부 라이브러리 5종 — pandas·numpy·matplotlib·playwright·anthropic. 매월 데이터·QA·AI.
-
-추신 204. Python의 자경단 5년 후 100+ 라이브러리. 매일 5 + 매주 5 + 매월 5 = 15 표준 + 50+ 가끔.
-
-추신 205. **본 H 진짜 진짜 진짜 끝 ✅✅✅✅✅✅✅✅✅✅✅✅✅** — Python의 평생 두뇌·본 챕터 8H의 첫 만남·본인의 첫 print()가 5년의 시작이에요. 오늘 5분 시작하세요. 🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾
+## 👨‍💻 개발자 노트 (참고 — 비개발자는 그냥 넘기셔도 됩니다)
+
+> - Python 3.x 버전 정책: 매년 10월 새 마이너 버전, 5년 지원 (3.12 → 2028, 3.13 → 2029). 자경단 표준은 LTS 비슷한 짝수 버전(3.10·3.12).
+> - CPython vs PyPy vs Jython: CPython이 표준 (C로 짠 인터프리터). PyPy는 JIT로 더 빠름. Jython은 JVM 위 Python. 자경단은 CPython.
+> - bytecode 컴파일 캐싱: `__pycache__/` 폴더에 .pyc 파일로 캐싱. 두 번째 실행부터 0.05초 → 0.01초 단축.
+> - GIL (Global Interpreter Lock): Python의 thread는 진짜 병렬 아님. multiprocessing은 가능. H7에서 깊이.
+> - PyPI vs conda: PyPI는 공식, conda는 데이터 과학. 자경단은 PyPI 우선, 데이터 분야는 conda 병행.
+> - Python 표준 라이브러리: 배터리 포함 철학. os, sys, json, csv, urllib, re, datetime, pathlib, collections 매일 사용.
+> - 가독성 PEP: PEP 8 (스타일), PEP 20 (Zen of Python: import this), PEP 257 (docstring), PEP 484 (type hints).
+> - 자경단 Python stack: FastAPI (백엔드) + SQLAlchemy (ORM) + pydantic (validation) + pytest (테스트) + black/ruff (포매팅) + mypy (타입 검사).
+> - Python 3.12 새 기능: f-string 개선, type alias 문법, 더 빠른 인터프리터. 자경단은 3.12+.
+> - 다음 H2 키워드: int·float·str·bool·None·연산자·f-string·input·print·type 변환.
