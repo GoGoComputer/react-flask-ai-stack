@@ -12,7 +12,7 @@
 > |------|------------|------|
 > | Ch001 | 8/8 ✅ | 전부 완료 |
 > | Ch002 | 8/8 ✅ | 전부 완료 |
-> | Ch003 | **6/8** | H1~H6 완료, H7·H8 미작성(stub) |
+> | Ch003 | **7/8** | H1~H7 완료, H8 미작성(stub) |
 > | Ch004 | 3/8 | H1~H3 완료, H4~H6 🟡(16.6~16.9k), H7·H8 stub |
 > | Ch005~014 | 0~부분 | 표에는 "완료"로 적혀 있으나 실제는 stub/부분 초안 |
 > | Ch015~026 | 부분 | 각 H ~6,800자 부분 초안(🔴), 17k 미달 |
@@ -76,8 +76,8 @@ Ch002 합계: 136,084 / 목표 ~160,000
 | H7 | 서버측서버 | 17,007 | 🟢 | 합격 (keepalive·HTTP/3·LB 내부 — 서버 5층(L0 DNS·L1 엣지·L2 L4LB·L3 L7LB·L4 앱)+두 고속도로(HTTP keepalive·연결풀)/TCP keepalive vs HTTP keepalive 단어 충돌/HTTP/1.1 HOL+6연결 우회+pipelining 폐기사/HTTP/2 멀티플렉싱+HPACK+서버푸시폐기+TCP HOL 잔존/HTTP/3 QUIC=UDP+TLS1.3+연결ID+0-RTT 모바일 핸드오프/curl --http3·Alt-Svc 진단/LB 알고리즘 4 RR·LC·Consistent Hash·P2C 표/sticky session 2구현(쿠키·IP해시)+함정/헬스체크 liveness vs readiness+shallow vs deep+서킷브레이커 closed/open/half-open/3 운영사고(keepalive좍비·CH핫스포·헬스체크cascade)/흔한오해 7+FAQ 7+추신 28) |
 | H8 | 적용+회고 | 17,096 | 🟢 | 합격 (자경단 사이트 8주 네트워크 로드맵 — 1주 도메인·DNS / 2주 HTTPS·인증서자동화 / 3주 CDN(Cloudflare·Cache-Control·Vary) / 4주 nginx upstream LB+백엔드 2~3대+keepalive세팅 / 5주 헬스체크+5층 모니터링+알람 다섯 / 6주 Redis cache-aside·write-through·write-behind 셋 / 7주 HTTP/2·H/3 도입+UDP443+RUM A/B / 8주 런북 7섹션+Game day Mock 사고/Ch003 한장 지도 8H 압축+다섯 원리(층·이름주소분리·느슨결합·신뢰체인·관찰가능성)+12회수지도+Ch004 예고+우선순위 Must/Should/Could+비용표+오해7+FAQ7+추신24) |
 
-Ch003 합계: H1~H6 실제 완료 (H6=17,006 실측). H7·H8 미작성(stub).
-**Ch003 진행 중** 🚧 (H1~H6 ✅ / H7·H8 작성 필요)
+Ch003 합계: H1~H7 실제 완료 (H6=17,044, H7=17,005 실측). H8 미작성(stub).
+**Ch003 진행 중** 🚧 (H1~H7 ✅ / H8 작성 필요)
 
 ## Ch 004 — Git & GitHub 기본
 
@@ -280,7 +280,7 @@ Ch015 합계: 34,010 / 목표 ~160,000 (2/8 H 진행)
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 003 H7 작성** (네트워크 원리/내부 — TCP 3-way·4-way handshake, congestion control, TLS 1.3 1-RTT, QUIC)
-   - 현재 5,545자(🔴) → 17,000+ 확장. 다리 5(IP 도달) 안쪽을 현미경으로.
-   - 이후 큐: Ch003 H8 → Ch004 H4·H5·H6 보강(🟡, +100~350자) → Ch004 H7·H8 → Ch005 H1...
+👉 **Ch 003 H8 작성** (적용+회고 — 자경단 8주 네트워크 로드맵 + Ch003 8시간 한 줄 정리 + Ch004 다리)
+   - 현재 5,171자(🔴) → 17,000+ 확장. Ch003 마지막 H, 완료 시 Ch003 8/8 ✅.
+   - 이후 큐: Ch004 H4·H5·H6 보강(🟡, +100~350자) → Ch004 H7·H8 → Ch005 H1...
    - ⚠️ "다음 턴"은 실제 파일 측정 기준. 위 ⚠️ 실측 상태 표 참조(진행표 본문의 "완료" 표기는 일부 계획값).
