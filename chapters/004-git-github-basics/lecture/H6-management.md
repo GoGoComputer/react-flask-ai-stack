@@ -357,4 +357,6 @@ Issue는 일의 한 장 — 떠오르면 1분 안에 Issue로 보관. 머리는 
 
 branch protection은 5분 셋업이지만 첫날에 박아 두면 평생 굴러요. CODEOWNERS는 폴더가 리뷰어를 결정 — 분기마다 한 번 점검. Project 보드는 매주 월요일 09:00에 한 번 — 5분 투자가 한 주의 카오스를 막아요. Discussions의 Q&A는 신입의 입장권. README는 5분 자기소개서 — 본인이 자경단의 얼굴. Actions는 24시간 자동 동료. 5장 문서(README·CONTRIBUTING·CODE_OF_CONDUCT·SECURITY·LICENSE)는 외부 봉사자의 환영사.
 
+한 가지 더 — 라벨(label)을 자경단 다섯 부류로 표준화하세요. 유형(`bug`·`feat`·`docs`), 지역(`backend`·`frontend`·`infra`), 긴급도(`P0`·`P1`·`P2`), 상태(`triage`·`in-progress`·`blocked`), 종류(`good-first-issue`·`help-wanted`). 색깔도 의미를 줘요 — 빨강은 긴급, 노랑은 진행 중, 초록은 좋은 첫 이슈. 라벨이 정리되면 Issue가 100개여도 한눈에 분류돼요. 신입(깜장이)이 `good-first-issue` 라벨 하나로 첫 기여를 시작하고요. 라벨은 작아 보이지만 협업의 분류 체계예요. 분기마다 한 번 라벨을 정리하는 5분이 한 분기의 혼란을 막아요. GitHub의 기본 라벨을 지우고 자경단 다섯 부류로 새로 까는 게 첫 저장소 셋업의 마지막 5분이에요 — 작은 정돈 하나가 1년의 검색 시간을 아껴 줘요.
+
 운영은 시스템이 90%, 본인이 10%. 시스템을 잘 깔아 두면 본인이 일할 게 줄어요. 본인의 자경단 저장소 Settings를 30분만 열어 보세요 — branch protection·CODEOWNERS·Issue 템플릿·PR 템플릿 4개 셋업이 30분이면 끝나요. 그리고 Settings → General → "Automatically delete head branches" 체크 한 번 — 머지된 가지를 시스템이 자동 청소해요. **첫날 1시간이 1년의 카오스를 막아요.** H7에서 git 내부의 깊은 곳으로 들어가요. 운영을 본 후의 내부는 다른 색깔로 보일 거예요. 🐾
