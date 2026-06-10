@@ -6,7 +6,7 @@
 ## ⚠️ 실측 상태 (2026-06-10 기준 — `scripts/wc-lecture.py --all`)
 
 > **주의: 아래 챕터별 표의 일부 행은 실제 파일과 불일치(과거에 미리 적어 둔 계획값).**
-> 실제로 합격(🟢 ≥17,000)인 H는 측정 기준 **53/960**입니다.
+> 실제로 합격(🟢 ≥17,000)인 H는 측정 기준 **54/960**입니다.
 >
 > | 챕터 | 실제 완료 H | 비고 |
 > |------|------------|------|
@@ -16,7 +16,7 @@
 > | Ch004 | **8/8 ✅** | 전부 완료 (H7=17,006·H8=17,015 실측) |
 > | Ch005 | **8/8 ✅** | 전부 완료 (H7=17,001·H8=17,003 실측) |
 > | Ch006 | **8/8 ✅** | 전부 완료 (H7=17,013·H8=17,002 실측). Ch001~006 = 6챕터 완성 |
-> | Ch007 | **5/8** | H1~H5 실측 완료(…17,004·17,004). H6 다음 작업 대상 |
+> | Ch007 | **6/8** | H1~H6 실측 완료(…17,004·17,001). H7 다음 작업 대상 |
 > | Ch008~014 | 0~부분 | 표에는 "완료"로 적혀 있으나 실제는 stub/부분 초안 |
 > | Ch015~026 | 부분 | 각 H ~6,800자 부분 초안(🔴), 17k 미달 |
 > | Ch027~120 | 0 | 순수 stub(~390자) |
@@ -141,7 +141,7 @@ Ch006 합계: 137,490 / 목표 ~160,000
 | H3 | 환경점검 | **17,005 실측** | 🟢 | ✅실측합격 (Python 환경 셋업 — brew install python@3.12·pyenv·공식 .pkg·Linux apt 4 설치/REPL python3·ipython·Jupyter 비교/VS Code Python extension + Pylance + black + ruff/.python-version·dotfile 5(PYTHONDONTWRITEBYTECODE/PYTHONUNBUFFERED/PATH/EDITOR/LANG)·alias 3(py/pyi/venv)/30분 의식 9 도구·자경단 5명 같은 환경·9,760시간 코딩 토대 ROI 3,904배·오해5+FAQ5+추신263) |
 | H4 | 명령어카탈로그 | **17,004 실측** | 🟢 | ✅실측합격 (Python 18 도구 + 위험도 신호등 — 6 무리(인터프리터 6·패키지 5·가상환경 3·품질 3·테스트 1)/인터프리터 6 깊이(python3 REPL 5분·-V 환경 검증·-c 한 줄·-m 모듈 CLI(venv/pytest/pip)·-i 디버깅·-O prod 최적화)/패키지 5(pip install 5양식·-r req.txt·uninstall·freeze·list)+자경단 함정 3(시스템 오염·==잠금·-U 의존성)/가상환경 3(venv·activate 셸별·deactivate)+venv vs virtualenv vs conda vs uv 표/품질 3(black no-config·ruff Rust 100배·mypy strict 1년후)+자경단 표준 pyproject.toml/pytest 5 옵션(-v·-x·-k·--cov·--pdb)/매일 6+주간 4+월간 2=12 손가락/자경단 13줄 흐름 9 도구 사용·5명 매일 사용표 25 도구/5 사고+처방(시스템 오염 PEP 668·버전 잠금·black 함정·conftest 충돌·mypy false positive)/모던 5(uv 2024 Astral·poetry 2018·pdm 2020·hatch·rye)·1년 후 uv/AI 시대 80/20·Claude Code Bash·Cursor 자동완성·Copilot/오해5+FAQ7+추신35) |
 | H5 | 데모 | **17,004 실측** | 🟢 | ✅실측합격 (자경단 환율 계산기 30분 시뮬 — 강사가 /tmp/python-demo/exchange.py 진짜 실행·KRW→USD/JPY/EUR 환율 1380.50/9.10/1495.30·자경단 5명 매월 사료 예산 $50/마리=345,125 KRW·exchange.py 50줄(RATES dict + CAT_NAMES list + convert() type hint + format_result() f-string + cat_budget_demo() for 루프 + main() if __name__)/24 학습 매핑(H1~H4 18 + Ch008·H7 미리보기 6)/15.진화 5단계(1주 50줄→1개월 API requests→6개월 class→1년 FastAPI→5년 SaaS)/16.5분 따라치기 가이드/17.코드 매핑표/18.pytest 미리보기 5 테스트/19.자경단 5명 1시간 시뮬·합의 비용 0/20.1년 후 5 사고 일지(API rate limit·환율 변동·float 누적·timezone·통화 코드 오타)/21.자경단 wiki 한 페이지 요약·5명 매일 사용표·한 줄 자동화 5종(jq·csv·log·dict·http.server)/오해5+FAQ5+추신80) |
-| H6 | 운영 | 17,176 | 🟢 | 합격 (Python 운영 7도구 — PEP 8 7규칙 + 자경단 100자 표준·합의비용0·옛/현대 양식·5 PEP(8·257·484·526·585·695)/black 5가치(자동·no-config·1초/1k줄·PEP 8·diff)·pyproject.toml line-length=100·--check CI·magic trailing comma·string `'`→`"` 통일·자경단 첫 도입 시나리오/ruff 5가치(flake8+isort+pylint 통합·Rust 100배·600+ 룰셋·--fix·표준)·자경단 7 룰셋(E·F·I·B·UP·SIM·RUF)·실제 출력 + 자동수정 demo·flake8/pylint/ruff 속도 비교(8s/30s/0.08s)/docstring 3 양식(Google 자경단표준·NumPy·reST)·5 활용처(help·VS Code·Sphinx·mkdocs·doctest)·doctest 실행 demo/type hint 6 패턴(기본·Optional·Union·Generic·TypedDict·Literal)·mypy strict 5단계(1주~1년 점진적)·5 에러 패턴(arg-type·return-value·union-attr·unused-ignore·no-untyped-def)·Generic+Protocol 깊이/pre-commit 8 hook 5초 demo·.pre-commit-config.yaml 표준·CI matrix Python 3.11·3.12·3.13·실패 시 처방/매일 의식 5 시점(commit·PR·금요일·1일·분기) 60h/년·자경단 5 KPI(type 95%·docstring 80%·test 80%·strict 100%·ruff 0)/7 함정+처방(black 의도·ruff 분리·docstring 중복·--no-verify·mypy fp·캐시·동적코드)/자경단 5명 매일 표·1주차 5일 도입 시나리오·1년 후 코드품질 비교/오해7+FAQ10+추신50) |
+| H6 | 운영 | **17,001 실측** | 🟢 | ✅실측합격 (Python 운영 7도구 — PEP 8 7규칙 + 자경단 100자 표준·합의비용0·옛/현대 양식·5 PEP(8·257·484·526·585·695)/black 5가치(자동·no-config·1초/1k줄·PEP 8·diff)·pyproject.toml line-length=100·--check CI·magic trailing comma·string `'`→`"` 통일·자경단 첫 도입 시나리오/ruff 5가치(flake8+isort+pylint 통합·Rust 100배·600+ 룰셋·--fix·표준)·자경단 7 룰셋(E·F·I·B·UP·SIM·RUF)·실제 출력 + 자동수정 demo·flake8/pylint/ruff 속도 비교(8s/30s/0.08s)/docstring 3 양식(Google 자경단표준·NumPy·reST)·5 활용처(help·VS Code·Sphinx·mkdocs·doctest)·doctest 실행 demo/type hint 6 패턴(기본·Optional·Union·Generic·TypedDict·Literal)·mypy strict 5단계(1주~1년 점진적)·5 에러 패턴(arg-type·return-value·union-attr·unused-ignore·no-untyped-def)·Generic+Protocol 깊이/pre-commit 8 hook 5초 demo·.pre-commit-config.yaml 표준·CI matrix Python 3.11·3.12·3.13·실패 시 처방/매일 의식 5 시점(commit·PR·금요일·1일·분기) 60h/년·자경단 5 KPI(type 95%·docstring 80%·test 80%·strict 100%·ruff 0)/7 함정+처방(black 의도·ruff 분리·docstring 중복·--no-verify·mypy fp·캐시·동적코드)/자경단 5명 매일 표·1주차 5일 도입 시나리오·1년 후 코드품질 비교/오해7+FAQ10+추신50) |
 | H7 | 원리/내부 | 17,042 | 🟢 | 합격 (Python 원리 5개념 — CPython VM 5단계(소스→토큰→AST→bytecode→VM)·`_PyEval_EvalFrameDefault()` switch-case·.pyc 캐시·30ms 셋업+1s 실행/GIL 정의·CPU 1코어 vs I/O 해제 표·multiprocessing(Pool 4)·asyncio(100 URL 1초)·C 확장(numpy GIL 해제) 3 우회·100ms 규칙·이벤트 루프 실체·PEP 703 nogil 2024/dis 5 명령어·100+ opcode 표 10·bytecode 비교 5사례(f-string 3·list comp 2배·dict.get·join O(n)·is None)/PEP 700+ 진화 5단계(탄생·표준화·3.0 전환·type 시대·성능)·자경단 매일 10 PEP·Python 3.6→3.13 표·자경단 3.12 표준/reference count 80% + GC 20%·메모리 5 함정(누적·cache 무한·closure·circular·C 확장)·tracemalloc 실전·5 KPI(RSS·heap·GC·objects·OOM)·CPython 객체 크기 12종·__slots__ 50% 절약/CPython 소스 5 디렉토리·자경단 5명 매일 표·자경단 1주일 5사고/7 함정+처방·면접 10질문 정답·오해7+FAQ10+추신66) |
 | H8 | 적용+회고 | 17,150 | 🟢 | 합격 (Ch007 마무리 — 7H 한 페이지 종합표·환율 계산기 50줄→5,000줄 production 5단계 진화 로드맵(1주 함수→1개월 requests→3개월 dataclass+cache→6개월 FastAPI→1년 PostgreSQL+Redis+Celery+Docker+AWS+Sentry)·진화 단계별 학습 챕터 매핑(Ch007→Ch013→Ch017→Ch041→Ch091)·5명 협업 변화(50줄 단독→5,000줄 5명 owner)/다섯 원리(인터프리터·동적타입·자료형·GIL·PEP)/12회수 지도 Ch008→Ch120/Ch008 예고(if·for·comprehension)·Ch008→Ch020 13챕터 미리보기/우선순위 Must5(brew·REPL·자료형·exchange.py·pre-commit) Should5(type hint·dataclass·requests·pytest·mypy 1단계) Could5(asyncio·multiprocessing·dis·CPython·uv)·시간 ROI 8,760배/0분→5년 시간축 + 자경단 1년 후 본인 편지 + 1주차 매일 시간표/비용표 첫1년 $0·도구비용 vs 시간비용·Java/Swift 5명 5년 $30,000 절약/면접 12질문 정답·자경단 5명 1년 회고·5명 코드라인 1년 누적 46,000줄·5년 후 5명 모두 시니어/Ch007 한 페이지 요약 카드·본인 첫 행동 5단계 19분/오해10+FAQ10+추신100+마무리 한 단락) — Ch007 chapter complete 56/960 = 5.83% ✅✅✅) |
 
@@ -283,9 +283,9 @@ Ch015 합계: 34,010 / 목표 ~160,000 (2/8 H 진행)
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 007 H6 작성** (Python 운영 — PEP 8·type hints·docstring·black/ruff/mypy·pre-commit·pytest → 17,000+)
-   - Ch007 H6~H8 순서대로 17,000+ 확장. 이후 Ch008...
-   - ⚠️ Ch007 H7(4,157)·H8(2,727)은 stub. 전면 작성 필요.
+👉 **Ch 007 H7 작성** (Python 원리/내부 — CPython·GIL·가비지 컬렉터·bytecode·모듈 로딩 → 17,000+)
+   - ⚠️ Ch007 H7(4,157)·H8(2,727)은 stub. H7처럼 전면 작성 필요.
+   - Ch007 H7~H8 후 Ch007 완료. 이후 Ch008...
    - ⚠️ "다음 턴"은 실제 파일 측정 기준. 위 ⚠️ 실측 상태 표 참조(진행표 본문의 "완료" 표기는 일부 계획값).
 
 ## 이번 세션(2026-06-08) 완료
@@ -305,4 +305,5 @@ Ch015 합계: 34,010 / 목표 ~160,000 (2/8 H 진행)
 - Ch007 H3 작성 → 17,005 🟢 (8,920 부분초안 → 실측 합격)
 - Ch007 H4 작성 → 17,004 🟢 (8,649 부분초안 → 실측 합격)
 - Ch007 H5 작성 → 17,004 🟢 (8,598 부분초안 → 실측 합격)
-- 실측 합격: 24/960 → **53/960** (Ch001~006 완성 + Ch007 H1~H5)
+- Ch007 H6 작성 → 17,001 🟢 (10,250 부분초안 → 실측 합격)
+- 실측 합격: 24/960 → **54/960** (Ch001~006 완성 + Ch007 H1~H6)
