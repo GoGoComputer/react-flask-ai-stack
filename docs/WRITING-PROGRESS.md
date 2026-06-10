@@ -6,7 +6,7 @@
 ## ⚠️ 실측 상태 (2026-06-10 기준 — `scripts/wc-lecture.py --all`)
 
 > **주의: 아래 챕터별 표의 일부 행은 실제 파일과 불일치(과거에 미리 적어 둔 계획값).**
-> 실제로 합격(🟢 ≥17,000)인 H는 측정 기준 **56/960**입니다.
+> 실제로 합격(🟢 ≥17,000)인 H는 측정 기준 **57/960**입니다.
 >
 > | 챕터 | 실제 완료 H | 비고 |
 > |------|------------|------|
@@ -17,7 +17,8 @@
 > | Ch005 | **8/8 ✅** | 전부 완료 (H7=17,001·H8=17,003 실측) |
 > | Ch006 | **8/8 ✅** | 전부 완료 (H7=17,013·H8=17,002 실측). Ch001~006 = 6챕터 완성 |
 > | Ch007 | **8/8 ✅** | 전부 완료 (H7=17,003·H8=17,002 실측). Ch001~007 = 7챕터 완성 |
-> | Ch008~014 | 0~부분 | 표에는 "완료"로 적혀 있으나 실제는 stub/부분 초안 |
+> | Ch008 | **1/8** | H1 실측 완료(17,007). H2~H8은 stub/부분초안. H2 다음 작업 대상 |
+> | Ch009~014 | 0~부분 | 표에는 "완료"로 적혀 있으나 실제는 stub/부분 초안 |
 > | Ch015~026 | 부분 | 각 H ~6,800자 부분 초안(🔴), 17k 미달 |
 > | Ch027~120 | 0 | 순수 stub(~390자) |
 >
@@ -154,7 +155,7 @@ Ch007 합계: 137,521 / 목표 ~160,000
 
 | H | 슬롯 | 현재 분량 | 상태 | 비고 |
 |---|------|----------|------|------|
-| H1 | 오리엔 | 17,026 | 🟢 | 합격 (제어 흐름 7이유 — 분기·반복·comp·while·미세조정·match-case·면접/4단어(if·for·while·comp)·자경단 매일 if 1000+/for 500+/while 10+/comp 100+/8H 큰그림+학습곡선/4단어 한 페이지 + 진짜 사용 빈도 73%(1년측정 if 12k+for 5k+comp 1.2k)/4단어 6짝꿍(if+early·for+enum·for+zip·while+walrus·comp+filter·comp+nested)/한 줄 if 8 opcode·한 줄 for 9 opcode·한 줄 comp 별도 frame/12회수 지도(Ch009·010·013·017·018·019·022·041·060·080·103·118)+시간축 적용/자경단 5명 매일 시나리오 5(FastAPI 라우팅·DB comp·OpenAPI for·EC2 while·pytest parametrize)/면접 15질문 정답·FAQ 15답변/오해 8 면역/추신65) |
+| H1 | 오리엔 | **17,007 실측** | 🟢 | ✅실측합격 (제어 흐름 7이유 — 분기·반복·comp·while·미세조정·match-case·면접/4단어(if·for·while·comp)·자경단 매일 if 1000+/for 500+/while 10+/comp 100+/8H 큰그림+학습곡선/4단어 한 페이지 + 진짜 사용 빈도 73%(1년측정 if 12k+for 5k+comp 1.2k)/4단어 6짝꿍(if+early·for+enum·for+zip·while+walrus·comp+filter·comp+nested)/한 줄 if 8 opcode·한 줄 for 9 opcode·한 줄 comp 별도 frame/12회수 지도(Ch009·010·013·017·018·019·022·041·060·080·103·118)+시간축 적용/자경단 5명 매일 시나리오 5(FastAPI 라우팅·DB comp·OpenAPI for·EC2 while·pytest parametrize)/면접 15질문 정답·FAQ 15답변/오해 8 면역/추신65) |
 | H2 | 핵심개념 | 17,124 | 🟢 | 합격 (4단어 × 5패턴 = 20패턴 깊이 — if 5 패턴(비교 6연산자+체이닝·멤버십 in/not in·진위 7 falsy·isinstance·ternary)·논리 단축평가/truthy/falsy 7 (False·None·0·0.0·''·[]·{}/set()) + 함정 0 vs None + __bool__/for + iterable 5종 + str/iter+next 프로토콜·range/enumerate/zip 3도구·dict 4양식·iterable 5함정 면역/while 5패턴(카운터·조건·walrus PEP 572·무한+break·서버+신호 SIGTERM)+exponential backoff/break/continue/for+else 3도구·flag 변수 제거 가독성/match-case 5 패턴(값·시퀀스·dict·클래스·guard) PEP 634·줄 33% 단축·리뷰 시간 20%/comprehension 5종(list·dict·set·gen·nested)+filter vs transform·성능 비교(list comp 2배·gen 메모리 400배 절약)·2 중첩 한계/자경단 5명 매일 125 패턴(5명×5시간대×5도구)/오해10+FAQ12+추신82) |
 | H3 | 환경점검 | 17,168 | 🟢 | 합격 (디버깅 5 도구 — VS Code Python 디버거 5단계 키(F5/F10/F11/Shift+F11/Ctrl+Shift+F5)·breakpoint 5양식(빨간점·F9·코드·Logpoint·Conditional)·Watch+Call Stack+Variables+Debug Console·launch.json 3 설정(FastAPI·pytest·Python)·justMyCode true/false/breakpoint() PEP 553·PYTHONBREAKPOINT 환경변수(ipdb·web-pdb·0)·5 활용(일시·조건부·예외·루프·함수)·print 비교 5기준·ruff T100 commit 면역/pdb 10명령(h·n·s·c·q + p·l·b·u·d)·실전 시나리오 까미 KeyError·SIGUSR1 production 진입/rich.print 5가치(색상·들여쓰기·표·tree·markdown)·Console+Logging·Traceback+show_locals/ipython 5매직(?·??·%timeit·%debug·%history) + 5추가(%paste·%run·%who·%reset·%save)·startup 자동import·autoreload 2·5 Tab/디버깅 5 시나리오 면역(KeyError·TypeError·무한루프·dict순서·async동기)·자경단 매일 4 alias·5 패턴·5명 매일 345분 디버깅·매주 28h·1년 1,400h ROI/디버깅 진화 5단계(print→breakpoint→VS Code→pdb+ipython→rich+Logging+py-spy)/오해8+FAQ10+추신75) |
 | H4 | 명령어카탈로그 | 17,083 | 🟢 | 합격 (제어 흐름 18 도구 카탈로그 — 6 무리(반복 4·집계 5·필터/변환/정렬 4·comp/iter/next 3·고급 3 표준라이브러리 itertools/functools/collections·신호등 🟢🟡🔴)·반복 4 도구(range lazy 1억 4MB·enumerate(start=1) + 5활용·zip(strict=True) + transpose + 5활용·reversed + 5활용)·집계 5(sum + 5활용·min/max + key·any/all 단축평가·len + gen 함정)·정렬 4(filter→comp 자경단표준·map→comp·sorted vs sort·sorted 안정 stable + 5활용)·comp 5종 + 5일반패턴 + iter callable 매직 + next default + 5활용/itertools 5 표준 + 추가 5(tee·cycle·takewhile·accumulate·pairwise) = 10·functools 3 + 추가 3(lru_cache·wraps·singledispatch) = 6·collections 5 + 추가 3(ChainMap·UserDict·UserList) = 8·operator 3(itemgetter·attrgetter·methodcaller)·총 45 도구/매일 6 + 주간 5 + 월간 3 = 14 손가락·자경단 13줄 환율 알림 9 도구 사용·자경단 매일 5 시나리오·zip(*matrix) 전치·zip(*[iter()]*100) 배치·ChainMap config 우선순위/Python vs JS·Java 비교 가독성 1위/매일 75h/년 사용 ROI 15배/오해8+FAQ10+추신82) |
@@ -283,9 +284,9 @@ Ch015 합계: 34,010 / 목표 ~160,000 (2/8 H 진행)
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 008 H1 작성** (Python 제어흐름 오리엔 — if·for·while·comprehension 큰 그림 → 17,000+)
-   - Ch008 H1~H8 순서대로 17,000+. 이후 Ch009...
-   - ⚠️ Ch008 이후 H 파일들은 대부분 stub/부분초안. H7·H8은 전면 작성 필요할 수 있음.
+👉 **Ch 008 H2 작성** (Python 제어흐름 핵심개념 — if 5패턴·truthy/falsy·for+iterable·while+walrus·match-case·comprehension 4종 → 17,000+)
+   - Ch008 H2~H8 순서대로 17,000+. 이후 Ch009...
+   - ⚠️ Ch008 H2~H8은 대부분 stub/부분초안. H7(2,905)·H8(1,831)은 전면 작성 필요.
    - ⚠️ "다음 턴"은 실제 파일 측정 기준. 위 ⚠️ 실측 상태 표 참조(진행표 본문의 "완료" 표기는 일부 계획값).
 
 ## 이번 세션(2026-06-08) 완료
@@ -308,4 +309,5 @@ Ch015 합계: 34,010 / 목표 ~160,000 (2/8 H 진행)
 - Ch007 H6 작성 → 17,001 🟢 (10,250 부분초안 → 실측 합격)
 - Ch007 H7 작성 → 17,003 🟢 (4,157 stub → 전면 작성 → 실측 합격)
 - Ch007 H8 작성 → 17,002 🟢 (2,727 stub → 전면 작성 → 실측 합격) → **Ch007 8/8 완료 ✅**
-- 실측 합격: 24/960 → **56/960** (Ch001~007 = 7챕터 전부 완성)
+- Ch008 H1 작성 → 17,007 🟢 (8,402 stub → 실측 합격)
+- 실측 합격: 24/960 → **57/960** (Ch001~007 완성 + Ch008 H1)
