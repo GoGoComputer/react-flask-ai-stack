@@ -6,7 +6,7 @@
 ## ⚠️ 실측 상태 (2026-06-10 기준 — `scripts/wc-lecture.py --all`)
 
 > **주의: 아래 챕터별 표의 일부 행은 실제 파일과 불일치(과거에 미리 적어 둔 계획값).**
-> 실제로 합격(🟢 ≥17,000)인 H는 측정 기준 **75/960**입니다.
+> 실제로 합격(🟢 ≥17,000)인 H는 측정 기준 **76/960**입니다.
 >
 > | 챕터 | 실제 완료 H | 비고 |
 > |------|------------|------|
@@ -19,7 +19,7 @@
 > | Ch007 | **8/8 ✅** | 전부 완료 (H7=17,003·H8=17,002 실측). Ch001~007 = 7챕터 완성 |
 > | Ch008 | **8/8 ✅** | 전부 완료 (H7=17,000·H8=17,001 실측). Ch001~008 = 8챕터 완성 |
 > | Ch009 | **8/8 ✅** | 전부 완료 (H7=17,001·H8=17,002 실측). Ch001~009 = 9챕터 완성 |
-> | Ch010 | **3/8** | H1~H3 실측 완료(17,002·17,014·17,001). H4~H8은 계획값/부분 초안 |
+> | Ch010 | **4/8** | H1~H4 실측 완료(17,002·17,014·17,001·17,001). H5~H8은 계획값/부분 초안 |
 > | Ch011~014 | 0~부분 | 표에는 "완료"로 적혀 있으나 실제는 stub/부분 초안 |
 > | Ch015~026 | 부분 | 각 H ~6,800자 부분 초안(🔴), 17k 미달 |
 > | Ch027~120 | 0 | 순수 stub(~390자) |
@@ -192,7 +192,7 @@ Ch009 합계: 137,221 / 목표 ~160,000
 | H1 | 오리엔 | **17,002 실측** | 🟢 | ✅실측합격 (collections 오리엔 — Ch009 회수(함수가 데이터 다룸) + 자료형=단어·흐름=문법·함수=문단·자료구조=재료 + 오늘의 약속(네 그릇 골라 쓰기)·이미 절반 안다/§2 collections=데이터 그릇·부엌 그릇 비유·중첩(list 안 dict)/§3 옛날 이야기(list로 5만번→dict O(1), 그릇만 바꿔 천 배)·"느린 코드=잘못된 자료구조"/§4 일곱 이유(표현·성능·API·알고리즘·면접·함수형·매일) + 시간 복잡도 O(1) vs O(n)/§5 같이 쳐보기 5줄(네 자료구조)/§6 네 친구 list·tuple·dict·set + 두 축(순서·가변) + 기호({}=dict, set()=빈set)/§7 dict.get 5단계·hash로 위치 즉시·도서관 청구기호 비유/§8 선택 가이드 표(키로 찾기 dict·중복 set·안 바뀌는 짝 tuple·나머지 list)·핵심 요구가 그릇 결정/§9 자경단 5명(까미 dict 50·노랭이 list 100·미니 set 30·깜장이 tuple 20)·JSON=dict+list(Ch041 복선)/§10 8교시 미리보기·여섯 번째 리듬·Ch011 문자열 다리/§11 collections 60년(LISP 1958)·언어 가로지름/§12 AI 80/20·성능 함정 검수/오해5(list 만능·tuple 옛날·set 안씀·dict 무거움·abc)·FAQ6(list vs tuple·dict 순서·set 메모리·namedtuple·8시간·자료구조 vs 알고리즘)·실수5·졸업장 dict/set/comp·개발자노트·추신30) |
 | H2 | 핵심개념 | **17,014 실측** | 🟢 | ✅실측합격 (자료구조 8개념 — H1 회수 + 오늘의 약속(90% 메서드 만지기)·앞4 기본·가운데2 무기·뒤2 특화/①list 메서드 10(append·pop·sort 매일3) + 제자리 vs 새것(sort vs sorted, None 반환)·sort key/reverse/②슬라이싱 [start:stop:step]·stop 직전까지·[::-1] 뒤집기·음수 인덱스·[:] 복사/③tuple 언패킹 x,y=point·*rest·a,b=b,a·for k,v·enumerate 짝/④dict 메서드(get 안전·items·keys/values) + dict comp + 합치기(| , {**a,**b})·뒤집기·in O(1)/⑤set 연산(| 합·& 교·- 차·^ 대칭차)·공통친구·멤버십·중복제거·"자주 검사할 명단은 set"/⑥frozenset(set 불변·dict 키)·immutable 안전/⑦collections 5(Counter most_common·defaultdict(list) 그룹·deque maxlen·namedtuple .x·OrderedDict)/⑧collections.abc(Mapping·Sequence·Iterable 성격 분류·가끔)/한 줄 분해 dict comp+items+sum/len 평균/오해5(dict 순서·sort vs sorted·tuple 성능·set vs list·namedtuple)·FAQ6(list vs tuple·get vs []·set 정렬·defaultdict·Counter·다 못외움)·실수5·졸업장 Counter·개발자노트·추신30) |
 | H3 | 환경점검 | **17,001 실측** | 🟢 | ✅실측합격 (데이터 들여다보기 4 도구 — H2 회수 + 오늘의 약속(dict/list 예쁘게 출력·검사)·보기2(rich·pprint)/다루기2(json·abc)·매 챕터 H3=들여다보기/①rich.print(from rich import print·색깔·들여쓰기·indent_guides)·디버깅 절반=데이터 눈으로 확인·rich.inspect/Table/Console/②json — dumps/loads(문자열)·dump/load(파일)·s=string·직렬화 개념·언어 공용어·ensure_ascii=False·indent=2·set/datetime 미지원·pickle 대안/③pprint(표준 라이브러리·width/depth/sort_dicts·pformat)·외부 의존성 vs 표준 라이브러리/④collections.abc(Mapping/Sequence/Iterable 성격·duck typing·guard clause·가끔)/매일 디버깅 표(사고별 도구)·데이터 디버깅=추측 말고 찍기·셸 jq+Python rich/5 시나리오(큰 dict depth·JSON 파싱 실패 try/except·dict 순서·메모리 getsizeof·set 용도)+외부 데이터 의심/오해5·FAQ6(rich vs pprint·indent·abc·dict→JSON·한글·다 못외움)·실수5·졸업장 rich.print·개발자노트·추신30) |
-| H4 | 명령카탈로그 | 17,173 | 🟢 | 합격 (collections 30+ 도구 카탈로그 — collections 6 도구(defaultdict·Counter·OrderedDict·deque·namedtuple·ChainMap) + 각각 사용예 + Counter most_common/산술 연산/update/subtract + deque rotate/maxlen/appendleft/popleft + ChainMap new_child/heapq 5 도구(heappush·heappop·heapify·nsmallest·nlargest) + (priority, task) 우선순위 큐 패턴/bisect 4 도구(bisect_left/right·insort_left/right) + 등급 매기기 패턴/itertools 12 도구(count·cycle·repeat·chain·islice·zip_longest·groupby·combinations·permutations·product·accumulate·takewhile) + 무한/합치기/그룹/누적 4 카테고리/자경단 5 시나리오(본인 통계·까미 작업 큐·노랭이 캐시·미니 설정·깜장이 테스트 조합) + 1주 통계(collections 330·itertools 200·heapq 45·bisect 22) + 5 통합 패턴(top N+통계·group+count·cycle+zip·sliding window·우선순위+재시도)/도구 함정 5(defaultdict 자동 키·Counter 음수·heapq min-only·groupby 정렬·deque 인덱스) + 결정 트리 10 질문 + 신입 4주차 커리큘럼 + 30+ 도구 한 페이지(67 도구 합계)/오해10+FAQ10+추신73) |
+| H4 | 명령카탈로그 | **17,001 실측** | 🟢 | ✅실측합격 (자료구조 30+ 도구 카탈로그 — H3 회수 + 오늘의 약속(30개 만나고 매일 10개)·존재를 아는 게 실력·5 무리 7덩어리/①built-in 메서드(list·dict·set)·80%·화려함보다 기본·KISS/②collections(Counter·defaultdict 매일·deque maxlen·namedtuple)·Counter 산술 연산/③heapq(우선순위 큐·min-heap·nlargest/nsmallest top-N·빨래더미 비유·필요한 만큼만)·작업 큐 (priority,task)/④bisect(이진 탐색·정렬 전제·insort·등급 매기기·숫자 맞히기 게임·DB 인덱스)/⑤itertools(chain·groupby·accumulate·product·combinations·lazy)·groupby는 sorted 먼저·accumulate 추이·product/combinations 조합/리듬 매일10·주간10·월간10·누적 110+ 도구/13줄 흐름(Counter·defaultdict·groupby·heapq·comp)·데이터 파이프/5 함정(remove·pop·set 정렬·heap min·groupby 정렬)/오해5("맞는 자리")·FAQ6(heapq vs sorted·bisect·chain vs +·groupby 정렬·30개·언제 써봄)·실수5(내장 함수 쓰기)·졸업장 Counter·개발자노트·추신30) |
 | H5 | 데모 | 17,151 | 🟢 | 합격 (collections 통합 데모 exchange_v4 200줄 — v3 250줄 → v4 200줄 진화·collections 12 도구 동시 사용(NamedTuple Cat·dataclass(order=True) Transaction·ChainMap config·Counter 색깔 카운트·defaultdict(list) 그룹·heapq.nlargest top N·bisect 등급·itertools.groupby 그룹·accumulate 누적·deque(maxlen) 최근 N·heapq.heappush/pop 우선순위 큐·itertools.product 25 쌍·chain 합치기·islice 잘라내기)/실행 결과 13 섹션 모두 검증·v3 vs v4 비교(8 작업 평균 4줄 절약 = 32줄/구현·매년 5명 합 58,400줄 절약·5년 292,000줄)/자경단 5 매일 시나리오(본인 FastAPI 통계·까미 DB 마이그레이션 스케줄러·노랭이 CLI IP 통계·미니 인프라 ChainMap·깜장이 테스트 매트릭스)/5 통합 비밀(NamedTuple vs dataclass·heapq tuple priority·ChainMap 쓰기·Counter 산술 vs subtract·product repeat vs iterables) + v4 사용 빈도 1주 통계(2,565 호출·defaultdict 350·dataclass 320·chain 320·NamedTuple 280·Counter 240) + v4 → v5 (Ch041) 미리보기 (async/await + asyncio.Queue + concurrent.futures + aiohttp)·실제 /tmp/python-demo4/exchange_v4.py 작성 + python3 실행 검증 완료/오해10+FAQ10+추신73) |
 | H6 | 운영 | 17,127 | 🟢 | 합격 (collections 운영 5 패턴 — 시간 복잡도 실측 timeit(list `in` vs set 100배·dict.get vs list.index 500배·list pop(0) vs deque popleft 500배·sort+slice vs nlargest 3배)·메모리 sys.getsizeof(list 56·tuple 40·dict 64·set 216 빈 collection·1만 list 87KB·tuple 78KB·dict 295KB·set 524KB)·tracemalloc/5 운영 패턴(list→set 100배·list→dict 500배·list→deque 500배·sort→nlargest·dict+1→Counter)·결정 트리 8 질문(데이터/변경/순서/중복/lookup/큐/우선순위/카운트)/자경단 5 시나리오(본인 endpoint·까미 query·노랭이 큐·미니 권한·깜장이 dedup) + 5 측정 도구(timeit·cProfile·tracemalloc·memory_profiler·py-spy) + 변경 5단계 워크플로우(측정·가설·변경·재측정·PR) + 5 anti-pattern(측정 X·너무 많이·재측정 X·모든 상황·CI 빠짐)/자경단 1주 PR 변경 통계(dict 46·set 23·deque 21·nlargest 24·Counter 26 = 140/주 × 5명) + 1년 ROI(7,280 변경 × 50배 × 1만 호출 = 23년치 컴퓨터 시간 절약) + Pareto 80/20·measure first 황금 룰/오해10+FAQ10+추신81) |
 | H7 | 원리 | 17,007 | 🟢 | 합격 (collections 깊은 원리 — hash table 기본(hash 함수·hashable·collision·load factor 2/3 → resize 2배)·dict 구현 compact dict (Python 3.6+) (옛 양식 192 byte vs 새 양식 56 byte·indices+entries 2 단계·메모리 70% 절약 + 순서 보장)·dict resizing·dict 메모리 표(1만 ~290KB·100만 ~30MB)/set 구현(open addressing + perturbation·set vs dict 메모리 2배·compact 양식 X·perturbation 식 (5*i + perturb + 1) & mask)/list dynamic array(C struct·overallocation 공식 (newsize >> 3) + 3-6·append amortized O(1) 증명 1+2+4+...+n = 2n / n·list pop(0) O(n) 비밀·메모리 1만 ~85KB)/tuple 구현(direct array·overallocation X·메모리 약간 작음·tuple caching 빈 tuple만)/dis bytecode (dict lookup 3 opcode·set membership 3 opcode·list comp ~10 opcode·dict comp MAP_ADD) + 5 dis 패턴(함수 호출 vs 인라인·f-string vs format·attribute 접근·global vs local·dict.get vs [])/CPython 소스 5 위치(dictobject.c insertdict·setobject.c set_lookkey·listobject.c list_resize·_collectionsmodule.c Counter·tupleobject.c tuple_alloc) + 5 단계 읽기/면접 10 + 10 = 20 질문(O(1) 비밀·dict 순서·load factor·collision·append·pop(0)·tuple vs list·set vs dict 메모리·dict 키 list X·CPython + worst-case·set 단순·list *·dict view·tuple unpack·dict 키 type·set 정렬·copy·most_common·defaultdict) + Raymond Hettinger compact dict + collections 모듈/오해10+FAQ10+추신73) |
@@ -286,9 +286,9 @@ Ch015 합계: 34,010 / 목표 ~160,000 (2/8 H 진행)
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 010 H4 작성** (Python 자료구조 30+ 도구 카탈로그 — heapq·bisect·deque·Counter·itertools → 17,000+)
-   - Ch010 H1~H3 완료 ✅(17,002·17,014·17,001). 이제 H4(카탈로그).
-   - ⚠️ Ch010 H4~H8은 계획값/부분 초안. 실제 측정 후 전면 작성 필요.
+👉 **Ch 010 H5 작성** (Python 자료구조 데모 — 환율 계산기 v4·Counter·defaultdict·groupby·heapq 적용 → 17,000+)
+   - Ch010 H1~H4 완료 ✅(17,002·17,014·17,001·17,001). 이제 H5(데모).
+   - ⚠️ Ch010 H5~H8은 계획값/부분 초안. 실제 측정 후 전면 작성 필요.
    - Ch010 H1~H8 순서대로 17,000+ 완성. 이후 Ch011...
    - ⚠️ "다음 턴"은 실제 파일 측정 기준. 위 ⚠️ 실측 상태 표 참조(진행표 본문의 "완료" 표기는 일부 계획값).
 
@@ -331,4 +331,5 @@ Ch015 합계: 34,010 / 목표 ~160,000 (2/8 H 진행)
 - Ch010 H1 작성 → 17,002 🟢 (4,274 stub → 전면 작성 → 실측 합격)
 - Ch010 H2 작성 → 17,014 🟢 (3,724 stub → 전면 작성 → 실측 합격)
 - Ch010 H3 작성 → 17,001 🟢 (2,872 stub → 전면 작성 → 실측 합격)
-- 실측 합격: 24/960 → **75/960** (Ch001~009 완성 + Ch010 H1~H3)
+- Ch010 H4 작성 → 17,001 🟢 (3,851 stub → 전면 작성 → 실측 합격)
+- 실측 합격: 24/960 → **76/960** (Ch001~009 완성 + Ch010 H1~H4)
