@@ -6,7 +6,7 @@
 ## ⚠️ 실측 상태 (2026-06-10 기준 — `scripts/wc-lecture.py --all`)
 
 > **주의: 아래 챕터별 표의 일부 행은 실제 파일과 불일치(과거에 미리 적어 둔 계획값).**
-> 실제로 합격(🟢 ≥17,000)인 H는 측정 기준 **78/960**입니다.
+> 실제로 합격(🟢 ≥17,000)인 H는 측정 기준 **79/960**입니다.
 >
 > | 챕터 | 실제 완료 H | 비고 |
 > |------|------------|------|
@@ -19,7 +19,7 @@
 > | Ch007 | **8/8 ✅** | 전부 완료 (H7=17,003·H8=17,002 실측). Ch001~007 = 7챕터 완성 |
 > | Ch008 | **8/8 ✅** | 전부 완료 (H7=17,000·H8=17,001 실측). Ch001~008 = 8챕터 완성 |
 > | Ch009 | **8/8 ✅** | 전부 완료 (H7=17,001·H8=17,002 실측). Ch001~009 = 9챕터 완성 |
-> | Ch010 | **6/8** | H1~H6 실측 완료(…17,001·17,000). H7~H8은 계획값/부분 초안 |
+> | Ch010 | **7/8** | H1~H7 실측 완료(…17,000·17,000). H8 다음 작업 대상 |
 > | Ch011~014 | 0~부분 | 표에는 "완료"로 적혀 있으나 실제는 stub/부분 초안 |
 > | Ch015~026 | 부분 | 각 H ~6,800자 부분 초안(🔴), 17k 미달 |
 > | Ch027~120 | 0 | 순수 stub(~390자) |
@@ -195,7 +195,7 @@ Ch009 합계: 137,221 / 목표 ~160,000
 | H4 | 명령카탈로그 | **17,001 실측** | 🟢 | ✅실측합격 (자료구조 30+ 도구 카탈로그 — H3 회수 + 오늘의 약속(30개 만나고 매일 10개)·존재를 아는 게 실력·5 무리 7덩어리/①built-in 메서드(list·dict·set)·80%·화려함보다 기본·KISS/②collections(Counter·defaultdict 매일·deque maxlen·namedtuple)·Counter 산술 연산/③heapq(우선순위 큐·min-heap·nlargest/nsmallest top-N·빨래더미 비유·필요한 만큼만)·작업 큐 (priority,task)/④bisect(이진 탐색·정렬 전제·insort·등급 매기기·숫자 맞히기 게임·DB 인덱스)/⑤itertools(chain·groupby·accumulate·product·combinations·lazy)·groupby는 sorted 먼저·accumulate 추이·product/combinations 조합/리듬 매일10·주간10·월간10·누적 110+ 도구/13줄 흐름(Counter·defaultdict·groupby·heapq·comp)·데이터 파이프/5 함정(remove·pop·set 정렬·heap min·groupby 정렬)/오해5("맞는 자리")·FAQ6(heapq vs sorted·bisect·chain vs +·groupby 정렬·30개·언제 써봄)·실수5(내장 함수 쓰기)·졸업장 Counter·개발자노트·추신30) |
 | H5 | 데모 | **17,001 실측** | 🟢 | ✅실측합격 (환율 계산기 v4 30분 데모 — H4 회수 + 오늘의 약속(collections 다섯 도구 동원)·"데이터에서 의미 뽑기"·넷플릭스 추천 씨앗/v3 200→v4 250줄 진화표·통계 기능 추가/0~5분 Counter most_used_currencies(통화 빈도·comprehension+)/5~10분 defaultdict avg_by_currency(통화별 평균·그룹 집계=SQL GROUP BY·KeyError 면역)/10~15분 namedtuple Conversion(immutable=안전·_asdict·_replace·"의미가 그릇 정함")/15~20분 heapq top_rates nlargest(key lambda·top-N 어디서나·sorted[:5]보다 의도 분명)/20~25분 groupby group_by_date(sorted 먼저+같은 key)+defaultdict group_by_pair(tuple 키 hashable)/25~30분 show_stats(early return·함수 분리)·실행 출력/v3 vs v4 다섯 차이·도구의 맞는 자리/5 사고(namedtuple 수정·defaultdict 메모리 dict()·heap min·groupby 정렬·Counter update)·오해5·실수5(완벽 말고 하나씩)·졸업장 black·개발자노트·추신30) |
 | H6 | 운영 | **17,000 실측** | 🟢 | ✅실측합격 (자료구조 선택 운영 — H5 회수 + 오늘의 약속(도구처럼 골라 쓰기)·"느린 코드=잘못된 자료구조"·1년차 vs 5년차/선택 5패턴(순서 list·중복 set·매핑 dict·불변 tuple·우선순위 heap)·결정 트리·"무엇을 하느냐가 그릇 정함"·나중에 바꿀 수 있음/성능 표(멤버십 list O(n) vs dict/set O(1))·O(1)=즉시·O(n)=개수만큼·list 안 list=O(n²) 폭탄/메모리 표(set이 list 5배·tuple 40 최소)·시간-공간 트레이드오프(dict/캐싱/인덱스)·sys.getsizeof/시간 복잡도 표(완벽한 자료구조 없음·정렬 list+bisect)·"hash는 즉시, 배열은 개수만큼"/timeit 측정(set 100배·추측 말고 측정)·성급한 최적화 경계/PR 점검 5(멤버십·중복·인자·그룹·top-N)·셀프 리뷰·트레이드오프 토론/5 함정(list 멤버십 시한폭탄·dict if·tuple 수정·전체 정렬·메모리)·오해5·FAQ6(deque·dict 메모리 DB·set vs keys·tuple 불변·heapq vs PriorityQueue·다 못외움)·실수5·졸업장 timeit·개발자노트·추신30) |
-| H7 | 원리 | 17,007 | 🟢 | 합격 (collections 깊은 원리 — hash table 기본(hash 함수·hashable·collision·load factor 2/3 → resize 2배)·dict 구현 compact dict (Python 3.6+) (옛 양식 192 byte vs 새 양식 56 byte·indices+entries 2 단계·메모리 70% 절약 + 순서 보장)·dict resizing·dict 메모리 표(1만 ~290KB·100만 ~30MB)/set 구현(open addressing + perturbation·set vs dict 메모리 2배·compact 양식 X·perturbation 식 (5*i + perturb + 1) & mask)/list dynamic array(C struct·overallocation 공식 (newsize >> 3) + 3-6·append amortized O(1) 증명 1+2+4+...+n = 2n / n·list pop(0) O(n) 비밀·메모리 1만 ~85KB)/tuple 구현(direct array·overallocation X·메모리 약간 작음·tuple caching 빈 tuple만)/dis bytecode (dict lookup 3 opcode·set membership 3 opcode·list comp ~10 opcode·dict comp MAP_ADD) + 5 dis 패턴(함수 호출 vs 인라인·f-string vs format·attribute 접근·global vs local·dict.get vs [])/CPython 소스 5 위치(dictobject.c insertdict·setobject.c set_lookkey·listobject.c list_resize·_collectionsmodule.c Counter·tupleobject.c tuple_alloc) + 5 단계 읽기/면접 10 + 10 = 20 질문(O(1) 비밀·dict 순서·load factor·collision·append·pop(0)·tuple vs list·set vs dict 메모리·dict 키 list X·CPython + worst-case·set 단순·list *·dict view·tuple unpack·dict 키 type·set 정렬·copy·most_common·defaultdict) + Raymond Hettinger compact dict + collections 모듈/오해10+FAQ10+추신73) |
+| H7 | 원리 | **17,000 실측** | 🟢 | ✅실측합격 (자료구조 내부 — H6 회수 + 오늘의 약속(dict O(1) 비결)·"이해의 깊이"·매 챕터 H7=내부 다섯 번째/①dict=hash table(키→hash 정수→위치 계산·즉시 찾기·도서관 청구기호·사물함 비유·open addressing 충돌·compact dict 순서)·hash table은 CS 전반(DB 인덱스·캐시·라우팅)/②resize(2/3 차면 두 배·O(n) 재배치·amortized O(1)·월세 1년치 비유·왜 두 배·시간-공간)/③list=dynamic array(연속 메모리·인덱스/append O(1)·1.125배·insert(0) O(n)·극장 좌석 비유·CPU 캐시 친화)/④set=값 없는 hash table·중복 제거 원리·집합 연산 빠름/⑤tuple=C 배열 한 번에·24바이트 작음·immutable→hashable→dict 키·free list 재사용/⑥hash 함수(같은 값 같은 hash·바뀌면 못 함·PYTHONHASHSEED 보안·2011 collision 공격)/⑦메모리 그림(모든 것은 객체·참조 담기·small int 캐싱 -5~256)/오해5(dict 항상 O(1)·list 끝 추가·tuple 빠름·hash 매번·set vs keys)·실수5(깊이 강박 X·표면 80%)·졸업장 getsizeof·개발자노트·추신30) |
 | H8 | 적용+회고 | 17,164 | 🟢 | 합격 (Ch010 마무리 — 8 H 한 페이지 종합표·8 H 핵심 한 줄·Ch010 학습 통계(8 H × 17,000+ = 138,000자·67+ 도구·30 면접·17,200 호출/주·23년 ROI)·exchange v1 50줄 → v2 150 → v3 250 → v4 200 → v5 500 진화·v1→v4 도구 누적표(5→14→19→30→35)·v4의 진짜 의미 = Python 입문 1+2+3+4 = 32시간 학습 통합 정점/자경단 12년 시간축(1주→1개월→6개월→1년→3년→5년→12년) + 1주차→5년 매주 시간 분포 진화 + 1주차 vs 5년 비교(매주 17,200→50,000 호출·5→140 변경·5→30 즉답)/면접 30 질문 통합(Hash+dict 10·set 5·list+tuple 5·collections 5·운영 5) + 5단계 응답 표준(5초답·5초부연·5초깊이·5초수치·5초예시 = 25초) + 자경단 5명 1년 면접 25 합격 100%/5명 1년 회고(본인 235,000·까미 215,000·노랭이 185,000·미니 95,000·깜장이 165,000 = 합 895,000 호출/년) + 1년 후 단톡 가상 대화 + 8 인증 능력/Ch011 모듈/패키지 8 H 미리보기(import·pyproject.toml·pip·uv·venv·PyPI·sys.path) + Ch011→Ch020 9 챕터 + 미리보기 코드/자경단 collections 마스터 인증 5 능력(4 단어·36 메서드·27 도구·결정 1 분·면접 30) + 5 신호(PR·신입·리뷰·CPython·면접) + 5 발음 + 정체성/본인 7 행동 + 1주차 매일 시간표 + 1개월 결과 예상 (18,000 호출·22 PR·1 신입·100% 즉답·5+ production)/오해0+FAQ0+추신98) — Ch010 chapter complete 80/960 = 8.33% ✅✅✅ |
 
 Ch010 합계: 137,029 / 목표 ~160,000
@@ -286,10 +286,10 @@ Ch015 합계: 34,010 / 목표 ~160,000 (2/8 H 진행)
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 010 H7 작성** (Python 자료구조 내부 — dict hash table·list dynamic array·메모리 레이아웃 → 17,000+)
-   - Ch010 H1~H6 완료 ✅(…17,001·17,000). 이제 H7(내부).
-   - ⚠️ Ch010 H7~H8은 계획값/부분 초안. 실제 측정 후 전면 작성 필요.
-   - Ch010 H7~H8로 Ch010 완료. 이후 Ch011...
+👉 **Ch 010 H8 작성** (Python 자료구조 적용/회고 — 8H 종합·v4 진화·자료구조 다섯 원리·Ch011 문자열 다리 → 17,000+)
+   - Ch010 H1~H7 완료 ✅(…17,000·17,000). 이제 H8(적용·회고)로 Ch010 완성.
+   - ⚠️ Ch010 H8은 계획값/부분 초안. 전면 작성 필요.
+   - Ch010 H8로 Ch010 완료(8/8). 이후 Ch011...
    - ⚠️ "다음 턴"은 실제 파일 측정 기준. 위 ⚠️ 실측 상태 표 참조(진행표 본문의 "완료" 표기는 일부 계획값).
 
 ## 이번 세션(2026-06-08) 완료
@@ -334,4 +334,5 @@ Ch015 합계: 34,010 / 목표 ~160,000 (2/8 H 진행)
 - Ch010 H4 작성 → 17,001 🟢 (3,851 stub → 전면 작성 → 실측 합격)
 - Ch010 H5 작성 → 17,001 🟢 (4,037 stub → 전면 작성 → 실측 합격)
 - Ch010 H6 작성 → 17,000 🟢 (3,283 stub → 전면 작성 → 실측 합격)
-- 실측 합격: 24/960 → **78/960** (Ch001~009 완성 + Ch010 H1~H6)
+- Ch010 H7 작성 → 17,000 🟢 (3,167 stub → 전면 작성 → 실측 합격)
+- 실측 합격: 24/960 → **79/960** (Ch001~009 완성 + Ch010 H1~H7)
