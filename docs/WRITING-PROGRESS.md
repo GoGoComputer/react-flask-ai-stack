@@ -6,7 +6,7 @@
 ## ⚠️ 실측 상태 (2026-06-10 기준 — `scripts/wc-lecture.py --all`)
 
 > **주의: 아래 챕터별 표의 일부 행은 실제 파일과 불일치(과거에 미리 적어 둔 계획값).**
-> 실제로 합격(🟢 ≥17,000)인 H는 측정 기준 **43/960**입니다.
+> 실제로 합격(🟢 ≥17,000)인 H는 측정 기준 **44/960**입니다.
 >
 > | 챕터 | 실제 완료 H | 비고 |
 > |------|------------|------|
@@ -15,7 +15,7 @@
 > | Ch003 | **8/8 ✅** | 전부 완료 (H6=17,044·H7=17,005·H8=17,070 실측) |
 > | Ch004 | **8/8 ✅** | 전부 완료 (H7=17,006·H8=17,015 실측) |
 > | Ch005 | **8/8 ✅** | 전부 완료 (H7=17,001·H8=17,003 실측) |
-> | Ch006 | **3/8** | H1·H2·H3 실측 완료(17,116·17,021·17,017). H4 다음 작업 대상 |
+> | Ch006 | **4/8** | H1~H4 실측 완료(17,116·17,021·17,017·17,038). H5 다음 작업 대상 |
 > | Ch007~014 | 0~부분 | 표에는 "완료"로 적혀 있으나 실제는 stub/부분 초안 |
 > | Ch015~026 | 부분 | 각 H ~6,800자 부분 초안(🔴), 17k 미달 |
 > | Ch027~120 | 0 | 순수 stub(~390자) |
@@ -122,7 +122,7 @@ Ch005 합계: 137,343 / 목표 ~160,000
 | H1 | 오리엔 | **17,116 실측** | 🟢 | ✅실측합격 (검은 화면 7이유 — 자동화·원격 표준·복사·속도·AI 시대·도구 표준·면접/한 줄 데모 find ~ -size +100M head -5/터미널·셸·Bash 셋 정의(앱·프로그램·셸 한 종류) 한 표/4핵심 단어(터미널·셸·프로세스·파일시스템) tty·echo $0·ps·pwd 4명령어/한 명령어 0.30초 7단계 흐름(키보드→터미널→셸→PATH→fork→exec→stat→stdout→wait)/자경단 5명 alias 풍경(본인 s/lg/mypr·까미 cj/g/d·노랭이 nr/np/pf·미니 vps/tf/aw·깜장이 pw/ss)+공통 5종(s·lg·ll·cd..·mypr) 5명 25개 5년 125시간/8H 큰그림(H2 8개념·H3 셋업·H4 30개 명령어·H5 데모·H6 스크립트·H7 내부·H8 적용)/12회수지도(Ch007~120)/10. 셸 진화 50년 표(Thompson sh 1971·Bourne sh 1977·csh 1978·Bash 1989·zsh 1990·fish 2005·macOS Catalina 2019 zsh 표준·Warp 2022·AI 2024)/11. 자경단 5년 dotfiles 50줄 .zshrc(PATH·env·alias·function·setopt·oh-my-zsh·starship)/12. AI 시대 셸 80/20 비율 Claude/Cursor/Warp·gh-copilot/오해5+FAQ5+추신120) |
 | H2 | 핵심개념 | **17,021 실측** | 🟢 | ✅실측합격 (셸 8개념 깊이 — 1.셸 변수 vs 환경변수(=·export) 자식 프로세스 전달 차이·=양옆 공백 함정·env 5종/2.PATH 검색 :구분 우선순위·which vs type·우선순위 함정/3.exit code 표(0·1·2·126·127·130·137·139)·$? 확인·&&·||·set -e·자경단 활용/4.subshell (...) vs 그룹 {...} 환경 격리 vs 공유·임시 cd·임시 환경변수/5.glob 5종(*·**·?·[abc]·{a,b}) zsh nomatch vs bash nullglob·숨은 파일/6.redirection 7종(>·>>·<·<<<·2>·2>&1·/dev/null) 자경단 build/CI/7.heredoc <<EOF 변수 확장 ON/OFF·<<-EOF indent·SSH/Python/SQL/8.pipe `|`·command substitution `$(...)` 자경단 5종 pipe + 5종 substitution + 한 줄 자동화 시나리오·xargs/오해5+FAQ5+추신117) |
 | H3 | 환경점검 | **17,017 실측** | 🟢 | ✅실측합격 (자경단 표준 30분 셋업 — 1.macOS Apple Silicon 5단계(Xcode CLT·brew /opt/homebrew·brew install 10도구 한 줄(git/gh/node@20/python@3.12/ripgrep/fd/bat/exa/jq/tldr/starship/tmux)·brew 사용 5종·함정/2.iTerm2 cask·표준 설정(MesloLGS Nerd Font 14·Minimal·재사용 cwd)·단축키 5종(Cmd+T/D/Shift+D/W/`)·6 터미널 비교 표·자경단 표준 iTerm2/3.zsh + oh-my-zsh 설치·plugin 6종(git·docker·kubectl·npm·rust·gh) + 외부 2종(autosuggestions·syntax-highlighting)·테마 robbyrussell→starship/4.starship Rust 빠름·~/.config/starship.toml 자경단 표준 toml·git_branch+status+cmd_duration+character·oh-my-zsh 비교 표/5.tmux 첫 사용 5단축키(분할 2·이동·detach·attach)·SSH 끊김 방지·페어 attach -t·~/.tmux.conf 표준·iTerm2 분할 vs tmux/6.dotfiles GitHub repo 5분 셋업·install.sh idempotent·새 노트북 1줄·5명 PR 협업/7.자경단 .zshrc 50줄(PATH 5·env 5·alias 5·function 5·setopt 5·oh-my-zsh 5·starship 1·workflow 5)/8.macOS·Linux·Windows WSL 변환표 7행·core 90% 같음/오해5+FAQ5+추신110) |
-| H4 | 명령어카탈로그 | 17,146 | 🟢 | 합격 (30 명령어 + 위험도 신호등 — 30개 한 표 6 무리(파일 8·검색 5·텍스트 9·프로세스 3·네트워크 2·아카이브/조합 2)+빨강 5(rm -rf·kill -9·>덮어쓰기·mv 덮어쓰기·tar 덮어쓰기)/파일 8(ls·cd·pwd·mkdir -p·cp -r·mv -i·rm -rf·touch)·검색 5(find·grep·rg·fd·which/type/command -v)·텍스트 9(cat/bat·head/tail·less·wc·sort·uniq·sed·awk·jq)·프로세스 3(ps·top/htop·kill)·네트워크 2(curl/wget·ssh/scp)·아카이브/조합 2(tar/zip·xargs)/매일 6 손가락(ls·cd·git status·rg·tail -f·gh)+주간 5+월간 3=14 손가락 한 달/한 줄 자동화 5종(가장 큰 파일·1달 commit·ERROR 모음·jq·gh PR 요약)/모던 대체 5종 표(grep→rg·find→fd·cat→bat·ls→exa·diff→delta)/면접 5종 질문·macOS·Linux 차이 5종(sed -i·date -d·xargs -r·readlink -f·tac)/오해7+FAQ7+추신170) |
+| H4 | 명령어카탈로그 | **17,038 실측** | 🟢 | ✅실측합격 (30 명령어 + 위험도 신호등 — 30개 한 표 6 무리(파일 8·검색 5·텍스트 9·프로세스 3·네트워크 2·아카이브/조합 2)+빨강 5(rm -rf·kill -9·>덮어쓰기·mv 덮어쓰기·tar 덮어쓰기)/파일 8(ls·cd·pwd·mkdir -p·cp -r·mv -i·rm -rf·touch)·검색 5(find·grep·rg·fd·which/type/command -v)·텍스트 9(cat/bat·head/tail·less·wc·sort·uniq·sed·awk·jq)·프로세스 3(ps·top/htop·kill)·네트워크 2(curl/wget·ssh/scp)·아카이브/조합 2(tar/zip·xargs)/매일 6 손가락(ls·cd·git status·rg·tail -f·gh)+주간 5+월간 3=14 손가락 한 달/한 줄 자동화 5종(가장 큰 파일·1달 commit·ERROR 모음·jq·gh PR 요약)/모던 대체 5종 표(grep→rg·find→fd·cat→bat·ls→exa·diff→delta)/면접 5종 질문·macOS·Linux 차이 5종(sed -i·date -d·xargs -r·readlink -f·tac)/오해7+FAQ7+추신170) |
 | H5 | 데모 | 17,038 | 🟢 | 합격 (자경단 30분 셸 시뮬 — 강사가 /tmp/shell-demo에서 진짜 실행한 출력 박음·5분 셋업 mkdir+heredoc+for·까미 ERROR 진단 grep -c=5 + grep -oE+sort+uniq -c·노랭이 awk -F, 평균 3·깜장이 jq '.cats[].name'·미니 cleanup.sh 30줄 set -euo pipefail·본인 한 줄 자동화 5종(가장 큰 파일·log 줄 수·ERROR 통계·CSV 평균·JSON 필터)·5사고+처방(변수 unquoted·sed -i macOS·rm 빈변수·xargs 빈입력·glob 함정)·자경단 13줄 흐름·5명 dotfiles 비교 표(본인 200줄·까미 250·노랭이 220·미니 300·깜장이 180=합 1150)·5분 따라치기 가이드·오해7+FAQ7+추신170) |
 | H6 | 운영/스크립트 | 17,117 | 🟢 | 합격 (자경단 매일 운영 5스크립트 — set -euo pipefail 5플래그 + IFS=$'\n\t'·5플래그가 막는 사고 3종/function 5계명(한 일·local·stderr·return·인자검증)·자경단 5 function(log·require·require_env·confirm·cd_safe)/signal trap 5종(EXIT·ERR·INT·TERM·HUP)·cleanup function 표준·idempotent·mktemp -d·trap 사고 처방/getopts 5줄 양식 v·d·h + --long 옵션·OPTIND·shift/color 로그 5색 ANSI(DEBUG 회·INFO 초·WARN 노·ERROR 빨·FATAL 보)+timestamp ISO + tee LOG_FILE/shellcheck 5문제(SC2086 unquoted·SC2046 cmd·SC2155·SC2034·SC2154)·CI shell lint·disable comment/bats 5요소(@test·run·status·output·assert)·setup·teardown·1년 후 도입/자경단 5스크립트(deploy.sh 매주 5단계·rollback.sh 응급 5분·monitor.sh 매일 09:00 3 metric·migrate.sh backup-then-test-then-rollback·backup.sh 매일 02:00 5단계 + 30일 보관 + S3 sync)·합 150줄·5계명·5사고+처방·자경단 cron 시간표 5종·진화 5단계(1주·1개월·6개월·1년·5년)·오해7+FAQ7+추신158) |
 | H7 | 원리/내부 | 17,068 | 🟢 | 합격 (셸 내부 6 syscall — fork-exec 6단계(read+파싱·PATH 검색·fork·exec·output·wait)·copy-on-write·built-in vs 외부(cd 격리이유)·time 측정 fork 비용 1.2ms/process group + session + 제어 터미널·Ctrl+C가 group 단위·background `&`·job control 5(jobs·fg·bg·Ctrl+Z·disown)·nohup vs disown vs tmux/file descriptor 0/1/2 + dup2·`>` 진짜 흐름·`2>&1` 순서·`<<<` here-string·user fd 3+ exec/anonymous pipe `|` 진짜 — pipe() syscall + dup2(read·write) + buffer 64KB·named pipe FIFO·socket 3 IPC 비교/signal 7종 표(INT·QUIT·KILL·TERM·HUP·USR1·STOP)+SIGKILL catch 불가·sigaction 시스템 콜·trap 진짜 흐름 5단계/환경변수 inheritance — fork envp 복제·exec 전달·export만·env -i 격리·자경단 활용/login vs interactive vs script 셸 셋 차이·읽는 파일·script 셸이 .zshrc 안 읽음·자경단 함정/오해7+FAQ7+추신157) |
@@ -282,8 +282,8 @@ Ch015 합계: 34,010 / 목표 ~160,000 (2/8 H 진행)
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 006 H4 작성** (터미널·Bash 명령어 카탈로그 — 30개 명령어·위험도 신호등·매일6/주간7/월간5/응급6 → 17,000+)
-   - Ch006 H4~H8 순서대로 17,000+ 확장. 이후 Ch007(Python)...
+👉 **Ch 006 H5 작성** (터미널·Bash 30분 데모 — 자경단 5명 라이브 시뮬·ERROR진단·CSV·JSON·자동화·통합 → 17,000+)
+   - Ch006 H5~H8 순서대로 17,000+ 확장. 이후 Ch007(Python)...
    - ⚠️ "다음 턴"은 실제 파일 측정 기준. 위 ⚠️ 실측 상태 표 참조(진행표 본문의 "완료" 표기는 일부 계획값).
 
 ## 이번 세션(2026-06-08) 완료
@@ -293,4 +293,5 @@ Ch015 합계: 34,010 / 목표 ~160,000 (2/8 H 진행)
 - Ch006 H1 작성 → 17,116 🟢 (14,472 부분초안 → 실측 합격)
 - Ch006 H2 작성 → 17,021 🟢 (12,829 부분초안 → 실측 합격)
 - Ch006 H3 작성 → 17,017 🟢 (13,762 부분초안 → 실측 합격)
-- 실측 합격: 24/960 → **43/960**
+- Ch006 H4 작성 → 17,038 🟢 (12,065 부분초안 → 실측 합격)
+- 실측 합격: 24/960 → **44/960**
