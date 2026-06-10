@@ -6,7 +6,7 @@
 ## ⚠️ 실측 상태 (2026-06-10 기준 — `scripts/wc-lecture.py --all`)
 
 > **주의: 아래 챕터별 표의 일부 행은 실제 파일과 불일치(과거에 미리 적어 둔 계획값).**
-> 실제로 합격(🟢 ≥17,000)인 H는 측정 기준 **72/960**입니다.
+> 실제로 합격(🟢 ≥17,000)인 H는 측정 기준 **73/960**입니다.
 >
 > | 챕터 | 실제 완료 H | 비고 |
 > |------|------------|------|
@@ -19,7 +19,8 @@
 > | Ch007 | **8/8 ✅** | 전부 완료 (H7=17,003·H8=17,002 실측). Ch001~007 = 7챕터 완성 |
 > | Ch008 | **8/8 ✅** | 전부 완료 (H7=17,000·H8=17,001 실측). Ch001~008 = 8챕터 완성 |
 > | Ch009 | **8/8 ✅** | 전부 완료 (H7=17,001·H8=17,002 실측). Ch001~009 = 9챕터 완성 |
-> | Ch010~014 | 0~부분 | 표에는 "완료"로 적혀 있으나 실제는 stub/부분 초안 |
+> | Ch010 | **1/8** | H1 실측 완료(17,002). H2~H8은 계획값/부분 초안 |
+> | Ch011~014 | 0~부분 | 표에는 "완료"로 적혀 있으나 실제는 stub/부분 초안 |
 > | Ch015~026 | 부분 | 각 H ~6,800자 부분 초안(🔴), 17k 미달 |
 > | Ch027~120 | 0 | 순수 stub(~390자) |
 >
@@ -188,7 +189,7 @@ Ch009 합계: 137,221 / 목표 ~160,000
 
 | H | 슬롯 | 현재 분량 | 상태 | 비고 |
 |---|------|----------|------|------|
-| H1 | 오리엔 | 17,082 | 🟢 | 합격 (collections 7이유 — 모음·인덱스·immutable·키값·중복제거·comp·면접/4단어(list·tuple·dict·set) + 5 활용 = 20 활용/시간 복잡도 표(list O(n)·dict/set O(1) avg)·메모리 비교(tuple 40·list 56·dict 64·set 216)/8H 큰그림+학습곡선·자경단 5명 매일 1,150 collections·5 시나리오/한 줄 0.001초 흐름·dis 3 opcode (LOAD+LOAD+BINARY_SUBSCR)·timeit 100배 차이·dict[key]/set membership 6 단계 hash·hashtable/12회수 지도(Ch011·013·015·017·020·022·041·060·080·091·103·118)+시간축·Ch011→Ch020 9챕터 미리보기·Python 마스터 80h/면접 10 질문(list vs tuple·dict 시간·set vs list·dict 순서·tuple unpacking·list 구현·dict 구현·set vs frozenset·defaultdict vs Counter·OrderedDict)+면접 응답 5 단계·1년 차 7 회사 100% 통과·collections.abc 5 인터페이스(Sequence·Mapping·Set·Iterable·Iterator)·dataclass+Pydantic+collections 통합·자경단 진화 5단계·5명 매주 90h = 매년 4,680h·5명 1년 합 1,900,000+·5명 매일 1,041·오해8+FAQ10+추신103) |
+| H1 | 오리엔 | **17,002 실측** | 🟢 | ✅실측합격 (collections 오리엔 — Ch009 회수(함수가 데이터 다룸) + 자료형=단어·흐름=문법·함수=문단·자료구조=재료 + 오늘의 약속(네 그릇 골라 쓰기)·이미 절반 안다/§2 collections=데이터 그릇·부엌 그릇 비유·중첩(list 안 dict)/§3 옛날 이야기(list로 5만번→dict O(1), 그릇만 바꿔 천 배)·"느린 코드=잘못된 자료구조"/§4 일곱 이유(표현·성능·API·알고리즘·면접·함수형·매일) + 시간 복잡도 O(1) vs O(n)/§5 같이 쳐보기 5줄(네 자료구조)/§6 네 친구 list·tuple·dict·set + 두 축(순서·가변) + 기호({}=dict, set()=빈set)/§7 dict.get 5단계·hash로 위치 즉시·도서관 청구기호 비유/§8 선택 가이드 표(키로 찾기 dict·중복 set·안 바뀌는 짝 tuple·나머지 list)·핵심 요구가 그릇 결정/§9 자경단 5명(까미 dict 50·노랭이 list 100·미니 set 30·깜장이 tuple 20)·JSON=dict+list(Ch041 복선)/§10 8교시 미리보기·여섯 번째 리듬·Ch011 문자열 다리/§11 collections 60년(LISP 1958)·언어 가로지름/§12 AI 80/20·성능 함정 검수/오해5(list 만능·tuple 옛날·set 안씀·dict 무거움·abc)·FAQ6(list vs tuple·dict 순서·set 메모리·namedtuple·8시간·자료구조 vs 알고리즘)·실수5·졸업장 dict/set/comp·개발자노트·추신30) |
 | H2 | 핵심개념 | 17,195 | 🟢 | 합격 (collections 깊이 36 메서드 — list 11 메서드(append/insert/extend/remove/pop/clear/index/count/sort/reverse/copy) + 시간 복잡도 + 3 함정(반복 중 수정·가변 default·shallow copy) + 5 패턴(flatten·중복 제거·chunk·zip+enumerate·key 정렬)/tuple 3 메서드(count·index·len) + NamedTuple vs dataclass vs TypedDict 3 종 + 5 unpacking 패턴(다중 할당·swap·return·*rest·nested)/dict 12 메서드(get/setdefault/update/pop/popitem/clear/keys/values/items/copy/fromkeys/|) + Python 3.9+ | union + dict comp + 3 함정(KeyError·반복 중 수정·가변 default) + 5 패턴(count·group by·invert·merge·nested get)/set 10 메서드(add/remove/discard/pop/clear/union/intersection/difference/symmetric_diff/issubset) + 4 연산(|/&/-/^) + subset/superset + 5 패턴(중복 제거·권한 검사·차집합·tag union·frozenset 키) + 3 함정(unhashable·{} 빈 dict·순서 가정)/comprehension 4종(list/dict/set/gen) + 5 실전 패턴 + 가독성 한계 2 중첩·comp vs map/filter + generator vs list comp 메모리(8.5MB vs 200 bytes)/자경단 5 시나리오(FastAPI list comp·DB dict·도구 transform·인프라 set·테스트 parametrize) + 1주 통계(dict 1150·list 580·tuple 460·comp 320·set 220)/결정 트리 5 질문(순서·변경·key-value·중복·lookup) + 5 안티패턴(list lookup·list +=·keys() list·중첩 comp·tuple mutable 흉내)/시간 복잡도 마스터 표(list `in` O(n) vs dict/set O(1) 100배) + 메모리 비교(list 85KB vs dict/set 290KB 10000 element)/오해10+FAQ10+추신58) |
 | H3 | 환경점검 | 17,130 | 🟢 | 합격 (collections 환경 4 도구 — rich 6도구(print·Console·Table·Tree·Progress·traceback) + rich.traceback install() 디버깅 30배·rich.progress 배치/migration·rich.print_json API 디버깅/json dumps/loads/dump/load + ensure_ascii=False/indent=2 표준 + datetime/set custom default + 5 함정(한글·datetime·int 키·NaN·tuple) + dataclass+asdict+json + Pydantic model_dump_json + orjson production 5-10배/pprint width/depth/sort_dicts/compact + pformat 로그 + rich vs pprint vs print 3 분리/collections.abc 9 인터페이스(Container·Iterable·Iterator·Sized·Sequence·MutableSequence·Mapping·MutableMapping·Set) + 5 핵심 + 사용자 정의 collection ABC 자동 인식 + type hint 인자 ABC return concrete + typing.List → built-in list (Python 3.9+)/자경단 5 시나리오(본인 FastAPI rprint·까미 DB schema dump·노랭이 CLI Table·미니 인프라 abc·깜장이 테스트 pprint) + 1주 통계(json 360·rich 240·pprint 210·abc 80) + 5 통합 워크플로우 + 4 도구 함정 4(rich 로그 색깔·json default·pprint depth·abc Sequence) + 4 도구 결정 트리 4 질문/오해10+FAQ10+추신64) |
 | H4 | 명령카탈로그 | 17,173 | 🟢 | 합격 (collections 30+ 도구 카탈로그 — collections 6 도구(defaultdict·Counter·OrderedDict·deque·namedtuple·ChainMap) + 각각 사용예 + Counter most_common/산술 연산/update/subtract + deque rotate/maxlen/appendleft/popleft + ChainMap new_child/heapq 5 도구(heappush·heappop·heapify·nsmallest·nlargest) + (priority, task) 우선순위 큐 패턴/bisect 4 도구(bisect_left/right·insort_left/right) + 등급 매기기 패턴/itertools 12 도구(count·cycle·repeat·chain·islice·zip_longest·groupby·combinations·permutations·product·accumulate·takewhile) + 무한/합치기/그룹/누적 4 카테고리/자경단 5 시나리오(본인 통계·까미 작업 큐·노랭이 캐시·미니 설정·깜장이 테스트 조합) + 1주 통계(collections 330·itertools 200·heapq 45·bisect 22) + 5 통합 패턴(top N+통계·group+count·cycle+zip·sliding window·우선순위+재시도)/도구 함정 5(defaultdict 자동 키·Counter 음수·heapq min-only·groupby 정렬·deque 인덱스) + 결정 트리 10 질문 + 신입 4주차 커리큘럼 + 30+ 도구 한 페이지(67 도구 합계)/오해10+FAQ10+추신73) |
@@ -285,9 +286,9 @@ Ch015 합계: 34,010 / 목표 ~160,000 (2/8 H 진행)
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 010 H1 작성** (Python 자료구조 오리엔 — list·tuple·dict·set·시간 복잡도·해시테이블 → 17,000+)
-   - Ch009 8/8 완료 ✅. 이제 Ch010(자료구조) 시작.
-   - ⚠️ Ch010 H1~H8은 계획값/부분 초안. 실제 측정 후 전면 작성 필요.
+👉 **Ch 010 H2 작성** (Python 자료구조 핵심 개념 — list 메서드·tuple 언패킹·dict comp·set 연산 → 17,000+)
+   - Ch010 H1 완료 ✅(17,002). 이제 H2(개념).
+   - ⚠️ Ch010 H2~H8은 계획값/부분 초안. 실제 측정 후 전면 작성 필요.
    - Ch010 H1~H8 순서대로 17,000+ 완성. 이후 Ch011...
    - ⚠️ "다음 턴"은 실제 파일 측정 기준. 위 ⚠️ 실측 상태 표 참조(진행표 본문의 "완료" 표기는 일부 계획값).
 
@@ -327,4 +328,5 @@ Ch015 합계: 34,010 / 목표 ~160,000 (2/8 H 진행)
 - Ch009 H6 작성 → 17,000 🟢 (3,690 stub → 전면 작성 → 실측 합격)
 - Ch009 H7 작성 → 17,001 🟢 (3,436 stub → 전면 작성 → 실측 합격)
 - Ch009 H8 작성 → 17,002 🟢 (1,867 stub → 전면 작성 → 실측 합격) → **Ch009 8/8 완료 ✅**
-- 실측 합격: 24/960 → **72/960** (Ch001~009 완성 — Python 입문 1+2+3 완주)
+- Ch010 H1 작성 → 17,002 🟢 (4,274 stub → 전면 작성 → 실측 합격)
+- 실측 합격: 24/960 → **73/960** (Ch001~009 완성 + Ch010 H1)
