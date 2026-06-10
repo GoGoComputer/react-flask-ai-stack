@@ -6,7 +6,7 @@
 ## ⚠️ 실측 상태 (2026-06-10 기준 — `scripts/wc-lecture.py --all`)
 
 > **주의: 아래 챕터별 표의 일부 행은 실제 파일과 불일치(과거에 미리 적어 둔 계획값).**
-> 실제로 합격(🟢 ≥17,000)인 H는 측정 기준 **62/960**입니다.
+> 실제로 합격(🟢 ≥17,000)인 H는 측정 기준 **63/960**입니다.
 >
 > | 챕터 | 실제 완료 H | 비고 |
 > |------|------------|------|
@@ -17,7 +17,7 @@
 > | Ch005 | **8/8 ✅** | 전부 완료 (H7=17,001·H8=17,003 실측) |
 > | Ch006 | **8/8 ✅** | 전부 완료 (H7=17,013·H8=17,002 실측). Ch001~006 = 6챕터 완성 |
 > | Ch007 | **8/8 ✅** | 전부 완료 (H7=17,003·H8=17,002 실측). Ch001~007 = 7챕터 완성 |
-> | Ch008 | **6/8** | H1~H6 실측 완료(…17,000·17,034). H7 다음 작업 대상 |
+> | Ch008 | **7/8** | H1~H7 실측 완료(…17,034·17,000). H8 다음 작업 대상 |
 > | Ch009~014 | 0~부분 | 표에는 "완료"로 적혀 있으나 실제는 stub/부분 초안 |
 > | Ch015~026 | 부분 | 각 H ~6,800자 부분 초안(🔴), 17k 미달 |
 > | Ch027~120 | 0 | 순수 stub(~390자) |
@@ -161,7 +161,7 @@ Ch007 합계: 137,521 / 목표 ~160,000
 | H4 | 명령어카탈로그 | **17,001 실측** | 🟢 | ✅실측합격 (제어 흐름 18 도구 카탈로그 — 6 무리(반복 4·집계 5·필터/변환/정렬 4·comp/iter/next 3·고급 3 표준라이브러리 itertools/functools/collections·신호등 🟢🟡🔴)·반복 4 도구(range lazy 1억 4MB·enumerate(start=1) + 5활용·zip(strict=True) + transpose + 5활용·reversed + 5활용)·집계 5(sum + 5활용·min/max + key·any/all 단축평가·len + gen 함정)·정렬 4(filter→comp 자경단표준·map→comp·sorted vs sort·sorted 안정 stable + 5활용)·comp 5종 + 5일반패턴 + iter callable 매직 + next default + 5활용/itertools 5 표준 + 추가 5(tee·cycle·takewhile·accumulate·pairwise) = 10·functools 3 + 추가 3(lru_cache·wraps·singledispatch) = 6·collections 5 + 추가 3(ChainMap·UserDict·UserList) = 8·operator 3(itemgetter·attrgetter·methodcaller)·총 45 도구/매일 6 + 주간 5 + 월간 3 = 14 손가락·자경단 13줄 환율 알림 9 도구 사용·자경단 매일 5 시나리오·zip(*matrix) 전치·zip(*[iter()]*100) 배치·ChainMap config 우선순위/Python vs JS·Java 비교 가독성 1위/매일 75h/년 사용 ROI 15배/오해8+FAQ10+추신82) |
 | H5 | 데모 | **17,000 실측** | 🟢 | ✅실측합격 (환율 계산기 v2 데모 — v1 50줄 → v2 150줄 진화 (Ch007 H5 → Ch008 H5)·9 함수 × 18 도구 = 자경단 코드 양식·강사 /tmp/python-demo2/exchange_v2.py 진짜 실행 9항목 출력·@cache + functools/Counter + collections/groupby + itertools/itemgetter + operator/match-case + Python 3.10/type hint dict|None/9 함수(get_rate·convert·total_budget_krw·cats_by_age·find_cat·all_active·any_senior·age_distribution·grouped_by_age·alert_high_rates·cat_status_report)·v2 출력 활성예산 324,418 KRW·5명 나이순 정렬·까미 검색·노년 본인·5 시나리오 + 보너스 2(pytest 7테스트 + ipython %timeit cache_info)·따라치기 5단계 5분 + 10 체크리스트 + 5 사고 처방·v1 vs v2 7 핵심 차이(@cache 10배·next 한줄·groupby 함수형·match-case·type hint 100%·OOP 비교·5 차이표)·9 사고+처방(ValueError·dict 변경·cache 무효화·키 오타·Python 버전·gen 재사용·mutable default·dis·tracemalloc)·자경단 5명 1.5h 협업·5 PR 35분·production 6단계 30분·1년 5 진화 v3-v5·6 회수 챕터·v2 작성 30분·학습 1.5h ROI 167배·합의 비용 0·1주차 7일 진화/추신66) |
 | H6 | 운영 | **17,034 실측** | 🟢 | ✅실측합격 (제어 흐름 운영 — early return 패턴 5 가치 + 5 시나리오 + with 자원 처방·guard clause 5 종류(입력·타입·범위·상태·권한) + fail fast vs fail late + Pydantic 자동화 + FastAPI 짝/복잡도 줄이기 5 패턴(dict 대체·early return·함수 분리·polymorphism·comp) + 5 패턴 적용 시점·McCabe 복잡도 ≤ 10 표준·radon cc/mi/raw 측정 (자경단 v2 평균 A 2.3·cat_status_report만 B 6)·ruff C901 lint + mccabe max-complexity=10 자동/CI integration .github/workflows/quality.yml + 6개월 추세 평균 A 2.5 안정/자경단 5명 매일 코드 리뷰 5 패턴 = PR 코멘트 95%·PR 사이클 31분·1년 250 PR × 31분 = 130h·5 패턴 마스터 ROI 375배·1주차 평균 LOC 25→1년차 8 (4배 효율)/자경단 매일 6 의식·매월 12h 운영·매년 144h 평생 자산·진화 5 단계(1주 학습→1개월 측정→6개월 자동→1년 매주→5년 멘토)/통합 표 10 항목·7 함정 면역(finalize·guard 많음·dict 복잡·comp 길음·측정 X·polymorphism 과적용·측정 후 안 함)·오해8+FAQ10+추신79) |
-| H7 | 원리/내부 | 17,044 | 🟢 | 합격 (제어 흐름 원리 — iterator protocol __iter__/__next__ + StopIteration·iterable vs iterator 구분·iter()/next() 매직 + dis로 GET_ITER/FOR_ITER 검토·사용자 정의 iterator + iterable/iterator 분리/generator function + yield + 5 가치(lazy·메모리 4만배·무한·간결·state)·5 시나리오(1억 log·1만 환율·무한 fib·DB stream·CSV)·send/throw/close 4 메서드/generator expression 5 시나리오(sum·any/all·min/max·dict comp·함수 인자) + list comp 결정/yield from PEP 380 + 5 가치(가독성·delegation·send·return·예외) + 4 시나리오(파일·tree·coroutine·async)/async iterator + async for + StopAsyncIteration + async generator·asyncio 5 핵심(run·gather·wait·create_task·Queue) + 100 URL 1초·async 5 함정 면역(await 빠뜨림·time.sleep·CPU·동기 라이브러리·nested run)/StopIteration PEP 479 강제·async generator close·asyncio.Semaphore·asyncio.to_thread/면접 10 질문(iterable vs iterator·for 본질·gen vs iter·yield from·async for·gen vs comp·PEP 479·coroutine vs gen·asyncio vs threading·async vs sync gen)·자경단 5명 매주 25h 원리 = 매년 1,250h·오해8+FAQ10+추신76) |
+| H7 | 원리/내부 | **17,000 실측** | 🟢 | ✅실측합격 (제어 흐름 원리 — iterator protocol __iter__/__next__ + StopIteration·iterable vs iterator 구분·iter()/next() 매직 + dis로 GET_ITER/FOR_ITER 검토·사용자 정의 iterator + iterable/iterator 분리/generator function + yield + 5 가치(lazy·메모리 4만배·무한·간결·state)·5 시나리오(1억 log·1만 환율·무한 fib·DB stream·CSV)·send/throw/close 4 메서드/generator expression 5 시나리오(sum·any/all·min/max·dict comp·함수 인자) + list comp 결정/yield from PEP 380 + 5 가치(가독성·delegation·send·return·예외) + 4 시나리오(파일·tree·coroutine·async)/async iterator + async for + StopAsyncIteration + async generator·asyncio 5 핵심(run·gather·wait·create_task·Queue) + 100 URL 1초·async 5 함정 면역(await 빠뜨림·time.sleep·CPU·동기 라이브러리·nested run)/StopIteration PEP 479 강제·async generator close·asyncio.Semaphore·asyncio.to_thread/면접 10 질문(iterable vs iterator·for 본질·gen vs iter·yield from·async for·gen vs comp·PEP 479·coroutine vs gen·asyncio vs threading·async vs sync gen)·자경단 5명 매주 25h 원리 = 매년 1,250h·오해8+FAQ10+추신76) |
 | H8 | 적용+회고 | 17,154 | 🟢 | 합격 (Ch008 마무리 — 7H 한 페이지 종합표·exchange_v2 150줄→v3 300줄(Ch013)→v4 500줄(Ch041)→v5 5,000줄(Ch091) 진화 로드맵·5명 협업 진화(1주 단독→5년 50 PR/주)/제어 흐름 다섯 원리(분기 짧음·반복 lazy·comp 첫 선택·미세 조정·async)/12회수 지도 Ch009→Ch118·Ch009 예고+13챕터 미리보기/우선순위 Must5(if·for·comp·early return·exchange_v2) Should5(while·match·표준 라이브러리·radon·디버거) Could5(iterator·gen·yield from·async for·async gen)·Must 5 매일 1,610+ 줄 73% 코드/0분→5년 시간축 + 1년 후 본인 편지 + 1주차 매일 시간표/면접 15질문(for 본질·comp vs map·for+else·range·enumerate·zip strict·match-case·iter vs iterable·yield 매직·async for·walrus·range vs enum·dict 변경·async gen close·iter 두 번)/자경단 5명 1년 회고·5명 코드라인 1년 누적 62,000줄·5년 후 5명 모두 시니어/Ch008 한 페이지 요약 카드·본인 첫 행동 7단계 2시간·매일 코드 분포(if 25%+for 15%+comp 10%=50%)·v2 학습 ROI 28배+무한대·5명 5년 합 500,000줄+ Python·1주차 6.5h+첫 PR 1.5h·Ch007+Ch008 16h ROI 20배 5년 1,620h 절약·22분 마침 의식·1년 후 본인 편지+10년 후 평생 기념/오해10+FAQ10+추신65+마무리 한 단락) — Ch008 chapter complete 64/960 = 6.67% ✅✅✅ |
 
 Ch008 합계: 137,070 / 목표 ~160,000
@@ -284,9 +284,9 @@ Ch015 합계: 34,010 / 목표 ~160,000 (2/8 H 진행)
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 008 H7 작성** (Python 원리/내부 — CPython for·iterator 프로토콜·generator·yield·GIL → 17,000+)
-   - ⚠️ Ch008 H7(2,905)·H8(1,831)은 stub. 전면 작성 필요.
-   - Ch008 H7~H8 후 Ch008 완료. 이후 Ch009...
+👉 **Ch 008 H8 작성** (Python 제어흐름 적용/회고 — 8시간 종합·v2 진화·다섯 원리·Ch009 함수 다리 → 17,000+)
+   - ⚠️ Ch008 H8(1,831)은 stub. 전면 작성 필요.
+   - Ch008 H8로 Ch008 완료. 이후 Ch009...
    - ⚠️ "다음 턴"은 실제 파일 측정 기준. 위 ⚠️ 실측 상태 표 참조(진행표 본문의 "완료" 표기는 일부 계획값).
 
 ## 이번 세션(2026-06-08) 완료
@@ -315,4 +315,5 @@ Ch015 합계: 34,010 / 목표 ~160,000 (2/8 H 진행)
 - Ch008 H4 작성 → 17,001 🟢 (6,022 stub → 실측 합격)
 - Ch008 H5 작성 → 17,000 🟢 (6,534 stub → 실측 합격)
 - Ch008 H6 작성 → 17,034 🟢 (5,115 stub → 실측 합격)
-- 실측 합격: 24/960 → **62/960** (Ch001~007 완성 + Ch008 H1~H6)
+- Ch008 H7 작성 → 17,000 🟢 (2,905 stub → 전면 작성 → 실측 합격)
+- 실측 합격: 24/960 → **63/960** (Ch001~007 완성 + Ch008 H1~H7)
