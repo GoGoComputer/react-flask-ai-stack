@@ -143,6 +143,8 @@ brew --version
 
 여기서 짚고 갈 한 가지. **Apple Silicon은 `/opt/homebrew`, Intel Mac은 `/usr/local`**이에요. 본인 맥이 Intel이면 위 두 줄에서 `/opt/homebrew`를 `/usr/local`로 바꾸세요. 본인 맥이 어느 쪽인지는 Apple 메뉴 → 이 Mac에 관하여로 확인. M1/M2/M3가 보이면 Apple Silicon이에요.
 
+brew가 왜 이렇게 위대한지 잠깐 옛날 이야기를 할게요. brew가 없던 시절, 그러니까 한 15년 전에 맥에서 어떤 도구를 깔려면 어떻게 했는지 아세요. 그 도구의 홈페이지에 가서, 소스 코드를 다운받고, 압축을 풀고, `./configure` 치고, `make` 치고, `make install` 치고. 그 과정에서 "이 라이브러리가 없다"는 에러가 줄줄 떴어요. 그러면 그 라이브러리를 또 같은 식으로 깔고. 도구 하나 까는 데 두 시간이 걸렸어요. 그리고 그 도구를 지우려면 어디에 뭐가 깔렸는지 몰라서 못 지웠어요. 이게 brew 이전의 암흑기예요. 2009년에 Max Howell이라는 개발자가 brew를 만들었어요. 그때부터 도구 설치가 한 줄, 삭제가 한 줄, 업그레이드가 한 줄이 됐어요. brew는 깐 모든 도구의 위치를 기억하고, 의존성을 자동으로 풀고, 업그레이드를 한 번에 해 줘요. 본인이 오늘 12종을 한 줄에 깐 그 마법은 사실 Max Howell이 15년 전에 본인에게 준 선물이에요. 그 선물 덕에 본인은 두 시간이 아니라 10분에 환경을 갖춰요.
+
 ---
 
 ## 5. 한 줄로 12종 도구 — 자경단 표준 도구 박기
@@ -229,7 +231,7 @@ brew install --cask font-jetbrains-mono-nerd-font
 
 둘째, **Profiles → Default → Window → Transparency**. 약간 투명하게 하면 멋있어요. 5%~10% 정도. 호기심에 한 번 만지작거려 보세요.
 
-이 두 가지만 바꾸시면 본인 iTerm이 자경단 표준 외관이에요. 색깔 테마 같은 건 H8에서 dotfile에 박아 둬요.
+이 두 가지만 바꾸시면 본인 iTerm이 자경단 표준 외관이에요. 색깔 테마 같은 건 H8에서 dotfile에 박아 둬요. 외관은 사소해 보이지만 본인이 5년 동안 매일 8시간 들여다볼 화면이에요. 눈이 편한 화면 한 번 만들어 두는 게 5년의 피로를 줄여 줘요.
 
 ---
 
@@ -268,6 +270,8 @@ curl로 설치 스크립트 다운, sh로 실행. 1분이면 끝나요. 끝나�
 **zsh-autosuggestions**. 본인이 친 명령어를 학습해서 회색 글자로 다음에 칠 명령을 미리 보여줘요. → 키 누르면 채택.
 
 이 다섯 개를 .zshrc의 plugins 줄에 추가하면 돼요. H8 dotfile 시간에 자세히.
+
+이 중에서 본인이 처음 쓰면 가장 충격받는 게 zsh-autosuggestions예요. 한 번 그림을 그려 드릴게요. 본인이 어제 `git push origin main`이라는 명령을 한 번 쳤어요. 오늘 본인이 `git p`까지만 쳤어요. 그러면 셸이 회색 글자로 `git push origin main`을 미리 보여줘요. 본인이 어제 친 걸 기억하고 있다가, 본인이 또 칠 것 같으면 미리 띄워 주는 거예요. 본인이 오른쪽 화살표 한 번 누르면 회색 글자가 진짜 명령으로 채택돼요. 스무 글자를 두 글자로 줄인 거죠. 처음 이걸 경험한 사람은 다 "어, 이거 뭐야" 하고 놀라요. 본인의 손가락이 매일 치는 명령의 80%가 어제 친 것의 반복이거든요. 그 반복을 셸이 기억해서 미리 띄워 줘요. 이게 oh-my-zsh를 까는 가장 큰 이유 중 하나예요. 본인이 하루에 500번 명령을 친다면, 이 회색 글자가 그중 400번을 두세 글자로 줄여 줘요. 손가락이 절반으로 가벼워지는 거예요.
 
 ---
 
@@ -325,6 +329,8 @@ tmux의 기본 단축키는 prefix가 `Ctrl+b`예요. 모든 명령이 `Ctrl+b` 
 
 tmux 설정 파일은 `~/.tmux.conf`예요. 자경단 표준은 prefix를 `Ctrl+b`에서 `Ctrl+a`로 바꿔요. `Ctrl+b`가 vim이랑 충돌이 잦거든요. H8에서 자세히.
 
+tmux의 세션 생존 기능이 왜 진짜 중요한지 미니의 사고로 보여드릴게요. 미니가 원격 서버에서 데이터베이스 마이그레이션을 돌리고 있었어요. 30분짜리 작업이었어요. 그런데 작업 20분쯤에 미니의 집 와이파이가 끊겼어요. 만약 미니가 그냥 ssh로 들어가서 돌렸다면, 와이파이가 끊기는 순간 그 마이그레이션도 중간에 죽어요. 데이터베이스가 절반만 바뀐 채로 멈추는 거예요. 그건 진짜 큰 사고예요. 절반만 바뀐 데이터베이스는 복구가 어려워요. 그런데 미니는 tmux 안에서 돌리고 있었어요. 와이파이가 끊겨도 서버 쪽의 tmux 세션은 살아 있었어요. 마이그레이션은 미니가 없는 사이에도 혼자 계속 돌았어요. 미니가 와이파이를 복구하고 다시 ssh로 들어가서 `tmux attach` 한 줄 쳤더니, 마이그레이션이 이미 끝나 있었어요. 사고가 날 뻔한 게 tmux 한 줄로 막힌 거예요. 원격 서버에서 긴 작업을 돌릴 때는 무조건 tmux 안에서. 이게 자경단 미니의 철칙이에요. 본인도 두 해 코스 끝에 AWS 서버에서 긴 작업을 돌릴 일이 와요. 그날 이 한 절이 본인을 한 번 구해 줄 거예요.
+
 ---
 
 ## 10. dotfiles GitHub 저장소 — 다섯 명 동기화의 비밀
@@ -358,6 +364,8 @@ dotfiles/
 GitHub에 본인 dotfiles repo를 만드는 건 H8에서 자세히 다뤄요. 오늘은 그림만 머리에 두세요. **본인의 손가락이 GitHub에 백업되어 있다.** 5년 후에도 본인의 손가락은 살아있어요.
 
 자경단의 시연용 dotfiles repo를 보여드릴게요. `https://github.com/cat-vigilante/dotfiles` 같은 식이에요. 본인이 두 해 코스 끝에 자기 dotfiles를 만들고 GitHub에 올리면, 본인도 자기만의 손가락 백업을 갖게 돼요.
+
+dotfile의 진짜 위력을 한 장면으로 보여드릴게요. 까미가 작년에 노트북을 잃어버렸어요. 카페에 두고 나왔는데 못 찾았어요. 보통 사람이라면 환경 다시 만드는 데 며칠이 걸려요. 어떤 도구를 깔았었는지, alias를 뭘 만들었었는지, 설정을 어떻게 했었는지 다 기억해서 하나씩 다시 해야 하니까요. 까미는 새 노트북을 받고 딱 세 줄을 쳤어요. brew 설치 한 줄, `git clone`으로 dotfiles 받기 한 줄, `./install.sh` 한 줄. 그러고 점심 먹으러 갔어요. 점심 먹고 오니까 까미의 새 노트북이 잃어버린 노트북과 완전히 똑같은 환경이 되어 있었어요. 5년치 alias, 5년치 설정, 5년치 손가락이 그대로 복원된 거예요. 옆에서 노랭이가 그걸 보고 충격받았어요. 노랭이는 dotfile이 없어서 노트북 바꿀 때마다 환경을 처음부터 다시 만들거든요. 그날 노랭이도 dotfiles repo를 만들기 시작했어요. 본인의 손가락이 클라우드에 백업되어 있으면, 노트북은 그냥 손가락을 끼우는 장갑일 뿐이에요. 장갑은 잃어버려도 손가락은 안 잃어버려요. 그게 dotfile의 철학이에요.
 
 ---
 
@@ -412,6 +420,8 @@ GitHub에 본인 dotfiles repo를 만드는 건 H8에서 자세히 다뤄요. �
 50줄짜리 첫 dotfile이에요. 위에서부터 한 줄씩 풀면 — PATH 추가, 환경변수, oh-my-zsh 로드, alias 13개, function 1개, starship 마지막. 본인이 평생 키울 dotfile의 토대예요.
 
 13개 alias 중 자경단이 매일 가장 자주 쓰는 다섯 개는 `gs`, `gp`, `gc`, `ll`, `g`. 다섯 개가 본인 손가락의 90%를 차지해요. 외우려 마세요. 매일 쓰면 박혀요.
+
+여기 맨 아래 `gcp` function 한 개를 눈여겨보세요. `git add . && git commit -m "$1" && git push` 세 단계를 한 단어로 묶은 거예요. 본인이 `gcp "오타 수정"`이라고 치면 add·commit·push가 한 번에 돌아요. `$1`이 본인이 넘긴 첫 번째 인자, 그러니까 "오타 수정"이 들어가는 자리예요. alias는 인자를 못 받지만 function은 받아요. 그게 alias와 function의 경계선이에요. 한 줄이면 alias, 인자가 필요하면 function. 본인의 dotfile이 5년 자라면 이런 function이 열 개쯤 쌓여요. H6에서 function을 본격적으로 짜요.
 
 이 50줄을 본인의 .zshrc에 그대로 붙여 넣고 싶으시면 가능해요. 단, oh-my-zsh가 이미 깔려 있어야 해요. 그리고 starship도 `brew install starship`으로 깔려 있어야 해요. 셸을 닫고 다시 켜시면 본인 환경이 자경단 표준으로 변해요.
 
@@ -550,3 +560,38 @@ starship --version              # starship 살아있나
 > - PATH 우선순위 디버그: `which -a git`으로 모든 git 위치 확인. `type git`으로 zsh가 인식한 git 종류 확인 (alias·builtin·function·external).
 > - brew 업그레이드 정책: 자경단은 매주 월요일 `brew update && brew upgrade`. 자동화는 weekly cron으로. 보안 패치는 즉시.
 > - 다음 H4 키워드: 30개 명령어 카탈로그·위험도 신호등·매일 6·주간 7·월간 5·응급 6.
+
+---
+
+## 추신
+
+1. 30분 셋업이 5년 환경의 토대. 한 번 잘 깔면 평생 가요.
+2. Xcode CLT가 첫 단추. git·make·gcc·brew의 토대.
+3. Homebrew가 둘째 단추. `brew install`로 뭐든 한 줄.
+4. Apple Silicon=`/opt/homebrew`, Intel=`/usr/local`. 경로만 달라요.
+5. brew는 사용자 권한. **sudo 절대 금지.** sudo brew는 사고.
+6. 12종 도구 한 줄 — git·gh·node·python·rg·fd·bat·eza·jq·tldr·starship·tmux.
+7. rg=grep 100배, fd=find 진화, bat=cat 색깔, eza=ls 색깔.
+8. jq는 JSON, tldr은 man의 5줄 요약. 매일 만나요.
+9. iTerm2가 자경단 표준 터미널. Terminal.app보다 100배 친절.
+10. iTerm 단축키 5 — Cmd+T·Cmd+D·Cmd+Shift+D·Cmd+W·Cmd+F.
+11. Nerd Font 깔아야 starship 아이콘이 떠요. JetBrainsMono 표준.
+12. zsh는 이미 깔려 있어요(macOS 2019~). `echo $SHELL` 확인.
+13. oh-my-zsh가 zsh를 200배 풍부하게. 플러그인·자동완성·테마.
+14. 플러그인 5 — git·docker·npm·z·zsh-autosuggestions.
+15. starship=Rust 프롬프트. git 브랜치·상태·언어 버전 자동 표시.
+16. `ZSH_THEME=""`로 oh-my-zsh 테마 끄고 starship만. 표준.
+17. tmux=한 창 안 여러 창 + 세션이 살아 있음(SSH 끊겨도).
+18. tmux prefix=Ctrl+b. 자경단은 Ctrl+a로 바꿔요(vim 충돌).
+19. `tmux attach`로 끊긴 자리에서 부활. 미니의 매일 도구.
+20. dotfile=`.zshrc`·`.gitconfig`·`.tmux.conf`. 손가락의 모양.
+21. dotfiles를 GitHub에. 새 노트북도 git clone 5분 복원.
+22. install.sh가 symlink로 연결. 한 줄에 전 환경 복원.
+23. dotfile은 public, 토큰은 local. 토큰 직접 안 적기.
+24. 첫 .zshrc 50줄 — PATH·env·oh-my-zsh·alias 13·function·starship.
+25. 매일 쓰는 alias 5 — gs·gp·gc·ll·g. 90%를 차지해요.
+26. PATH는 `export PATH="새경로:$PATH"`. $PATH 보존이 안전벨트.
+27. Linux·WSL은 brew 대신 apt. oh-my-zsh·starship·tmux는 동일.
+28. dotfile은 신입 1년 차에 만드세요. 일찍 만들수록 깊어져요.
+29. H3 졸업장 — `which brew git starship tmux` 다섯 줄 확인.
+30. 다음 H4는 30개 명령어 카탈로그 + 위험도 신호등. 한 시간 쉬고 만나요. 🐾
