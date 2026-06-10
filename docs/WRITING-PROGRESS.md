@@ -6,7 +6,7 @@
 ## ⚠️ 실측 상태 (2026-06-10 기준 — `scripts/wc-lecture.py --all`)
 
 > **주의: 아래 챕터별 표의 일부 행은 실제 파일과 불일치(과거에 미리 적어 둔 계획값).**
-> 실제로 합격(🟢 ≥17,000)인 H는 측정 기준 **49/960**입니다.
+> 실제로 합격(🟢 ≥17,000)인 H는 측정 기준 **50/960**입니다.
 >
 > | 챕터 | 실제 완료 H | 비고 |
 > |------|------------|------|
@@ -16,7 +16,7 @@
 > | Ch004 | **8/8 ✅** | 전부 완료 (H7=17,006·H8=17,015 실측) |
 > | Ch005 | **8/8 ✅** | 전부 완료 (H7=17,001·H8=17,003 실측) |
 > | Ch006 | **8/8 ✅** | 전부 완료 (H7=17,013·H8=17,002 실측). Ch001~006 = 6챕터 완성 |
-> | Ch007 | **1/8** | H1 실측 완료(17,002). H2~H8은 부분초안/stub. H2 다음 작업 대상 |
+> | Ch007 | **2/8** | H1·H2 실측 완료(17,002·17,011). H3 다음 작업 대상 |
 > | Ch008~014 | 0~부분 | 표에는 "완료"로 적혀 있으나 실제는 stub/부분 초안 |
 > | Ch015~026 | 부분 | 각 H ~6,800자 부분 초안(🔴), 17k 미달 |
 > | Ch027~120 | 0 | 순수 stub(~390자) |
@@ -137,7 +137,7 @@ Ch006 합계: 137,490 / 목표 ~160,000
 | H | 슬롯 | 현재 분량 | 상태 | 비고 |
 |---|------|----------|------|------|
 | H1 | 오리엔 | **17,002 실측** | 🟢 | ✅실측합격 (Python 7이유 — 가독성·다용도·생태계·AI 시대·면접·자경단 백엔드·셸과 만남/4핵심 단어(인터프리터·변수·자료형·연산자)·인터프리터 vs 컴파일러·REPL·5 기본 자료형 int/float/str/bool/None·연산자 5종(산술 7·비교 6·논리 3·할당 8·멤버십 2)/한 줄 print() 0.10초 6단계(키보드→python fork-exec→파싱→AST→bytecode→VM→write stdout)/8H 큰그림(H2 5자료형+18연산자+f-string·H3 brew/pyenv/REPL/Jupyter/VS Code·H4 python/pip/-m/-c 18도구·H5 환율 계산기·H6 PEP 8·black·ruff·docstring·H7 CPython VM·GIL·bytecode·PEP·H8 적용)/자경단 5명 적용(까미 백엔드 100%·노랭이 도구 20%·미니 인프라 60%·깜장이 QA 80%·본인 메인테이너 50%) → 자경단 80% Python/12회수 지도(Ch008 if/for·013 import·014 venv·020 typing·022 pytest·041 FastAPI·060 풀스택·080 ML·091 boto3·103 CI/CD·118 면접·120 회고)/Python 진화 30년 1991→3.12·자경단 매일 12 라이브러리(requests·pydantic·fastapi·sqlalchemy·rich·pytest·black·ruff·mypy·typer 등)·면접 5질문(왜 Python·2 vs 3·PEP 8·GIL·list comp)·오해5+FAQ5+추신205) |
-| H2 | 핵심개념 | 17,024 | 🟢 | 합격 (5 자료형 + 18 연산자 + f-string — int 무한대/float IEEE 754 + Decimal/str immutable 메서드 30+/bool int subclass·falsy 7/None NoneType `is None`/산술 7·비교 6 체이닝·논리 3 short-circuit·할당 8·멤버십 2/string formatting 3종(% 옛·.format() 중간·f-string 표준)+f-string 디버그 `{name=}`+형식 `{x:.2f}`/mutable 5(list/dict/set/bytearray/deque) vs immutable 7/mutable 함정 5(같은 list 별칭·default 인자 누적·class 변수·for 안 수정·copy vs deepcopy)/== vs is(작은 int 캐싱)·isinstance vs type(상속)·None 비교 `is None`·falsy 7/PEP 8 4 공백·docstring `"""..."""`·type hint 미리보기/자경단 5명 매일 자료형·연산자 표·매일 1,825,000줄 5명 합/오해5+FAQ5+추신229) |
+| H2 | 핵심개념 | **17,011 실측** | 🟢 | ✅실측합격 (5 자료형 + 18 연산자 + f-string — int 무한대/float IEEE 754 + Decimal/str immutable 메서드 30+/bool int subclass·falsy 7/None NoneType `is None`/산술 7·비교 6 체이닝·논리 3 short-circuit·할당 8·멤버십 2/string formatting 3종(% 옛·.format() 중간·f-string 표준)+f-string 디버그 `{name=}`+형식 `{x:.2f}`/mutable 5(list/dict/set/bytearray/deque) vs immutable 7/mutable 함정 5(같은 list 별칭·default 인자 누적·class 변수·for 안 수정·copy vs deepcopy)/== vs is(작은 int 캐싱)·isinstance vs type(상속)·None 비교 `is None`·falsy 7/PEP 8 4 공백·docstring `"""..."""`·type hint 미리보기/자경단 5명 매일 자료형·연산자 표·매일 1,825,000줄 5명 합/오해5+FAQ5+추신229) |
 | H3 | 환경점검 | 17,032 | 🟢 | 합격 (Python 환경 셋업 — brew install python@3.12·pyenv·공식 .pkg·Linux apt 4 설치/REPL python3·ipython·Jupyter 비교/VS Code Python extension + Pylance + black + ruff/.python-version·dotfile 5(PYTHONDONTWRITEBYTECODE/PYTHONUNBUFFERED/PATH/EDITOR/LANG)·alias 3(py/pyi/venv)/30분 의식 9 도구·자경단 5명 같은 환경·9,760시간 코딩 토대 ROI 3,904배·오해5+FAQ5+추신263) |
 | H4 | 명령어카탈로그 | 17,084 | 🟢 | 합격 (Python 18 도구 + 위험도 신호등 — 6 무리(인터프리터 6·패키지 5·가상환경 3·품질 3·테스트 1)/인터프리터 6 깊이(python3 REPL 5분·-V 환경 검증·-c 한 줄·-m 모듈 CLI(venv/pytest/pip)·-i 디버깅·-O prod 최적화)/패키지 5(pip install 5양식·-r req.txt·uninstall·freeze·list)+자경단 함정 3(시스템 오염·==잠금·-U 의존성)/가상환경 3(venv·activate 셸별·deactivate)+venv vs virtualenv vs conda vs uv 표/품질 3(black no-config·ruff Rust 100배·mypy strict 1년후)+자경단 표준 pyproject.toml/pytest 5 옵션(-v·-x·-k·--cov·--pdb)/매일 6+주간 4+월간 2=12 손가락/자경단 13줄 흐름 9 도구 사용·5명 매일 사용표 25 도구/5 사고+처방(시스템 오염 PEP 668·버전 잠금·black 함정·conftest 충돌·mypy false positive)/모던 5(uv 2024 Astral·poetry 2018·pdm 2020·hatch·rye)·1년 후 uv/AI 시대 80/20·Claude Code Bash·Cursor 자동완성·Copilot/오해5+FAQ7+추신35) |
 | H5 | 데모 | 17,067 | 🟢 | 합격 (자경단 환율 계산기 30분 시뮬 — 강사가 /tmp/python-demo/exchange.py 진짜 실행·KRW→USD/JPY/EUR 환율 1380.50/9.10/1495.30·자경단 5명 매월 사료 예산 $50/마리=345,125 KRW·exchange.py 50줄(RATES dict + CAT_NAMES list + convert() type hint + format_result() f-string + cat_budget_demo() for 루프 + main() if __name__)/24 학습 매핑(H1~H4 18 + Ch008·H7 미리보기 6)/15.진화 5단계(1주 50줄→1개월 API requests→6개월 class→1년 FastAPI→5년 SaaS)/16.5분 따라치기 가이드/17.코드 매핑표/18.pytest 미리보기 5 테스트/19.자경단 5명 1시간 시뮬·합의 비용 0/20.1년 후 5 사고 일지(API rate limit·환율 변동·float 누적·timezone·통화 코드 오타)/21.자경단 wiki 한 페이지 요약·5명 매일 사용표·한 줄 자동화 5종(jq·csv·log·dict·http.server)/오해5+FAQ5+추신80) |
@@ -283,9 +283,9 @@ Ch015 합계: 34,010 / 목표 ~160,000 (2/8 H 진행)
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 007 H2 작성** (Python 핵심개념 — int·float·str·bool·None·연산자·f-string·input·print·type 변환 → 17,000+)
-   - Ch007 H2~H8 순서대로 17,000+ 확장. 이후 Ch008...
-   - ⚠️ Ch007 H2~H8은 대부분 부분초안/stub. H7(4,157)·H8(2,727)은 전면 작성 필요.
+👉 **Ch 007 H3 작성** (Python 환경점검 — pyenv·venv·pip·requirements.txt·VSCode·Pylance·Ruff → 17,000+)
+   - Ch007 H3~H8 순서대로 17,000+ 확장. 이후 Ch008...
+   - ⚠️ Ch007 H3~H8은 대부분 부분초안/stub. H7(4,157)·H8(2,727)은 전면 작성 필요.
    - ⚠️ "다음 턴"은 실제 파일 측정 기준. 위 ⚠️ 실측 상태 표 참조(진행표 본문의 "완료" 표기는 일부 계획값).
 
 ## 이번 세션(2026-06-08) 완료
@@ -301,4 +301,5 @@ Ch015 합계: 34,010 / 목표 ~160,000 (2/8 H 진행)
 - Ch006 H7 작성 → 17,013 🟢 (4,163 stub → 전면 작성 → 실측 합격)
 - Ch006 H8 작성 → 17,002 🟢 (5,281 stub → 전면 작성 → 실측 합격) → **Ch006 8/8 완료 ✅**
 - Ch007 H1 작성 → 17,002 🟢 (11,573 부분초안 → 실측 합격)
-- 실측 합격: 24/960 → **49/960** (Ch001~006 완성 + Ch007 H1)
+- Ch007 H2 작성 → 17,011 🟢 (9,869 부분초안 → 실측 합격)
+- 실측 합격: 24/960 → **50/960** (Ch001~006 완성 + Ch007 H1·H2)
