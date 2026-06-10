@@ -6,7 +6,7 @@
 ## ⚠️ 실측 상태 (2026-06-10 기준 — `scripts/wc-lecture.py --all`)
 
 > **주의: 아래 챕터별 표의 일부 행은 실제 파일과 불일치(과거에 미리 적어 둔 계획값).**
-> 실제로 합격(🟢 ≥17,000)인 H는 측정 기준 **67/960**입니다.
+> 실제로 합격(🟢 ≥17,000)인 H는 측정 기준 **68/960**입니다.
 >
 > | 챕터 | 실제 완료 H | 비고 |
 > |------|------------|------|
@@ -18,7 +18,7 @@
 > | Ch006 | **8/8 ✅** | 전부 완료 (H7=17,013·H8=17,002 실측). Ch001~006 = 6챕터 완성 |
 > | Ch007 | **8/8 ✅** | 전부 완료 (H7=17,003·H8=17,002 실측). Ch001~007 = 7챕터 완성 |
 > | Ch008 | **8/8 ✅** | 전부 완료 (H7=17,000·H8=17,001 실측). Ch001~008 = 8챕터 완성 |
-> | Ch009 | **3/8** | H1~H3 실측 완료(17,003·17,000·17,000). H4~H8은 stub/계획값 |
+> | Ch009 | **4/8** | H1~H4 실측 완료(17,003·17,000·17,000·17,001). H5~H8은 stub/계획값 |
 > | Ch010~014 | 0~부분 | 표에는 "완료"로 적혀 있으나 실제는 stub/부분 초안 |
 > | Ch015~026 | 부분 | 각 H ~6,800자 부분 초안(🔴), 17k 미달 |
 > | Ch027~120 | 0 | 순수 stub(~390자) |
@@ -175,7 +175,7 @@ Ch008 합계: 137,070 / 목표 ~160,000
 | H1 | 오리엔 | **17,003 실측** | 🟢 | ✅실측합격 (함수 오리엔 — Ch008 회수(흐름 60%·다섯 원리·환율 v2) + 자료형=단어·흐름=문법·함수=문단 + 오늘의 약속(모든 종류+첫 데코레이터)/§2 함수=코드 묶음에 이름·재사용이 핵심 가치·greet 예시·복붙 세상 vs 함수 세상 표(500줄→5줄·100곳 수정→1곳)·코드 확장의 비밀/§3 옛날 이야기(복붙 100곳→함수, 200줄→50줄, DRY 예고)/§4 일곱 이유(재사용·추상화·테스트·가독성·합의·AI·면접) + 추상화=복잡함을 이름 뒤에 숨김(print 비유)/§5 같이 쳐보기 greet 5줄(type hint·default·if·return)/§6 네 친구 def·return·*args·**kwargs + 위치 vs 이름 인자 + 기본값/§7 함수 호출 5단계(평가·frame·binding·실행·반환)·frame=작업 책상·closure 복선/§8 다섯 종류(일반·lambda·closure·decorator·generator) + first-class object + 종류 표/§9 자경단 5명 매일 125개(까미30·노랭이20·미니25·깜장이15·본인35)·함수=공통 언어/§10 8교시 미리보기 표·다섯 번째 리듬/§11 함수 90년(Church 1936 lambda calculus→async)·유행 안 타는 토대/§12 AI 80/20·시그니처 검수/오해5·FAQ6(길이·lambda vs def·*args·closure·8시간·함수 vs 메서드)·실수5(안 나눔·type hint·mutable default·return 누락·docstring)·졸업장 f(5)/f(5,20)·개발자노트·추신30) |
 | H2 | 핵심개념 | **17,000 실측** | 🟢 | ✅실측합격 (함수 8개념 — H1 회수 + 오늘의 약속(데코레이터 토대=closure) + 함수=사람 비유(인자=입·return=손·hint/docstring=이름표·lambda/closure=변신)/①def 6 인자 종류(위치전용 /·위치or키워드·*args·키워드전용 *·**kwargs·default) + 1년 사용 통계표(보통+default 90%·키워드전용 6%·**kwargs 4%·*args 2%·위치전용 0.1%) + 키워드전용=bool/옵션/②return 5패턴(단일·다중tuple·조건부None·명시None·예외) + "한 함수 한 종류 반환" + None 검사 습관(AttributeError NoneType)/③default mutable 함정 — 정의 시 한 번 평가·__defaults__ 공유·immutable은 안전·처방 None 후 안에서 생성·ruff B006/④*args/**kwargs packing(튜플/딕셔너리) vs 호출부 unpacking(*lst/**dct)·FastAPI create_user(**data)/⑤type hint 5패턴(Optional·Callable·Generic·Overload·Literal) + 미래의 나에게 보내는 쪽지 + mypy 단계적·런타임 미검증/⑥docstring Google 5부분(요약·Args·Returns·Raises·Examples) + help/VS Code/AI가 읽음 + 주석 vs docstring·좋은 이름>주석/⑦lambda 5사용처(sorted key·filter·callback·변환·고정) + 한 줄 철칙·이름 붙이면 def(E731)/⑧closure+nonlocal — make_counter·cell 상자 비유·바깥변수 기억 + timer 데코레이터=closure·@timer=timer(slow)/한 줄 분해 @lru_cache+hint+삼항+재귀·fib 수백만배/오해5·FAQ5(*args vs list·closure 누수·@wraps·lambda 한계·TypeVar vs Generic)·실수5(*/** 헷갈림·lambda 남용·closure·LEGB·재귀 깊이)·졸업장 f(*a,**k)·개발자노트·추신30) |
 | H3 | 환경점검 | **17,000 실측** | 🟢 | ✅실측합격 (함수 들여다보기 5도구 — H2 회수 + 오늘의 약속(내부 보는 다섯 도구) + 이해/측정 두 묶음·"내 코드를 내가 모르면 안 된다"/①VS Code 5단축키(F12 정의·Shift+F12 참조·Cmd+T 워크스페이스·Cmd+Shift+O 파일·Cmd+Click) + F12/Shift+F12 한 쌍으로 버그 추적·Pylance(hover·type 경고)/②inspect — 함수 X-레이(signature·getsource·getdoc·isfunction)·introspection=일급 객체·FastAPI 자동 문서가 inspect 활용(Ch041 복선)/③dis — bytecode(LOAD_FAST·BINARY_ADD·RETURN_VALUE)·스택 기반 VM·comprehension vs for 비교·"마법 아닌 기계"/④cProfile — ncalls·tottime·cumtime·"추측 말고 측정"·까미 format_cat_name 정규식 3초→0.1초 실화·timeit/cProfile/py-spy=돋보기/현미경/망원경/⑤py-spy — 실행 중 sampling·top --pid·flamegraph·production·미니 새벽 사고(Ch091 복선)/디버깅 의식 표(사고 크기별 도구)+디버깅 태도(범위 좁히기·재현→좁히기→고치기→확인)/5 시나리오 처방(호출 안 됨 signature·closure getclosurevars·데코레이터 @wraps·느림 cProfile·재귀 setrecursionlimit)+에러 메시지 읽기/오해5·FAQ6(inspect vs dir vs help·cProfile vs profile·py-spy 권한·dis 의미·Cmd+T·외워야 하나=F12만)·실수5·졸업장 inspect.signature(print)·개발자노트·추신30) |
-| H4 | 명령어카탈로그 | 17,004 | 🟢 | 합격 (함수 18 도구 카탈로그 — 6 무리(정의·호출·고급·표준·dunder·메타) + 신호등 🟢🟡🔴/decorator 5 활용(로깅·캐싱·인증·재시도·타이밍) + @wraps 표준 + decorator with arguments 3중 함수 + class 기반·5 종(단순·with args·class·stacking·nested)/closure 5 활용(카운터·캐시·factory·callback·private state) + nonlocal vs global + late binding 함정 + default 인자 처방/lambda 5 활용(sorted key·filter·map·callback·validator) + 5 한계(한 줄·재귀·디버깅·type hint·docstring) + def 결정/functools 6(wraps·partial·cache·lru_cache·reduce·singledispatch) + 활용 시나리오/classmethod (cls factory) + staticmethod (utility) + property (getter/setter/deleter) 완전 양식/매일 6 + 주간 5 + 월간 3 = 14 손가락·자경단 5명 매일 18 도구 분포 + 1주차 5일 학습 시간표·5명 합 매일 500 도구 = 매년 130,000 활용/dunder 4(__init__·__repr__·__str__·__call__) 짝/Must 5/Should 5/Could 3 우선순위·Python 33년 함수 진화/8 함정 + 보너스 3 면역·오해8+FAQ10+추신87) |
+| H4 | 명령어카탈로그 | **17,001 실측** | 🟢 | ✅실측합격 (함수 18 도구 카탈로그 — H3 회수 + 오늘의 약속(18 도구 머리에) + 카탈로그=백화점/주방 양념·존재를 아는 게 실력/18 도구 한 표(4무리)·"18개→4덩어리"/①functools 5(reduce 누적·partial 인자고정·lru_cache 캐싱N·wraps 메타보존·cache 무제한) + lru_cache 딕셔너리 원리·cache_info·partial to_krw 예/②decorator 5(@decorator·@property·@classmethod·@staticmethod·@dataclass) + dataclass 없을때 vs 있을때·데코=반복 자동화·property=추상화/③검사 4(signature·getsource·getdoc·callable) + callable로 값/함수 구분/④비동기 4(async def·await·asyncio.run·gather) + 라면 3개 비유·기다림=비동기·CPU=multiprocessing·gather 사용자경험·FastAPI(Ch041 복선)/리듬 매일6·주간7·월간5 + 누적 84도구(셸30+Py18+흐름18+함수18)·도구는 엮여요/13줄 흐름(dataclass·lru_cache·Callable·partial·comp)·함수를 인자로(일급 객체)/5 함정(lru_cache mutable·wraps 누락·property setter·classmethod self·async 일반호출)/오해5(lru_cache 만능·dataclass 무거움·property 안씀·async 만능·partial vs lambda)+"도구의 맞는 자리"·FAQ6(lru vs cache·dataclass vs class·데코 중첩·partial 성능·asyncio 시기·다 못외움 OK)·실수5·졸업장 partial add5·개발자노트·추신30) |
 | H5 | 데모 | 17,052 | 🟢 | 합격 (exchange_v3 데모 — v2 150줄 → v3 250줄 진화·9 함수 → 18 함수·강사 /tmp/python-demo3/exchange_v3.py 진짜 실행 8 항목·decorator 3 + closure(make_counter) + property 2(budget_krw·status) + classmethod(from_dict) + dunder 2(__call__·__repr__) + dataclass(Cat) + partial 2(to_usd·to_jpy) + lambda(sorted_by_age) = 12 함수 도구 적용/exchange v1→v6 진화 history (50→150→250→400→800→5,000줄)·v2 vs v3 7 핵심 차이·9 사고 면역(metadata·late binding·@cache mutable·dataclass mutable·property 재정의·@cache self·__repr__ 무한·partial vs lambda·mutable default 1년 차)/자경단 5명 1.75h 협업·5 PR 25분 review·5명 매일 165 v3 함수 = 매년 60,225·v3 진화 5단계(dataclass+property → classmethod → decorator stacking → closure+partial → dunder)·따라치기 5분 + 10 체크리스트·v3 ROI 무한대·평균 3.3배 코드 절약/오해8+FAQ10+추신86) |
 | H6 | 운영 | 17,014 | 🟢 | 합격 (함수 운영 5 핵심 — pure function 5 가치(테스트·병렬·memoization·추론·리팩토링) + side effect 분리 + Functional Core/Imperative Shell·SOLID 5 원칙(SRP·OCP·LSP·ISP·DIP) + 함수 적용 + DIP FastAPI Depends·SRP 5 패턴(검증·I/O·계산·알림·로깅) + 평균 LOC 8 4배 효율·함수 합성 + 파이프라인(toolz pipe) + 자경단 매일 5 단계 파이프라인·CQS Command/Query 분리 5 활용(DB·Cache·API·Counter·Validation)/매일 운영 의식 6 영역(작성 5 단계·PR 5 체크·매주 5 측정·매월 5 패턴 리팩토링·매분기 5 측정·매년 5 KPI) = 매년 96h·자경단 5명 매주 25h 운영 = 매년 1,300h 자산·운영 진화 5단계(pure → 분리 → SOLID → 합성 → CQS+DI)/자경단 1년 진화 — 사고 50배 감소·머지 4배·LOC 4배·McCabe 4배·5 KPI 모두 4배+ 효율/10 함정 + 보너스 5(pure 척·SRP 엄격·합성 과·CQS 위반·DI 과·mutation·nested·SOLID 도그마·합성 vs 중첩·DIP 과적용)·오해8+FAQ10+추신104) |
 | H7 | 원리/내부 | 17,009 | 🟢 | 합격 (함수 원리 5 핵심 — closure 깊이(cell + __closure__ + cell_contents·외부 변수 보존)·5 활용 깊이(카운터·캐시·factory·callback·private state)·late binding 함정 + default 인자 처방/scope LEGB 4 단계(Local·Enclosing·Global·Built-in) + 변수 검색 시간(LOAD_FAST > LOAD_GLOBAL > LOAD_NAME)·자경단 매일 LEGB 4 단계 시나리오·5 함정(UnboundLocalError·late binding·mutable global·built-in 덮어쓰기·import *)·globals/locals 활용/function object 7 attribute(__name__·__doc__·__code__·__defaults__·__kwdefaults__·__annotations__·__module__) + __code__ 6 attribute·inspect 5 활용(signature·getsource·iscoroutine·currentframe·getmembers)/CPython VM 함수 호출 5 단계(PUSH_NULL·LOAD_NAME·LOAD_CONST·CALL·body·RETURN·STORE) + 0.5μs 비용·frame stack 검사·tail call optimization 없음·dis로 30초 검토·C 확장 10배 빠름/면접 10 질문·자경단 본인 1년 차 7 회사 면접 100% 통과·자경단 5명 매주 19h 원리 = 매년 988h·원리 학습 5단계 + 매주 학습 시간표·시니어 5 stack 완성(git·셸·CPython·iterator·함수)·7 함정 + 보너스 2 면역·오해8+FAQ10+추신90) |
@@ -285,9 +285,9 @@ Ch015 합계: 34,010 / 목표 ~160,000 (2/8 H 진행)
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 009 H4 작성** (Python 함수 18 도구 카탈로그 — functools·partial·reduce·lru_cache·wraps·decorator 패턴 → 17,000+)
-   - Ch009 H1~H3 완료 ✅(17,003·17,000·17,000). 이제 H4(카탈로그).
-   - ⚠️ Ch009 H4~H8은 stub/계획값. 전면 작성 필요.
+👉 **Ch 009 H5 작성** (Python 함수 데모 — 환율 계산기 v2→v3·첫 데코레이터·closure·@dataclass·@property → 17,000+)
+   - Ch009 H1~H4 완료 ✅(17,003·17,000·17,000·17,001). 이제 H5(데모).
+   - ⚠️ Ch009 H5~H8은 stub/계획값. 전면 작성 필요.
    - Ch009 H1~H8 순서대로 17,000+ 완성. 이후 Ch010...
    - ⚠️ "다음 턴"은 실제 파일 측정 기준. 위 ⚠️ 실측 상태 표 참조(진행표 본문의 "완료" 표기는 일부 계획값).
 
@@ -322,4 +322,5 @@ Ch015 합계: 34,010 / 목표 ~160,000 (2/8 H 진행)
 - Ch009 H1 작성 → 17,003 🟢 (4,274 stub → 전면 작성 → 실측 합격)
 - Ch009 H2 작성 → 17,000 🟢 (4,590 stub → 전면 작성 → 실측 합격)
 - Ch009 H3 작성 → 17,000 🟢 (3,371 stub → 전면 작성 → 실측 합격)
-- 실측 합격: 24/960 → **67/960** (Ch001~008 완성 + Ch009 H1~H3)
+- Ch009 H4 작성 → 17,001 🟢 (4,474 stub → 전면 작성 → 실측 합격)
+- 실측 합격: 24/960 → **68/960** (Ch001~008 완성 + Ch009 H1~H4)
