@@ -6,7 +6,7 @@
 ## ⚠️ 실측 상태 (2026-06-10 기준 — `scripts/wc-lecture.py --all`)
 
 > **주의: 아래 챕터별 표의 일부 행은 실제 파일과 불일치(과거에 미리 적어 둔 계획값).**
-> 실제로 합격(🟢 ≥17,000)인 H는 측정 기준 **88/960**입니다.
+> 실제로 합격(🟢 ≥17,000)인 H는 측정 기준 **89/960**입니다.
 >
 > | 챕터 | 실제 완료 H | 비고 |
 > |------|------------|------|
@@ -21,7 +21,8 @@
 > | Ch009 | **8/8 ✅** | 전부 완료 (H7=17,001·H8=17,002 실측). Ch001~009 = 9챕터 완성 |
 > | Ch010 | **8/8 ✅** | 전부 완료 (H7=17,000·H8=17,016 실측). Ch001~010 = 10챕터 완성 |
 > | Ch011 | **8/8 ✅** | 전부 완료 (H7=17,003·H8=17,003 실측). Ch001~011 = 11챕터 완성. Python 입문 5(40시간) 마침 |
-> | Ch012~014 | 0~부분 | 표에는 "완료"로 적혀 있으나 실제는 stub/부분 초안 |
+> | Ch012 | **1/8** | H1 실측 완료(17,000). H2 다음 작업 대상 |
+> | Ch013~014 | 0~부분 | 표에는 "완료"로 적혀 있으나 실제는 stub/부분 초안 |
 > | Ch015~026 | 부분 | 각 H ~6,800자 부분 초안(🔴), 17k 미달 |
 > | Ch027~120 | 0 | 순수 stub(~390자) |
 >
@@ -222,7 +223,7 @@ Ch011 합계: 136,016 / 목표 ~136,000 (H1~H8 전부 실측 합격: 17,384·17,
 
 | H | 슬롯 | 현재 분량 | 상태 | 비고 |
 |---|------|----------|------|------|
-| H1 | 오리엔 | 17,038 | 🟢 | 합격 (file·exception 7이유 — 데이터·with·예외·pathlib·30+·logging·면접/4단어(open·with·try·except) + 5 활용 = 20 활용/30+ exception 5 카테고리(파일 5·데이터 5·시스템 5·네트워크 5·Python 5+) + 자경단 매일 12 exception(FileNotFoundError·PermissionError·UnicodeDecodeError·KeyError·ValueError·TypeError·AttributeError·IndexError·ConnectionError·TimeoutError·JSONDecodeError·ZeroDivisionError) + exception 계층 구조(BaseException → Exception → OSError → FileNotFoundError 등)/pathlib + io + logging 한 페이지 + Python 3.4+ Path·StringIO/BytesIO·5 logging 레벨/8 H 학습 곡선·자경단 5명 매일 시나리오 + 1주 통계(open/with 1,400·try/except 700·pathlib 580·logging 510 = 합 3,190) + 5명 1년 합 165,880 호출·5년 829,400 ROI·12회수 지도(Ch013·014·015·016·017·018·020·041·060·080·103·118)/면접 10 + 10 = 20 질문(with·try/except·Exception/BaseException·context manager·pathlib·mode·binary/text·encoding·raise from·사용자 + except*·finally raise·with 다중·contextlib·TextIOWrapper·buffered I/O·sys.exit·assert·traceback·__exit__) + 깊이 응답 25초/오해15+FAQ15+추신86) |
+| H1 | 오리엔 | **17,000 실측** | 🟢 | ✅실측합격 (파일·예외 오리엔 — Ch011 회수(메모리 텍스트→파일에서 옴) + 프로그램 안→밖 전환·방 안 vs 집 밖 심부름 비유 + 오늘의 약속(안전하게 읽고 쓰고 사고 처리)·이미 H5에서 써봄/§2 I/O=바깥세상과 데이터 주고받기·입력→처리→출력·I/O=사고 진원지(production 80%)·파일과 예외는 짝/§3 옛날 이야기(config 파일 없어 FileNotFoundError로 5,000명 죽음 새벽 3시→try/except 두 줄)·"예외 처리는 비관 아닌 책임"/§4 일곱 이유(안정성·UX·데이터안전·디버깅·보안·매일·면접) + 코드 안 실력 vs 세상과 만나는 실력/§5 같이 쳐보기 5줄(쓰기 w→읽기)·파일=프로그램의 기억(메모리는 휘발)/§6 네 친구 open·with·try·except + 두 짝(파일 open/with·사고 try/except)·with는 자동 close·except 구체적으로/§7 파일 읽기 5단계(파일시스템·권한·fd 할당·읽기·닫기)·OS 통해 다룸(Ch006)·fd 한정 자원→with 이유/§8 파일 모드 표(r·w 덮어씀·a 추가·x 새파일만·rb/wb)·w vs a 함정·텍스트 vs 바이너리·encoding utf-8/§9 자경단 5명 매일 590번(미니 로그 a모드·한 줄씩)·Ch011 정규식+Ch012 파일 연결/§10 8교시 미리보기·여덟 번째 리듬·Ch013 모듈 다리/§11 I/O 50년(1971 Unix 모든것은 파일·2007 with PEP 343·2017 pathlib)·언어 공통/§12 AI 80/20(골격 AI·사고 처리 판단 본인)/오해5(자동 close·모든곳 try·print 디버깅·pathlib 옵션·encoding 자동)·FAQ6(open vs pathlib·with 항상·except 좁게·binary/text·예외 지저분·8시간)·실수5(with·좁은 except·encoding·사고=정상·두려움)·졸업장 try/except 없는 파일·개발자노트·추신30) |
 | H2 | 핵심개념 | 17,065 | 🟢 | 합격 (file/exception 4 단어 깊이 — open mode 10(r·w·a·rb·wb·ab·r+·w+·a+·x) + 함정 + encoding/newline + 자경단 매일 6 mode 우선순위(1순위 r/w/a 95%·2순위 rb/wb 4%·3순위 1%)/with statement = __enter__+__exit__ + context manager protocol + @contextmanager decorator + 다중 with (Python 3.10+ tuple) + contextlib 5 도구(contextmanager·suppress·closing·redirect_stdout·nullcontext) + with 5 활용(파일·Lock·DB·mock·tempfile)/try/except/else/finally 4 블록 + 동작 순서 + except 5 패턴(특정·다중·as·일반·모두 안티) + raise 5 패턴(새·재·from·from None·사용자 정의) + finally 5 함정(마스킹·return·느림·break·순서)/exception 5 함정(except: pass·자식/부모 순서·silent fail·정보 손실·traceback 자르기)/pathlib 25+ 메서드 5 카테고리(검사 5·분해 7·결합 3·I/O 5·조작 5·검색 3) + 자경단 매일 5 패턴/exception 12 1순위(File·Permission·Unicode·Key·Value·Type·Attribute·Index·Connection·Timeout·JSON·ZeroDivision)/자경단 5 시나리오(config·schema dump·CLI·layered·fixture) + 1주 4 단어 통계 2,520 호출·5명 1년 131,040 ROI 65만+/5 통합 패턴(safe JSON·chunk·line iter·atomic write·retry)/오해15+FAQ15+추신73) |
 | H3 | 환경점검 | 17,085 | 🟢 | 합격 (file/exception 환경 5 도구 — pathlib 25+ 메서드 한 페이지 + 5 카테고리 + 매일 5 패턴(config·mkdir·glob·with_suffix·parent)/io.StringIO/BytesIO + 자경단 매주 5 활용(concat·테스트·capture·mock·메모리)/logging 5 레벨(DEBUG/INFO/WARNING/ERROR/CRITICAL) + basicConfig + Formatter 8 attribute + Handler 5(Stream·File·Rotating·Timed·SMTP) + logger.exception()/rich.traceback install 5 단계 + RichHandler logging 통합 + Console 통합/shutil 5(copy·copytree·move·rmtree·disk_usage) + tempfile NamedTemporaryFile/TemporaryDirectory + contextlib(contextmanager·suppress·closing·redirect_stdout·nullcontext)/자경단 5 도구 시나리오 + 5 도구 통합 워크플로우 (main.py 표준) + 1주 통계 1,630 호출·1년 84,760·5년 423,800 ROI/디버깅 5 도구(rich·exception·pdb·tracemalloc·py-spy) + 흔한 오해 20 + FAQ 20·오해20+FAQ20+추신88) |
 | H4 | 명령카탈로그 | 17,039 | 🟢 | 합격 (file/exception 30+ exception + 20+ file 패턴 — 30+ exception 5 카테고리(파일/IO 5·데이터 5·시스템 5·네트워크 5·Python 5+) + 카테고리별 5 활용 시나리오 + 학습 우선순위 1주차→4주차 + Python 특화 10+ 활용·file 패턴 20+ (read 5·write 5·format 5·error 5) + 한 페이지 + 추가 5+/자경단 5 시나리오(config·schema·CLI·layered·fixture)·patterns.py 13 함수(safe_read·safe_load_json·atomic_write·retry·ensure_parent·chunked·line_iter + 추가 5: safe_unlink·copy_with_backup·find_first_existing·read_jsonl·write_jsonl) + import 표준/자경단 1주 통계 1,860 호출 + 매년 5명 96,720·5년 483,600 ROI·카탈로그 10 함정(except 빈·자식/부모·yaml.load·close·encoding·flush·iter 두 번·pathlib 혼용·glob·unlink) + 흔한 오해 15 + FAQ 15·오해15+FAQ15+추신68) |
@@ -287,10 +288,10 @@ Ch015 합계: 34,010 / 목표 ~160,000 (2/8 H 진행)
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 012 H1 작성** (Python 파일·예외 오리엔 — open·with·pathlib·try/except 7이유·문자열 회수·Ch013 다리 → 17,000+)
-   - Ch011 H1~H8 완료 ✅(…17,003·17,003). **Ch011 8/8 완료**(Python 입문 1+2+3+4+5 = 40시간).
-   - ⚠️ Ch012 H1~H8은 계획값/부분 초안. 전면 작성 필요.
-   - Ch012 H1부터 순서대로 작성. Ch012 = Python 입문 6(파일 입출력·예외 처리).
+👉 **Ch 012 H2 작성** (Python 파일·예외 핵심 개념 — 파일 모드·with/context manager·try/except/else/finally·raise·예외 계층 → 17,000+)
+   - Ch012 H1 완료 ✅(17,000). 이제 H2(핵심 개념)로 진행.
+   - ⚠️ Ch012 H2~H8은 계획값/부분 초안. 전면 작성 필요.
+   - Ch012 H2부터 순서대로 작성. Ch012 = Python 입문 6(파일 입출력·예외 처리).
    - ⚠️ "다음 턴"은 실제 파일 측정 기준. 위 ⚠️ 실측 상태 표 참조(진행표 본문의 "완료" 표기는 일부 계획값).
    - ⚠️ "다음 턴"은 실제 파일 측정 기준. 위 ⚠️ 실측 상태 표 참조(진행표 본문의 "완료" 표기는 일부 계획값).
 
@@ -346,4 +347,5 @@ Ch015 합계: 34,010 / 목표 ~160,000 (2/8 H 진행)
 - Ch011 H6 작성 → 17,000 🟢 (2,200 stub → 전면 작성 → 실측 합격)
 - Ch011 H7 작성 → 17,003 🟢 (2,000 stub → 전면 작성 → 실측 합격)
 - Ch011 H8 작성 → 17,003 🟢 (1,400 stub → 전면 작성 → 실측 합격) → **Ch011 8/8 완료 ✅** (Python 입문 1+2+3+4+5 = 40시간)
-- 실측 합격: 24/960 → **88/960** (Ch001~011 완성 = 11챕터)
+- Ch012 H1 작성 → 17,000 🟢 (3,281 stub → 전면 작성 → 실측 합격)
+- 실측 합격: 24/960 → **89/960** (Ch001~011 완성 + Ch012 H1)
