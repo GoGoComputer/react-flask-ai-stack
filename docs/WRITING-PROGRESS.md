@@ -6,7 +6,7 @@
 ## ⚠️ 실측 상태 (2026-06-10 기준 — `scripts/wc-lecture.py --all`)
 
 > **주의: 아래 챕터별 표의 일부 행은 실제 파일과 불일치(과거에 미리 적어 둔 계획값).**
-> 실제로 합격(🟢 ≥17,000)인 H는 측정 기준 **104/960**입니다.
+> 실제로 합격(🟢 ≥17,000)인 H는 측정 기준 **105/960**입니다.
 >
 > | 챕터 | 실제 완료 H | 비고 |
 > |------|------------|------|
@@ -23,7 +23,7 @@
 > | Ch011 | **8/8 ✅** | 전부 완료 (H7=17,003·H8=17,003 실측). Ch001~011 = 11챕터 완성. Python 입문 5(40시간) 마침 |
 > | Ch012 | **8/8 ✅** | 전부 완료 (H7=17,000·H8=17,000 실측). Ch001~012 = 12챕터 완성. Python 입문 6(48시간) 마침 |
 > | Ch013 | **8/8 ✅** | 전부 완료 (H7=17,002·H8=17,002 실측). Ch001~013 = 13챕터 완성. Python 입문 7(모듈·패키지·56시간) 마침 |
-> | Ch014 | 0~부분 | 표에는 "완료"로 적혀 있으나 실제는 stub/부분 초안 |
+> | Ch014 | **1/8** | H1 실측 완료(17,001). H2~H8은 계획값/stub, H2 다음 작업 대상 |
 > | Ch015~026 | 부분 | 각 H ~6,800자 부분 초안(🔴), 17k 미달 |
 > | Ch027~120 | 0 | 순수 stub(~390자) |
 >
@@ -256,7 +256,7 @@ Ch013 합계: 136,480 / 목표 ~160,000 (8/8 H 완료) ✅✅✅
 
 | H | 슬롯 | 현재 분량 | 상태 | 비고 |
 |---|------|----------|------|------|
-| H1 | 오리엔 | 17,007 | 🟢 | 합격 (venv/pip/pyproject 7이유 — 격리·lock·재현·CI·PyPI·차세대·면접/매주 5 도구 비교(venv·virtualenv·conda·pyenv·uv)·5 활용 시나리오·1주 통계 59 호출·5명 1년 3,068·5년 15,340 ROI·8 H 학습 곡선·Ch014 8 H 미리보기/uv 깊이(Rust·10-100배·PEP 723·5년 후 표준)·poetry 깊이(통합 5 명령·poetry.lock)·conda 깊이(데이터 과학·5 명령)·pyenv 깊이(버전 관리 5 명령·.python-version)·pip-tools 깊이(pip-compile lock·constraints·hash)/자경단 dev 환경 100% 자동(Makefile·Dockerfile·CI·.gitignore·pyproject.toml 5 표준)·5년 진화(uv→pre-commit→Renovate→Nix·시니어 owner)·자경단 본인 자동화 시나리오 1주차→1년·1년 후 단톡 가상·면접 5 질문 25초/매트릭 5 측정 매주(make install·CI·Docker·test·lint) 1년 후 6배 개선·5년 525h ROI·자경단 6 인증(venv 5·pip 5·pyproject 5·dev 환경 5·uv 차세대·면접 30)·본인 7 행동·5명 1년 회고 합 3,068 호출·5 약속(매일/매주/매월/매년/5년)·7일 학습 약속표·자경단 12년 dev 환경 표준 owner/오해15+FAQ15+추신80) |
+| H1 | 오리엔 | **17,001 실측** | 🟢 | ✅실측합격 (venv·pip 심화 오리엔 "코드가 사는 집" — §1 Ch013 회수(모듈→집)·약속(격리되고 재현 가능한 환경)·Python 입문 마지막 챕터·가구와 집 비유·Ch013보다 덜 추상적 안심/§2 환경 격리=코드가 사는 집(A/B requests 버전·벽)·venv 폴더 3요소(Python 연결·site-packages·activate)·각자 자기 site-packages 봄·자경단 철칙(모든 프로젝트 venv 안)/§3 옛날이야기 의존성 지옥(한 달 후 사고·한 살림 공유=소금/설탕 비유·선배 실수담이 예방주사)/§4 일곱 이유(충돌 0·재현·CI·보안·깔끔·매일·면접)·"격리와 재현"=동전 양면·지금 와닿는 건 충돌/재현/§5 같이 쳐보기 다섯 줄(venv→activate→install→확인→deactivate)·`.venv` 이름(점=숨김·약속)·activate 확인 `(.venv)`/which python3/§6 네 친구 venv(가상환경·집 짓기)·pip(집마다 다름)·pyproject(재현 핵심·설계도)·uv·작업 흐름(집→설계도→살림)/§7 uv 첫인상(Rust·여러 사람 동시 나르기 비유·속도 왜 중요·Astral=ruff 팀 신뢰)/§8 자경단 5명 매일 3~5개 환경·열쇠 꾸러미 비유·합류 3분 장면·아침 루틴/§9 8교시 미리보기·아홉 번째 리듬·H5 Makefile make setup·H7 sys.path·H8 입문 완주·Ch015 다리/§10 환경 30년(virtualenv 2007→venv 내장 2014 PEP 405→uv 2024)·표준 들어감=인정·도구 바뀌어도 본질/§11 AI 80/20(셋업 절차 AI·격리/재현 판단 본인·재현 더 중요)/FAQ8(venv/virtualenv·conda 데이터·uv 시기·pipenv/poetry·venv git X·꼬임 지우고 다시·8시간·venv 안 venv 금지)·오해7(부담·시스템 OK·한 환경·uv 실험·poetry 표준·통째 복사·혼자)·실수5 + 안심(격리 깜빡 vs 무서움·버려도 안전)·졸업장 test-env 만들고 지우기·개발자노트·추신34) |
 | H2 | 핵심개념 | 17,018 | 🟢 | 합격 (venv/pip/pyproject 4 단어 깊이 — venv 5 옵션(기본·--system-site-packages·--symlinks·--copies·--clear/--upgrade)·pip 5 고급(--no-deps·--no-cache-dir·--upgrade-strategy·--force-reinstall·--user)·pyproject 5 백엔드(setuptools 95%·hatchling 모던·flit 단순·poetry-core·pdm-backend)·uv 5 명령(venv·pip install·pip sync·run·tool)/setuptools 5 활용 src layout 95%·hatchling 5 활용 동적 버전·flit 5 활용 5줄 minimum·poetry-core 5 활용·pdm-backend 5 활용·uv 5 활용 + PEP 723 인라인·5 함정 × 4 단어 = 20 함정 면역/자경단 1주 211 호출·5명 1년 10,972·5년 54,860 ROI·매주 125분 깊이 의식·매트릭 측정 5·진화 5년(uv 50%→100%→백엔드 모두→도메인 표준)·면접 5 질문 25초·5 약속 매일/매주/매월/매년·매주 80분 학습 누적 1년 마스터/오해15+FAQ15+추신80) |
 | H3 | 환경점검 | 17,010 | 🟢 | 합격 (환경 5 도구 비교 — venv(Python 3.3+ 표준 95%·5 활용·5 함정·매일)·virtualenv(옛 표준·Python 2 호환·5%·매년 1+·virtualenvwrapper)·conda(Anaconda 데이터 과학·5 활용·miniconda 50MB·anaconda 3GB·mamba 5-10배·매월 1+)·pyenv(Python 버전 관리·5 활용·.python-version·매월 5+·5 활용 시기)·uv(Rust 차세대·5 활용·통합 도구·PEP 723·매주 1+·5년 후 표준)/5 도구 5 활용 시나리오(새 프로젝트·데이터 과학·다중 버전·단일 스크립트·CLI 도구)·5 함정·통합 워크플로우 5 단계 5분(pyenv→venv→pip→pipx→uv)·CI 표준(setup-python·cache·matrix·parallel·needs)·Docker 표준(slim·multi-stage·.dockerignore·layer 최적화·non-root)/5 도구 5년 진화 예측(1년 venv 95%→2년 uv 50%→3년 80%→4년 95%→5년 100%)·전환 가이드 5(venv→uv·pyenv→uv python·pipx→uv tool·pip-tools→uv pip compile·점진적)·매트릭 5 측정·매월 학습 약속 4·매년 회고 6·시니어 신호 5·12년 비전(60명 멘토링)·uv 5 신기능·Docker 5 함정·CI 5 최적화/자경단 1주 59 호출·5명 1년 3,068·5년 15,340 ROI·매주 80분·6 인증·면접 5 질문 25초·5명 5년 합 1,733h 절약·12년 60+ PyPI/오해15+FAQ15+추신80) |
 | H4 | 명령카탈로그 | 17,001 | 🟢 | 합격 (CLI 30+ 5 카테고리 — lint(black·ruff·pylint·flake8·isort)·test(pytest·cov·xdist·mock·tox/nox)·type(mypy·pyright·pyre·pytype·pyflakes)·security(pip-audit·bandit·safety·snyk·dependabot)·doc/build(sphinx·mkdocs·build·twine·wheel)/매일 5 도구(black·ruff·mypy·pytest·pip-audit)·매주 5(cov·xdist·bandit·mkdocs·tox)·매월 5(pylint·pyright·snyk·dependabot·mock)·매년 5(sphinx·pyre·flake8·build·nox)·5 카테고리 깊이 (각 5 도구 명령 깊이)·자경단 통합 워크플로우 Makefile 12 명령/자경단 매주 매트릭 5(lint 2초·test 30초·type 10초·security 5초·docs 5초)·5명 1년 회고 가상·면접 5 질문 25초·진화 5년(매일 5→매주 10→매월 15→매년 25→도메인 50+)·신규 5(ruff format·uv tool·just·taskipy·pre-commit)·매년 학습 약속 12개월·CLI 7 신호·5 비교표(lint·test·type·security·doc)/자경단 1주 220 호출·5명 1년 11,440·5년 57,200 ROI·12년 누적 137,280 호출·5명 합 686,400·매주 80분·5 약속·시니어 owner 1년 후/오해15+FAQ15+추신80) |
@@ -289,10 +289,10 @@ Ch015 합계: 34,010 / 목표 ~160,000 (2/8 H 진행)
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 014 H1 작성** (venv·pip 심화 오리엔테이션 — Python 입문 8(마지막)·모듈 환경·uv/Makefile 예고·Ch013 회수·Ch015 다리 → 17,000+)
-   - **Ch013 8/8 완성** ✅(H1~H8 전부 17,000+ 실측). Python 입문 7(모듈·패키지·56시간) 완주.
-   - ⚠️ Ch014 H1~H8은 계획값/stub. 전면 작성 필요.
-   - Ch014 H1부터 순서대로 작성. Ch014 = Python 입문 8(venv·pip 심화·환경). Python 입문 마지막 챕터.
+👉 **Ch 014 H2 작성** (venv·pip 심화 핵심개념 — venv·pip·pyproject·uv 네 친구의 깊이 + 옵션/고급 사용 → 17,000+)
+   - Ch014 H1 완료 ✅(17,001 실측). **Ch014 1/8**.
+   - ⚠️ Ch014 H2~H8은 계획값/stub. 전면 작성 필요.
+   - Ch014 H2부터 순서대로 작성. Ch014 = Python 입문 8(venv·pip 심화·환경). Python 입문 마지막 챕터.
    - ⚠️ "다음 턴"은 실제 파일 측정 기준. 위 ⚠️ 실측 상태 표 참조(진행표 본문의 "완료" 표기는 일부 계획값).
    - ⚠️ "다음 턴"은 실제 파일 측정 기준. 위 ⚠️ 실측 상태 표 참조(진행표 본문의 "완료" 표기는 일부 계획값).
    - ⚠️ "다음 턴"은 실제 파일 측정 기준. 위 ⚠️ 실측 상태 표 참조(진행표 본문의 "완료" 표기는 일부 계획값).
@@ -368,3 +368,5 @@ Ch015 합계: 34,010 / 목표 ~160,000 (2/8 H 진행)
 - Ch013 H7 작성 → 17,002 🟢 (3,000 stub → 전면 작성 → 실측 합격) → **Ch013 7/8** (내부: import 다섯 단계 여행·sys.modules 캐시·finder 셋·loader·ModuleSpec·__pycache__·lazy import·"표면 규칙은 내부 원리에서·컴퓨터엔 마법이 없다")
 - Ch013 H8 작성 → 17,002 🟢 (8,166 1차 → 전면 보강 → 실측 합격) → **Ch013 8/8 완성 ✅** (회고: 일곱 시간 종합·vigilante 5년 진화·다섯 원리(나현절잠신)·5년 자산·Ch014 다리·짜기→설계 전환)
 - 실측 합격: **104/960** (Ch001~013 완성 = 13챕터). **Python 입문 1~7(Ch007~013 = 56시간) 완주** 🎉
+- Ch014 H1 작성 → 17,001 🟢 (3,000 stub → 전면 작성 → 실측 합격) → **Ch014 1/8** (venv·pip 심화 오리엔: "코드가 사는 집"·환경 격리·네 친구 venv/pip/pyproject/uv·의존성 지옥·격리와 재현·Python 입문 마지막 챕터 시작)
+- 실측 합격: **105/960** (Ch001~013 완성 + Ch014 H1)
