@@ -6,7 +6,7 @@
 ## ⚠️ 실측 상태 (2026-06-10 기준 — `scripts/wc-lecture.py --all`)
 
 > **주의: 아래 챕터별 표의 일부 행은 실제 파일과 불일치(과거에 미리 적어 둔 계획값).**
-> 실제로 합격(🟢 ≥17,000)인 H는 측정 기준 **90/960**입니다.
+> 실제로 합격(🟢 ≥17,000)인 H는 측정 기준 **91/960**입니다.
 >
 > | 챕터 | 실제 완료 H | 비고 |
 > |------|------------|------|
@@ -21,7 +21,7 @@
 > | Ch009 | **8/8 ✅** | 전부 완료 (H7=17,001·H8=17,002 실측). Ch001~009 = 9챕터 완성 |
 > | Ch010 | **8/8 ✅** | 전부 완료 (H7=17,000·H8=17,016 실측). Ch001~010 = 10챕터 완성 |
 > | Ch011 | **8/8 ✅** | 전부 완료 (H7=17,003·H8=17,003 실측). Ch001~011 = 11챕터 완성. Python 입문 5(40시간) 마침 |
-> | Ch012 | **2/8** | H1~H2 실측 완료(17,000·17,001). H3 다음 작업 대상 |
+> | Ch012 | **3/8** | H1~H3 실측 완료(17,000·17,001·17,013). H4 다음 작업 대상 |
 > | Ch013~014 | 0~부분 | 표에는 "완료"로 적혀 있으나 실제는 stub/부분 초안 |
 > | Ch015~026 | 부분 | 각 H ~6,800자 부분 초안(🔴), 17k 미달 |
 > | Ch027~120 | 0 | 순수 stub(~390자) |
@@ -225,7 +225,7 @@ Ch011 합계: 136,016 / 목표 ~136,000 (H1~H8 전부 실측 합격: 17,384·17,
 |---|------|----------|------|------|
 | H1 | 오리엔 | **17,000 실측** | 🟢 | ✅실측합격 (파일·예외 오리엔 — Ch011 회수(메모리 텍스트→파일에서 옴) + 프로그램 안→밖 전환·방 안 vs 집 밖 심부름 비유 + 오늘의 약속(안전하게 읽고 쓰고 사고 처리)·이미 H5에서 써봄/§2 I/O=바깥세상과 데이터 주고받기·입력→처리→출력·I/O=사고 진원지(production 80%)·파일과 예외는 짝/§3 옛날 이야기(config 파일 없어 FileNotFoundError로 5,000명 죽음 새벽 3시→try/except 두 줄)·"예외 처리는 비관 아닌 책임"/§4 일곱 이유(안정성·UX·데이터안전·디버깅·보안·매일·면접) + 코드 안 실력 vs 세상과 만나는 실력/§5 같이 쳐보기 5줄(쓰기 w→읽기)·파일=프로그램의 기억(메모리는 휘발)/§6 네 친구 open·with·try·except + 두 짝(파일 open/with·사고 try/except)·with는 자동 close·except 구체적으로/§7 파일 읽기 5단계(파일시스템·권한·fd 할당·읽기·닫기)·OS 통해 다룸(Ch006)·fd 한정 자원→with 이유/§8 파일 모드 표(r·w 덮어씀·a 추가·x 새파일만·rb/wb)·w vs a 함정·텍스트 vs 바이너리·encoding utf-8/§9 자경단 5명 매일 590번(미니 로그 a모드·한 줄씩)·Ch011 정규식+Ch012 파일 연결/§10 8교시 미리보기·여덟 번째 리듬·Ch013 모듈 다리/§11 I/O 50년(1971 Unix 모든것은 파일·2007 with PEP 343·2017 pathlib)·언어 공통/§12 AI 80/20(골격 AI·사고 처리 판단 본인)/오해5(자동 close·모든곳 try·print 디버깅·pathlib 옵션·encoding 자동)·FAQ6(open vs pathlib·with 항상·except 좁게·binary/text·예외 지저분·8시간)·실수5(with·좁은 except·encoding·사고=정상·두려움)·졸업장 try/except 없는 파일·개발자노트·추신30) |
 | H2 | 핵심개념 | **17,001 실측** | 🟢 | ✅실측합격 (파일·예외 8개념 — H1 회수(네 친구) + 오늘의 약속(모드·패턴 손에)·신입 vs 경력/①open 모드 7(r·w 여는 순간 다 지움·a 추가·x 새파일만·rb·r+)·매일 r/w/a 90%·encoding utf-8 필수·"내 컴퓨터에선" cp949 함정/②파일 메서드(read 전체·read(n)·readline·readlines)·큰 파일은 for line in f(10GB도 안전·iterator Ch008)·write \n 직접·"\n".join(Ch011)·line.strip 단짝/③with=context manager·들어갈때 열고 나올때(에러나도) 닫기·process 에러 시 close 보장·PEP 343·다중 with·DB/lock/소켓/④try/except/else/finally 네 블록·실행 순서(성공 try→else→finally·실패 try→except→finally)·튜플 (A,B)·else 성공시 finally 항상/⑤예외 계층(BaseException→Exception→OSError→FileNotFound/Permission)·부모 잡으면 자식·매일 5(FileNotFound·Key·Value·Type·Connection)·이름이 친절·BaseException 잡지마(KeyboardInterrupt)·넓이 조절/⑥raise=사고 직접(guard clause Ch008·fail fast)·except 짝(만드는쪽/쓰는쪽)·except: pass 금지/⑦사용자 정의 예외 class X(Exception): pass·도메인 사고 이름·신입도/⑧pathlib(경로 객체·name/stem/suffix/parent·exists·read_text/write_text 한 줄·슬래시 합침 OS무관·mkdir parents/exist_ok)·작은 pathlib·큰 with open/한 줄 분해 안전 JSON(pathlib+json+튜플 except→빈 dict)·죽는 대신 우아하게/오해5(with 없어도·except Exception·finally 안씀·pathlib 옵션·custom 시니어)·FAQ7(with 없이·except 순서·raise 단독·else·pathlib vs open·다 외움·안 죽나 통제된 종료)·실수5·졸업장 pathlib 쓰고 읽기·개발자노트·추신30) |
-| H3 | 환경점검 | 17,085 | 🟢 | 합격 (file/exception 환경 5 도구 — pathlib 25+ 메서드 한 페이지 + 5 카테고리 + 매일 5 패턴(config·mkdir·glob·with_suffix·parent)/io.StringIO/BytesIO + 자경단 매주 5 활용(concat·테스트·capture·mock·메모리)/logging 5 레벨(DEBUG/INFO/WARNING/ERROR/CRITICAL) + basicConfig + Formatter 8 attribute + Handler 5(Stream·File·Rotating·Timed·SMTP) + logger.exception()/rich.traceback install 5 단계 + RichHandler logging 통합 + Console 통합/shutil 5(copy·copytree·move·rmtree·disk_usage) + tempfile NamedTemporaryFile/TemporaryDirectory + contextlib(contextmanager·suppress·closing·redirect_stdout·nullcontext)/자경단 5 도구 시나리오 + 5 도구 통합 워크플로우 (main.py 표준) + 1주 통계 1,630 호출·1년 84,760·5년 423,800 ROI/디버깅 5 도구(rich·exception·pdb·tracemalloc·py-spy) + 흔한 오해 20 + FAQ 20·오해20+FAQ20+추신88) |
+| H3 | 환경점검 | **17,013 실측** | 🟢 | ✅실측합격 (I/O 도구 다섯 — H2 회수(8개념) + 오늘의 약속(logging·rich.traceback 사고 진단)·매 챕터 H3=들여다보기/§2 왜 도구 — 사고를 봐야 고침·production 새벽 3시 화면 없음→파일 기록·관찰 가능성(observability) Ch091 토대·Ch011 정신/①pathlib 깊이 — 경로 합치기 슬래시·iterdir·glob("*.txt")·rglob 재귀·glob 결과 Path 바로 read_text·셸 glob(Ch006) 같음/②logging 다섯 레벨(DEBUG/INFO/WARNING/ERROR/CRITICAL)·level로 양 조절·print보다(레벨/시간/파일/끄고켜기)·format asctime/levelname·log.exception traceback 자동·except: pass 반대/③rich.traceback install 두 줄·show_locals 변수값·디버깅 범위 좁히기(Ch008)·개발 전용/④io.StringIO 메모리 가짜 파일·duck typing(오리처럼)·테스트(Ch020 단짝)·BytesIO/⑤traceback.format_exc 문자열·Sentry/슬랙 전송·역추적=call stack(Ch009 H7) 사진·맨 아래가 원인/자경단 매일 의식 5(작은 print·중간 logging·큰 알림·새 도메인예외·디버깅 rich)·사고 크기별 대응(119 vs 반창고)/시나리오 5(파일없음 exists vs try·권한·디스크 OSError·인코딩 errors=replace·동시접근 lock)·미리 내다보기/오해5(개발도 logging·rich production·pathlib 옵션·io 안씀·traceback 자동)·FAQ7(레벨·error vs exception·rich production·logging vs print·custom logger __name__·설치·복잡)·실수5·졸업장 logging.info·개발자노트·추신30) |
 | H4 | 명령카탈로그 | 17,039 | 🟢 | 합격 (file/exception 30+ exception + 20+ file 패턴 — 30+ exception 5 카테고리(파일/IO 5·데이터 5·시스템 5·네트워크 5·Python 5+) + 카테고리별 5 활용 시나리오 + 학습 우선순위 1주차→4주차 + Python 특화 10+ 활용·file 패턴 20+ (read 5·write 5·format 5·error 5) + 한 페이지 + 추가 5+/자경단 5 시나리오(config·schema·CLI·layered·fixture)·patterns.py 13 함수(safe_read·safe_load_json·atomic_write·retry·ensure_parent·chunked·line_iter + 추가 5: safe_unlink·copy_with_backup·find_first_existing·read_jsonl·write_jsonl) + import 표준/자경단 1주 통계 1,860 호출 + 매년 5명 96,720·5년 483,600 ROI·카탈로그 10 함정(except 빈·자식/부모·yaml.load·close·encoding·flush·iter 두 번·pathlib 혼용·glob·unlink) + 흔한 오해 15 + FAQ 15·오해15+FAQ15+추신68) |
 | H5 | 데모 | 17,084 | 🟢 | 합격 (file/exception 통합 데모 file_processor.py 100줄 — 6 함수(ProcessResult dataclass·safe_load_json·atomic_write_json·process_file·process_directory·collect_stats) + 한 페이지 + dataclass + property·실행 결과 3 섹션 검증 + 흐름 6 단계·자경단 5 시나리오(본인 update_configs·까미 dump_all_schemas·노랭이 cli_main·미니 disk_report·깜장이 test_process_directory) + 한 페이지·5 통합 비밀 깊이(logger.exception·atomic write·safe_load·dataclass+property·rich.traceback install)·5 확장 아이디어(CSV·YAML·병렬 ThreadPoolExecutor·tqdm·Pydantic 검증)·5 함정(직접 write·예외 silent·process_dir 실패 silent·collect_stats 메모리·tempfile cleanup)/자경단 1주 1,300 호출·5명 1년 67,600·5년 338,000 ROI·5 버전 진화(v1 100→v5 5000 PyPI)·1년 후 단톡 가상/오해15+FAQ15+추신101) |
 | H6 | 운영 | 17,278 | 🟢 | 합격 (file/exception 운영 5 함정 — encoding(cp949·utf-8 명시)·permission(chmod·umask)·race(file lock·portalocker)·atomic(tempfile+os.replace)·resource(with·context manager)/exception 5 패턴(specific·multi·as·base anti·suppress) + raise from + 사용자 정의·메모리 chunking 5(한 줄 iter·chunk 1MB·mmap·csv reader·ijson stream) + 1GB 파일 RAM 1MB 1000배 절약·async aiofiles + asyncio.gather + tenacity retry + ThreadPoolExecutor 비교·운영 5 패턴(measure first·log structured·retry exponential·rate limit·circuit breaker)/자경단 5 시나리오(본인 atomic config·까미 portalocker stats·노랭이 chunk log·미니 async batch·깜장이 retry network) + 1주 통계 585 호출·5명 1년 30,420·5년 152,100 ROI·5 anti-pattern(encoding 누락·race 무시·1GB read·직접 write·무한 retry)·5 통합 패턴(atomic+retry·lock+write·chunk+process·async batch·measure+log)/오해20+FAQ20+추신82) |
@@ -288,10 +288,10 @@ Ch015 합계: 34,010 / 목표 ~160,000 (2/8 H 진행)
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 012 H3 작성** (Python 파일·예외 환경/도구 — pathlib 심화·logging·rich.traceback·io 등 → 17,000+)
-   - Ch012 H1~H2 완료 ✅(17,000·17,001). 이제 H3(환경·도구)로 진행.
-   - ⚠️ Ch012 H3~H8은 계획값/부분 초안. 전면 작성 필요.
-   - Ch012 H3부터 순서대로 작성. Ch012 = Python 입문 6(파일 입출력·예외 처리).
+👉 **Ch 012 H4 작성** (Python 파일·예외 카탈로그 — 30+ 예외·20+ 파일 패턴(안전 쓰기·재시도·청크 등) → 17,000+)
+   - Ch012 H1~H3 완료 ✅(17,000·17,001·17,013). 이제 H4(카탈로그)로 진행.
+   - ⚠️ Ch012 H4~H8은 계획값/부분 초안. 전면 작성 필요.
+   - Ch012 H4부터 순서대로 작성. Ch012 = Python 입문 6(파일 입출력·예외 처리).
    - ⚠️ "다음 턴"은 실제 파일 측정 기준. 위 ⚠️ 실측 상태 표 참조(진행표 본문의 "완료" 표기는 일부 계획값).
    - ⚠️ "다음 턴"은 실제 파일 측정 기준. 위 ⚠️ 실측 상태 표 참조(진행표 본문의 "완료" 표기는 일부 계획값).
 
@@ -349,4 +349,5 @@ Ch015 합계: 34,010 / 목표 ~160,000 (2/8 H 진행)
 - Ch011 H8 작성 → 17,003 🟢 (1,400 stub → 전면 작성 → 실측 합격) → **Ch011 8/8 완료 ✅** (Python 입문 1+2+3+4+5 = 40시간)
 - Ch012 H1 작성 → 17,000 🟢 (3,281 stub → 전면 작성 → 실측 합격)
 - Ch012 H2 작성 → 17,001 🟢 (3,300 stub → 전면 작성 → 실측 합격)
-- 실측 합격: 24/960 → **90/960** (Ch001~011 완성 + Ch012 H1~H2)
+- Ch012 H3 작성 → 17,013 🟢 (3,000 stub → 전면 작성 → 실측 합격)
+- 실측 합격: 24/960 → **91/960** (Ch001~011 완성 + Ch012 H1~H3)

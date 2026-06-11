@@ -1,296 +1,395 @@
-# Ch012 · H3 — pathlib·io·logging·rich.traceback 5 도구
+# Ch012 · H3 — I/O 도구 다섯 — pathlib·logging·rich.traceback·io·traceback
 
 > 고양이 자경단 · Ch 012 · 3교시 (60분)
+> 이 파일은 강사가 마이크 앞에서 그대로 읽을 수 있는 말 그대로의 대본입니다.
 
 ---
 
 ## 📋 이 시간 목차
 
 1. 다시 만나서 반가워요 — H2 회수와 오늘의 약속
-2. 첫째 — pathlib 깊이
-3. 둘째 — io 모듈
-4. 셋째 — logging 표준
-5. 넷째 — rich.traceback
-6. 다섯째 — sys.exc_info와 traceback
-7. 자경단 매일 의식
-8. 다섯 시나리오
-9. 흔한 오해 다섯 가지
-10. 자주 받는 질문 다섯 가지
-11. 마무리
+2. 왜 도구부터인가 — 사고를 다루는 환경
+3. 첫째 — pathlib 깊이: 경로의 모든 것
+4. 둘째 — logging: print를 대체하는 기록
+5. 셋째 — rich.traceback: 에러를 예쁘게
+6. 넷째 — io: 메모리 속 가짜 파일
+7. 다섯째 — traceback: 사고를 글로 남기기
+8. 자경단 매일 I/O 의식 다섯
+9. 다섯 시나리오와 처방
+10. 흔한 오해 다섯 가지
+11. 자주 받는 질문 일곱 가지
+12. 흔한 실수 다섯 + 안심
+13. 마무리
+
+---
+
+## 🔧 강사용 명령어 한눈에
+
+```python
+from pathlib import Path
+list(Path(".").rglob("*.py"))         # 하위 폴더까지 .py 다 찾기
+import logging
+log = logging.getLogger(__name__)
+log.exception("실패")                  # traceback 자동 포함
+from rich.traceback import install
+install(show_locals=True)              # 에러를 예쁘게 + 변수값
+```
 
 ---
 
 ## 1. 다시 만나서 반가워요 — H2 회수와 오늘의 약속
 
-자, 안녕하세요.
+자, 안녕하세요. 벌써 세 번째 시간이에요. 본인이 오늘도 빠짐없이 와 주셨네요. 정말 반가워요.
 
-지난 H2 회수. open mode, try/except/else/finally, 예외 계층, custom, pathlib.
+지난 H2를 한 줄로 회수할게요. 파일과 예외의 여덟 개념을 손에 쥐었죠. 파일 모드, 파일 메서드, with의 원리(context manager), try/except/else/finally 네 블록, 예외 계층, raise, 사용자 정의 예외, pathlib까지요. "안전하게 열고, 구체적으로 잡으라"는 두 습관도 배웠어요. 그런데 H2 끝에 흘린 게 있어요. "디버깅은 print 말고 logging으로 한다"고요. 오늘이 그 도구들을 갖추는 시간이에요.
 
-이번 H3는 5 도구.
+오늘의 약속은 이거예요. **본인이 logging과 rich.traceback으로 production 사고를 빠르게 진단할 수 있게 됩니다**. 매 챕터의 세 번째 시간은 "들여다보는" 시간이에요. Ch011에서 정규식을 regex101로 들여다봤죠. 이번엔 파일과 사고를 들여다보는 도구 다섯 개를 갖춰요. pathlib(경로의 모든 것), logging(사고 기록), rich.traceback(에러를 예쁘게), io(메모리 속 가짜 파일), traceback(사고를 글로)이에요.
 
-오늘의 약속. **본인이 logging과 rich.traceback으로 production 사고를 5초에 진단합니다**.
-
-자, 가요.
+오늘 시간은 마음이 편할 거예요. 새 개념을 머리에 넣는 게 아니라, 도구를 손에 익히는 시간이거든요. 그리고 이 도구들이 본인의 사고 진단 시간을 진짜로 몇 배 줄여 줘요. 사고가 났을 때 "무슨 사고가 어디서 왜 났는지"가 안 보이면 한 시간을 헤매는데, 이 도구들이 그걸 5초에 보여줘요. 특히 logging은 본인이 production 개발자가 되는 데 꼭 필요한 도구예요. 자, 가요.
 
 ---
 
-## 2. 첫째 — pathlib 깊이
+## 2. 왜 도구부터인가 — 사고를 다루는 환경
 
-H2에서 봤어요. 자경단 매일 메서드 10.
+도구 이야기를 하기 전에, 왜 I/O와 사고를 다룰 때 도구가 중요한지부터 짚을게요.
+
+H1·H2에서 "사고는 일어난다, 대비하라"고 배웠죠. 그런데 사고가 났을 때, 그게 무슨 사고인지 모르면 대비고 뭐고 못 해요. 그래서 "사고를 보는 도구"가 필요해요. 사고가 나면, 어디서(어느 파일 어느 줄), 무슨(어떤 예외), 왜(어떤 값 때문에) 났는지를 알아야 고치죠. 그 정보를 보여주는 게 오늘 배우는 도구들이에요. logging은 "언제 무슨 일이 있었는지"를 기록하고, traceback은 "사고가 어디서 났는지"를 보여주고, rich.traceback은 그걸 예쁘게 만들어요.
+
+특히 production(실제 서비스)에선 이게 결정적이에요. 본인 컴퓨터에선 사고가 나면 화면에 빨간 글씨가 뜨고, 그걸 바로 보고 고치죠. 그런데 서비스는 본인이 안 보는 새벽 3시에도 돌아가요. 그때 사고가 나면? 화면을 볼 사람이 없어요. 그래서 사고를 "파일에 기록"해 둬야 해요. 아침에 와서 그 로그를 보고 "아, 새벽에 이런 사고가 났구나" 하고 고치는 거죠. 그게 logging이에요. print는 화면에 잠깐 뜨고 사라지지만, logging은 파일에 영원히 남아요. 그래서 "디버깅은 print 말고 logging"인 거예요.
+
+여기서 "관찰 가능성(observability)"이라는 개념을 살짝 심어 둘게요. 서비스가 잘 도는지, 어디서 문제가 생기는지를 "관찰할 수 있게" 만드는 거예요. 본인이 사고를 logging으로 잘 기록해 두면, 나중에 그 로그를 모아서 "이 사고가 하루에 몇 번 나는지", "어느 시간대에 많은지"를 분석할 수 있어요. 그러면 "아, 새벽에 트래픽이 몰릴 때 이 사고가 나는구나" 하고 패턴을 찾죠. 로그가 서비스의 건강을 들여다보는 창이 되는 거예요. 큰 회사들은 이 로그를 모아 분석하는 전문 시스템(나중에 Ch091대에서 배울)까지 갖춰요. 그 토대가 바로 오늘 배우는 logging이에요. 본인이 지금부터 사고를 잘 기록하는 습관을 들이면, 나중에 그 위에 관찰 시스템을 쌓을 수 있어요. 모든 게 작은 `log.exception` 한 줄에서 시작돼요.
+
+이게 Ch011 H3에서 배운 "텍스트는 머리로 짐작하지 말고 도구로 확인하라"와 같은 정신이에요. 사고도 짐작하지 말고 도구로 보는 거예요. "왜 안 되지?" 하고 머리를 싸매는 대신, 로그를 보고 traceback을 읽는 거죠. 본인이 오늘 이 도구들을 손에 익히면, 사고가 무섭지 않아져요. 사고가 나면 도구가 답을 알려주니까요. 자, 하나씩 갖춰 볼게요.
+
+---
+
+## 3. 첫째 — pathlib 깊이: 경로의 모든 것
+
+첫째 도구는 H2에서 만난 pathlib예요. 오늘은 더 깊이, 특히 폴더를 다루는 법을 봐요.
 
 ```python
 from pathlib import Path
 
-# 경로 만들기
-p = Path("data") / "cats" / "k.txt"   # 슬래시 OS 무관
+# 경로 합치기 (OS 무관)
+p = Path("data") / "cats" / "k.txt"
 
 # 검사
-p.exists()
-p.is_file()
-p.is_dir()
-p.is_symlink()
+p.exists()      # 있나
+p.is_file()     # 파일인가
+p.is_dir()      # 폴더인가
 
-# 디렉토리 순회
+# 폴더 안 파일 순회
 for f in Path(".").iterdir():
     print(f)
 
-# 재귀 검색
-for f in Path(".").rglob("*.py"):
-    print(f)
-
-# 글로브
+# 패턴으로 찾기 (현재 폴더)
 list(Path(".").glob("*.txt"))
+
+# 하위 폴더까지 재귀로 찾기
+list(Path(".").rglob("*.py"))
 ```
 
-자경단 매일.
+H2에서 본 경로 분해(name·suffix), 검사(exists), 읽기쓰기(read_text)에 더해, 오늘은 **폴더 순회와 검색**이 핵심이에요. `iterdir()`은 폴더 안 파일을 하나씩 주고, `glob("*.txt")`는 패턴에 맞는 파일을 찾아요. Ch011에서 배운 `*`(아무거나)가 여기서도 쓰이죠. 그리고 `rglob`은 하위 폴더까지 재귀로 뒤져요. "이 프로젝트의 모든 .py 파일"을 찾으려면 `Path(".").rglob("*.py")` 한 줄이면 돼요.
+
+이게 실무에서 정말 유용해요. 예를 들어 "data 폴더의 모든 JSON 파일을 처리한다"면 `for f in Path("data").glob("*.json"):` 한 줄로 다 돌죠. 미니가 로그 폴더의 모든 로그 파일을 처리하거나, 까미가 설정 폴더의 모든 설정을 읽을 때 이걸 써요. 옛날엔 `os.listdir`과 문자열 조작으로 복잡했는데, pathlib의 glob은 한 줄이에요. 그리고 glob이 주는 건 Path 객체라서, 바로 `.read_text()`로 읽을 수 있어요. 찾고 바로 읽는 게 자연스럽게 이어지죠. pathlib 하나로 "폴더 뒤지고, 파일 찾고, 읽기"가 다 돼요. 그래서 자경단 표준이 "파일과 경로는 pathlib"인 거예요.
+
+glob과 rglob의 차이를 한 번 더 짚을게요. `glob`은 그 폴더 바로 아래만 봐요. `rglob`은 r이 recursive(재귀)라, 하위 폴더의 하위 폴더까지 다 뒤져요. 그래서 "이 폴더의 .txt"는 glob, "이 프로젝트 어디든 있는 .py 전부"는 rglob이에요. 본인이 프로젝트의 모든 Python 파일을 검사하는 도구를 만든다면 rglob이고, 특정 폴더의 파일만 다룬다면 glob이죠. 그리고 glob 패턴엔 Ch011의 정규식이 아니라 더 단순한 와일드카드를 써요. `*`(아무거나), `?`(한 글자), `[abc]`(이 중 하나)예요. 셸에서 `ls *.txt` 할 때 쓰던 그 와일드카드(Ch006)와 같아요. 정규식보다 단순하지만, 파일 찾기엔 이거면 충분해요. 보세요, 셸의 glob과 pathlib의 glob이 같은 개념이에요. 챕터들이 이렇게 이어져요.
 
 ---
 
-## 3. 둘째 — io 모듈
+## 4. 둘째 — logging: print를 대체하는 기록
 
-`io`는 파일 같은 객체 (file-like).
-
-```python
-from io import StringIO, BytesIO
-
-# 메모리 안 텍스트 파일
-buf = StringIO()
-buf.write("안녕")
-buf.seek(0)
-print(buf.read())
-
-# binary
-b = BytesIO(b"raw bytes")
-b.read()
-```
-
-자경단 — 테스트 시, 메모리 처리 시.
-
-```python
-# 함수에 file-like 전달
-def process(f):
-    return f.read()
-
-# 진짜 파일도 OK
-with open("file.txt") as f:
-    process(f)
-
-# StringIO도 OK
-process(StringIO("test data"))
-```
-
-duck typing이 자경단 표준.
-
----
-
-## 4. 셋째 — logging 표준
-
-print 대신 logging.
+둘째 도구가 오늘의 주인공이에요. logging이에요. print를 대체하는, 사고를 기록하는 표준 도구죠.
 
 ```python
 import logging
 
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s [%(levelname)s] %(name)s: %(message)s',
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
 )
-
 log = logging.getLogger(__name__)
 
-log.debug("디테일")
-log.info("정상 흐름")
-log.warning("주의")
-log.error("에러")
-log.critical("심각")
+log.debug("자세한 디버그 정보")   # 개발용
+log.info("정상 흐름 기록")        # 평소
+log.warning("주의가 필요해요")     # 경고
+log.error("에러가 났어요")        # 에러
+log.critical("심각한 사고!")      # 치명
 ```
 
-5 레벨. 자경단 표준 — DEBUG는 dev, INFO 이상이 production.
+logging의 핵심은 **다섯 레벨**이에요. DEBUG(자세한 정보), INFO(정상 흐름), WARNING(주의), ERROR(에러), CRITICAL(심각). 위로 갈수록 심각해지죠. 그리고 `level=logging.INFO`로 "어느 레벨 이상만 보여줄지"를 정해요. INFO로 설정하면 DEBUG는 안 보이고 INFO 이상만 보여요. 그래서 개발할 땐 DEBUG로 모든 걸 보고, production에선 INFO나 WARNING 이상만 봐서 중요한 것만 기록하죠. 같은 코드로, 설정만 바꿔 보는 양을 조절하는 거예요. 이게 print에 없는 강력함이에요.
+
+logging이 print보다 좋은 점이 많아요. 첫째, 레벨로 걸러 봐요(개발은 다, 운영은 중요한 것만). 둘째, 시간·위치가 자동으로 찍혀요(`%(asctime)s`). "언제 어디서" 났는지가 남죠. 셋째, 파일에 저장할 수 있어요. print는 화면에 떴다 사라지지만, 로그는 파일에 영원히 남아 나중에 분석해요. 넷째, 끄고 켜기가 쉬워요. print는 일일이 지워야 하지만, 로그는 레벨만 올리면 조용해져요.
+
+format 문자열도 잠깐 짚을게요. `"%(asctime)s [%(levelname)s] %(name)s: %(message)s"`라는 게 로그 한 줄의 모양을 정해요. asctime은 시간, levelname은 레벨(INFO 등), name은 logger 이름, message는 본인이 쓴 메시지예요. 그래서 로그가 "2026-06-11 14:30:05 [INFO] myapp: 자경단 가동"처럼 나오죠. 시간과 위치가 자동으로 붙는 게 보이죠? print였으면 본인이 일일이 시간을 찍어야 했을 텐데, logging은 이걸 자동으로 해 줘요. 한 번 설정해 두면, 모든 로그가 같은 깔끔한 모양으로 나와요. 이게 사고를 시간순으로 추적할 때 큰 힘이 돼요. "새벽 3시 17분에 이 사고가 났구나" 하고 정확히 짚을 수 있거든요.
+
+그리고 사고 처리에서 가장 중요한 메서드가 있어요.
 
 ```python
 try:
     risky_operation()
 except Exception:
-    log.exception("실패")   # traceback 자동 포함
+    log.exception("작업 실패")   # traceback까지 자동 기록!
 ```
 
-`log.exception`이 traceback 자동 첨부.
+`log.exception`은 except 블록 안에서 쓰는데, 메시지뿐 아니라 **traceback(사고가 어디서 났는지 전체 경로)까지 자동으로 기록**해요. 그냥 `log.error("실패")`는 "실패했다"만 남기지만, `log.exception`은 "어느 파일 어느 줄에서 무슨 예외가 났는지"를 다 남기죠. 그래서 사고를 잡았을 때(except), `log.exception`으로 기록하는 게 표준이에요. 나중에 그 로그를 보면 사고를 바로 추적할 수 있거든요. 까미가 백엔드에서 사고를 처리할 때, 거의 항상 `log.exception`을 써요. "사고를 조용히 삼키지 말고 기록하라"는 H2의 원칙이 여기서 실현되는 거예요. 그리고 이건 H2에서 본 `except: pass`(사고를 조용히 삼킴)의 반대예요. 사고를 잡되, 반드시 기록을 남기는 거죠. 잡고 기록하면, 사고가 났다는 걸 알 수 있고 나중에 고칠 수 있어요. 잡고 삼키면, 사고가 났는지조차 모르죠. 그 차이가 견고한 서비스와 미스터리한 버그투성이 서비스를 가르는 거예요.
 
 ---
 
-## 5. 넷째 — rich.traceback
+## 5. 셋째 — rich.traceback: 에러를 예쁘게
+
+셋째 도구는 Ch011에서 만난 rich의 traceback 기능이에요. 에러 메시지를 예쁘고 읽기 좋게 만들어 줘요.
 
 ```python
 from rich.traceback import install
 install(show_locals=True)
 ```
 
-이 두 줄만 있으면 모든 traceback이 예쁘게. 줄 번호, 변수 값, 코드 컨텍스트 다 표시.
+이 두 줄만 파일 맨 위에 넣으면, 그 뒤로 나는 모든 에러가 예쁜 traceback으로 나와요. 색깔이 입혀지고, 코드의 어느 줄에서 났는지 그 주변 코드까지 보여주고, `show_locals=True`를 주면 **그 순간의 변수 값까지** 다 보여줘요. 이게 디버깅을 정말 쉽게 만들어요.
 
-```python
-def divide(a, b):
-    return a / b
+기본 traceback과 비교하면 차이가 커요. 그냥 에러가 나면 Python은 흑백의 빽빽한 텍스트를 줘요. 어느 줄인지 찾기도 힘들고, 그때 변수 값이 뭐였는지는 안 보이죠. 그래서 "왜 0으로 나눴지? 그때 b가 뭐였길래?" 하고 다시 print를 박아 가며 찾아야 해요. 그런데 rich.traceback은 사고가 난 줄을 색으로 강조하고, `show_locals`로 "그때 b는 0이었어요"를 바로 보여줘요. 다시 실행할 필요 없이, 한 번에 원인이 보이는 거예요.
 
-divide(10, 0)
-# rich이 예쁜 traceback + 변수 값 표시
-```
+`show_locals`가 특히 강력한 이유를 짚을게요. 사고가 나는 진짜 이유는 거의 항상 "그 순간 변수에 예상 못 한 값이 들어 있어서"예요. 함수에 None이 들어왔거나, 빈 리스트가 왔거나, 숫자여야 하는데 문자열이 왔거나요. 그런데 기본 traceback은 "여기서 났어요"만 알려주고, 그 변수가 뭐였는지는 안 보여줘요. 그래서 본인이 print를 박아서 "이 변수가 뭐지?"를 확인해야 했죠. show_locals는 사고 순간의 모든 변수 값을 자동으로 보여줘서, 그 과정을 통째로 건너뛰어요. "아, b가 0이었네, 그래서 0으로 나눠 터졌구나" 하고 즉시 알아요. 디버깅 시간이 정말 확 줄어요. Ch008에서 배운 디버깅의 원칙 "범위를 좁혀라"가, show_locals 덕에 한 번에 되는 거예요. 변수 값이 다 보이니, 어디가 잘못됐는지 바로 좁혀지거든요.
 
-자경단 dev 표준. production은 logging.
+다만 주의할 게 있어요. rich.traceback은 **개발(dev) 환경용**이에요. production에선 안 써요. 왜냐면 rich가 색깔을 위해 특수문자(ANSI escape)를 쓰는데, 그게 로그 파일에 들어가면 지저분해지거든요. 그래서 자경단 표준은 "개발은 rich.traceback으로 예쁘게 보고, production은 logging으로 깔끔하게 기록"이에요. 본인 컴퓨터에서 개발할 땐 rich로 사고를 빠르게 잡고, 서비스에 올릴 땐 logging으로 바꾸는 거죠. 도구를 환경에 맞게 가려 쓰는 거예요. 개발 환경 파일 맨 위에 저 두 줄을 넣어 두면, 본인의 디버깅이 훨씬 즐거워져요.
 
 ---
 
-## 6. 다섯째 — sys.exc_info와 traceback
+## 6. 넷째 — io: 메모리 속 가짜 파일
+
+넷째 도구는 io 모듈이에요. 메모리 안에 "가짜 파일"을 만드는 거예요.
 
 ```python
-import sys
+from io import StringIO
+
+# 메모리 안의 텍스트 파일
+buf = StringIO()
+buf.write("안녕\n")
+buf.write("자경단")
+buf.seek(0)          # 처음으로 되감기
+print(buf.read())    # 쓴 내용을 읽기
+```
+
+StringIO는 진짜 파일이 아니라, 메모리 안에서 파일처럼 동작하는 객체예요. write로 쓰고 read로 읽죠. 진짜 파일과 똑같이 동작하는데, 디스크에 안 남고 메모리에서만 살아요. "이게 왜 필요해?" 싶을 텐데, 두 가지 큰 쓸모가 있어요.
+
+첫째, **테스트**예요. 함수가 파일을 받아 처리한다고 해 봐요. 그 함수를 테스트하려면 진짜 파일을 만들어야 하는데, 번거롭죠. 대신 StringIO로 가짜 파일을 만들어 넘기면, 진짜 파일 없이 테스트할 수 있어요.
+
+```python
+def count_lines(f):       # 파일을 받는 함수
+    return len(f.readlines())
+
+# 진짜 파일도 OK
+with open("data.txt", encoding="utf-8") as f:
+    count_lines(f)
+
+# StringIO 가짜 파일도 OK!
+count_lines(StringIO("줄1\n줄2\n줄3"))
+```
+
+보세요. `count_lines` 함수는 "파일 같은 것"이면 뭐든 받아요. 진짜 파일도, StringIO 가짜 파일도요. 이게 Ch009에서 잠깐 본 "duck typing"이에요. "파일처럼 행동하면 파일로 취급"하는 거죠. 그래서 테스트할 때 디스크 파일 없이 StringIO로 간편하게 해요. 깜장이가 QA 테스트를 짤 때 이걸 즐겨 써요. 둘째 쓸모는, 데이터를 메모리에서 조립할 때예요. 여러 조각을 StringIO에 모았다가 한 번에 처리하는 식으로요. io는 매일 쓰진 않지만, 테스트에선 단골이라 알아 두면 좋아요. 바이너리 버전인 BytesIO도 있는데, 이미지 같은 걸 메모리에서 다룰 때 써요.
+
+duck typing 이야기를 조금 더 풀어 볼게요. "오리처럼 걷고 오리처럼 울면 오리다"라는 말에서 온 거예요. 어떤 객체가 무슨 타입인지 따지지 않고, "내가 필요한 동작(read·write)을 할 수 있으면 받아준다"는 Python의 유연한 철학이에요. count_lines 함수는 "readlines를 할 수 있는 거"면 다 받아요. 진짜 파일이든, StringIO든, 심지어 본인이 만든 가짜 객체든요. 이게 왜 좋냐면, 함수가 특정 타입에 묶이지 않아서 유연하고 테스트하기 쉽거든요. 함수를 짤 때 "파일을 받는다"가 아니라 "파일처럼 행동하는 걸 받는다"고 생각하면, 그 함수가 훨씬 쓸모 있어져요. 이런 유연함이 Python을 사랑받게 만드는 특징 중 하나예요. 오늘은 io를 통해 그 맛을 살짝 본 거예요.
+
+---
+
+## 7. 다섯째 — traceback: 사고를 글로 남기기
+
+다섯째 도구는 traceback 모듈이에요. 사고의 상세 정보를 글(문자열)로 다루는 도구예요.
+
+```python
 import traceback
 
 try:
     risky()
 except Exception:
-    exc_type, exc_value, exc_tb = sys.exc_info()
-    traceback.print_exc()           # 표준 출력
-    tb_str = traceback.format_exc()  # 문자열로
+    traceback.print_exc()              # 화면에 traceback 출력
+    tb_string = traceback.format_exc()  # traceback을 문자열로
+    # 이 문자열을 로그 파일이나 DB에 저장 가능
 ```
 
-자경단 — 에러 로그에 traceback 저장 시.
+`traceback.format_exc()`는 사고의 전체 추적 정보를 문자열로 줘요. 왜 문자열이 필요하냐면, 그 사고 정보를 어딘가에 저장하거나 보내야 할 때가 있거든요. 예를 들어 사고가 나면 그 traceback을 DB에 저장하거나, 슬랙으로 보내거나, 에러 추적 서비스(Sentry 같은)에 보내요. 그러려면 traceback이 화면 출력이 아니라 문자열이어야 하죠. `format_exc`가 그걸 문자열로 만들어 줘요.
+
+사실 보통은 앞에서 본 `log.exception`이 이 일을 알아서 해 줘요. logging이 내부적으로 traceback을 가져와 기록하거든요. 그래서 traceback 모듈을 직접 쓸 일은 많지 않아요. 다만 "사고 정보를 특별한 곳(슬랙·DB·외부 서비스)에 보내야 할 때" 직접 꺼내 쓰죠. 그러니 지금은 "사고의 상세 정보를 문자열로 다루고 싶을 때 traceback 모듈"이라고만 알아 두세요. 매일 쓰는 건 logging이고, traceback은 그 뒤에서 일하는 도구예요. 이 다섯 도구 중에 본인이 매일 쓸 건 pathlib와 logging 둘이에요. 나머지는 필요할 때 꺼내면 돼요.
+
+traceback이라는 단어 자체를 한 번 풀어 볼게요. "역추적"이라는 뜻이에요. 사고가 난 자리에서 거꾸로 거슬러 올라가며 "이 함수가 저 함수를 부르고, 저 함수가 그 함수를 불러서, 여기서 터졌다"는 호출의 경로를 보여주는 거예요. Ch009 H7에서 본 call stack 기억하죠? traceback이 바로 그 호출 스택을 사고 순간에 찍은 사진이에요. 그래서 traceback을 읽으면 "사고가 어디서 났고, 어떤 경로로 거기까지 왔는지"를 다 알 수 있어요. 처음엔 traceback이 빽빽하고 무섭게 보이는데, 사실 친절한 길 안내예요. 맨 아래가 진짜 사고가 난 자리고, 위로 올라갈수록 그걸 부른 경로예요. 보통 맨 아래 몇 줄만 보면 원인이 보여요. traceback 읽는 법을 익히면, 사고를 두려워하지 않게 돼요.
 
 ---
 
-## 7. 자경단 매일 의식
+## 8. 자경단 매일 I/O 의식 다섯
 
-**1. 작은 사고** → print + breakpoint
+자경단이 사고를 다룰 때 어떤 도구를 언제 꺼내는지, 다섯 의식으로 정리할게요.
 
-**2. 중간 사고** → logging.exception
+| 사고 크기 | 꺼내는 도구 | 왜 |
+|----------|-----------|-----|
+| 작은 사고 (개발 중) | print·breakpoint | 빠르게 확인 |
+| 중간 사고 (기록 필요) | logging.exception | traceback 자동 기록 |
+| 큰 사고 (production) | log.error + 에러 추적 서비스 | 팀에 알림 |
+| 새 종류의 사고 | 사용자 정의 예외 | 도메인 명확히 |
+| 디버깅 (개발) | rich.traceback show_locals | 변수값까지 |
 
-**3. 큰 사고 (production)** → log.error + Sentry
+다섯 의식이에요. 한국어로 다시 읽으면, "작은 건 print, 기록은 logging, 큰 사고는 알림, 새 사고는 도메인 예외, 디버깅은 rich"예요. 본인이 사고를 만나면 이 표를 떠올리세요. "지금 이 사고가 작은가 큰가? 기록해야 하나?" 상황이 도구를 정해 줘요.
 
-**4. 새 사고 종류** → custom exception
+특히 "개발은 rich·print, production은 logging"이라는 구분을 다시 강조할게요. 본인 컴퓨터에서 개발할 땐 빠르게 보는 게 중요하니 print와 rich를 쓰고, 실제 서비스에선 영원히 남기고 분석해야 하니 logging을 써요. 같은 사고를 다루는데, 환경에 따라 도구가 다른 거예요. 이걸 알면, "개발할 땐 편하게, 운영할 땐 견고하게"라는 두 모드를 자유롭게 오가요. 이게 production 개발자의 일하는 방식이에요. Ch011 H6에서 본 "작동과 견고함은 다르다"가 도구 선택에서도 나타나는 거죠.
 
-**5. 디버깅** → rich.traceback + show_locals
-
----
-
-## 8. 다섯 시나리오
-
-**시나리오 1: 파일 없음**
-
-처방. FileNotFoundError + default.
-
-**시나리오 2: 권한 없음**
-
-처방. PermissionError + 사용자 메시지.
-
-**시나리오 3: 디스크 가득**
-
-처방. OSError + cleanup.
-
-**시나리오 4: encoding 에러**
-
-처방. UnicodeDecodeError + utf-8 명시.
-
-**시나리오 5: 동시 접근**
-
-처방. file lock 또는 atomic write.
+사고의 크기에 따라 대응이 다르다는 것도 음미해 보세요. 모든 사고를 똑같이 호들갑 떨며 처리하면 지쳐요. 작은 사고(개발 중 오타)는 print로 빠르게 보고 넘어가고, 중간 사고(파일 처리 실패)는 logging으로 기록하고, 큰 사고(서비스 장애)는 팀에 알림을 보내요. 사고의 무게에 맞게 대응의 강도를 맞추는 거죠. 이게 119에 전화할 일과 반창고 붙일 일을 구분하는 것과 같아요. 모든 사고에 119를 부르면 정작 중요할 때 못 부르거든요. 본인이 이 감각을 가지면, 사고를 효율적으로 다뤄요. 중요한 사고에 집중하고, 사소한 건 빠르게 넘기는 거죠. 그게 침착한 개발자의 모습이에요.
 
 ---
 
-## 9. 흔한 오해 다섯 가지
+## 9. 다섯 시나리오와 처방
 
-**오해 1: print 대신 logging 항상.**
+본인이 파일을 다루며 만날 흔한 사고 다섯 개와, 어떻게 푸는지 처방을 드릴게요. 이 다섯을 미리 알면, 막상 사고가 나도 당황하지 않고 처방을 꺼내요.
 
-dev는 print OK.
+**시나리오 1: 파일이 없음.** 가장 흔하죠. 처방은 `except FileNotFoundError`로 잡아서 기본값을 쓰거나, "파일을 찾을 수 없어요" 메시지를 주는 거예요. H1 옛날 이야기의 그 사고예요. 사용자가 처음이라 파일이 아직 없는 정상적인 상황이니, 죽지 말고 우아하게 대처하세요. 그리고 파일을 열기 전에 `Path(p).exists()`로 미리 확인하는 방법도 있어요. 다만 "확인하고 여는" 사이에 파일이 사라질 수도 있어서, 실무에선 그냥 try/except로 여는 게 더 안전해요. "확인하지 말고 일단 시도하고, 사고가 나면 처리하라"가 Python의 권장 방식이에요.
 
-**오해 2: rich production.**
+**시나리오 2: 권한이 없음.** 파일은 있는데 읽거나 쓸 권한이 없을 때예요. 처방은 `except PermissionError`로 잡아서, "권한이 없어요. 관리자에게 문의하세요" 같은 친절한 메시지를 주는 거예요. 사용자가 뭘 해야 할지 알려주는 거죠.
 
-dev만.
+**시나리오 3: 디스크가 꽉 참.** 파일을 쓰는데 디스크 공간이 없을 때예요. 처방은 `except OSError`(디스크 관련 사고의 부모)로 잡고, 임시 파일을 정리하거나 알림을 보내는 거예요. 미니 같은 인프라 담당이 자주 만나요.
 
-**오해 3: pathlib 옵션.**
+**시나리오 4: 인코딩 에러.** 파일을 읽는데 한글이 깨질 때예요. 처방은 `encoding="utf-8"` 명시예요. Ch011 H6과 H2에서 계속 강조한 그거죠. 그래도 깨지면 그 파일이 cp949일 수 있으니, 인코딩을 바꿔 읽어요. `except UnicodeDecodeError`로 잡아 처리하기도 하고요. 정말 인코딩을 모르는 파일이라면, `errors="replace"` 옵션으로 "깨지는 글자는 물음표로 대체"하고 일단 진행할 수도 있어요. 데이터를 잃기보다, 일부만 깨진 채로라도 살리는 거죠. 상황에 맞는 절충이에요.
 
-자경단 표준.
+**시나리오 5: 동시 접근.** 두 프로그램이 같은 파일을 동시에 쓰려 할 때예요. 처방은 파일 잠금(lock)이나 "안전한 쓰기"(임시 파일에 쓰고 한 번에 바꾸기)예요. 이건 H6에서 깊이 보는 고급 주제라, 지금은 "동시 접근은 조심해야 한다"만 알아 두세요.
 
-**오해 4: io 자주 안 씀.**
+다섯 시나리오를 보면 공통점이 있어요. 다 "구체적인 예외로 잡아서, 적절히 대처"하는 거예요. H2에서 배운 "except는 구체적으로"가 이 시나리오들에서 다 쓰이죠. 그리고 막혔을 때 logging으로 기록해 두면, 나중에 패턴을 분석해서 더 잘 대비할 수 있어요. 사고를 기록하는 게 다음 사고를 막는 길이에요.
 
-테스트에서 매일.
-
-**오해 5: traceback 자동.**
-
-명시 필요.
+그리고 이 다섯 시나리오를 미리 알아 두는 게 큰 힘이에요. 본인이 파일 처리 코드를 짤 때, "이 다섯 중에 뭐가 날 수 있지?"를 물으면 돼요. 파일을 읽나? 파일 없음·권한 없음·인코딩이 날 수 있죠. 파일을 쓰나? 디스크 꽉 참·동시 접근이 날 수 있고요. 그러면 그 사고들에 맞는 except를 미리 준비해요. 이게 H1에서 말한 "사고를 내다보는 눈"이에요. 처음엔 다섯 시나리오를 의식하며 챙기다가, 곧 파일을 보면 자동으로 "여기서 뭐가 잘못될 수 있지?"가 떠올라요. 그 습관이 본인을 사고에 강한 개발자로 만들어요. 좋은 개발자는 코드를 짜면서 동시에 "여기서 뭐가 터질까"를 그리는 사람이에요.
 
 ---
 
-## 10. 자주 받는 질문 다섯 가지
+## 10. 흔한 오해 다섯 가지
 
-**Q1. logging 레벨 어떻게?**
+**오해 1: 개발할 때도 무조건 logging을 써야 한다.**
 
-INFO 기본. DEBUG dev.
+아니에요. 개발 중 빠른 확인은 print나 breakpoint도 좋아요. logging은 "기록이 필요할 때"와 "production"에서 빛나요. 개발 단계에선 둘을 상황에 맞게 쓰세요. 다만 서비스에 올릴 코드의 사고 처리는 logging으로요.
 
-**Q2. logger.error vs exception?**
+**오해 2: rich.traceback을 production에도 써야 한다.**
 
-exception이 traceback 포함.
+아니에요. rich는 개발(dev) 환경용이에요. 색깔을 위한 특수문자가 로그 파일을 지저분하게 만들거든요. production은 logging으로 깔끔하게 기록해요. 개발은 rich, 운영은 logging이에요.
 
-**Q3. rich production 안전?**
+**오해 3: pathlib는 있으면 좋은 옵션이다.**
 
-ANSI escape가 환경에 영향.
+아니에요. 모던 표준이에요. 경로 다루기, 폴더 순회, glob 검색이 다 pathlib로 깔끔해요. os.path보다 훨씬 읽기 좋죠. 자경단 표준이에요.
 
-**Q4. logging vs print?**
+**오해 4: io.StringIO는 거의 안 쓴다.**
 
-production은 logging.
+아니에요. 테스트에서 매일 써요. 진짜 파일 없이 함수를 테스트할 때 StringIO로 가짜 파일을 만들죠. QA를 짤 때 단골이에요. "이런 게 있다"를 알아 두면 테스트가 쉬워져요. 테스트할 때마다 진짜 파일을 만들고 지우는 건 번거롭고 느려요. StringIO는 메모리에서 즉시 만들어지고 테스트 끝나면 사라지니, 깔끔하고 빠르죠. 나중에 Ch020대에서 테스트를 깊이 배울 때, 이 StringIO가 단짝이 돼요.
 
-**Q5. custom logger?**
+**오해 5: traceback은 자동으로 다 나온다.**
 
-`logging.getLogger("myapp")`.
+반은 맞아요. 처리 안 한 사고는 자동으로 traceback이 화면에 나와요. 그런데 except로 잡은 사고는, 본인이 `log.exception`이나 `traceback.format_exc()`로 명시적으로 기록해야 traceback이 남아요. 잡은 사고를 조용히 넘기면 traceback도 사라지죠. 그래서 잡으면 기록하라는 거예요.
+
+다섯 오해의 공통점은 "도구를 환경에 맞게 가려 쓰는 걸 모르는" 데서 와요. 개발이냐 운영이냐, 빠른 확인이냐 영구 기록이냐에 따라 도구가 달라요. 그 구분을 알면, 본인은 상황마다 가장 좋은 도구를 꺼내 써요. 그게 도구를 잘 다루는 사람이에요. 망치 하나로 모든 걸 치는 게 아니라, 못엔 망치, 나사엔 드라이버를 쓰는 거죠. 사고를 빠르게 보려면 rich, 영원히 남기려면 logging, 테스트하려면 io. 각 도구가 잘하는 자리가 있어요. 그 자리를 알고 가려 쓰는 게, 오늘 다섯 도구를 배운 진짜 목적이에요.
 
 ---
 
-## 11. 흔한 실수 다섯 + 안심 — 환경 학습 편
+## 11. 자주 받는 질문 일곱 가지
 
-첫째, print만 매일. 안심 — production은 logging.
-둘째, traceback 무시. 안심 — log.exception.
-셋째, rich production. 안심 — dev만.
-넷째, io.StringIO 시니어. 안심 — 테스트에 매일.
-다섯째, 가장 큰 — pathlib 안 씀. 안심 — Path() 표준.
+**Q1. logging 레벨은 어떻게 정해요?**
 
-다섯 함정 미리 알아둔 본인이 두 해 동안 한 박자 빠르게.
+개발할 땐 DEBUG로 다 보고, production에선 INFO나 WARNING 이상만 봐요. INFO는 "정상 흐름 기록", WARNING은 "주의할 일", ERROR는 "사고"예요. 보통 production은 INFO 이상을 기록해서, 정상 흐름과 사고를 다 남기되 너무 자잘한 디버그는 빼요. 레벨 하나로 보는 양을 조절하는 거예요. 레벨 고르는 감을 드리면, "이게 정상인가 문제인가"로 나누세요. 정상 흐름(요청 받음·처리 완료)은 INFO, "문제는 아닌데 이상한 일"(재시도·기본값 사용)은 WARNING, "진짜 사고"(처리 실패)는 ERROR예요. 이 셋만 잘 구분해도 충분해요.
 
-## 12. 마무리
+**Q2. log.error랑 log.exception 중 뭘 써요?**
 
-자, 세 번째 시간 끝.
+except 블록 안에선 거의 항상 `log.exception`이에요. error는 메시지만 남기지만, exception은 traceback(사고 위치)까지 자동으로 남기거든요. 사고를 추적하려면 traceback이 필수라, 사고 처리엔 exception을 쓰세요. error는 traceback이 필요 없는 일반 에러 메시지에 쓰고요.
 
-pathlib, io, logging, rich.traceback, traceback 5 도구.
+**Q3. rich.traceback을 production에 써도 안전한가요?**
 
-다음 H4는 30+ exception + 20+ file 패턴.
+권하지 않아요. rich가 색깔을 위해 쓰는 특수문자(ANSI escape)가 로그 파일에 들어가면 지저분해지고, 어떤 환경에선 출력이 깨질 수도 있어요. production은 logging으로 깔끔하게 기록하세요. rich.traceback은 본인이 개발하는 컴퓨터에서만요.
+
+**Q4. logging이랑 print 중 언제 뭘 써요?**
+
+빠른 개발 중 확인은 print(또는 더 좋은 건 breakpoint), 기록이 필요하거나 production이면 logging이에요. 핵심은 "이 출력이 나중에 필요한가"예요. 잠깐 보고 버릴 거면 print, 남겨서 분석할 거면 logging. 서비스에 올릴 코드엔 print를 남기지 마세요(ruff 같은 도구가 잡아 줘요).
+
+**Q5. 나만의 logger를 만들 수 있나요?**
+
+네. `log = logging.getLogger("myapp")` 또는 `logging.getLogger(__name__)`으로 이름 붙은 logger를 만들어요. `__name__`을 쓰면 모듈마다 다른 이름의 logger가 생겨서, "어느 모듈에서 난 로그인지"가 보여요. 큰 프로젝트에선 이게 사고 추적에 큰 도움이 돼요. 수십 개 파일에서 로그가 쏟아질 때, 이름표가 없으면 어느 파일 로그인지 모르거든요. `__name__`을 쓰면 자동으로 그 파일 이름이 로그에 붙어요. 그래서 `logging.getLogger(__name__)`이 거의 공식처럼 쓰여요. 이 `__name__`은 Ch013 모듈 챕터에서 더 깊이 보는데, 지금은 "모듈마다 logger에 이름표를 붙이는 관용구"로 알아 두세요.
+
+**Q6. 이 도구들을 다 깔아야 하나요?**
+
+pathlib·logging·io·traceback은 다 표준 라이브러리라 설치가 필요 없어요. import만 하면 바로 써요. 새로 깔 건 rich 하나인데, Ch011에서 이미 깔았죠(`pip install rich`). 그러니 사실상 새로 깔 게 없어요. 다 본인 손 안에 이미 있는 도구들이에요. 오늘 할 일은 "이게 있다"를 알고 손에 익히는 거예요.
+
+**Q7. logging 설정이 복잡해 보여요. 꼭 다 해야 하나요?**
+
+아니에요. 처음엔 `logging.basicConfig(level=logging.INFO)` 한 줄이면 충분해요. 그러면 기본 형식으로 화면에 로그가 나와요. 파일에 저장하거나, 형식을 바꾸거나, 모듈별 logger를 두는 건 필요해지면 그때 더하면 돼요. logging은 깊이 파면 정말 깊지만(핸들러·필터·포매터 등), 일상에선 basicConfig 한 줄과 log.info·log.exception 두 메서드면 90%가 돼요. 부담 갖지 말고, 기본부터 손에 익히세요. 깊은 설정은 큰 프로젝트를 만날 때 자연스럽게 배우게 돼요.
+
+---
+
+## 12. 흔한 실수 다섯 + 안심 — 환경 학습 편
+
+**첫째, production 코드에 print만 쓰기.** 안심하세요. 서비스에 올릴 코드의 사고 처리는 logging이에요. 특히 except에선 `log.exception`. 개발 중 print는 괜찮지만, 남길 거면 logging으로 바꾸세요.
+
+**둘째, 사고를 잡고 traceback을 버리기.** 안심하세요. except에서 `log.exception("실패")` 한 줄이면 사고 위치가 다 기록돼요. 잡았으면 기록하세요. 조용히 넘기면 나중에 원인을 못 찾아요. 가장 흔한 실수가 `except Exception: pass`인데, 이건 사고를 통째로 묻어 버려요. 최소한 `log.exception`으로 기록은 남기세요. 그래야 "아, 여기서 사고가 났었구나"를 나중에라도 알 수 있어요.
+
+**셋째, rich.traceback을 production에 두기.** 안심하세요. rich는 개발 파일에만 두세요. 환경을 구분하는 게 익숙해지면, "개발은 rich, 운영은 logging"이 자연스러워져요.
+
+**넷째, io.StringIO를 시니어 도구로 여기기.** 안심하세요. 테스트에서 진짜 파일 대신 쓰는 간단한 도구예요. `StringIO("테스트 데이터")` 한 줄이면 가짜 파일이 돼요. 신입도 테스트에 써요.
+
+**다섯째, 가장 큰 함정 — pathlib를 안 쓰고 옛날 방식(os.path·문자열)을 고집하기.** 안심하세요. pathlib가 더 짧고 안전하고 OS 무관이에요. `Path(...)`로 시작하는 습관만 들이면 돼요. 옛날 코드를 읽을 줄만 알면 되고, 새 코드는 pathlib로 짜세요.
+
+다섯 함정 미리 알아둔 본인이 두 해 동안 한 박자 빠르게 가요. 이 다섯을 보면, 결국 "개발과 운영을 구분하고, 사고를 기록하라"로 모여요. 개발 중엔 print·rich로 편하게, 서비스에선 logging으로 견고하게. 그리고 사고를 잡으면 반드시 기록을 남기고요. 이 두 습관만 손에 익히면, 본인은 사고를 다룰 줄 아는 개발자가 돼요. 도구는 많지만, 핵심 습관은 단순해요.
+
+---
+
+## 13. 마무리
+
+자, 세 번째 시간이 끝났어요. 오늘 본인은 I/O와 사고를 다루는 도구 다섯 개를 손에 넣었어요.
+
+pathlib(경로·폴더 순회·glob 검색), logging(다섯 레벨·log.exception으로 사고 기록), rich.traceback(개발용 예쁜 에러+변수값), io(메모리 속 가짜 파일·테스트용), traceback(사고를 문자열로)까지요. 그리고 다섯 의식과 다섯 시나리오로, 어떤 사고에 어떤 도구를 꺼낼지도 정리했어요. 도구가 다섯이지만, 핵심은 둘이에요. 매일 경로와 파일을 다루는 pathlib, 그리고 사고를 기록하는 logging. 이 둘만 손에 붙어도 본인은 I/O를 잘 다뤄요.
+
+한 가지만 기억하세요. **사고는 짐작하지 말고 도구로 보라.** 사고가 나면 "왜 안 되지?" 하고 머리를 싸매지 말고, logging으로 기록하고 traceback을 읽으세요. 답은 거의 항상 거기 있어요. 머리로 추측한 원인은 틀리기 일쑤지만, traceback과 로그는 진실을 말하거든요. 그리고 개발은 rich로 빠르게, 운영은 logging으로 견고하게. 이 환경 구분이 본인을 production 개발자로 만들어요. 그중에서도 딱 하나만 오늘 가져간다면, **except에선 log.exception**이에요. 사고를 잡으면 traceback까지 기록하는 그 한 줄이, 새벽 3시 사고를 아침에 5초 만에 진단하게 해 줘요.
+
+다음 H4는 진짜 카탈로그예요. 본인이 평생 만날 예외 30개 이상과, 파일 패턴 20개 이상을 한자리에 모아요. 오늘 갖춘 도구로 그 패턴들을 하나씩 손에 익히는 시간이에요. 그 전에 마지막으로 한 줄만 쳐 보세요.
 
 ```python
-python3 -c "import logging; logging.basicConfig(level=logging.INFO); logging.info('hi')"
+python3 -c "import logging; logging.basicConfig(level=logging.INFO); logging.info('자경단 가동')"
 ```
+
+`INFO:root:자경단 가동`처럼 레벨과 메시지가 붙은 로그가 나와요. print와 달리 "어느 레벨"이 자동으로 찍히죠. format을 더 설정하면 시간도 붙고요. 본인이 이 출력을 보면, logging의 첫 맛을 본 거예요. print로 그냥 "자경단 가동"이라고 찍는 것과, logging으로 레벨과 시간이 붙어 나오는 것의 차이를 느껴 보세요. 작은 차이 같지만, 사고가 수백 개 쌓인 로그 파일에서 그 차이가 하늘과 땅이에요.
+
+마지막으로 부탁 하나. 강의를 끄고, 본인이 만든 text_processor나 다른 코드의 파일 처리 부분에, `log.exception`을 한 줄 넣어 보세요. 그리고 일부러 없는 파일을 열어서, 사고가 어떻게 기록되는지 보세요. print로 찍는 것과 logging으로 기록하는 것의 차이를 직접 느끼면, 오늘 배운 게 손에 붙어요. 그리고 개발 파일 맨 위에 rich.traceback의 그 두 줄도 넣어 보세요. 일부러 에러를 내서, 예쁜 traceback과 변수 값이 나오는 걸 보면 "와, 이거구나" 싶을 거예요. 그 5분이 본인을 "사고를 다룰 줄 아는 개발자"로 한 걸음 올려 줘요. 도구를 갖춘 사람과 안 갖춘 사람의 디버깅 속도 차이는 정말 커요. 본인은 오늘 그 도구를 갖췄어요. 다음 시간에 또 봐요. 🐾
 
 ---
 
-## 👨‍💻 개발자 노트
+## 👨‍💻 개발자 노트 (참고 — 비개발자는 그냥 넘기셔도 됩니다)
 
-> - logging 핸들러: console, file, syslog, http.
-> - logging filter: 메시지 선별.
-> - rich.traceback show_locals: 변수 값 표시.
-> - pathlib WindowsPath vs PosixPath: 자동 선택.
-> - io.RawIOBase: 모든 file-like의 베이스.
-> - 다음 H4 키워드: 30 exception · 20 file 패턴 · context manager.
+> - logging: getLogger(__name__)·basicConfig·핸들러(StreamHandler·FileHandler·RotatingFileHandler)·Formatter·Filter. 레벨 DEBUG<INFO<WARNING<ERROR<CRITICAL.
+> - log.exception = log.error(exc_info=True). except 블록 안에서만. traceback 자동 첨부.
+> - rich.traceback.install(show_locals=True): 전역 sys.excepthook 교체. dev 전용. width·suppress 옵션.
+> - pathlib: glob/rglob(제너레이터)·iterdir·walk(3.12+)·resolve·relative_to·with_suffix·with_name.
+> - io: StringIO(텍스트)·BytesIO(바이너리). file-like 객체(duck typing). 테스트·메모리 버퍼.
+> - traceback: format_exc·print_exc·format_exception. Sentry·외부 전송 시 문자열 필요.
+> - 다음 H4 키워드: 30+ exception · 20+ file 패턴 · safe write · retry · context manager.
+
+---
+
+## 추신
+
+1. 사고는 짐작하지 말고 도구로 보라(Ch011 정신). 도구가 진실을 말함.
+2. production 사고는 화면 없는 새벽에도 남. logging으로 기록.
+3. pathlib·logging·io·traceback은 표준 내장. rich만 추가.
+4. pathlib glob("*.txt") — 패턴으로 파일 찾기.
+5. rglob("*.py") — 하위 폴더까지 재귀로.
+6. glob 결과는 Path 객체 — 바로 read_text 가능.
+7. logging 다섯 레벨 — DEBUG·INFO·WARNING·ERROR·CRITICAL. 위로 갈수록 심각.
+8. level로 보는 양 조절. 개발 DEBUG, 운영 INFO+.
+9. logging이 print보다 — 레벨·시간·파일 저장·끄고 켜기.
+10. except에선 log.exception — traceback 자동 기록. except: pass 반대.
+11. log.error는 메시지만, log.exception은 traceback까지.
+12. rich.traceback install 두 줄 — 예쁜 에러+코드+변수값 한 번에.
+13. show_locals=True — 사고 순간 변수값 표시. 원인 즉시 보임.
+14. rich는 개발용. production은 logging.
+15. io.StringIO — 메모리 속 가짜 파일.
+16. StringIO로 진짜 파일 없이 테스트(duck typing).
+17. BytesIO는 바이너리(이미지 등) 메모리 처리.
+18. traceback.format_exc() — 사고를 문자열로(역추적=call stack 사진).
+19. 사고를 슬랙·DB·Sentry 보낼 때 문자열 필요.
+20. 매일 쓰는 건 pathlib·logging 둘. 나머지는 필요할 때.
+21. 개발은 print·rich, 운영은 logging — 환경에 맞게 구분.
+22. 사고 다섯 — 파일없음·권한없음·디스크꽉참·인코딩·동시접근. 미리 내다보기.
+23. 다 "구체적 예외로 잡아 대처"(H2).
+24. getLogger(__name__) — 모듈별 logger.
+25. 잡은 사고는 명시적으로 기록해야 traceback 남음.
+26. 사고 기록이 다음 사고를 막음. 로그=관찰 가능성의 토대.
+27. 새 종류 사고는 사용자 정의 예외로.
+28. ruff가 production print를 잡아 줌.
+29. Ch012 H3 졸업장 — logging.info로 첫 구조화된 로그 찍기.
+30. 다음 H4는 30+ 예외·20+ 파일 패턴 카탈로그. 바로 다음 시간에. 🐾
