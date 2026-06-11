@@ -6,7 +6,7 @@
 ## ⚠️ 실측 상태 (2026-06-10 기준 — `scripts/wc-lecture.py --all`)
 
 > **주의: 아래 챕터별 표의 일부 행은 실제 파일과 불일치(과거에 미리 적어 둔 계획값).**
-> 실제로 합격(🟢 ≥17,000)인 H는 측정 기준 **98/960**입니다.
+> 실제로 합격(🟢 ≥17,000)인 H는 측정 기준 **99/960**입니다.
 >
 > | 챕터 | 실제 완료 H | 비고 |
 > |------|------------|------|
@@ -22,7 +22,7 @@
 > | Ch010 | **8/8 ✅** | 전부 완료 (H7=17,000·H8=17,016 실측). Ch001~010 = 10챕터 완성 |
 > | Ch011 | **8/8 ✅** | 전부 완료 (H7=17,003·H8=17,003 실측). Ch001~011 = 11챕터 완성. Python 입문 5(40시간) 마침 |
 > | Ch012 | **8/8 ✅** | 전부 완료 (H7=17,000·H8=17,000 실측). Ch001~012 = 12챕터 완성. Python 입문 6(48시간) 마침 |
-> | Ch013 | **2/8** | H1·H2 실측 완료(17,008·17,045). H3~H8은 계획값/stub, H3 다음 작업 대상 |
+> | Ch013 | **3/8** | H1·H2·H3 실측 완료(17,008·17,045·17,004). H4~H8은 계획값/stub, H4 다음 작업 대상 |
 > | Ch014 | 0~부분 | 표에는 "완료"로 적혀 있으나 실제는 stub/부분 초안 |
 > | Ch015~026 | 부분 | 각 H ~6,800자 부분 초안(🔴), 17k 미달 |
 > | Ch027~120 | 0 | 순수 stub(~390자) |
@@ -242,7 +242,7 @@ Ch012 합계: 136,017 / 목표 ~136,000 (H1~H8 전부 실측 합격: 17,000·17,
 |---|------|----------|------|------|
 | H1 | 오리엔 | **17,008 실측** | 🟢 | ✅실측합격 (모듈·패키지 오리엔 — §1 Ch012 회수(파일·예외 바깥세상→코드가 커진다 예고) + 오늘의 약속(첫 패키지 만들기·남의 패키지 쓰기) + "코드 짜기→코드 구조화" 큰 전환·큰 집을 방으로 비유/§2 모듈=.py 파일 하나(exchange.py)·패키지=폴더+`__init__.py`·이미 import csv/json 써 옴·namespace 이름공간/§3 옛날이야기(1,000줄 미로 한 파일→200줄×5 도시로 나눔·"코드는 짜는 것만큼 정리"·협업의 시작)/§4 일곱 이유(재사용·가독성·협업·테스트·PyPI 50만·매일·면접) + 거대 생태계 + 추상화 계단/§5 같이 쳐보기 5줄(import math·from import·as·Counter)/§6 네 친구 import·from·`__init__.py`·`__name__`(if __name__=="__main__" 관용구 깊이=프로그램이자 도구) + as 별칭(np/pd 관습·Ch009 이름=약속) + sys.path 검색경로(내 폴더→stdlib→site-packages·math.py 사고 복선)/§7 모듈 vs 패키지 표(파일/폴더·~500줄/~5,000줄·매일/주간) + 성장하는 구조(file_processor→read/transform/write 모듈→file_tools 패키지→PyPI)/§8 자경단 5명 매일 170번 import·1년 6만(까미 fastapi/sqlalchemy·미니 boto3·일 성격이 모듈 정함·백엔드=모듈 조합·Ch041 복선)/§9 8교시 미리보기(H5 vigilante_pkg·H7 sys.path/sys.modules·H8 Ch014 다리)·아홉 번째 리듬/§10 모듈 50년(1972 C #include→1991 import→2008 namespace package·JS/Java/Go 공통·평생 자산)/§11 AI 80/20(기계적 분리 AI·분리 판단 본인) + 모듈 선택 안목(엑셀 openpyxl/pandas/xlrd 장면·한배 탈 동료 고르듯)/FAQ7(import vs from·모듈 vs 패키지·빈 `__init__.py`·circular·PyPI 안전·-m·모듈 이름)·오해5(한 파일·import *·패키지 어려움·relative/absolute·PyPI 위험)·실수5 + 안심·졸업장 `python3 -c "import math; print(math.pi)"`·개발자노트·추신30) |
 | H2 | 핵심개념 | **17,045 실측** | 🟢 | ✅실측합격 (모듈·패키지 네 친구의 깊이 — §1 H1 회수(네 친구) + 약속(import 시스템 손바닥처럼)·이름표 붙이기/§2 import 다섯 모습(통째로·별칭 as·패키지 안 os.path·여러 개 비권장·조건부 try ujson/json)·매일은 통째로+별칭 90%/§3 from 다섯 모습(하나·여러 개·별칭·전부 금지·패키지 안)·import * 이름공간 오염/§4 import vs from 표(출처 명확 import·짧음 from·헷갈리면 import)·유명·고유 이름 from / 흔한 이름 import 기준/§5 `__init__.py` 세 단계(빈 표시→현관 공개 API `__version__`/`__all__`→side effect 금지)·집 현관 비유·구조 바꿔도 현관 그대로/§6 `__name__` 깊이(직접 실행 "__main__" vs import 모듈명·if __name__ 관용구=프로그램이자 도구·file_processor 장면)/§7 sys.path 검색(현재 폴더→PYTHONPATH→stdlib→site-packages·math.py 이름 충돌 AttributeError 실연·venv가 관리)/§8 relative vs absolute 표(전체 주소 vs 옆집·점 `.`/`..`·자경단 absolute 표준)/§9 circular import(서로 물기·처방1 구조 분리 근본=문 하나 더·처방2 lazy import 응급=뒤로 물러나기·"구조 다시 보라" 신호=예외는 책임 회수)/§10 sys.modules 캐시(한 번만 읽힘·도서관 책상 비유·`__init__` side effect 한 번 위험·Python 시작 시 수십 개 미리 로드)/§11 한 줄 분해(표준→외부→내 것 세 덩어리·ruff/isort 자동·import=파일 목차)/§12 자경단 5명 적용(본인 `__name__`·까미 from 조합·노랭이 as·미니 조건부·깜장이 absolute 테스트)/§13 AI 80/20(정렬 AI·구조 판단 본인·lazy가 응급인지 근본인지 알아보기)/FAQ7(import 순서·`__all__`·reload·맨 위 모으기·relative/absolute·circular·느린 import)·오해5·실수5 + 안심·졸업장 `import sys; len(sys.path)`·개발자노트·추신30) |
-| H3 | 환경점검 | 17,007 | 🟢 | 합격 (모듈/패키지 환경 5 도구 — venv(create·activate·deactivate·which·rm 5 명령·매주 5+·`.gitignore` 의무)·pip(install·uninstall·freeze·list·show 5 명령·매일 5+)·pyproject.toml(PEP 517/621·5 섹션 build-system/project/dependencies/optional/scripts·30줄 5분 95% 표준)·twine(5 단계 pyproject→build→TestPyPI→PyPI→확인·매년 1+)·pipx(CLI 격리 black/ruff/mypy/pytest/poetry·매월 upgrade-all)/uv 차세대(Rust 10-100배·매주 1+ 시도·PEP 723 인라인·5년 후 표준)·poetry 대안(통합 5 명령 init/add/install/run/shell·매년 1+·95% pip 표준)·pip install 5 형식(이름·==·범위·-r·-e)·requirements.txt 5 패턴(정확·범위·다중·URL·constraints)·pyproject 5 섹션 깊이/자경단 5 도구 통합 워크플로우(새 프로젝트 5 단계 5분·의존성 4 명령·PyPI 5 단계 30분·CLI pipx·매주 75분 표)·자경단 본인 PyPI 등록 5 단계(0일 30줄→1개월 패키지→6개월 pyproject→9개월 TestPyPI→1년 PyPI v1.0.0)·자경단 5명 1년 회고 5 PyPI 패키지 320 다운로드/월·24 stars·1년 후 단톡 가상·v1→v5 진화 5년·6 능력 + 6 신호·면접 10 질문 25초/Ch013 H3 핵심 한 줄·매주 130분 학습·5명 5년 합 25,000h·매년 1+ PyPI 의무화·5년 25 패키지·ROI 89배(1h 학습 → 89h/년 활용)·자경단 5명 5년 2,225h ROI/오해15+FAQ15+추신80) |
+| H3 | 환경점검 | **17,004 실측** | 🟢 | ✅실측합격 (모듈·패키지 환경·도구 다섯 — §1 H2 회수(개념→도구)·나선형 학습·두 갈래(남의 것 venv/pip/pipx + 내 것 pyproject/twine)/§2 venv 격리된 작업실(요리사 두 주방 비유·의존성 지옥 역사·which python3/`(.venv)` 확인·`.gitignore`)/§3 pip 설치기(install·==고정·범위 semver `>=2.30,<3.0`·`-r`·`-e` editable·pip freeze·list --outdated·보안 빠르게 큰변화 신중)/§4 pyproject.toml 신분증(PEP 621·project/dependencies/scripts/build-system·setup.py는 코드라 위험→toml은 데이터·TOML 키=값 형식)/§5 twine 배포(build→TestPyPI 연습장→PyPI·올린 버전 못 지움·이름 고유·API 토큰)/§6 pipx CLI 격리(각 도구 자기 방·방은 격리 문패는 공유·list/upgrade-all)/§7 차세대 uv(Rust 10~100배·동시 처리)·poetry(통합이지만 부품 가려짐→기본은 손으로)/§8 매일 의식 5(새 프로젝트 5분·합류 -r·CLI pipx·공개 twine·업데이트)·5분 셋업 구체·자경단 5명 도구 나눠 씀/§9 다섯 시나리오(충돌·셋업·공개·CLI 충돌·editable)+처방·신입 첫 주·"격리와 재현" 99%/§10 AI 80/20(파일 작성 AI·의존성 적절·진짜 판단 본인·환각/타이포스쿼팅 확인)/FAQ7(requirements vs pyproject·pip vs uv·venv git·PyPI 못 지움·pipx vs pip·의존성 가볍게·toml 안 외움)·오해5(setup.py·poetry·pipx·PyPI·requirements)·실수5 + 안심·졸업장 `pipx install black`·개발자노트·추신30) |
 | H4 | 명령카탈로그 | 17,306 | 🟢 | 합격 (모듈/패키지 카탈로그 — stdlib 5 카테고리 30+(시스템 6: os·sys·subprocess·shutil·platform·argparse / 데이터 7: json·csv·pickle·sqlite3·collections·itertools·functools / 텍스트 5: re·string·textwrap·io·hashlib / 동시성 5: threading·multiprocessing·asyncio·concurrent.futures·queue / 네트워크 6: urllib·http·socket·email·xml·html)·PyPI 5 카테고리 30+(Web 6: requests·flask·fastapi·django·aiohttp·httpx / 데이터 6: numpy·pandas·matplotlib·seaborn·scipy·polars / 테스트 6: pytest·black·ruff·mypy·pylint·coverage / CLI 6: click·typer·rich·textual·tqdm·questionary / DB 6: sqlalchemy·peewee·alembic·redis·psycopg2·pymongo)/자경단 매일 우선순위 5단계(1주차 5 stdlib·1개월 +5 PyPI·6개월 20+15·1년 30+30·5년 50+100)·1주 합 1,405 호출·5명 1년 73,060·5년 365,300 ROI·자경단 본인 매일 평균 8→10→30+ import 진화/카탈로그 학습 ROI 25,000+ 호출/5년·5명 합 125,000+·면접 5 질문 25초(stdlib 5 카테고리·PyPI 5 카테고리·매일 5+5·차세대 5 uv/ruff/polars/httpx/typer)·차세대 도구 5 시도/오해15+FAQ15+추신80) |
 | H5 | 데모 | 17,006 | 🟢 | 합격 (모듈/패키지 데모 vigilante_pkg 100줄·5 모듈·1 패키지 — `__init__.py` 5 패턴 적용(재export·`__all__` 10 이름·`__version__` "0.1.0"·빈 X·side effect 0)·5 모듈(string.py slugify+normalize·number.py safe_int+safe_float·iter.py chunked+flatten·dict.py deep_get+deep_set·date.py to_iso+parse_iso) 각 2 함수·실행 결과 5 함수 검증/자경단 5 시나리오(본인 블로그 슬러그·까미 CSV 파싱·노랭이 API 배치·미니 깊은 config·깜장이 날짜 표준화)·5 통합 비밀(모듈 분리·재export·`__all__`·`__version__`·side effect 0)·5 확장(함수 추가·type hint·테스트·PyPI·namespace)·5 함정(circular·side effect·`__all__` 불완전·relative·`__version__` 중복)/자경단 1주 563 호출·5명 1년 29,276·5년 146,380 ROI·v0.1→v0.5 200줄→v1.0 500줄→v2.0 1000줄 PyPI→v5.0 5000줄 namespace 5 진화·매주 75분 의식표·1년 후 단톡 가상·면접 5 질문 25초/vigilante_pkg + 5 stdlib + 5 PyPI 통합 사례 10 도구·5 시나리오 깊이·매년 회고·자경단 5년 후 시니어 owner·연봉 50% 증가/오해15+FAQ15+추신80) |
 | H6 | 운영 | 17,002 | 🟢 | 합격 (모듈/패키지 운영 5 함정 — circular import(5 해결: 함수 안 import·구조 분리·interface·lazy·합치기)·sys.path 혼동(5 위치: 현재·PYTHONPATH·stdlib·user·system·5 해결: 디렉토리·env·insert·-e·pip)·venv 활성화 안 함(which python3·$VIRTUAL_ENV·direnv·Makefile)·pip install -g 시스템 오염(--user·pipx·venv 의무)·자식 패키지 import(`__init__.py` 명시·relative vs absolute 95%/5%)/의존성 관리 5(lock pip freeze·pip-audit 매주·dependabot weekly·CI GitHub Actions·matrix 3.10/11/12)·CI 5 검사(pytest·coverage·ruff·mypy·pip-audit)·5 anti-pattern(pip-g·`from X import *`·circular 무시·sys.path append·requirements 안)/자경단 5 시나리오(본인 circular·까미 sys.path·노랭이 venv·미니 pip-audit·깜장이 dependabot)·5 통합 패턴·5 신호(venv 100%·circular 면역·pip-audit 매주·dependabot·CI 5)·6 능력 마스터·5 도구 깊이(pip-audit·ruff·mypy·pytest·coverage)/자경단 1주 53 호출·5명 1년 2,756·5년 13,780 ROI·매주 70분 의식·1년 함정 면역·12년 시간축 60+ 함정 면역 + 60+ PyPI·ROI 2.6배 (58h→150h 절약)·자경단 5년 후 단톡 가상·면접 5 질문 25초/오해15+FAQ15+추신80) |
@@ -289,10 +289,10 @@ Ch015 합계: 34,010 / 목표 ~160,000 (2/8 H 진행)
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 013 H3 작성** (모듈·패키지 환경·도구 — venv·pip·pyproject.toml·twine·pipx + uv/potery → 17,000+)
-   - Ch013 H1·H2 완료 ✅(17,008·17,045 실측). **Ch013 2/8**.
-   - ⚠️ Ch013 H3~H8은 계획값/부분 초안. 전면 작성 필요.
-   - Ch013 H3부터 순서대로 작성. Ch013 = Python 입문 7(모듈·패키지).
+👉 **Ch 013 H4 작성** (모듈·패키지 명령 카탈로그 — 표준 라이브러리 30+ · PyPI 인기 30+ · 자경단 백엔드 스택 → 17,000+)
+   - Ch013 H1·H2·H3 완료 ✅(17,008·17,045·17,004 실측). **Ch013 3/8**.
+   - ⚠️ Ch013 H4~H8은 계획값/부분 초안. 전면 작성 필요.
+   - Ch013 H4부터 순서대로 작성. Ch013 = Python 입문 7(모듈·패키지).
    - ⚠️ "다음 턴"은 실제 파일 측정 기준. 위 ⚠️ 실측 상태 표 참조(진행표 본문의 "완료" 표기는 일부 계획값).
    - ⚠️ "다음 턴"은 실제 파일 측정 기준. 위 ⚠️ 실측 상태 표 참조(진행표 본문의 "완료" 표기는 일부 계획값).
    - ⚠️ "다음 턴"은 실제 파일 측정 기준. 위 ⚠️ 실측 상태 표 참조(진행표 본문의 "완료" 표기는 일부 계획값).
@@ -360,4 +360,5 @@ Ch015 합계: 34,010 / 목표 ~160,000 (2/8 H 진행)
 - 실측 합격: 24/960 → **96/960** (Ch001~012 완성 = 12챕터)
 - Ch013 H1 작성 → 17,008 🟢 (3,051 stub → 전면 작성 → 실측 합격) → **Ch013 1/8** (모듈·패키지 오리엔: 네 친구 import·from·`__init__.py`·`__name__` + 성장하는 구조 file_processor→패키지→PyPI + Ch014 venv 다리)
 - Ch013 H2 작성 → 17,045 🟢 (3,291 stub → 전면 작성 → 실측 합격) → **Ch013 2/8** (네 친구의 깊이: import/from 다섯 모습 + `__init__.py` 세 단계 + `__name__` + sys.path 이름 충돌 + circular import 처방 + sys.modules 캐시)
-- 실측 합격: **98/960** (Ch001~012 완성 + Ch013 H1·H2)
+- Ch013 H3 작성 → 17,004 🟢 (3,300 stub → 전면 작성 → 실측 합격) → **Ch013 3/8** (환경·도구 다섯: venv 격리·pip 설치·pyproject 신분증·twine 배포·pipx CLI 격리 + uv/poetry + "격리와 재현")
+- 실측 합격: **99/960** (Ch001~012 완성 + Ch013 H1·H2·H3)
