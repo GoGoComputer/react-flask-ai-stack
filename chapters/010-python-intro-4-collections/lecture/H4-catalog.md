@@ -1,6 +1,7 @@
 # Ch010 · H4 — collections 30+ 도구 카탈로그 — heapq·bisect·deque·Counter
 
 > 고양이 자경단 · Ch 010 · 4교시 (60분)
+> 이 파일은 강사가 마이크 앞에서 그대로 읽을 수 있는 말 그대로의 대본입니다.
 
 ---
 
@@ -17,159 +18,213 @@
 9. 자경단 매일 13줄 흐름
 10. 다섯 함정과 처방
 11. 흔한 오해 다섯 가지
-12. 자주 받는 질문 다섯 가지
-13. 마무리
+12. 자주 받는 질문 여섯 가지
+13. 흔한 실수 다섯 + 안심
+14. 마무리
+
+---
+
+## 🔧 강사용 명령어 한눈에
+
+```python
+from collections import Counter, defaultdict, deque
+import heapq, bisect
+from itertools import chain, groupby, accumulate
+
+Counter(words).most_common(3)      # 빈도 상위 3
+heapq.nlargest(5, data)            # 상위 5개
+bisect.insort(sorted_list, x)      # 정렬 유지하며 삽입
+```
 
 ---
 
 ## 1. 다시 만나서 반가워요 — H3 회수와 오늘의 약속
 
-자, 안녕하세요.
+자, 안녕하세요. 다시 만났어요. 자료구조 챕터의 네 번째 시간이에요. 바로 이어서 가요.
 
-지난 H3 회수. 4 디버깅 도구.
+지난 H3를 한 줄로 회수할게요. 본인은 데이터를 들여다보는 네 도구를 익혔어요. rich.print, json, pprint, collections.abc요. 복잡한 데이터를 예쁘게 보고, 저장하고, 검사하는 법을 배웠죠. 이제 데이터가 어떻게 생겼는지 눈으로 볼 수 있으니, 오늘은 그 데이터를 강력하게 가공하는 도구를 배워요.
 
-이번 H4는 30+ 도구.
+이번 H4는 카탈로그 시간이에요. Ch008 H4에서 흐름 18 도구, Ch009 H4에서 함수 18 도구를 카탈로그로 봤죠. 이번엔 자료구조 30+ 도구예요. 데이터를 더 강력하게 다루는 도구들이요. 기본 메서드, collections 모듈, 그리고 heapq(우선순위 큐), bisect(이진 탐색), itertools(함수형 도구)까지요. 카탈로그라는 게 뭐냐면, 백화점 상품 목록 같은 거예요. 오늘 다 사라는 게 아니에요. "이런 게 있구나, 필요할 때 여기서 꺼내면 되겠구나"를 구경하는 시간이에요.
 
-오늘의 약속. **본인이 자료구조 도구 30개를 만나고, 매일 10개를 손가락에 박습니다**.
+오늘의 약속은 이거예요. **본인이 자료구조 도구 30개를 만나고, 매일 10개를 손가락에 박습니다**. 30개를 다 외우는 게 아니라, 매일 쓰는 10개를 확실히 익히고 나머지는 "존재를 아는" 거예요. H3에서 말했듯, 도구는 이름과 용도만 알면 사용법은 필요할 때 찾으면 돼요. 마음 편하게 구경하세요. 특히 heapq·bisect·itertools는 처음 듣는 이름일 텐데, 무서워 마세요. 각각 한 가지 일만 하는 도구예요.
 
-자, 가요.
+카탈로그 시간을 왜 따로 두는지 한 가지만 말할게요. 도구의 존재를 아는 것 자체가 실력이거든요. 본인이 heapq라는 게 있다는 걸 모르면, "상위 5개 구하기"를 만났을 때 전체를 정렬하고 자르는 느린 코드를 짜요. 그런데 "아, top-N은 heapq.nlargest"를 떠올릴 수 있으면, 한 줄로 빠르게 끝나요. 차이는 "그 도구의 존재를 아느냐"예요. 그래서 오늘 30개를 쭉 구경하는 게 중요해요. 정확한 사용법은 까먹어도 돼요. "상위 N개 빠르게 구하는 뭔가가 있었지", "정렬된 데이터에서 빨리 찾는 뭔가가 있었지"만 기억하면, 필요할 때 이름을 검색해서 찾아요. 요리사가 모든 양념의 정확한 양을 외우진 않아도, 주방에 어떤 양념이 있는지는 알잖아요. 오늘 본인은 자료구조라는 주방의 양념 30개를 구경하는 거예요. 자, 가요.
 
 ---
 
 ## 2. 도구 한 표
 
-| 무리 | 도구 |
-|------|------|
-| list | append, pop, sort, reverse, index, count, remove, insert |
-| dict | get, setdefault, update, pop, items, keys, values |
-| set | add, discard, union(\|), intersection(&) |
-| collections | Counter, defaultdict, deque, namedtuple, OrderedDict |
-| heapq | heappush, heappop, heapify, nlargest, nsmallest |
-| bisect | bisect_left, bisect_right, insort |
-| itertools | chain, groupby, accumulate, product, combinations |
+먼저 30+ 도구를 한 표로 펼칠게요. 전체 지도를 보고 시작하면 길을 안 잃어요.
 
-30+. 다섯 무리.
+| 무리 | 도구 | 용도 |
+|------|------|------|
+| list | append·pop·sort·reverse·index·count·remove·insert | 순서 있는 데이터 다루기 |
+| dict | get·setdefault·update·pop·items·keys·values | 키-값 다루기 |
+| set | add·discard·union(\|)·intersection(&) | 중복 없는 데이터·집합 연산 |
+| collections | Counter·defaultdict·deque·namedtuple·OrderedDict | 특화된 그릇 |
+| heapq | heappush·heappop·heapify·nlargest·nsmallest | 우선순위·top-N |
+| bisect | bisect_left·bisect_right·insort | 정렬된 데이터에서 빠른 위치 |
+| itertools | chain·groupby·accumulate·product·combinations | 함수형 데이터 처리 |
+
+다섯 무리예요. 앞 셋(list·dict·set·collections)은 H2에서 봤어요. 새로운 건 heapq·bisect·itertools 셋이고요. 표만 봐도 벌써 머리에 그림이 그려지죠. 무리로 묶으면 30개가 7덩어리가 되니까 훨씬 외우기 쉬워요. 사람 머리는 30개를 따로 못 외워도, 7덩어리는 기억하거든요. 그리고 각 무리가 한 가지 일을 해요. heapq는 우선순위, bisect는 정렬된 검색, itertools는 함수형 처리. 무리 이름만 봐도 "아, 이 일엔 이 무리"가 떠오르면 충분해요. 이제 무리별로 하나씩 볼게요.
 
 ---
 
 ## 3. 첫째 무리 — built-in 메서드
 
-H2에서 다 봤어요. list 10, dict 7, set 5.
+첫째 무리는 H2에서 다 본 기본 메서드예요. list 메서드 10개, dict 7개, set 5개요.
 
 ```python
-cats.append("미니")
-ages.get("까미", 0)
-colors.add("white")
+cats.append("미니")      # list에 추가
+ages.get("까미", 0)      # dict에서 안전하게 꺼내기
+colors.add("white")      # set에 추가
 ```
 
-매일 30번 사용.
+본인이 H2에서 이미 다 본 거라 짧게 넘어가요. 다만 이 기본 메서드들이 카탈로그의 진짜 주인공이라는 걸 다시 강조할게요.
+
+이건 본인이 매일 30번 넘게 쓰는, 가장 기본이자 가장 자주 쓰는 도구예요. 새로 배울 게 없어요. H2에서 배운 그거고, 자료구조 도구의 80%가 사실 이 기본 메서드예요. 화려한 heapq·itertools보다, 이 append·get·add가 본인의 진짜 매일 손가락이에요. 카탈로그를 보다 보면 화려한 도구에 눈이 가지만, 정작 매일 쓰는 건 가장 기본이라는 걸 잊지 마세요. 기본을 단단히 하고, 나머지는 필요할 때 꺼내는 거예요.
+
+이게 도구를 배울 때 가장 중요한 교훈이에요. 초보일수록 화려하고 멋진 도구에 끌려요. "이런 고급 도구를 쓰면 멋져 보이겠지" 하고요. 그런데 진짜 실력은 기본을 능숙하게 쓰는 데서 나와요. 5년 차 개발자의 코드를 보면 의외로 단순해요. append, get, comprehension 같은 기본을 깔끔하게 쓰죠. 화려한 도구는 정말 필요할 때만 꺼내고요. 반대로 초보일수록 어디서 주워들은 고급 도구를 억지로 끼워 넣어서 코드를 복잡하게 만들어요. Ch009 H6에서 배운 KISS(단순하게)가 여기도 적용돼요. 단순한 기본이 가장 강력해요. 그러니 오늘 화려한 heapq·itertools에 너무 매혹되지 마세요. 본인의 진짜 무기는 매일 쓰는 기본 메서드예요.
 
 ---
 
 ## 4. 둘째 무리 — collections 모듈
 
-H2에서 5개 봤어요. 자경단 매일.
+둘째 무리는 collections 모듈이에요. H2에서 다섯 개 봤죠. 기본 네 그릇으로 부족할 때 꺼내는 특화 도구들이에요.
 
 ```python
 from collections import Counter, defaultdict, deque, namedtuple
 
-Counter("hello")              # 빈도
-defaultdict(list)             # 기본값
-deque([1,2,3])                # 양방향 큐
-Point = namedtuple("Point", ["x","y"])
+Counter("hello")                 # 빈도 세기
+defaultdict(list)                # 키 없을 때 자동 기본값
+deque([1, 2, 3])                 # 양쪽 끝이 빠른 큐
+Point = namedtuple("Point", ["x", "y"])   # 이름 있는 tuple
 ```
+
+이 중 자경단이 매일 쓰는 건 Counter와 defaultdict예요. Counter는 "빈도 세기"의 최강자고, defaultdict는 "키별로 묶기"의 최강자죠. H2에서 봤듯이요. deque는 "양쪽 끝에서 자주 넣고 뺄 때", namedtuple은 "이름 있는 가벼운 짝"일 때 꺼내요. 이 무리도 H2의 복습이에요. 그래서 빠르게 넘어갈게요. 매일 쓰는 Counter·defaultdict만 손에 익히면 충분해요.
+
+Counter의 숨은 기능 하나를 보여 드릴게요. Counter는 산술 연산이 돼요. 두 Counter를 더하면(`c1 + c2`) 빈도가 합쳐지고, 빼면(`c1 - c2`) 빈도가 줄어요. 예를 들어 "이번 주 판매량"과 "지난 주 판매량"을 각각 Counter로 만들어 더하면, 2주 합계가 한 줄에 나와요. 그리고 `c1 & c2`는 공통의 최솟값, `c1 | c2`는 최댓값을 줘요. set 연산과 비슷한 기호죠. 이렇게 Counter는 단순히 세기만 하는 게 아니라, 빈도를 가지고 계산까지 해요. 빈도 데이터를 다룰 때 정말 강력하죠. 지금은 "Counter는 most_common 말고 산술 연산도 된다" 정도만 알아 두세요. 빈도를 합치거나 비교할 일이 생기면 떠올리면 돼요.
 
 ---
 
 ## 5. 셋째 무리 — heapq
 
-heap (우선순위 큐).
+이제 새로운 거예요. heapq, 우선순위 큐예요. 이름이 낯설죠? "heap"이라니 무슨 더미 같고요. 그런데 하는 일은 단순해요. "가장 작은(또는 큰) 값을 빠르게 꺼내는" 도구예요. 이름에 겁먹지 마세요. 하는 일만 보면 별거 아니에요.
 
 ```python
 import heapq
 
 nums = [3, 1, 4, 1, 5, 9, 2, 6]
-heapq.heapify(nums)           # 제자리 heap
+heapq.heapify(nums)              # 리스트를 heap으로 (제자리)
 
-heapq.heappush(nums, 0)
-smallest = heapq.heappop(nums)   # 가장 작은 값
+heapq.heappush(nums, 0)          # 값 추가
+smallest = heapq.heappop(nums)   # 가장 작은 값 꺼내기
 
-# 상위/하위 N개
-heapq.nlargest(3, nums)
-heapq.nsmallest(3, nums)
+# 상위/하위 N개를 한 번에
+heapq.nlargest(3, nums)          # 가장 큰 3개
+heapq.nsmallest(3, nums)         # 가장 작은 3개
 ```
 
-자경단 — 우선순위 작업, top-N.
+heap이 뭐냐면, "가장 작은 값이 항상 맨 위에 있도록 정리된 더미"예요. 그래서 `heappop`을 하면 항상 가장 작은 값이 즉시 나와요. 왜 이게 필요하냐면, "우선순위가 가장 높은 일을 먼저 처리"하는 경우가 많거든요. 작업 큐에서 급한 일부터, 게임에서 가장 가까운 적부터, 다익스트라 알고리즘에서 가장 짧은 경로부터요. 매번 전체를 정렬하면 느린데, heap은 "가장 작은 것 하나만 빠르게" 줘서 효율적이에요. "전부 줄 세우기"는 비싸지만 "맨 앞 하나만 알기"는 싸요. heap은 그 싼 쪽만 해 주는 영리한 자료구조예요. 빨래 더미에서 맨 위 하나만 집는 거랑, 전부 개는 거랑의 차이죠.
+
+자경단에서 가장 자주 쓰는 건 사실 `nlargest`와 `nsmallest`예요. "상위 5명", "가장 비싼 3개" 같은 top-N을 구할 때요. `heapq.nlargest(5, cats, key=lambda c: c.age)`면 나이 많은 5마리를 바로 구해요. 전체를 정렬해서 앞 5개를 자르는 것보다 빠르고요(데이터가 클 때). 지금은 "가장 작은/큰 것을 빠르게 꺼내거나, top-N을 구할 땐 heapq" 정도만 알면 돼요. 직접 heappush/heappop을 쓸 일은 알고리즘 문제에서 만나요.
+
+heap이 왜 빠른지 직관을 하나 드릴게요. 만약 100만 개에서 가장 작은 5개를 구한다고 쳐요. 전체를 sorted로 정렬하면 100만 개를 다 줄 세워야 해요. 시간이 많이 걸리죠. 그런데 생각해 보면, 우리는 가장 작은 5개만 필요하지 나머지 99만 5천 개의 순서는 관심 없잖아요. heapq.nsmallest는 그 점을 이용해요. 전체를 정렬하지 않고, "가장 작은 5개"만 추려 내요. 그래서 데이터가 클수록 sorted보다 훨씬 빨라요. "필요한 만큼만 일한다"는 게 효율의 비결이에요. 이건 Ch008 H7의 generator(lazy, 필요한 만큼만)와 같은 정신이에요. 다 하지 말고, 필요한 것만. 이 사고가 본인을 효율적인 개발자로 만들어요.
+
+우선순위 큐가 실전에서 어떻게 쓰이는지 예를 들게요. 미니가 인프라에서 작업 큐를 관리한다고 쳐요. 여러 작업이 들어오는데, 급한 것부터 처리해야 해요. 이때 각 작업을 (우선순위, 작업)의 튜플로 heap에 넣어요. `heapq.heappush(queue, (priority, task))`처럼요. 그러면 `heappop`을 할 때 항상 우선순위가 가장 높은(숫자가 작은) 작업이 먼저 나와요. 새 작업이 들어와도 heap이 알아서 정리하고요. 이게 "우선순위 큐"예요. 응급실에서 위급한 환자부터 보는 것과 같죠. 들어온 순서가 아니라 급한 순서로요. 본인이 나중에 작업 스케줄러나 알고리즘을 짤 때, 이 패턴을 만나요. 오늘은 "급한 것부터 처리할 땐 heap" 정도만 기억하세요.
 
 ---
 
 ## 6. 넷째 무리 — bisect
 
-이진 탐색. 정렬된 list에서.
+넷째 무리는 bisect, 이진 탐색이에요. 이름이 "둘로 자르기"라는 뜻이에요. 이것도 한 가지 일만 해요. "정렬된 리스트에서 값의 위치를 빠르게 찾는" 거예요. 절반씩 잘라 가며 찾으니 bisect죠.
 
 ```python
 import bisect
 
 sorted_nums = [1, 3, 5, 7, 9]
 
-# 위치 찾기 (O(log n))
-pos = bisect.bisect_left(sorted_nums, 4)   # 2
+# 위치 찾기 (O(log n) — 빠름)
+pos = bisect.bisect_left(sorted_nums, 4)   # 2 (4가 들어갈 자리)
 
-# 삽입하면서 정렬 유지
+# 정렬을 유지하면서 삽입
 bisect.insort(sorted_nums, 4)
 # [1, 3, 4, 5, 7, 9]
 ```
 
-자경단 — 정렬된 데이터에서 빠른 위치.
+핵심은 "정렬된" 리스트라는 거예요. 정렬돼 있으면, 값을 처음부터 찾을 필요 없이 "가운데를 보고 절반씩 좁혀" 가요. 1만 개에서 찾아도 14번이면 끝나죠(log를 쓰니까). 이게 H1에서 본 "도서관에서 청구기호로 찾기"와 비슷한 빠름이에요. `bisect.insort`는 "정렬을 깨지 않고 알맞은 자리에 끼워 넣기"고요. 매번 추가하고 다시 정렬하는 것보다 효율적이에요. 숫자 맞히기 게임을 떠올려 보세요. 1부터 100 중 하나를 맞힐 때, 1, 2, 3 순서로 부르면 최대 100번이지만, "50? 위! 75? 아래! 62?"처럼 절반씩 좁히면 7번이면 맞혀요. 그게 이진 탐색이에요. 정렬이 그 절반 좁히기를 가능하게 하는 거고요.
+
+자경단에서 bisect는 가끔 써요. "정렬된 데이터에서 빠른 위치 찾기"나 "등급 매기기"(점수가 어느 구간에 드는지) 같은 데요. 매일 쓰는 도구는 아니에요. 그런데 "정렬된 큰 데이터에서 자주 찾을 거면 bisect"라는 걸 알아 두면, 그 상황에서 본인을 구해요. 지금은 "정렬된 리스트엔 bisect" 정도만 기억하세요.
+
+등급 매기기 예를 하나 보여 드릴게요. 점수에 따라 등급(A·B·C·D)을 매긴다고 쳐요. 경계가 `[60, 70, 80, 90]`이라면, 어떤 점수가 어느 등급인지를 bisect로 한 줄에 구해요. `grade = "DCBAS"[bisect.bisect(boundaries, score)]`처럼요. 85점이면 boundaries에서 위치를 찾아 'A'가 나오죠. if-elif를 줄줄이 쓰는 대신, 정렬된 경계와 bisect로 깔끔하게 분류하는 거예요. 이게 bisect의 영리한 활용이에요. "구간으로 분류하기"가 필요할 때 떠올리세요. 다만 이건 좀 고급이니, 지금은 "이런 것도 되는구나" 정도로 구경하면 돼요.
+
+bisect를 이해하면 "정렬의 가치"가 보여요. 정렬은 그냥 보기 좋게 줄 세우는 게 아니에요. 정렬돼 있으면 "절반씩 좁혀 가며 찾기(이진 탐색)"가 가능해져서, 검색이 어마어마하게 빨라지거든요. 100만 개 중에서 20번이면 찾아요. 그래서 데이터베이스가 인덱스를 정렬해서 보관하는 거예요. 빠른 검색을 위해서요. 본인이 나중에 DB를 배울 때, "왜 인덱스가 빠른가"의 답이 오늘 본 이진 탐색이에요. 정렬과 이진 탐색은 컴퓨터 과학의 가장 기본적이고 강력한 짝이에요. bisect가 그 짝을 한 줄로 쓰게 해 주는 거고요.
 
 ---
 
 ## 7. 다섯째 무리 — itertools
 
-함수형 흐름.
+마지막 무리는 itertools예요. 이름이 "iterator(반복자) 도구"라는 뜻이에요. 데이터를 함수형으로 우아하게 처리하는 도구 모음이죠. Ch008 H4에서 살짝 봤어요. 다섯 개를 볼게요.
 
 ```python
 from itertools import chain, groupby, accumulate, product, combinations
 
-# chain — 합치기
+# chain — 여러 리스트를 이어 붙이기
 list(chain([1, 2], [3, 4]))      # [1, 2, 3, 4]
 
-# groupby — 같은 key 그룹
+# groupby — 같은 key끼리 그룹 (정렬 필요!)
 data = sorted(cats, key=lambda c: c.color)
 for color, group in groupby(data, key=lambda c: c.color):
     print(color, list(group))
 
-# accumulate — 누적
+# accumulate — 누적 합
 list(accumulate([1, 2, 3, 4]))   # [1, 3, 6, 10]
 
-# product — 모든 조합
-list(product([1, 2], ["a", "b"]))
+# product — 모든 조합 (곱집합)
+list(product([1, 2], ["a", "b"]))  # [(1,a),(1,b),(2,a),(2,b)]
 
-# combinations
+# combinations — 조합
 list(combinations([1, 2, 3], 2))   # [(1,2), (1,3), (2,3)]
 ```
 
-자경단 매주.
+다섯 개. `chain`은 여러 리스트를 하나로 이어요. `groupby`는 같은 키끼리 묶는데, 한 가지 함정이 있어요. 먼저 정렬해야 해요. groupby는 "연속된 같은 것"만 묶거든요. 그래서 `sorted` 후에 써야 제대로 그룹이 돼요. 이건 함정 코너에서 다시 짚을게요. `accumulate`는 누적 합(1, 1+2, 1+2+3...)을, `product`는 모든 조합을, `combinations`는 중복 없는 조합을 만들어요.
+
+accumulate가 의외로 유용해요. "누적"이 필요한 데가 많거든요. 예를 들어 매일 판매량이 [10, 20, 15, 30]이면, 누적 판매량은 [10, 30, 45, 75]예요. `accumulate([10,20,15,30])`이 이걸 한 줄로 줘요. 잔고 추이, 누적 다운로드 수, 마라톤 구간별 누적 거리 같은 게 다 accumulate예요. for로 직접 누적 변수를 더해 가며 짤 수도 있지만, accumulate가 의도를 더 분명하게 보여 줘요. "이건 누적이야"라고요. 그리고 accumulate에 함수를 주면 누적 합 말고 누적 곱이나 누적 최댓값도 만들 수 있어요. `accumulate(nums, max)`는 "지금까지의 최댓값" 추이를 주죠. 데이터의 "추이"를 볼 때 떠올리면 좋은 도구예요.
+
+itertools는 "데이터를 흘리면서 처리"하는 도구라, Ch008 H7에서 본 generator처럼 lazy해요. 큰 데이터도 메모리 적게 처리하죠. 다만 매일 쓰진 않아요. 자경단도 주간에 몇 번, 특수한 데이터 처리에 써요. 오늘은 "이런 함수형 도구들이 있다" 정도만 구경하세요. 직접 쓸 일은 데이터를 복잡하게 가공할 때 와요. 그때 "아, itertools에 뭔가 있었지" 하고 찾으면 돼요.
+
+이 중 본인이 실전에서 가장 자주 만날 건 groupby예요. "데이터를 어떤 기준으로 묶기"는 정말 흔하거든요. cat을 색깔별로, 주문을 날짜별로, 로그를 사용자별로요. 그런데 아까 말한 함정, "정렬 먼저"를 꼭 기억하세요. groupby는 "지금 보고 있는 것과 같으면 한 그룹, 달라지면 새 그룹"으로 동작해요. 그래서 정렬이 안 된 데이터에서는 같은 키가 여기저기 흩어져 있어서 제대로 안 묶여요. 반드시 `sorted(data, key=...)`로 같은 키를 모은 다음 groupby를 써야 해요. 사실 이 함정 때문에, 자경단은 단순한 그룹 묶기엔 groupby 대신 defaultdict를 더 자주 써요. `defaultdict(list)`로 묶으면 정렬이 필요 없거든요. groupby는 "정렬된 데이터에 연속 그룹 처리가 필요할 때"의 특수 도구로 생각하세요. 그래서 H2에서 "키별로 묶기는 거의 항상 defaultdict"라고 한 거예요.
+
+itertools의 product와 combinations는 "조합을 만드는" 도구라, 알고리즘이나 테스트에서 빛나요. product는 "모든 경우의 수"를 만들어요. 색깔 3가지와 크기 2가지의 모든 조합(6가지)을 `product(colors, sizes)`로 만들죠. 중첩 for 두 개를 한 줄로 줄이는 거예요. combinations는 "중복 없이 n개 뽑기"고요. 5명 중 2명씩 짝을 짓는 모든 경우를 `combinations(people, 2)`로 만들어요. 깜장이가 테스트 케이스를 만들 때, 여러 입력 조합을 product로 생성해서 다 테스트하기도 해요. 이런 게 필요할 때 itertools를 떠올리면, 복잡한 중첩 루프를 한 줄로 줄일 수 있어요. 지금은 "조합이 필요하면 itertools" 정도만요.
 
 ---
 
 ## 8. 매일·주간·월간 리듬
 
-**매일 10**. list/dict/set 메서드 + Counter + defaultdict.
+30+ 도구를 다 똑같이 쓰는 게 아니에요. 빈도가 달라요. 자경단의 리듬으로 묶어 드릴게요.
 
-**주간 10**. namedtuple, deque, heapq, bisect 일부.
+**매일 쓰는 10개** — list/dict/set 기본 메서드 + Counter + defaultdict. 이게 진짜 매일 손가락이에요.
 
-**월간 10**. itertools.groupby, product, combinations, OrderedDict, abc.
+**주간에 쓰는 10개** — namedtuple, deque, heapq의 nlargest/nsmallest, bisect 일부. 일주일에 몇 번 만나요. 특히 deque는 "최근 N개만 기억하기"(`deque(maxlen=N)`)에 정말 편해서, 채팅 기록이나 최근 활동을 다룰 때 자주 꺼내요.
 
-매일 10개부터.
+**월간에 쓰는 10개** — itertools의 groupby·product·combinations, OrderedDict, collections.abc. 한 달에 몇 번, 특수한 자리에서요.
+
+이 리듬이 본인이 "뭘 먼저 익힐지"를 정해 줘요. 매일 쓰는 10개부터 손에 익히세요. 그게 손가락에 박히면 주간 10개로, 그 다음 월간 10개로 넓혀 가요. 30개를 한 번에 다 익히려 하면 지쳐요. 자주 쓰는 순서대로. 그러면 자연스럽게 다 익어요. 안 쓰는 도구는 안 익혀도 돼요. 필요해질 때 그때 익히면 되거든요.
+
+그리고 누적으로 보면 본인이 얼마나 부자가 됐는지 보여요. Ch008 흐름 18, Ch009 함수 18, 그리고 이번 자료구조 30+. 거기에 셸 30, Python 기본 18까지. 본인 손에 110개가 넘는 도구가 쌓였어요. 1년 전 터미널 한 줄도 무서웠던 본인이요. 그런데 도구의 진짜 힘은 개수가 아니라 "엮임"이에요. 다음 절에서 그 엮임을 봐요.
+
+이 110개 도구를 다 외워야 한다고 생각하면 숨이 막히죠. 그런데 안심하세요. 본인이 매일 쓰는 건 사실 30개 정도예요. 나머지 80개는 "존재만 아는" 도구고, 필요할 때 검색해서 꺼내요. 5년 차 개발자도 그래요. 매일 쓰는 손에 익은 도구가 있고, 가끔 쓰는 건 그때그때 찾죠. 그러니 본인이 할 일은 "모든 도구를 외우기"가 아니라 "매일 쓰는 핵심을 손에 익히고, 나머지의 존재를 알아 두기"예요. 그게 도구를 대하는 건강한 태도예요. 카탈로그는 외우는 책이 아니라, 펼쳐 두고 필요할 때 찾는 사전이에요. 본인의 머릿속엔 "이런 도구가 있다"는 목록만 있으면 되고, 정확한 사용법은 사전(검색·자동완성·공식 문서)에 맡기세요. 그래야 지치지 않고 오래 가요.
 
 ---
 
 ## 9. 자경단 매일 13줄 흐름
 
+자경단이 매일 짜는 데이터 처리 코드를 보면서, 도구들이 어떻게 어울리는지 볼게요.
+
 ```python
 from collections import Counter, defaultdict
 from itertools import groupby
+import heapq
 
 # 빈도 분석
 freq = Counter(words)
@@ -185,118 +240,173 @@ for color, group in groupby(sorted(cats, key=lambda c: c.color), key=lambda c: c
     print(color, list(group))
 
 # heap top-N
-import heapq
 top5 = heapq.nlargest(5, cats, key=lambda c: c.age)
 
-# dict comp
+# dict comprehension
 ages_map = {c.name: c.age for c in cats}
 ```
 
-13줄. 자경단 매일.
+13줄 안에 오늘 배운 도구들이 어울려 있어요. Counter로 빈도를 세고, defaultdict로 그룹을 묶고, groupby로 또 묶고, heapq로 top-5를 구하고, dict comprehension으로 매핑을 만들죠. 이게 자경단의 평범한 데이터 처리 코드예요. 화려한 게 아니라, 배운 도구들을 적재적소에 엮은 거예요. 특히 lambda(Ch009)와 sorted(Ch008)가 여기서 도구들과 어울리죠. 본인이 지금까지 배운 게 다 여기 모여 있어요. 이렇게 도구들이 한 줄 한 줄 손을 잡아 진짜 데이터 처리가 돼요. H5에서 본인이 이런 코드를 직접 짜요.
+
+이 코드를 보면 한 가지가 분명해져요. 자료구조 도구는 혼자 안 써요. 여러 개가 어울려요. 데이터를 Counter로 세고, 그 결과를 most_common으로 정렬하고, 또 다른 기준으로 defaultdict로 묶고. 데이터가 여러 도구를 거치며 점점 원하는 형태로 변해 가죠. 이게 데이터 처리의 본질이에요. "원본 데이터 → 여러 도구를 거침 → 원하는 결과." 셸의 파이프(`cat | sort | uniq`)와 같은 정신이에요. 데이터가 도구들을 통과하며 가공되는 거죠. 본인이 도구를 많이 알수록, 이 가공 단계를 더 짧고 우아하게 만들 수 있어요. 한 도구만 아는 사람은 긴 for 루프로 끙끙대고, 여러 도구를 아는 사람은 몇 줄로 끝내요. 그게 오늘 30개를 구경하는 이유예요. 무기가 많을수록 우아하게 싸워요.
 
 ---
 
 ## 10. 다섯 함정과 처방
 
-**함정 1: list.remove() 못 찾음**
+30+ 도구를 쓰며 자주 빠지는 함정 다섯 개와 처방이에요.
 
-처방. `if x in list` 먼저.
+**함정 1: list.remove()가 값을 못 찾아요.** 없는 값을 remove하면 ValueError가 나요. 처방은 `if x in list:`로 먼저 확인하거나, 더 안전하게 set/dict로 다루는 거예요. 자주 제거할 거면 list보다 set이 안전하고 빨라요.
 
-**함정 2: dict.pop() 없는 key**
+**함정 2: dict.pop()이 없는 키에서 에러나요.** 처방은 `dict.pop(key, default)`로 기본값을 주는 거예요. .get처럼요. 두 번째 인자를 주면 없는 키에도 안 죽고 기본값을 돌려줘요.
 
-처방. default 인자.
+**함정 3: set이 정렬돼 있길 기대해요.** set은 순서가 없어요. 처방은 `sorted(my_set)`으로 정렬된 리스트를 얻는 거예요. H2에서 본 거죠. 중복 제거하고 정렬하는 `sorted(set(...))` 조합을 기억하세요.
 
-**함정 3: set 정렬 기대**
+**함정 4: heapq가 가장 큰 값을 줄 거라 생각해요.** heapq는 기본이 min-heap이라 가장 작은 값을 줘요. 처방은 큰 값이 필요하면 부호를 반대로 넣거나(`-x`), `nlargest`를 쓰는 거예요. 가장 큰 걸 자주 꺼낼 거면 값에 마이너스를 붙여 넣고 꺼낼 때 다시 마이너스를 떼는 트릭을 써요. 좀 번거롭지만 알고리즘 문제에서 자주 나오는 패턴이에요.
 
-처방. sorted(set).
+**함정 5: itertools.groupby가 안 묶여요.** 정렬을 안 했기 때문이에요. groupby는 연속된 같은 것만 묶어요. 처방은 먼저 `sorted`로 정렬하는 거예요. groupby의 1번 함정이에요.
 
-**함정 4: heapq는 min-heap**
+다섯 함정. 미리 알아 두면 그 사고를 만났을 때 당황 안 해요.
 
-처방. max-heap은 부호 반전.
-
-**함정 5: itertools.groupby 정렬 필요**
-
-처방. sorted 먼저.
+이 중 본인이 가장 자주 만날 건 함정 5(groupby 정렬)예요. groupby를 처음 쓰는 사람은 거의 다 여기 데여요. "분명 groupby 했는데 왜 같은 게 여러 그룹으로 나뉘지?" 하고요. 답은 정렬을 안 했기 때문이에요. 그래서 groupby의 공식 같은 패턴이 `sorted` + `groupby`예요. 항상 짝으로 쓰세요. `for key, group in groupby(sorted(data, key=f), key=f):`처럼, sorted와 groupby에 같은 key 함수를 주는 거예요. 정렬 기준과 그룹 기준이 같아야 제대로 묶이거든요. 이 패턴을 통째로 외워 두면 groupby로 고생할 일이 없어요. 그리고 솔직히, 단순 그룹 묶기엔 defaultdict가 정렬도 필요 없고 더 쉬워요. groupby는 "이미 정렬된 데이터를 연속 처리"할 때만 꺼내세요.
 
 ---
 
 ## 11. 흔한 오해 다섯 가지
 
-**오해 1: list가 만능.**
+**오해 1: list가 만능이라 다 list로 하면 된다.**
 
-dict와 set이 더 빠른 경우 많음.
+아니에요. dict와 set이 더 빠른 경우가 많아요. 키로 찾기, 중복 검사는 dict·set이에요. H1의 교훈이죠. 그리고 top-N은 heapq, 빈도는 Counter처럼, 특화된 상황엔 특화된 도구가 더 빨라요. list 하나로 다 하려 하지 마세요.
 
-**오해 2: heapq는 큰 데이터.**
+**오해 2: heapq는 큰 데이터에서만 쓴다.**
 
-작은 데이터도 top-N 빠름.
+아니에요. 작은 데이터에서도 top-N을 구할 때 nlargest/nsmallest가 깔끔해요. 정렬해서 자르는 것보다 의도가 분명하죠. `nlargest(3, ...)`는 "상위 3개"라고 코드가 말하잖아요. `sorted(...)[:3]`보다 의도가 분명해요. 데이터 크기보다 "의도를 분명히"가 nlargest의 진짜 가치예요.
 
-**오해 3: bisect 매일.**
+**오해 3: bisect를 매일 쓴다.**
 
-정렬된 데이터에만. 가끔.
+아니에요. 정렬된 데이터에서만, 가끔 써요. 매일 쓰는 도구는 아니에요. "정렬된 큰 데이터" 신호가 올 때 꺼내요. 그래서 "존재만 알아 두고" 필요할 때 찾는 도구예요. 매일 쓰는 Counter·defaultdict와는 빈도가 달라요.
 
-**오해 4: itertools 어렵다.**
+**오해 4: itertools는 너무 어렵다.**
 
-5개만 익히면 충분.
+아니에요. chain·groupby·accumulate·product·combinations 다섯 개만 익히면 충분해요. 각각 한 가지 일만 하거든요. 이어붙이기·그룹·누적·곱집합·조합. 이름만 어렵지, 하는 일은 단순해요. 필요할 때 하나씩 꺼내 쓰면 돼요.
 
-**오해 5: collections는 옵션.**
+**오해 5: collections 모듈은 옵션이다.**
 
-Counter, defaultdict 매일.
+아니에요. Counter와 defaultdict는 매일 써요. 빈도 세기와 그룹 묶기에 필수예요. 옵션이 아니라 기본이에요.
+
+다섯 오해를 보면 공통점이 보이죠. 다 "도구의 자리를 헷갈리는" 오해예요. 모든 도구는 "맞는 자리"가 있어요. list는 순서 있는 데이터에, heapq는 top-N에, bisect는 정렬된 검색에, itertools는 함수형 처리에, Counter는 빈도에. 도구를 배울 때 "이건 언제 쓰는가"를 같이 배우는 게 중요해요. 망치가 좋다고 모든 걸 망치로 치면 안 되잖아요. 좋은 개발자는 도구를 많이 아는 사람이 아니라, "이 상황엔 이 도구"를 정확히 고르는 사람이에요. 오늘 30개를 배우면서, 각 도구의 "맞는 자리"를 같이 기억하세요. top-N이면 heapq, 빈도면 Counter, 그룹이면 defaultdict. 이 매핑이 카탈로그를 제대로 보는 법이에요.
 
 ---
 
-## 12. 자주 받는 질문 다섯 가지
+## 12. 자주 받는 질문 여섯 가지
 
-**Q1. heapq vs sorted?**
+**Q1. heapq랑 sorted 중 뭘 써요?**
 
-heap은 부분 정렬 (top-N), sorted는 전체.
+전체 순서가 필요하면 sorted, "가장 작은/큰 것 몇 개"만 필요하면 heapq예요. top-10을 구하는데 100만 개를 다 정렬할 필요 없잖아요. 그땐 heapq.nlargest가 빠르고 깔끔해요. 다만 데이터가 작으면 sorted[:n]도 충분해요. 큰 데이터에서 top-N일 때 heapq가 진가를 발휘하죠.
 
-**Q2. bisect 어디서?**
+**Q2. bisect는 어디서 써요?**
 
-이미 정렬된 list. 매일은 아님.
+이미 정렬된 리스트에서 위치를 빠르게 찾거나, 정렬을 유지하며 삽입할 때요. 매일은 아니에요. 정렬된 큰 데이터를 자주 검색할 때, 그리고 점수를 등급으로 분류할 때 빛나요. "정렬돼 있고, 자주 찾는다" 이 두 조건이 맞으면 bisect를 떠올리세요. 둘 중 하나라도 아니면 보통 list의 in이나 dict로 충분해요.
 
-**Q3. itertools chain vs +?**
+**Q3. itertools.chain이랑 + 연산 중 뭘 써요?**
 
-chain은 lazy, +는 eager.
+chain은 lazy해서 메모리를 덜 써요(큰 데이터). `[1,2] + [3,4]`처럼 +는 바로 새 리스트를 만들고요(작은 데이터). 큰 데이터를 이어 붙일 거면 chain이에요. 리스트 두세 개를 잠깐 합치는 거면 +가 더 간단하고요. 수십 개의 큰 리스트를 이어 돌릴 거면 chain이 메모리를 아껴요.
 
-**Q4. groupby 정렬 안 하면?**
+**Q4. groupby가 정렬을 안 하면 어떻게 돼요?**
 
-연속된 같은 key만 그룹.
+연속된 같은 키만 그룹으로 묶여요. 예를 들어 [A, A, B, A]면 [A,A], [B], [A]로 세 그룹이 돼요. A가 두 그룹으로 나뉘죠. 그래서 전체를 한 그룹으로 묶으려면 먼저 sorted로 정렬해야 해요. 이게 groupby의 가장 흔한 함정이라, "groupby 앞엔 sorted"를 공식처럼 외워 두세요.
 
-**Q5. 30 도구 다 외움?**
+**Q5. 30개를 다 외워야 하나요?**
 
-매일 10개부터. 6주.
+아니에요. 매일 쓰는 10개부터요. 6주면 그 10개가 손에 박혀요. 나머지 20개는 "존재"만 알고, 필요할 때 이 카탈로그로 돌아오세요. 외우는 게 아니라 구경하는 거예요.
+
+**Q6. 이 도구들을 언제 직접 손으로 써 볼 수 있어요?**
+
+당장 H5 데모에서요. 다음 시간에 본인의 환율 계산기를 v4로 키우면서, Counter로 통계를 내고 defaultdict로 묶고 heapq로 top-N을 구해요. 그때 오늘 본 도구들이 손에서 살아 움직여요. 그리고 본인이 코딩 테스트를 풀거나, 데이터를 가공하는 일을 만나면, 오늘 본 도구들이 하나씩 떠올라요. 도구는 구경(H4)하고 적용(H5)하고 실전(매일)으로 익어가요. 오늘은 구경 단계니, 부담 없이 "이런 게 있구나" 하고 넘기세요. 손으로 쓰는 건 다음 시간부터예요.
 
 ---
 
 ## 13. 흔한 실수 다섯 + 안심 — 명령어 학습 편
 
-첫째, list 메서드 다 외움. 안심 — append·pop·extend 셋.
-둘째, dict 순회 헷갈림. 안심 — `for k, v in d.items()`.
-셋째, comprehension 무지성. 안심 — 단순한 것만.
-넷째, sorted vs sort. 안심 — sorted = 새 list, sort = in-place.
-다섯째, 가장 큰 — built-in 안 사용. 안심 — sum/min/max/sorted.
+자료구조 도구를 익히며 자주 빠지는 함정 다섯 개예요.
 
-다섯 함정 미리 알아둔 본인이 두 해 동안 한 박자 빠르게.
+**첫째, list 메서드를 다 외우려 하기.** 안심하세요. append·pop·extend 셋이면 90%예요. 나머지는 자동완성이 알려 줘요. `cats.`까지 치면 IDE가 쓸 수 있는 메서드를 다 보여 주거든요.
+
+**둘째, dict 순회를 헷갈리기.** 안심하세요. `for k, v in d.items():`가 키-값 둘 다 도는 정석이에요. 이 한 줄만 손에 익히세요. dict를 그냥 `for k in d:`로 돌면 키만 나와서 값을 또 찾아야 하거든요. items()로 한 번에 받는 게 깔끔해요.
+
+**셋째, comprehension을 무작정 쓰기.** 안심하세요. 단순한 변환에만 쓰세요. 복잡하면 일반 for가 나아요. Ch008의 교훈이죠. 짧음이 아니라 읽기 쉬움이 목표예요.
+
+**넷째, sorted랑 sort를 헷갈리기.** 안심하세요. `sorted()`는 새 리스트를 돌려주고, `.sort()`는 원본을 제자리에서 바꿔요(None 반환). H2에서 본 거죠. "함수는 새것, 메서드는 제자리"로 기억하세요.
+
+**다섯째, 가장 큰 함정 — 내장 함수를 안 쓰기.** 안심하세요. `sum`, `min`, `max`, `sorted`, `len` 같은 내장 함수가 이미 있어요. 직접 for로 합계를 구하지 말고 `sum()`을 쓰세요. 바퀴를 다시 발명하지 마세요. 그리고 `any`(하나라도 참인가), `all`(전부 참인가), `zip`(둘을 짝짓기), `enumerate`(번호 매기기) 같은 내장 함수도 매일 써요. 이것들은 Ch008 흐름에서 배운 거죠. 자료구조를 다룰 때 이 내장 함수들이 손가락처럼 따라와요.
+
+다섯 함정 미리 알아둔 본인이 두 해 동안 한 박자 빠르게 가요. 그리고 이 다섯이 다 "이미 있는 걸 잘 쓰자"로 통해요. Python에는 데이터를 다루는 좋은 도구가 이미 수백 개 있어요. 본인이 할 일은 그걸 새로 만드는 게 아니라, 잘 찾아 쓰는 거예요. 합계는 sum, 최댓값은 max, 정렬은 sorted, 빈도는 Counter, 그룹은 defaultdict. "이거 직접 짜기 전에, 이미 있는 도구가 없나?"를 먼저 물으세요. 십중팔구 있어요. 좋은 개발자는 많이 짜는 사람이 아니라, 이미 있는 걸 잘 조합하는 사람이에요. 오늘 30개를 구경한 게 바로 그 "이미 있는 것"의 목록을 머리에 넣는 거예요.
+
+---
 
 ## 14. 마무리
 
-자, 네 번째 시간 끝.
+자, 자료구조 챕터의 네 번째 시간이 끝났어요.
 
-built-in, collections, heapq, bisect, itertools.
+오늘 본인은 자료구조 30+ 도구를 카탈로그로 구경했어요. 기본 메서드(list·dict·set), collections 모듈(Counter·defaultdict 등), heapq(우선순위·top-N), bisect(정렬된 데이터 검색), itertools(함수형 처리)요. 데이터를 더 강력하게 다루는 도구 상자가 채워졌어요. 그리고 누적으로 110개가 넘는 도구가 본인 손에 쌓였다는 것도 봤죠. 셸부터 자료구조까지요. 본인이 정말 부자가 됐어요.
 
-다음 H5는 30분 데모. exchange v4.
+오늘의 약속을 지켰어요. 30개 도구를 만났고, 매일 쓰는 10개를 알았죠. 다 외운 게 아니라, "이런 게 있고, 언제 쓰는지"를 아는 거예요. 매일 쓰는 건 기본 메서드와 Counter·defaultdict예요. heapq·bisect·itertools는 필요할 때 이 카탈로그로 돌아오세요. 특히 "top-N은 heapq, 빈도는 Counter, 그룹은 defaultdict"만 기억해도 큰 자산이에요. 이 세 매핑이 오늘의 핵심이에요. 상황을 만나면 도구가 떠오르게요.
+
+한 가지만 더 짚고 넘어갈게요. 오늘 본 30개 도구가 좀 많게 느껴졌을 수 있어요. heapq, bisect, itertools… 낯선 이름이 많았죠. 그런데 걱정 마세요. 이건 "구경"이었어요. 매일 쓰는 건 기본 메서드(append·get·add)와 Counter·defaultdict예요. 그게 진짜 주역이고, heapq·bisect·itertools는 가끔 빛나는 조연이에요. 그러니 오늘 30개 중 단 두 개, Counter(빈도)와 defaultdict(그룹)만 확실히 기억해도 충분해요. 그게 본인이 가장 빨리, 가장 자주 쓰게 될 도구거든요. 나머지 28개는 "그런 게 있다"만요. 욕심내지 마세요. 카탈로그는 외우는 게 아니라 펼쳐 두고 필요할 때 보는 거예요.
+
+다음 H5는 드디어 데모예요. 본인의 환율 계산기가 v3에서 v4로 자라요. 오늘 본 Counter, defaultdict, groupby 같은 도구를 직접 적용해요. 그 전에 마지막으로 한 줄만 쳐 보세요.
 
 ```python
 python3 -c "from collections import Counter; print(Counter('자경단고양이').most_common(5))"
 ```
 
+각 글자의 빈도를 세서 상위 5개를 뽑아요. Counter 한 줄로요. 본인이 이 출력을 이해하면, 오늘 Counter를 손에 쥔 거예요.
+
+오늘 본인은 자료구조 챕터의 절반을 지났어요. H1에서 자료구조가 뭔지 보고, H2에서 메서드를 배우고, H3에서 들여다보는 도구를 익히고, 오늘 H4에서 데이터를 강력하게 다루는 30+ 도구를 구경했어요. 이제 본인은 자료구조에 대해 "이론"은 거의 다 봤어요. 남은 절반(H5~H8)은 그걸 "실전"으로 옮기는 시간이에요. H5에서 직접 만들고, H6에서 잘 고르고, H7에서 속을 파고, H8에서 묶어요. 가장 재미있는 절반이 남았어요. 다음 시간에 봐요. 본인의 환율 계산기를 또 키워요. 오늘도 끝까지 와 주셔서 고마워요. 도구 상자가 점점 두둑해지고 있어요. 본인이 자랑스러워요. 🐾
+
 ---
 
-## 👨‍💻 개발자 노트
+## 👨‍💻 개발자 노트 (참고 — 비개발자는 그냥 넘기셔도 됩니다)
 
-> - heapq: binary heap. C로 구현.
-> - bisect: 이진 탐색. O(log n).
-> - itertools.groupby vs Counter: groupby는 연속, Counter는 전체.
-> - deque vs list: deque는 양 끝 O(1), list는 끝만 O(1).
-> - namedtuple vs dataclass: namedtuple은 immutable + tuple 기반.
-> - 다음 H5 키워드: exchange v4 · Counter · defaultdict · groupby · heapq.
+> - heapq: binary heap(min-heap). C 구현. `heappush`/`heappop` O(log n)·`heapify` O(n)·`nlargest`/`nsmallest` O(n log k). max-heap은 `-x` 또는 `(−priority, item)`.
+> - bisect: 이진 탐색. `bisect_left`/`bisect_right` O(log n)·`insort` O(n)(삽입은 shift). 정렬 상태 전제.
+> - itertools: lazy(generator 기반). `groupby`는 연속 그룹(정렬 필요)·`chain`(이어붙임)·`accumulate`(누적)·`product`(곱집합)·`combinations`/`permutations`.
+> - deque: `collections.deque`. 양끝 O(1)·`maxlen`·`rotate`. list의 `insert(0)`/`pop(0)`은 O(n).
+> - Counter: dict 서브클래스. `most_common`·산술 연산(`+`/`-`/`&`/`|`)·`elements`.
+> - 누적 도구 수: 셸 30 + Python 18 + 흐름 18 + 함수 18 + 자료구조 30+ = 110+.
+> - 다음 H5 키워드: exchange_v4 · Counter · defaultdict · groupby · heapq · nlargest.
+
+---
+
+## 추신
+
+1. 자료구조 30+ 도구 — 5 무리.
+2. 카탈로그=백화점 목록. 다 사는 게 아니라 구경.
+3. 매일 쓰는 건 10개. 나머지는 필요할 때.
+4. 첫째 무리 — list·dict·set 기본 메서드. 80%.
+5. 화려한 도구보다 기본 메서드가 진짜 매일.
+6. 둘째 무리 — collections. Counter·defaultdict 매일.
+7. Counter=빈도, defaultdict=그룹 묶기.
+8. 셋째 무리 — heapq. 우선순위 큐.
+9. heapq=가장 작은/큰 것 빠르게 꺼내기.
+10. heapq.nlargest(n)·nsmallest(n)으로 top-N.
+11. heapq 기본은 min-heap(가장 작은 것).
+12. 넷째 무리 — bisect. 정렬된 데이터 빠른 위치.
+13. bisect는 정렬 전제. O(log n).
+14. bisect.insort=정렬 유지하며 삽입.
+15. 다섯째 무리 — itertools. 함수형 lazy.
+16. itertools 5 — chain·groupby·accumulate·product·combinations.
+17. groupby는 정렬 먼저! 연속만 묶어요.
+18. chain=이어붙임, accumulate=누적합.
+19. 리듬 — 매일 10·주간 10·월간 10.
+20. 자주 쓰는 순서대로 익히기.
+21. 누적 도구 110+ (셸·Python·흐름·함수·자료구조).
+22. 13줄 흐름 — Counter·defaultdict·groupby·heapq·comp.
+23. list.remove 없는 값 함정 → in 확인.
+24. dict.pop 없는 키 함정 → default 인자.
+25. heapq max는 부호 반전 또는 nlargest.
+26. heapq vs sorted — top-N은 heapq, 전체는 sorted.
+27. chain은 lazy, +는 eager.
+28. 내장 함수(sum·min·max·sorted) 적극 활용.
+29. Ch010 H4 졸업 — Counter most_common.
+30. 다음 H5는 데모. exchange v4. 🐾

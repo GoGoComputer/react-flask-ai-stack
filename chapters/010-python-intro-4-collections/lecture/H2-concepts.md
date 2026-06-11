@@ -1,6 +1,7 @@
 # Ch010 · H2 — list·tuple·dict·set 깊이 — 자료구조 8개념
 
 > 고양이 자경단 · Ch 010 · 2교시 (60분)
+> 이 파일은 강사가 마이크 앞에서 그대로 읽을 수 있는 말 그대로의 대본입니다.
 
 ---
 
@@ -17,136 +18,181 @@
 9. 여덟째 — collections.abc
 10. 한 줄 분해
 11. 흔한 오해 다섯 가지
-12. 자주 받는 질문 다섯 가지
-13. 마무리
+12. 자주 받는 질문 여섯 가지
+13. 흔한 실수 다섯 + 안심
+14. 마무리
+
+---
+
+## 🔧 강사용 명령어 한눈에
+
+```python
+cats.append("미니"); cats.pop(); cats.sort()     # list 메서드
+x, y = (1, 2); a, *rest = [1, 2, 3, 4]            # 언패킹
+{k: v*2 for k, v in ages.items()}                 # dict comprehension
+a | b; a & b; a - b                                # set 연산(합·교·차)
+from collections import Counter, defaultdict, deque
+```
 
 ---
 
 ## 1. 다시 만나서 반가워요 — H1 회수와 오늘의 약속
 
-자, 안녕하세요.
+자, 안녕하세요. 다시 만났어요. 자료구조 챕터의 두 번째 시간이에요. 바로 이어서 가요.
 
-지난 H1 회수. 네 친구 — list, tuple, dict, set.
+지난 H1을 한 줄로 회수할게요. 본인은 자료구조의 큰 그림을 봤어요. 네 친구(list·tuple·dict·set), 각각 언제 쓰는지(선택 가이드), 그리고 dict가 왜 빠른지(hash)까지요. 큰 그림은 다 그렸어요.
 
-이번 H2는 8개념 깊이.
+이번 H2는 그 네 친구를 깊이 손에 쥐는 시간이에요. 자료구조의 8개념을 배워요. list의 메서드들, list 슬라이싱, tuple 언패킹, dict 메서드와 comprehension, set 연산, frozen(못 바꾸는) 자료구조, collections 모듈, 그리고 collections.abc까지요. H1이 자료구조를 "구경"한 거라면, H2는 "손에 쥐는" 시간이에요. 각 그릇으로 뭘 할 수 있는지 실제 메서드를 만져요.
 
-오늘의 약속. **본인이 자료구조의 90% 메서드를 만집니다**.
+오늘의 약속은 이거예요. **본인이 자료구조의 90% 메서드를 만집니다**. 8개념이 좀 많아 보이지만, 매일 쓰는 건 절반이에요. list의 append·pop, dict의 get, set 연산 정도가 90%고, 나머지는 "이런 게 있구나" 정도로 구경하면 돼요. 그리고 좋은 소식. 본인은 이걸 다 외울 필요가 없어요. 메서드 이름은 IDE 자동완성이 알려 주거든요. 본인이 할 건 "아, 리스트에 뭔가 추가하는 메서드가 있었지"를 떠올리는 거예요. 그럼 점 찍고 자동완성에서 고르면 돼요. 마음 편하게 들으세요.
 
-자, 가요.
+오늘 8개념을 한 그림으로 미리 묶어 드릴게요. 앞 네 개(list 메서드·슬라이싱·언패킹·dict)는 "매일 쓰는 기본"이에요. 본인이 손에 꼭 익혀야 할 것들이죠. 가운데 두 개(set 연산·frozen)는 "자주 쓰는 무기"예요. 중복 제거나 집합 연산이 필요할 때 빛나요. 마지막 두 개(collections 모듈·abc)는 "필요할 때 꺼내는 특화 도구"고요. 그러니까 오늘은 앞 네 개에 집중하고, 뒤로 갈수록 가볍게 구경하면 돼요. 본인의 에너지를 매일 쓰는 것에 쏟으세요. 안 쓰는 걸 외우느라 지치지 말고요. 자, 가요.
 
 ---
 
 ## 2. 첫째 — list 메서드 열 가지
 
+첫 번째 개념. list의 메서드들이에요. list는 가장 자주 쓰는 그릇이라, 메서드도 제일 많이 써요. 열 가지를 볼게요.
+
 ```python
 cats = ["까미", "노랭이"]
 
 cats.append("미니")            # 끝에 추가
-cats.insert(0, "본인")         # 위치 삽입
-cats.remove("노랭이")          # 값으로 제거
-cats.pop()                     # 끝 제거 + 반환
-cats.pop(0)                    # 위치 제거 + 반환
-cats.index("까미")             # 위치 찾기
-cats.count("까미")             # 등장 횟수
-cats.sort()                    # 제자리 정렬
-cats.reverse()                 # 제자리 역순
-cats.copy()                    # 얕은 복사
+cats.insert(0, "본인")         # 특정 위치에 삽입
+cats.remove("노랭이")          # 값으로 찾아 제거
+cats.pop()                     # 끝 원소 제거 + 반환
+cats.pop(0)                    # 특정 위치 제거 + 반환
+cats.index("까미")             # 값의 위치(인덱스) 찾기
+cats.count("까미")             # 등장 횟수 세기
+cats.sort()                    # 제자리에서 정렬
+cats.reverse()                 # 제자리에서 역순
+cats.copy()                    # 얕은 복사본 만들기
 ```
 
-열 가지. 자경단 매일.
+열 가지지만, 매일 쓰는 건 셋이에요. `append`(끝에 추가), `pop`(끝에서 빼기), `sort`(정렬)요. 이 셋이 list 메서드의 90%예요. 나머지는 필요할 때 쓰면 돼요. 그러니 오늘 열 개를 다 외우려 하지 말고, 이 셋부터 손에 익히세요.
+
+한 가지 중요한 구분이 있어요. `sort`와 `reverse`는 "제자리에서" 바꿔요. 즉 원래 리스트 자체를 바꾸고, 아무것도 안 돌려줘요(None을 돌려줘요). 그래서 `new = cats.sort()`라고 하면 new가 None이 되는 함정이 있어요. 정렬된 새 리스트가 필요하면 `sorted(cats)`를 쓰고, 원래 리스트를 그 자리에서 정렬하려면 `cats.sort()`를 쓰세요. 이 차이는 오해 코너에서 다시 짚을게요. 자경단의 규칙은 "원본을 바꾸고 싶으면 메서드(sort), 새 걸 만들고 싶으면 함수(sorted)"예요.
+
+이 "제자리 변경 vs 새 것 반환"의 구분이 사실 Python 전체를 관통하는 패턴이에요. 메서드(`.sort()`, `.append()`, `.reverse()`)는 보통 원본을 그 자리에서 바꾸고 None을 돌려줘요. 반면 내장 함수(`sorted()`, `reversed()`)는 원본을 건드리지 않고 새 것을 돌려주죠. 왜 이렇게 나뉘었냐면, "원본을 바꾸는 건 위험한 일"이라 명시적으로 구분한 거예요. Ch009 H6에서 배운 pure function 기억하세요? 원본을 안 바꾸는 게 더 안전하다고요. 그래서 자경단은 가능하면 `sorted()`(새 것 반환)를 선호해요. 원본이 안 바뀌니 다른 코드가 영향 안 받거든요. 다만 메모리가 빠듯하거나 정말 원본을 바꿔야 할 때만 `.sort()`(제자리)를 쓰죠. 이 구분을 알면, 본인이 "어, 정렬했는데 왜 None이지?" 하는 함정을 평생 안 밟아요. 메서드가 None을 돌려주면 "아, 이건 제자리에서 바꾸는 거구나" 하고 알아채세요.
+
+그리고 `sort`에는 H1·Ch008에서 본 key 옵션이 있어요. `cats.sort(key=lambda c: c.age)`처럼요. "무엇을 기준으로 정렬할지"를 함수로 주는 거예요. 나이순, 이름 길이순, 뭐든지요. Ch009에서 배운 lambda가 여기서 빛나죠. 그리고 `reverse=True`를 주면 내림차순이에요. `sorted(cats, key=lambda c: c.age, reverse=True)`는 "나이 많은 순으로 정렬한 새 리스트"예요. 정렬은 자경단에서 매일 쓰는데, 이 key 옵션이 핵심이에요. 단순히 숫자 크기로만 정렬하는 게 아니라, "내가 원하는 기준으로" 정렬할 수 있게 해 주거든요.
 
 ---
 
 ## 3. 둘째 — list slicing 다섯 패턴
 
+두 번째 개념. 슬라이싱(slicing)이에요. 리스트의 일부를 잘라내는 강력한 문법이죠.
+
 ```python
 nums = [0, 1, 2, 3, 4, 5]
 
-nums[1:4]      # [1, 2, 3]  start:stop
-nums[:3]       # [0, 1, 2]  처음부터
-nums[3:]       # [3, 4, 5]  끝까지
-nums[::2]      # [0, 2, 4]  step 2
-nums[::-1]     # [5, 4, 3, 2, 1, 0]  역순
+nums[1:4]      # [1, 2, 3]      — 1번부터 4번 직전까지
+nums[:3]       # [0, 1, 2]      — 처음부터 3번 직전까지
+nums[3:]       # [3, 4, 5]      — 3번부터 끝까지
+nums[::2]      # [0, 2, 4]      — 처음부터 끝까지 2칸씩
+nums[::-1]     # [5, 4, 3, 2, 1, 0]  — 역순
 ```
 
-다섯 패턴. 매일.
+`[start:stop:step]` 형태예요. start는 시작, stop은 끝(직전까지, stop은 포함 안 됨), step은 건너뛰는 간격이에요. 셋 다 생략할 수 있어요. `[:3]`은 처음부터, `[3:]`은 끝까지, `[::2]`는 두 칸씩이죠. 특히 `[::-1]`은 리스트를 뒤집는 유명한 관용구예요. 문자열에도 똑같이 써요. `"hello"[::-1]`은 "olleh"가 되죠.
+
+슬라이싱에서 헷갈리는 건 "stop은 포함 안 된다"예요. `nums[1:4]`는 1, 2, 3이지 4를 포함 안 해요. 처음엔 헷갈리는데, "stop 직전까지"라고 기억하면 돼요. 왜 이렇게 설계됐냐면, `nums[:3]`과 `nums[3:]`을 합치면 정확히 원본이 되거든요(0,1,2 + 3,4,5). 경계가 깔끔하게 나뉘죠. 매일 쓰는 건 `[:n]`(앞 n개), `[-n:]`(뒤 n개), `[::-1]`(뒤집기) 정도예요. 이 셋만 손에 익혀도 충분해요.
+
+음수 인덱스도 알아 두면 유용해요. `nums[-1]`은 마지막 원소, `nums[-2]`는 끝에서 두 번째예요. 뒤에서부터 세는 거죠. 그래서 `nums[-3:]`은 "뒤에서 3개"예요. 리스트의 마지막을 다룰 때 `nums[len(nums)-1]`이라고 길게 안 쓰고 `nums[-1]`로 깔끔하게 쓰죠. 그리고 슬라이싱은 "복사"에도 쓰여요. `copy = nums[:]`는 리스트 전체를 새로 복사해요. 원본을 안 건드리고 작업하고 싶을 때요. 다만 이건 얕은 복사라, 리스트 안에 리스트가 있으면 안쪽은 공유돼요. 그건 H1 실수 코너에서 본 deepcopy가 필요한 경우고요. 슬라이싱 하나로 자르고, 뒤집고, 복사하고 다 하니, Python의 강력한 문법 중 하나예요.
 
 ---
 
 ## 4. 셋째 — tuple unpacking
 
+세 번째 개념. tuple 언패킹이에요. 튜플(이나 리스트)을 여러 변수로 한 번에 풀어내는 거죠.
+
 ```python
 point = (1, 2)
-x, y = point   # x=1, y=2
+x, y = point   # x=1, y=2 — 한 줄로 풀어내기
 
 a, b, c = (10, 20, 30)
-a, *rest = (1, 2, 3, 4)   # a=1, rest=[2,3,4]
-*head, last = (1, 2, 3, 4)
+a, *rest = (1, 2, 3, 4)   # a=1, rest=[2, 3, 4] — 나머지를 모으기
+*head, last = (1, 2, 3, 4)  # head=[1, 2, 3], last=4
 ```
 
-tuple unpacking은 list에도 적용.
+`x, y = point`는 튜플의 두 값을 x와 y에 한 번에 담아요. Ch009 H2에서 본 다중 return이 이거예요. 함수가 `return a, b`로 튜플을 돌려주면, `x, y = f()`로 풀어 받죠. 그리고 별표(`*`)를 쓰면 "나머지를 다 모아라"가 돼요. `a, *rest`는 첫 번째는 a에, 나머지는 rest 리스트에 담아요. Ch009 H2의 \*args와 같은 별표예요.
 
-```python
-first, second, *rest = [1, 2, 3, 4, 5]
-```
+이 언패킹이 왜 좋냐면, 코드가 깔끔해지거든요. `x = point[0]; y = point[1]` 두 줄을 `x, y = point` 한 줄로 줄여요. 그리고 변수 교환도 한 줄로 돼요. `a, b = b, a`로 a와 b를 맞바꾸죠. 다른 언어에선 임시 변수가 필요한 걸, Python은 언패킹으로 한 줄에 해요. 자경단에서 매일 써요. for 루프에서도 `for name, age in ages.items():`처럼, 각 짝을 바로 풀어 받죠. 언패킹은 Python을 우아하게 만드는 핵심 문법이에요.
 
-자경단 매일.
+언패킹에서 주의할 게 하나 있어요. 왼쪽 변수 개수와 오른쪽 값 개수가 맞아야 해요. `a, b = (1, 2, 3)`처럼 안 맞으면 에러가 나요(값이 셋인데 변수가 둘). 그래서 개수를 모를 땐 별표(`*`)를 쓰는 거예요. `a, *rest = (1, 2, 3)`이면 a=1, rest=[2,3]으로 나머지가 다 rest에 담기죠. 이 별표는 한 자리에만 쓸 수 있어요. "나머지 전부"라는 뜻이니까요. 그리고 enumerate와 함께 쓰면 더 강력해요. `for i, name in enumerate(cats):`로 인덱스와 값을 동시에 받죠. Ch008에서 본 enumerate가 언패킹과 짝이에요. 이렇게 언패킹은 dict의 items, enumerate, zip 같은 것들과 어울려 Python 코드를 짧고 읽기 좋게 만들어요. 본인이 `for k, v in ...`이나 `for i, x in ...`을 자연스럽게 쓰게 되면, Python을 우아하게 쓰는 사람이 된 거예요.
 
 ---
 
 ## 5. 넷째 — dict 메서드와 comprehension
 
+네 번째 개념. dict의 메서드들과 comprehension이에요. dict는 백엔드의 핵심이라 잘 알아야 해요.
+
 ```python
 ages = {"까미": 3, "노랭이": 2}
 
-ages.get("미니")              # None (없으면)
-ages.get("미니", 0)           # 0 (default)
-ages.setdefault("미니", 4)    # 없으면 추가
-ages.update({"깜장이": 5})    # 다른 dict 합치기
-ages.pop("까미")              # 제거 + 반환
-list(ages.keys())             # key 목록
-list(ages.values())           # value 목록
-list(ages.items())            # (key, value) 쌍
+ages.get("미니")              # None — 없으면 None(에러 안 남)
+ages.get("미니", 0)           # 0 — 없으면 기본값
+ages.setdefault("미니", 4)    # 없으면 추가하고 그 값 반환
+ages.update({"깜장이": 5})    # 다른 dict를 합치기
+ages.pop("까미")              # 제거하고 그 값 반환
+list(ages.keys())             # 키 목록
+list(ages.values())           # 값 목록
+list(ages.items())            # (키, 값) 쌍 목록
 ```
 
-dict comp.
+가장 중요한 건 `.get`이에요. dict에서 `ages["미니"]`처럼 대괄호로 없는 키를 찾으면 KeyError로 프로그램이 죽어요. 그런데 `.get`은 없으면 None이나 기본값을 줘서 안전해요. H1에서 본 그거죠. 그래서 "키가 있는지 확실치 않으면 .get"이 자경단 표준이에요. 그리고 `.items()`가 정말 자주 쓰여요. 키와 값을 짝으로 돌 때요. `for k, v in ages.items():`처럼 언패킹과 함께요.
+
+`.keys()`, `.values()`, `.items()` 셋의 차이를 분명히 해 둘게요. `.keys()`는 키만(이름들), `.values()`는 값만(나이들), `.items()`는 키-값 짝을 줘요. dict를 그냥 for로 돌면(`for k in ages:`) 키만 나와요. 그래서 값도 같이 필요하면 `.items()`를 써서 `for k, v in ages.items():`로 도는 거예요. 이게 dict를 다루는 가장 흔한 패턴이에요. 그리고 "이 키가 dict에 있나?"는 `if key in ages:`로 확인해요. 이때 dict의 in은 키를 보고, set처럼 즉시(O(1)) 확인해요. dict도 hash table이거든요. 그래서 "많은 데이터에서 빠르게 찾기"가 dict와 set의 공통 강점이에요. 둘 다 hash로 즉시 찾으니까요.
+
+dict comprehension도 봐요. Ch008에서 배운 comprehension의 dict 버전이에요.
 
 ```python
-{k: v*2 for k, v in ages.items()}
-{k: v for k, v in ages.items() if v >= 3}
+{k: v*2 for k, v in ages.items()}          # 모든 값을 2배로
+{k: v for k, v in ages.items() if v >= 3}  # 값이 3 이상인 것만
 ```
 
-자경단 매일.
+`{키: 값 for ... in ... if ...}` 형태예요. dict를 돌면서 변환하거나 거르죠. 첫 줄은 모든 나이를 2배로, 둘째 줄은 나이 3 이상인 cat만 골라요. list comprehension이 `[]`였다면, dict comprehension은 `{키: 값}`이에요. 데이터를 우아하게 변환하는 자경단의 매일 도구예요.
+
+dict를 다룰 때 가장 자주 만나는 패턴 두 개를 더 보여 드릴게요. 첫째, "뒤집기"예요. `{v: k for k, v in d.items()}`로 키와 값을 맞바꿔요. 이름→나이 dict를 나이→이름으로 뒤집는 거죠(나이가 안 겹칠 때만요). 둘째, "필터링 후 변환"이에요. 위에서 본 것처럼 if로 거르고 키-값을 바꾸는 걸 한 줄로요. 이게 백엔드에서 정말 자주 쓰여요. DB에서 가져온 데이터를 프론트엔드가 원하는 형태로 바꿀 때, dict comprehension 한 줄이면 끝나거든요. 까미가 매일 하는 일이 이런 데이터 변환이에요.
+
+그리고 dict를 합치는 법도 알아 두세요. Python 3.9부터는 `dict1 | dict2`로 두 dict를 합쳐요. set의 합집합과 같은 기호죠. 또는 `{**dict1, **dict2}`로도 합쳐요. Ch009 H2에서 본 `**` 언패킹이 dict에도 쓰이는 거예요. 뒤에 오는 dict의 값이 우선해서, 겹치는 키는 뒤 것으로 덮어써요. 설정을 합칠 때 자주 써요. "기본 설정에 사용자 설정을 덮어쓰기" 같은 거요. `{**defaults, **user_config}`처럼요. 이렇게 dict는 합치고, 뒤집고, 거르고, 변환하는 도구가 풍부해요. 백엔드의 핵심 그릇답죠.
 
 ---
 
 ## 6. 다섯째 — set 연산 다섯 가지
 
+다섯 번째 개념. set 연산이에요. set의 진짜 힘은 집합 연산에 있어요. 수학 시간에 본 합집합·교집합이 코드로 들어온 거예요.
+
 ```python
 a = {1, 2, 3}
 b = {2, 3, 4}
 
-a | b   # union {1, 2, 3, 4}
-a & b   # intersection {2, 3}
-a - b   # difference {1}
-a ^ b   # symmetric difference {1, 4}
-a <= b  # subset
+a | b   # 합집합 {1, 2, 3, 4} — 둘 중 하나라도
+a & b   # 교집합 {2, 3} — 둘 다에 있는 것
+a - b   # 차집합 {1} — a에만 있는 것
+a ^ b   # 대칭차 {1, 4} — 한쪽에만 있는 것
+a <= b  # 부분집합 검사 — a가 b에 다 포함되나?
 ```
 
-다섯 연산. 매일 멤버십 + intersection.
+다섯 연산이에요. 막대(`|`)는 합집합(둘을 합침), 앰퍼샌드(`&`)는 교집합(공통), 빼기(`-`)는 차집합(한쪽에만)이에요. 이게 실전에서 정말 유용해요. 예를 들어 "A 사용자와 B 사용자의 공통 친구"는 `a_friends & b_friends`로 한 줄이에요. "관리자 권한이 있는데 차단된 사용자"는 `admins & banned`고요. for 루프로 일일이 비교할 걸, set 연산 한 줄로 끝내요. 이게 set의 진짜 매력이에요. 사람이 머릿속으로 "공통", "한쪽에만", "둘 중 하나"를 생각하는 걸, 코드 기호 하나로 바로 표현하거든요. 차집합도 자주 써요. "전체 사용자 중 활동 안 한 사람"은 `all_users - active_users`예요. 누가 안 했는지를 빼기 한 번으로 구하죠. 이런 걸 for로 짜면 여러 줄에 헷갈리는데, set 연산은 한 줄에 의도가 분명해요.
+
+그리고 매일 가장 많이 쓰는 set 활용은 사실 두 가지예요. 하나는 멤버십 검사(`x in my_set`)로 "있나 없나"를 즉시 확인하는 거고, 또 하나는 중복 제거(`set(my_list)`)로 리스트의 중복을 한 방에 없애는 거예요. 집합 연산은 그 다음이고요. set을 "수학 집합"이라고만 생각하면 어려운데, "중복 없이 빠르게 확인하는 그릇"으로 생각하면 쉬워요.
+
+중복 제거를 조금 더 보여 드릴게요. `set(my_list)`로 중복을 없애면 순서가 사라져요(set은 순서가 없으니까요). 순서를 지키면서 중복을 없애고 싶으면 `list(dict.fromkeys(my_list))`라는 관용구를 써요. dict가 3.7부터 순서를 유지하고 키가 중복을 안 받는 성질을 이용한 거예요. 좀 고급이지만, "순서 지키며 중복 제거"가 필요할 때 이 한 줄이 본인을 구해요. 그리고 두 리스트의 공통 원소를 찾을 때도 set이 빛나요. `set(list_a) & set(list_b)`로 교집합을 구하면, for 루프로 일일이 비교하는 것보다 훨씬 빠르고 깔끔하죠. 큰 데이터에서 "겹치는 것 찾기"는 무조건 set 교집합이에요.
+
+set의 멤버십 검사가 왜 그렇게 강조되는지 H1의 교훈과 연결할게요. H1에서 "list의 in은 느리고(O(n)), set의 in은 즉시(O(1))"라고 했죠. 그래서 "이 값이 있나 없나"를 큰 데이터에서 자주 확인할 거면, 그 데이터를 set으로 만들어 두는 게 핵심이에요. 예를 들어 "차단된 사용자 1만 명" 명단에서 "이 사용자가 차단됐나?"를 매 요청마다 확인한다면, 명단을 list로 두면 매번 최대 1만 번 뒤지지만, set으로 두면 즉시 확인돼요. 백엔드 성능의 단골 비법이에요. "자주 검사할 명단은 set으로." 이 한 문장을 기억하세요.
 
 ---
 
 ## 7. 여섯째 — frozen 자료구조
 
-immutable 버전.
+여섯 번째 개념. frozen(얼린) 자료구조예요. set의 못 바꾸는 버전, frozenset이에요.
 
 ```python
 fs = frozenset([1, 2, 3])
-# fs.add(4)   # AttributeError
+# fs.add(4)   # AttributeError! 못 바꿔요
 ```
 
-frozenset은 dict의 key 가능.
+`frozenset`은 set인데 한 번 만들면 못 바꿔요. tuple이 list의 immutable 버전이듯, frozenset은 set의 immutable 버전이에요. 못 바꾼다는 게 왜 좋냐면, dict의 키나 다른 set의 원소가 될 수 있거든요. H1에서 "dict 키는 안 바뀌는 것만 된다(hashable)"고 했죠. 그래서 set은 dict 키가 못 되지만, frozenset은 돼요.
 
 ```python
 groups = {
@@ -155,152 +201,223 @@ groups = {
 }
 ```
 
-@dataclass(frozen=True)도 비슷.
+이렇게 "그룹(집합)을 키로 쓰는" 특수한 경우에 frozenset이 필요해요. 자주는 아니지만, 필요할 때 없으면 막혀요. 그리고 Ch009 H5에서 본 `@dataclass(frozen=True)`도 같은 정신이에요. "한 번 만들면 못 바꾸는" 객체죠. immutable의 장점은 "안 바뀐다는 보장"과 "hashable이라 키가 됨"이에요. 데이터가 바뀌면 안 되는 곳, 키로 써야 하는 곳에 frozen을 쓰세요. 지금은 "set의 못 바꾸는 버전이 frozenset" 정도만 알면 충분해요.
+
+immutable(못 바꿈)이 왜 좋은지 한 번 더 큰 그림으로 짚을게요. 못 바꾸는 데이터는 "여러 곳에서 안심하고 공유"할 수 있어요. 누가 실수로 바꿀 일이 없으니까요. Ch009 H6의 pure function, H7의 cell 이야기와 다 통해요. "안 바뀐다"는 보장이 코드를 안전하게 만들어요. 그래서 Python엔 못 바꾸는 짝(tuple), 못 바꾸는 집합(frozenset), 못 바꾸는 객체(frozen dataclass)가 다 있는 거예요. 바뀌면 안 되는 데이터일수록 immutable로 두세요. 이게 큰 프로그램에서 버그를 줄이는 비결 중 하나예요.
 
 ---
 
 ## 8. 일곱째 — collections 모듈 다섯 도구
 
+일곱 번째 개념. collections 모듈이에요. 기본 네 자료구조로 부족할 때 꺼내는, 더 특화된 그릇들이에요. 다섯 개를 볼게요.
+
 ```python
-from collections import (
-    Counter,
-    defaultdict,
-    OrderedDict,
-    deque,
-    namedtuple,
-)
+from collections import Counter, defaultdict, OrderedDict, deque, namedtuple
 
-# Counter — 빈도수
-Counter("hello")   # {'l': 2, 'h': 1, 'e': 1, 'o': 1}
-Counter("hello").most_common(2)   # 상위 2개
+# Counter — 빈도수 세기
+Counter("hello")                 # {'l': 2, 'h': 1, 'e': 1, 'o': 1}
+Counter("hello").most_common(2)  # 가장 많은 2개
 
-# defaultdict — 기본값
+# defaultdict — 키가 없을 때 기본값 자동
 d = defaultdict(list)
-d["cats"].append("까미")   # KeyError 없음
+d["cats"].append("까미")         # 키가 없어도 KeyError 안 남
 
-# deque — 양방향 큐 (O(1) appendleft)
+# deque — 양쪽 끝이 빠른 큐
 q = deque([1, 2, 3])
-q.appendleft(0)
+q.appendleft(0)                  # 앞에 추가도 O(1)
 
-# namedtuple — 이름 있는 tuple
+# namedtuple — 이름이 있는 tuple
 Point = namedtuple("Point", ["x", "y"])
 p = Point(1, 2)
-p.x   # 1
+p.x                              # 1 — 인덱스 대신 이름으로
 
-# OrderedDict — 순서 보장 dict (3.7부터 일반 dict도)
+# OrderedDict — 순서 보장(3.7부터는 일반 dict도 보장)
 ```
 
-다섯 도구. 자경단 매일.
+다섯 도구예요. 이 중 정말 유용한 둘을 콕 짚을게요. **Counter**는 빈도를 세는 데 최고예요. "이 글에서 가장 많이 나온 단어 3개"를 `Counter(words).most_common(3)` 한 줄로 구해요. 직접 dict로 세는 것보다 훨씬 깔끔하죠. **defaultdict**는 "키가 없을 때 자동으로 기본값을 만드는" dict예요. 보통 dict에 없는 키로 `d["x"].append(...)`를 하면 KeyError가 나는데, defaultdict(list)는 자동으로 빈 리스트를 만들어 줘요. 그룹으로 묶을 때 정말 편해요. 예를 들어 cat들을 색깔별로 묶을 때, `groups = defaultdict(list)` 후 `groups[cat.color].append(cat)`만 반복하면 끝이에요. "이 색이 처음인가?"를 일일이 확인 안 해도 되죠. 그래서 "무언가를 키별로 묶기"는 거의 항상 defaultdict예요.
+
+`deque`는 양쪽 끝에서 빠르게 넣고 빼는 큐고, `namedtuple`은 인덱스 대신 이름으로 접근하는 tuple이에요. 이건 H4 카탈로그에서 더 봐요. 오늘은 "기본 네 가지로 부족하면 collections 모듈에 특화된 그릇이 있다"만 기억하세요.
+
+deque를 조금 더 설명할게요. 왜 따로 있냐면, list는 끝에 추가(append)는 빠른데 앞에 추가(맨 앞에 끼우기)는 느려요. 앞에 끼우면 뒤의 모든 원소를 한 칸씩 밀어야 하거든요(O(n)). 그런데 큐(줄 서기)처럼 "앞에서 빼고 뒤에서 넣는" 작업이 자주 필요한 경우가 있어요. 그때 deque를 쓰면 양쪽 끝이 다 빨라요(O(1)). 예를 들어 "최근 100개만 기억하기"는 `deque(maxlen=100)`으로 한 방에 돼요. 꽉 차면 오래된 게 자동으로 빠지죠. 채팅 기록이나 작업 큐 같은 데 딱이에요. 지금은 "앞뒤로 자주 넣고 뺄 거면 list 말고 deque"만 알면 돼요.
+
+namedtuple도 한 번 더 짚을게요. 보통 tuple은 `p[0]`, `p[1]`처럼 인덱스로 접근하는데, 0번이 뭐고 1번이 뭔지 헷갈려요. namedtuple은 `p.x`, `p.y`처럼 이름으로 접근해서 훨씬 읽기 좋아요. 좌표 (위도, 경도)를 tuple로 쓰면 `loc[0]`이 위도인지 경도인지 헷갈리지만, namedtuple로 쓰면 `loc.lat`, `loc.lng`로 분명하죠. 이게 Ch009 H5에서 본 dataclass의 가벼운 사촌이에요. 데이터에 이름표를 붙이는 거예요. 못 바꾸는 가벼운 데이터 묶음이 필요하면 namedtuple, 메서드도 필요하면 dataclass. 이렇게 기억하세요.
 
 ---
 
 ## 9. 여덟째 — collections.abc
 
-추상 베이스 클래스. 자료구조 인터페이스.
+여덟 번째 개념. collections.abc예요. 좀 어려운 거라 가볍게 구경만 해요. abc는 추상 베이스 클래스(Abstract Base Class)의 줄임으로, 자료구조의 "분류"예요.
 
 ```python
 from collections.abc import Iterable, Mapping, Sequence
 
 def process(items):
     if isinstance(items, Mapping):
-        ...   # dict-like
+        ...   # dict 같은 것 (키-값)
     elif isinstance(items, Sequence):
-        ...   # list-like
+        ...   # list 같은 것 (순서 있는)
     elif isinstance(items, Iterable):
-        ...   # 일반 iterable
+        ...   # 일반적으로 반복 가능한 것
 ```
 
-자경단 가끔. 함수 인자 type check.
+이게 뭐냐면, "구체적인 타입(dict, list)" 대신 "성격(Mapping, Sequence)"으로 분류하는 거예요. Mapping은 "키-값으로 찾는 모든 것"(dict, 그리고 dict 같은 것들), Sequence는 "순서 있고 인덱스로 접근하는 모든 것"(list, tuple, str), Iterable은 "for로 돌 수 있는 모든 것"이에요. 함수가 "dict든 dict 비슷한 거든 다 받겠다" 할 때, `isinstance(x, Mapping)`으로 성격을 확인하는 거죠.
+
+이건 자경단도 가끔만 써요. 라이브러리를 만들거나, 아주 유연한 함수를 짤 때요. 본인이 지금 쓸 일은 거의 없어요. 그래서 오늘은 "자료구조에는 구체적 타입 말고 성격(추상 분류)도 있다" 정도만 알면 돼요. H7에서 자료구조의 내부를 팔 때 다시 만나요. 지금 몰라도 전혀 지장 없어요.
 
 ---
 
 ## 10. 한 줄 분해
 
+자경단이 매일 짜는 한 줄을 분해하면서 오늘 배운 걸 묶어 볼게요.
+
 ```python
 {k: sum(v) / len(v) for k, v in groupby_dict.items()}
 ```
 
-dict comp + sum + len + .items(). 자경단 매일.
+이 한 줄에 오늘 배운 게 여럿 들어 있어요. `{k: ... for k, v in ...}`은 dict comprehension이에요. `.items()`로 키-값을 돌고, `k, v`로 언패킹하고, `sum(v) / len(v)`로 각 그룹의 평균을 구하죠. 그러니까 이건 "각 그룹의 값들을 평균 낸 새 dict"를 만드는 한 줄이에요. 예를 들어 `{"고양이": [3, 2, 5], "강아지": [4]}`를 `{"고양이": 3.33, "강아지": 4.0}`으로 바꿔요. dict comprehension·언패킹·sum·len이 한 줄에 다 있죠. 본인이 오늘 H2를 마치면, 이 한 줄이 술술 읽혀요.
+
+이게 자경단이 매일 짜는 데이터 처리 코드의 전형이에요. 데이터를 그룹으로 묶고, 각 그룹을 집계(평균·합계·개수)하는 거죠. 백엔드에서 "지역별 평균 나이", "카테고리별 매출 합계" 같은 걸 구할 때 이런 한 줄을 써요. 자료구조(dict)·흐름(comprehension)·함수(sum·len)가 다 어울려서요. 본인이 지금까지 세 챕터에서 배운 게 이 한 줄에 다 모여 있어요. 8시간 전엔 외계어였을 한 줄이, 이제 "각 그룹의 평균을 내는 거구나"로 읽히죠. 그게 본인이 자란 거리예요.
 
 ---
 
 ## 11. 흔한 오해 다섯 가지
 
-**오해 1: dict 순서 무작위.**
+**오해 1: dict의 순서는 무작위다.**
 
-3.7+ insertion order.
+옛날엔 그랬어요. 그런데 Python 3.7부터는 넣은 순서대로 유지돼요. 이제 dict를 순서대로 믿고 돌 수 있어요. 옛날 코드의 흔적으로 이 오해가 남아 있는데, 지금은 안심해도 돼요.
 
-**오해 2: list.sort vs sorted.**
+**오해 2: list.sort()랑 sorted()는 같다.**
 
-sort는 제자리, sorted는 새 list.
+달라요. `cats.sort()`는 원본을 제자리에서 바꾸고 None을 돌려줘요. `sorted(cats)`는 원본은 그대로 두고 정렬된 새 리스트를 돌려줘요. `new = cats.sort()`라고 쓰면 new가 None이 되니 주의하세요.
 
-**오해 3: tuple은 list보다 느림.**
+**오해 3: tuple은 list보다 느리다.**
 
-immutable이라 더 빠름.
+아니에요. 오히려 tuple이 살짝 더 빠르고 메모리도 덜 써요. 못 바꾸기 때문에 Python이 더 최적화할 수 있거든요. "안 바뀌는 데이터면 tuple"이 성능에도 좋아요. 다만 그 차이는 작아서, 성능 때문에 tuple을 쓰는 건 아니에요. "안 바뀐다는 의미를 표현하려고" tuple을 쓰는 거죠. 성능은 덤이에요.
 
-**오해 4: set은 list 대체.**
+**오해 4: set은 그냥 list 대신 쓰는 거다.**
 
-unique + 빠른 멤버십. 다른 용도.
+아니에요. set은 용도가 달라요. 중복을 없애고, 멤버십을 빠르게 확인할 때 써요. 순서가 중요하거나 중복이 필요하면 list예요. 둘은 다른 도구예요. set은 순서를 보장 안 하고 중복도 못 담으니, list를 무작정 set으로 바꾸면 안 돼요. 용도를 보고 골라야 해요.
 
-**오해 5: namedtuple은 옛 도구.**
+**오해 5: namedtuple은 옛날 도구라 dataclass로 대체됐다.**
 
-dataclass와 공존. immutable 필요 시 namedtuple.
+공존해요. 못 바꾸는 가벼운 짝이면 namedtuple, 기능이 풍부해야 하면 dataclass예요. namedtuple은 여전히 가볍고 빠른 immutable 그릇으로 현역이에요.
+
+다섯 오해를 부수고 나니 공통점이 보이죠. 다 "자료구조의 성격을 잘못 아는" 오해예요. dict 순서, sort의 반환, tuple 성능, set 용도, namedtuple의 자리. 각 자료구조의 성격을 정확히 알아야 제대로 골라 쓰거든요. 그래서 오늘 메서드를 배우는 게 단순히 "뭘 할 수 있나"가 아니라 "이 그릇의 성격이 뭔가"를 아는 거예요. list는 제자리에서 바꾸는 메서드가 많고(가변), tuple은 못 바꾸고(불변), dict는 키로 찾고(매핑), set은 중복을 없애요(집합). 이 성격을 알면, 메서드 이름은 까먹어도 "이 그릇으로 이런 게 되겠지"가 떠올라요. 그게 자료구조를 진짜 아는 거예요. 메서드 암기가 아니라 성격 이해가 핵심이에요.
 
 ---
 
-## 12. 자주 받는 질문 다섯 가지
+## 12. 자주 받는 질문 여섯 가지
 
-**Q1. list와 tuple 언제?**
+**Q1. list랑 tuple, 실무에서 언제 갈라요?**
 
-변하면 list, 변하지 않으면 tuple.
+데이터가 바뀌면 list, 안 바뀌면 tuple이에요. 함수가 여러 값을 돌려줄 때는 tuple(`return a, b`), 화면에 뿌릴 목록을 모을 때는 list요. 좌표나 설정처럼 고정된 짝은 tuple이고요. 헷갈리면 list 쓰세요. 더 흔하고, 나중에 바꿔야 할 때 유연해요.
 
-**Q2. dict.get vs []?**
+**Q2. dict에서 `.get`이랑 `[]` 중 뭘 써요?**
 
-[]는 KeyError, get은 default.
+키가 확실히 있으면 `[]`(빠르고 명확), 없을 수도 있으면 `.get`(안전)이에요. `[]`는 없으면 KeyError로 죽고, `.get`은 None이나 기본값을 줘요. 사용자 입력 등 불확실한 키엔 `.get`을 쓰세요. 외부에서 온 데이터를 다룰 땐 거의 항상 `.get`이 안전해요.
 
-**Q3. set 정렬?**
+**Q3. set을 정렬할 수 있어요?**
 
-순서 없음. sorted(set)으로.
+set 자체는 순서가 없어서 정렬 개념이 없어요. 정렬된 결과가 필요하면 `sorted(my_set)`을 쓰세요. 그러면 정렬된 list가 나와요. set으로 중복을 없애고 sorted로 정렬하는 조합(`sorted(set(...))`)이 흔해요. "중복 없이 정렬된 목록"을 만드는 한 줄 관용구라, 기억해 두면 자주 써먹어요.
 
-**Q4. defaultdict vs setdefault?**
+**Q4. defaultdict랑 setdefault 중 뭘 써요?**
 
-defaultdict가 더 깔끔.
+둘 다 "키 없을 때 기본값"을 다루는데, 같은 기본값을 반복해서 쓸 거면 defaultdict가 깔끔해요. 한 번만 필요하면 setdefault도 괜찮고요. 그룹으로 묶는 코드(`defaultdict(list)`)에선 defaultdict가 훨씬 읽기 좋아요. 헷갈리면 defaultdict를 기본으로 생각하세요.
 
-**Q5. Counter 매일?**
+**Q5. Counter를 매일 쓰나요?**
 
-빈도 분석 매일.
+빈도 분석이 필요할 때마다요. "가장 많이 나온 것", "각 항목이 몇 번", "중복 개수" 같은 걸 셀 때 Counter 한 줄이면 끝나요. 직접 dict로 세는 것보다 훨씬 깔끔해서, 한 번 알면 자주 꺼내 쓰게 돼요.
+
+**Q6. 이 8개념을 다 외워야 하나요?**
+
+아니에요. 외울 건 "각 그릇의 성격"뿐이에요. list는 순서·가변, tuple은 순서·불변, dict는 키로 찾기, set은 중복 없음. 이 네 가지 성격만 알면, 구체적인 메서드는 점 찍고 자동완성에서 고르면 돼요. `cats.`까지 치면 IDE가 쓸 수 있는 메서드를 다 보여 주거든요. 거기서 "아, append가 추가구나" 하고 고르면 돼요. 5년 차 개발자도 모든 메서드를 외우진 않아요. 자동완성과 검색을 쓰죠. 본인이 외워야 할 건 "이 일엔 이 그릇"이라는 매핑뿐이에요. 메서드 이름 암기로 스트레스받지 마세요. 손으로 자주 쓰는 건 저절로 외워지고, 가끔 쓰는 건 그때그때 찾으면 돼요.
 
 ---
 
 ## 13. 흔한 실수 다섯 + 안심 — 핵심 학습 편
 
-첫째, list 슬라이싱 헷갈림. 안심 — `[start:stop:step]`.
-둘째, dict 순서 의존. 안심 — Python 3.7+ 삽입 순서 보장.
-셋째, set 자동 중복 제거 무지. 안심 — `set([1,1,2])` = {1,2}.
-넷째, tuple immutable 의미. 안심 — 한 번 만들면 변경 X.
-다섯째, 가장 큰 — collection 메서드 다 외움. 안심 — append/pop/get 셋.
+자료구조 메서드를 배우며 자주 빠지는 함정 다섯 개예요.
 
-다섯 함정 미리 알아둔 본인이 두 해 동안 한 박자 빠르게.
+**첫째, 슬라이싱의 stop을 헷갈리기.** 안심하세요. `[start:stop:step]`에서 stop은 "직전까지"라 포함 안 돼요. `nums[1:4]`는 1,2,3이에요. "stop 직전까지"만 기억하면 돼요.
+
+**둘째, dict 순서에 의존하기.** 안심하세요. Python 3.7+는 삽입 순서를 보장하니 이제 믿어도 돼요. 다만 아주 옛날 Python을 만나면 다를 수 있다는 것만 알아 두세요.
+
+**셋째, set의 자동 중복 제거를 모르기.** 안심하세요. `set([1, 1, 2])`는 자동으로 `{1, 2}`가 돼요. 이게 set의 핵심 기능이에요. 중복 제거가 필요하면 무조건 set이에요.
+
+**넷째, tuple이 immutable이라는 걸 잊기.** 안심하세요. tuple은 한 번 만들면 못 바꿔요. `point[0] = 5`는 에러예요. 바꿔야 하면 list를, 안 바꾸면 tuple을 쓰세요.
+
+**다섯째, 가장 큰 함정 — 모든 메서드를 다 외우려 하기.** 안심하세요. list의 append·pop, dict의 get, set의 add. 이 핵심 몇 개만 알면 90%예요. 나머지는 IDE 자동완성이 알려 줘요. 점 찍고 고르면 돼요.
+
+다섯 함정 미리 알아둔 본인이 두 해 동안 한 박자 빠르게 가요. 그리고 이 다섯 중에 본인이 가장 자주 만날 건 첫째(슬라이싱 stop)와 넷째(tuple immutable)예요. 둘 다 "Python의 규칙"이라 처음엔 헷갈리는데, 한 번 데이면 평생 안 잊어요. 슬라이싱은 "stop 직전까지", tuple은 "못 바꿈". 이 두 규칙만 손에 익히면, 자료구조 다루다 당황할 일이 확 줄어요.
+
+---
 
 ## 14. 마무리
 
-자, 두 번째 시간 끝.
+자, 자료구조 챕터의 두 번째 시간이 끝났어요.
 
-list 메서드 10, slicing 5, tuple unpacking, dict comp, set 5, frozen, collections 5, abc.
+오늘 본인은 자료구조의 8개념을 손에 쥐었어요. list 메서드 열 가지, 슬라이싱 다섯 패턴, tuple 언패킹, dict 메서드와 comprehension, set 연산 다섯 가지, frozen 자료구조, collections 모듈, collections.abc까지요. 네 그릇으로 실제로 뭘 할 수 있는지 다 만져 봤죠.
 
-다음 H3는 디버깅 도구.
+오늘의 약속을 지켰어요. 본인은 이제 자료구조의 90% 메서드를 만져 봤어요. 다 외울 필요 없어요. 매일 쓰는 건 list의 append·pop·sort, dict의 get·items, set의 연산, 그리고 comprehension이에요. 이 정도만 손에 익히면 충분해요. 나머지는 자동완성과 검색이 도와줘요.
+
+특히 오늘 꼭 가져갈 두 가지를 콕 집어 줄게요. 하나, dict의 `.get`은 안전하게 값을 꺼내는 법이에요. 키가 없어도 안 죽어요. 둘, comprehension(`{k: v for ...}`)으로 데이터를 우아하게 변환해요. 이 둘이 자료구조를 다루는 본인의 매일 손가락이 돼요. 다른 건 다 까먹어도 이 둘만 남기세요. .get은 본인을 KeyError에서 구하고, comprehension은 본인 코드를 절반으로 줄여요.
+
+오늘 본인이 자료구조를 보는 눈이 한 단계 깊어졌어요. H1에서 네 그릇이 있다는 걸 봤고, 오늘 H2에서 각 그릇으로 뭘 할 수 있는지 손으로 만졌어요. 이제 본인은 "리스트를 정렬하고, 딕셔너리를 변환하고, 집합으로 중복을 없애는" 실제 작업을 할 수 있어요. 자료구조가 구경거리에서 본인의 도구로 바뀐 거예요. 그리고 이게 Ch008 흐름, Ch009 함수와 다 이어져요. comprehension(흐름)으로 자료구조를 변환하고, 함수로 그 작업을 묶고. 본인이 지금까지 배운 게 자료구조 위에서 다 만나요. 데이터를 담는 그릇이 있어야 그 위에서 흐름과 함수가 일하니까요.
+
+다음 H3는 자료구조를 들여다보는 도구를 배워요. rich.print, json, pprint로 복잡한 데이터를 예쁘게 보는 법이요. 데이터가 복잡해지면 눈으로 보기 힘든데, 그걸 도와주는 도구들이에요. 그 전에 마지막으로 한 줄만 쳐 보세요.
 
 ```python
 python3 -c 'from collections import Counter; print(Counter("자경단자경단").most_common(3))'
 ```
 
+`[('자', 2), ('경', 2), ('단', 2)]`이 나와요. "자경단자경단"에서 각 글자의 빈도를 세서 상위 3개를 뽑은 거예요. Counter 한 줄로요. 본인이 이 출력을 이해하면, 오늘 Counter를 손에 쥔 거예요.
+
+마지막으로 한 가지 부탁할게요. 오늘 배운 메서드들을 머리에만 두지 말고, 터미널을 열어서 직접 쳐 보세요. 빈 리스트를 만들고 append로 채우고, dict를 만들고 .get으로 꺼내고, set으로 중복을 없애 보세요. 5분이면 돼요. 메서드는 눈으로 보는 것과 손으로 치는 게 천지차이예요. 손으로 한 번 치면 손가락이 기억하거든요. 특히 dict comprehension 한 줄은 꼭 직접 쳐 보세요. 처음엔 어색해도, 한 번 손에 익으면 본인 코드가 확 깔끔해져요. 다음 시간에 봐요. 데이터를 들여다보는 도구를 만나요. 오늘도 끝까지 와 주셔서 고마워요. 한 개념씩 차근차근 본인 것이 되고 있어요. 🐾
+
 ---
 
-## 👨‍💻 개발자 노트
+## 👨‍💻 개발자 노트 (참고 — 비개발자는 그냥 넘기셔도 됩니다)
 
-> - list dynamic array: 1.125x growth. amortized O(1) append.
-> - tuple internal: PyTuple struct. C array.
-> - dict open addressing: 빈 bucket 찾기. resize at 2/3 load.
-> - set hash table: dict 비슷. value 없음.
-> - frozenset: hashable. dict key.
-> - 다음 H3 키워드: rich · json · pprint · collections.abc 검사.
+> - list: dynamic array. over-allocation(약 1.125x growth)으로 amortized O(1) append. 중간 insert/remove는 O(n).
+> - tuple: 고정 크기. PyTupleObject(C array). list보다 약간 작은 메모리·생성 빠름. hashable(원소가 다 hashable이면).
+> - dict: open addressing hash table. load factor 2/3에서 resize. 3.6 구현·3.7 명세로 insertion order 보장. `.get`/`.setdefault`/`|`(3.9+ merge).
+> - set: dict와 유사한 hash table(값 없음). `|`·`&`·`-`·`^`·`<=`·`>=`. frozenset은 hashable.
+> - slicing: `seq[start:stop:step]`. stop 미포함(half-open). `[::-1]` reverse, `copy = lst[:]`.
+> - collections: Counter(multiset)·defaultdict(factory)·deque(O(1) 양끝, maxlen)·namedtuple(경량 immutable)·ChainMap(여러 dict 묶기).
+> - collections.abc: Iterable·Iterator·Sequence·Mapping·Set 등 프로토콜. isinstance·구조적 타이핑.
+> - 다음 H3 키워드: rich.print · json.dumps · pprint · dict/list 시각화.
+
+---
+
+## 추신
+
+1. 자료구조 8개념 — list 메서드·슬라이싱·언패킹·dict comp·set 연산·frozen·collections·abc.
+2. list 매일 쓰는 셋 — append·pop·sort.
+3. sort는 제자리(None 반환), sorted는 새 list.
+4. 슬라이싱 [start:stop:step]. stop은 직전까지.
+5. [::-1]은 뒤집기. 문자열에도 통해요.
+6. 매일 슬라이싱 — [:n]·[-n:]·[::-1].
+7. tuple 언패킹 — x, y = point.
+8. *rest로 나머지 모으기. a, *rest = [1,2,3,4].
+9. a, b = b, a로 변수 교환 한 줄.
+10. for k, v in d.items()도 언패킹.
+11. dict .get은 안전. 없으면 None/기본값.
+12. dict [](대괄호)는 없으면 KeyError.
+13. .items()로 키-값 짝 돌기. 매일.
+14. dict comp — {k: v for k, v in ... if ...}.
+15. set 연산 — | 합·& 교·- 차·^ 대칭차.
+16. 공통 친구 = a & b. 한 줄.
+17. set 매일 — 멤버십(in)·중복 제거(set(list)).
+18. frozenset = set의 못 바꾸는 버전. dict 키 가능.
+19. @dataclass(frozen=True)도 immutable.
+20. Counter = 빈도. most_common(n).
+21. defaultdict(list) = 키 없어도 자동 빈 리스트.
+22. deque = 양끝 O(1) 큐. namedtuple = 이름 있는 tuple.
+23. collections.abc = 성격으로 분류(Mapping·Sequence).
+24. 한 줄 분해 — dict comp + items + sum/len 평균.
+25. dict 순서 3.7+ 보장.
+26. tuple이 list보다 살짝 빠르고 가벼움.
+27. set은 list 대체 아님. 다른 용도.
+28. sorted(set(...))로 중복 제거+정렬.
+29. 메서드 다 외우지 마세요. 자동완성이 알려줘요.
+30. 다음 H3는 데이터 들여다보기. rich·json. 🐾

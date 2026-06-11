@@ -1,127 +1,165 @@
-# Ch014 · H2 — venv/pip/pyproject/uv 4 단어 깊이
+# Ch014 · H2 — venv·pip 심화 핵심개념 — 네 친구의 깊이
 
 > 고양이 자경단 · Ch 014 · 2교시 (60분)
+> 이 파일은 강사가 마이크 앞에서 그대로 읽을 수 있는 말 그대로의 대본입니다.
 
 ---
 
 ## 📋 이 시간 목차
 
 1. 다시 만나서 반가워요 — H1 회수와 오늘의 약속
-2. venv 깊이 — 7 명령어
-3. pip 깊이 — 10 명령어
-4. pyproject.toml 7 섹션
-5. uv 깊이 — 5 명령어
-6. lock file 패턴
-7. 한 줄 분해
-8. 흔한 오해 다섯 가지
-9. 자주 받는 질문 다섯 가지
-10. 마무리
+2. venv 깊이 — 집 짓는 일곱 방법
+3. pip 깊이 — 살림 들이는 열 가지
+4. pyproject.toml — 설계도의 일곱 칸
+5. uv 깊이 — 차세대 다섯 명령
+6. lock 파일 — 재현을 완벽하게
+7. 한 줄 분해 — 매일 치는 첫 명령
+8. 자경단 다섯 명의 개념 적용
+9. AI 시대의 환경 도구
+10. 자주 받는 질문 여덟 가지
+11. 흔한 오해 일곱 가지
+12. 흔한 실수 다섯 + 안심
+13. 마무리
+
+---
+
+## 🔧 강사용 명령어 한눈에
+
+```bash
+python3 -m venv .venv          # 집 짓기
+source .venv/bin/activate      # 들어가기
+pip install -r requirements.txt # 살림 한꺼번에
+pip-compile requirements.in    # 의존성 잠그기(lock)
+uv pip install requests        # 차세대로 빠르게
+```
 
 ---
 
 ## 1. 다시 만나서 반가워요 — H1 회수와 오늘의 약속
 
-자, 안녕하세요.
+자, 안녕하세요. 두 번째 시간이에요. H1에서 우리는 환경 격리의 큰 그림을 그렸죠. 환경은 "코드가 사는 집"이고, 프로젝트마다 격리하는 게 핵심이라고요. 그리고 네 친구를 소개했어요. venv·pip·pyproject·uv요. 기억하세요? 오늘은 그 네 친구를 한 명씩 깊이 들여다봐요.
 
-지난 H1 회수. 네 친구.
+H1이 "왜 환경을 격리하나"라는 큰 그림이었다면, H2는 "그럼 어떻게 다루나"라는 깊이예요. venv로 집을 짓는 여러 방법, pip으로 살림을 들이는 여러 명령, pyproject로 설계도를 쓰는 법, 그리고 uv의 빠른 명령들이요. 여기에 재현의 핵심인 lock 파일까지 봐요. 이게 H2의 약속이에요. **본인이 네 친구의 명령을 손바닥처럼 다룹니다.**
 
-이번 H2는 깊이.
+비유하면, H1에서 "집이 왜 필요한가"를 봤다면, H2는 "집 짓는 연장을 하나씩 잡아 보는" 거예요. 망치(venv), 못(pip), 설계도(pyproject), 전동공구(uv)를 손에 쥐고 무게를 느껴 보는 거죠. 연장의 무게를 알아야 제대로 쓰거든요. 오늘 그 연장들을 하나씩 잡아 봐요.
 
-오늘의 약속. **본인이 4 도구의 모든 명령어를 다룹니다**.
+한 가지 미리 안심시킬게요. 오늘 명령어가 좀 많아요. venv 일곱, pip 열, pyproject 일곱 칸… 부담스럽죠? 그런데 다 외울 필요 없어요. 매일 쓰는 건 그중 서너 개예요. 나머지는 "이런 게 있다"만 알아 두고, 필요할 때 찾으면 돼요. H1에서 본 다섯 줄에 살을 붙이는 거라고 생각하세요. 기본 다섯 줄은 이미 손에 익었으니, 오늘은 그 주변을 채우는 거예요.
 
-자, 가요.
+그리고 오늘 깊이를 보는 이유를 말할게요. 매일 서너 개만 쓰는데 왜 일곱, 열을 다 보냐고요? 그건 "나머지가 있다는 걸 아는 것"만으로도 큰 힘이 되기 때문이에요. 나중에 실무에서 "어, 캐시 때문에 설치가 이상한데?" 싶을 때, 오늘 `--no-cache-dir`를 한 번 들어 봤으면 "아, 그게 있었지" 하고 떠올라요. 안 들어 봤으면 그런 게 있는지도 모르고 헤매죠. 그래서 깊이는 매일 쓰려고 보는 게 아니라, "필요한 순간에 떠올리려고" 보는 거예요. 지도에 길을 그려 두는 거죠. 다 외울 필요 없이, 한 번 훑어만 둬도 그 지도가 본인 머리에 남아요. 자, 첫 친구 venv부터 깊이 봐요.
 
 ---
 
-## 2. venv 깊이 — 7 명령어
+## 2. venv 깊이 — 집 짓는 일곱 방법
+
+venv는 집을 짓는 도구예요. 기본은 `python3 -m venv .venv` 한 줄이지만, 자세히 보면 일곱 가지 방법이 있어요.
 
 ```bash
-# 1. 생성
+# 1. 기본 — 가장 흔함
 python3 -m venv .venv
-python3 -m venv .venv --prompt myproject  # 프롬프트 이름
 
-# 2. 활성화
-source .venv/bin/activate           # macOS/Linux
+# 2. 프롬프트 이름 붙이기
+python3 -m venv .venv --prompt myproject
+
+# 3. 활성화 (들어가기)
+source .venv/bin/activate           # macOS·Linux
 .venv\Scripts\activate              # Windows
 
-# 3. 비활성화
+# 4. 비활성화 (나오기)
 deactivate
 
-# 4. 삭제
+# 5. 삭제 (집 허물기)
 rm -rf .venv
 
-# 5. Python 버전 명시
+# 6. 특정 Python 버전으로
 python3.12 -m venv .venv
 
-# 6. 시스템 site-packages 접근 (권장 X)
-python3 -m venv .venv --system-site-packages
-
-# 7. 검증
-which python3            # .venv/bin/python3
+# 7. 확인
+which python3                       # .venv/bin/python3이면 집 안
 python3 -c "import sys; print(sys.prefix)"
 ```
 
+하나씩 짚을게요. 첫째는 기본이에요. `.venv` 폴더에 집을 짓죠. 둘째, `--prompt`는 프롬프트에 뜨는 이름을 정해요. 기본은 `(.venv)`인데, `--prompt myproject`를 주면 `(myproject)`로 떠요. 여러 환경을 띄울 때 어느 집에 있는지 헷갈리지 않게요. 셋째와 넷째는 들어가고(activate) 나오는(deactivate) 거예요. 운영체제마다 명령이 살짝 달라요. 맥·리눅스는 `source`, 윈도우는 좀 다르죠.
+
+다섯째, 집 허물기는 그냥 폴더를 지우면 돼요. `rm -rf .venv`. H1에서 말한 "꼬이면 지우고 다시"가 이거예요. 여섯째, 특정 Python 버전으로 집을 지을 수 있어요. `python3.12 -m venv`처럼요. 프로젝트가 3.12를 요구하면 그 버전으로 집을 짓는 거죠.
+
+일곱째가 중요해요. 확인이에요. `which python3`을 쳤을 때 `.venv/bin/python3`을 가리키면 집 안에 있는 거예요. `sys.prefix`를 찍어도 현재 환경의 경로가 나오죠. H1에서 강조한 "지금 어느 집에 있나 확인"이 이거예요.
+
+여기서 `sys.prefix`가 뭔지 잠깐 짚을게요. Python이 "내 살림이 어디 있나"를 가리키는 경로예요. 집 밖(시스템)이면 시스템 경로를, 집 안(venv)이면 그 venv 경로를 가리키죠. 그러니까 venv에 들어간다는 건, 사실 이 sys.prefix가 venv 폴더를 가리키게 바뀌는 거예요. 그러면 Python이 패키지를 찾을 때 그 venv의 site-packages를 보게 되죠. Ch013 H7에서 본 sys.path가 venv 경로로 바뀌는 거예요. 이 작동 원리는 H7에서 더 깊이 파요. 지금은 "venv에 들어가면 Python이 보는 살림 위치가 바뀐다"만 기억하세요. activate가 하는 일이 바로 이 경로 바꾸기예요.
+
+이 일곱 중 매일 쓰는 건 1·3·4(짓기·들어가기·나오기)예요. 나머지는 가끔이고요. 부담 갖지 마세요. 그리고 운영체제별 차이(맥·리눅스의 source vs 윈도우)도 지금은 "환경마다 들어가는 명령이 조금 다르다"만 알면 돼요. 본인 컴퓨터에 맞는 한 줄만 손에 익히면, 나머지는 필요할 때 찾으면 됩니다.
+
 ---
 
-## 3. pip 깊이 — 10 명령어
+## 3. pip 깊이 — 살림 들이는 열 가지
+
+두 번째 친구 pip이에요. 집에 살림을 들이는 도구죠. Ch013에서 기본은 봤으니, 오늘은 고급까지 열 가지를 봐요.
 
 ```bash
-# 1. install
+# 1. 기본 설치
 pip install requests
 
 # 2. 정확한 버전
 pip install requests==2.31.0
 
-# 3. 범위
+# 3. 버전 범위
 pip install "requests>=2.30,<3.0"
 
-# 4. requirements
+# 4. 목록 파일로 한꺼번에
 pip install -r requirements.txt
 
-# 5. editable (개발)
+# 5. editable (개발 중인 내 패키지)
 pip install -e .
 
-# 6. -U upgrade
+# 6. 업그레이드
 pip install -U requests
 
-# 7. 캐시 비활성화
+# 7. 캐시 없이 (깨끗하게)
 pip install --no-cache-dir requests
 
-# 8. private index
+# 8. 사내 저장소에서
 pip install --index-url https://my.pypi.com/simple/ pkg
 
-# 9. download만
+# 9. 받기만 (설치는 안 함)
 pip download requests
 
 # 10. wheel 빌드
 pip wheel requests
 ```
 
+앞의 여섯 개는 Ch013에서 봤죠. 기본 설치, 버전 고정, 범위, 목록 파일, editable, 업그레이드요. 매일 쓰는 것들이에요. 뒤의 네 개가 오늘 새로 보는 고급이에요. 잠깐, 둘째(`==`)와 셋째(`>=,<`)의 차이를 한 번 더 짚을게요. `==2.31.0`은 "정확히 이 버전만"이고, `>=2.30,<3.0`은 "2.30 이상 3.0 미만 범위"예요. 보통 pyproject의 dependencies엔 범위를 적고(`>=2.30`), lock 파일엔 정확한 버전을 박아요(`==2.31.0`). 범위는 "이 정도면 괜찮다"는 유연함이고, 정확한 버전은 "딱 이거"라는 재현성이죠. 둘이 역할이 달라요. 이 구분이 lock을 이해하는 열쇠예요.
+
+일곱째, `--no-cache-dir`는 캐시를 안 쓰고 깨끗하게 설치해요. pip은 한 번 받은 패키지를 캐시에 저장해 재활용하는데, 가끔 그 캐시가 문제를 일으킬 때 이걸 써서 새로 받아요. 여덟째, `--index-url`은 패키지를 어디서 받을지 정해요. 기본은 PyPI인데, 회사가 자기만의 사내 저장소를 운영하면 거기서 받게 하는 거죠. 실무에서 사내 패키지를 쓸 때 만나요. 아홉째와 열째는 패키지를 받기만 하거나(download), 배포용으로 빌드하는(wheel) 고급 작업이에요. 평소엔 거의 안 써요.
+
+한 가지 더, pip에는 똑똑한 기능이 숨어 있어요. 의존성 해결(resolver)이에요. 본인이 패키지 여럿을 깔 때, pip은 "이것들이 서로 충돌 안 하나"를 따져서 맞는 버전 조합을 찾아 줘요. 예를 들어 A가 requests 2.x를 요구하고 B가 requests 1.x를 요구하면, pip이 "이 둘은 같이 못 깐다"고 알려 주죠. 2020년부터 pip이 이 충돌 검사를 제대로 하게 됐어요. 그래서 요즘 pip은 그냥 설치기가 아니라, 충돌을 막아 주는 똑똑한 도구예요. 본인이 신경 안 써도 뒤에서 이런 일을 해 주는 거죠. 고마운 친구예요.
+
+이 열 가지 중에 본인이 매일 쓸 건 1·4·5예요. 설치하고, 목록으로 환경 채우고, 내 패키지 개발하고요. 나머지는 "이럴 때 이런 게 있다"는 지도로 가지세요. pip은 깊지만, 일상은 단순해요. 그리고 매일 쓰는 셋도 사실 Ch013에서 이미 손에 익혔죠. 오늘은 그 둘레에 고급 명령 몇 개를 더 얹은 것뿐이에요. 새로 외울 게 많은 게 아니라, 익숙한 도구의 숨은 기능을 구경한 거예요.
+
 ---
 
-## 4. pyproject.toml 7 섹션
+## 4. pyproject.toml — 설계도의 일곱 칸
+
+세 번째 친구 pyproject.toml이에요. 집의 설계도이자 신분증이죠. Ch013에서 기본을 봤는데, 오늘은 일곱 칸을 다 봐요.
 
 ```toml
-# 1. 프로젝트 메타데이터
+# 1. 프로젝트 기본 정보
 [project]
 name = "vigilante"
 version = "1.0.0"
-description = "자경단 도구"
-authors = [{name = "Bonin"}]
+description = "고양이 자경단 도구"
 requires-python = ">=3.10"
 
-# 2. 의존성
+# 2. 의존성 (꼭 필요한 것)
 dependencies = [
     "requests>=2.30",
     "rich>=13",
 ]
 
-# 3. 옵션 의존성 (dev 등)
+# 3. 선택 의존성 (개발용 등)
 [project.optional-dependencies]
 dev = ["pytest", "ruff", "mypy"]
 docs = ["sphinx"]
 
-# 4. CLI 진입점
+# 4. CLI 명령어 등록
 [project.scripts]
 vigilante = "vigilante.cli:main"
 
@@ -130,166 +168,303 @@ vigilante = "vigilante.cli:main"
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
-# 6. 도구 설정 (ruff, mypy 등)
+# 6. 도구 설정 (린터·타입 검사)
 [tool.ruff]
 line-length = 88
 
 [tool.mypy]
 strict = true
 
-# 7. URL
+# 7. 프로젝트 링크
 [project.urls]
 Homepage = "https://github.com/cat-vigilante"
-Repository = "https://github.com/cat-vigilante/vigilante"
 ```
 
-7 섹션. 자경단 표준.
+일곱 칸이 각각 역할이 있어요. 첫째 칸은 프로젝트 기본 정보(이름·버전·설명). 둘째 칸은 의존성, 꼭 필요한 패키지죠. 이 둘은 Ch013에서 봤어요.
+
+셋째 칸이 오늘의 핵심이에요. **선택 의존성(optional-dependencies)**이에요. 개발할 때만 필요한 도구(pytest·ruff·mypy)를 따로 묶는 거죠. 왜 나누냐면, 본인 패키지를 쓰는 사람은 pytest 같은 개발 도구가 필요 없거든요. 그건 본인이 개발할 때만 쓰죠. 그래서 `dependencies`(누구나 필요)와 `optional-dependencies`(개발자만 필요)를 나눠요. 설치할 때 `pip install -e ".[dev]"`처럼 `[dev]`를 붙이면 개발 도구까지 깔리고, 안 붙이면 기본만 깔려요. 사용자에겐 가볍게, 개발자에겐 풍성하게. 영리한 구분이죠.
+
+선택 의존성을 좀 더 음미해 볼게요. 왜 이걸 나누는 게 중요할까요? 본인이 만든 패키지를 누가 `pip install vigilante`로 깐다고 해 봐요. 그 사람은 vigilante를 "쓰는" 사람이지 "개발하는" 사람이 아니에요. 그런데 pytest·mypy·ruff 같은 개발 도구까지 같이 깔리면? 쓰는 사람 입장에선 쓸데없는 무거운 짐이 딸려 오는 거예요. 그래서 "쓰는 데 꼭 필요한 것"(dependencies)과 "개발할 때만 필요한 것"(optional-dependencies dev)을 나누는 거죠. 이건 사용자를 배려하는 좋은 습관이에요. Ch013 H4에서 "의존성은 가볍게"라고 했죠. 그 실천이 여기 선택 의존성으로 이어져요. 그리고 dev 말고도 docs(문서용)·test(테스트용)처럼 여러 그룹을 만들 수 있어요. 상황에 맞게 필요한 그룹만 골라 깔죠.
+
+넷째 칸은 CLI 명령어 등록(Ch013에서 봤죠), 다섯째 칸은 빌드 시스템, 여섯째 칸은 도구 설정이에요. 여섯째가 좋은 게, ruff·mypy 같은 도구 설정을 이 한 파일에 다 모을 수 있어요. 설정 파일이 여기저기 흩어지지 않고 pyproject 하나로 모이죠. 옛날엔 도구마다 따로 설정 파일을 뒀어요. .ruff.toml, mypy.ini, setup.cfg… 폴더가 설정 파일로 지저분했죠. 그걸 pyproject 하나의 `[tool]` 칸에 다 모은 거예요. 프로젝트를 열었을 때 "설정은 여기 다 있다"는 게 한눈에 보이죠. 일곱째 칸은 프로젝트의 홈페이지·저장소 링크예요. 보세요, 이 한 파일이 프로젝트의 모든 걸 담아요. 정보·의존성·명령어·빌드·도구 설정·링크까지요. 그래서 pyproject가 현대 Python 프로젝트의 중심이에요. 프로젝트를 처음 받으면 pyproject부터 열어 보면, 그 프로젝트가 뭔지 한눈에 파악돼요.
 
 ---
 
-## 5. uv 깊이 — 5 명령어
+## 5. uv 깊이 — 차세대 다섯 명령
+
+네 번째 친구 uv예요. H1에서 첫인상을 봤죠. 오늘은 핵심 다섯 명령을 봐요.
 
 ```bash
-# 1. venv (빠름)
+# 1. 환경 만들기 (눈 깜짝할 새)
 uv venv .venv
 
-# 2. install
+# 2. 패키지 설치
 uv pip install requests
 
-# 3. sync (lock 기반)
+# 3. lock대로 정확히 동기화
 uv pip sync requirements.txt
 
-# 4. compile (lock 생성)
+# 4. 의존성 잠그기 (lock 생성)
 uv pip compile requirements.in -o requirements.txt
 
-# 5. 도구로 실행 (pipx 비슷)
+# 5. CLI 도구 설치 (pipx처럼)
 uv tool install black
 ```
 
-5 명령어. 자경단 1년 후.
+보세요. 명령이 pip과 거의 똑같죠? `uv pip install`은 `pip install`이랑 같고, 앞에 `uv`만 붙었어요. 그래서 pip을 아는 본인은 uv를 거의 새로 안 배워도 돼요. H1에서 말한 그 배려예요.
+
+다섯 명령을 짚을게요. 첫째, `uv venv`는 venv를 만드는데 훨씬 빨라요. 둘째, `uv pip install`은 설치를 빠르게요. 셋째, `uv pip sync`는 lock 파일대로 환경을 정확히 맞춰요(다음 절에서 lock을 봐요). 넷째, `uv pip compile`은 의존성을 잠그는(lock 만드는) 거예요. 이게 pip-tools가 하던 일을 uv가 더 빠르게 하는 거죠. 다섯째, `uv tool install`은 CLI 도구를 격리 설치해요. Ch013에서 본 pipx와 같은 일을 uv가 해 주는 거예요.
+
+여기서 `sync`와 `install`의 차이를 짚을게요. `install`은 "이걸 추가로 깔아"이고, `sync`는 "lock 파일과 정확히 똑같이 맞춰"예요. sync는 lock에 있는 건 깔고, lock에 없는데 깔린 건 지워요. 그래서 환경이 lock과 한 치도 안 틀리게 동기화되죠. install이 "더하기"라면 sync는 "똑같이 만들기"예요. 깨끗한 재현을 원할 때 sync를 써요. 이 구분도 lock과 함께 이해하면 자연스러워요.
+
+그러니까 uv는 "venv + pip + pip-tools + pipx를 하나로, 그리고 빠르게" 묶은 거예요. 여러 도구를 하나로 통합하면서 속도까지 잡은 거죠. 그래서 미래의 표준으로 떠오르는 거예요.
+
+여기서 "왜 통합이 좋은가"를 짚을게요. 지금까지 본인은 환경 만들 땐 venv, 패키지 깔 땐 pip, lock할 땐 pip-tools, CLI 도구는 pipx — 이렇게 네 도구를 따로 익혔어요. 각각 설치하고 명령을 외우고요. uv는 이걸 하나로 묶어서, "uv 하나만 알면 다 된다"로 만들어요. 배울 게 줄고, 도구 간 호환 걱정도 줄죠. 이게 통합의 매력이에요. 다만 통합에는 그림자도 있어요. 하나에 다 묶이면, 그 안에서 뭐가 일어나는지 가려져요. 그래서 자경단은 "기본 도구(venv·pip)를 따로 익혀 부품을 이해한 다음, uv 같은 통합 도구로 편하게"라는 순서를 권해요. 부품을 알면 통합 도구가 고장 나도 손을 댈 수 있거든요.
+
+그러니 오늘 당장 갈아탈 필요는 없어요. pip 기본을 다지고, uv는 "이렇게 빠른 통합 도구가 있다"고 알아 두세요. 명령이 비슷하니 옮겨 타는 건 쉬워요. 1년쯤 뒤, 본인이 기본기를 탄탄히 갖췄을 때 uv로 넘어가면, 그땐 uv가 뭘 빠르게 해 주는지 환히 보일 거예요.
 
 ---
 
-## 6. lock file 패턴
+## 6. lock 파일 — 재현을 완벽하게
+
+이제 재현의 핵심, lock 파일을 봐요. H1에서 "격리와 재현"이라고 했죠. 그 재현을 완벽하게 만드는 게 lock이에요. Ch013 H6에서 살짝 봤는데, 오늘 환경 맥락에서 다시 깊이 파요.
+
+문제는 이거예요. requirements.txt에 `requests>=2.30`이라고 적으면, "2.30 이상 아무거나"예요. 그리고 requests는 또 자기가 쓰는 패키지들(certifi·urllib3 등)을 딸고 와요. 이 딸려 오는 것의 버전은 본인이 적은 적이 없죠. 그래서 본인과 동료의 환경이 미묘하게 달라질 수 있어요.
+
+lock이 이걸 풀어요.
 
 ```bash
-# requirements.in (직접 의존성)
+# requirements.in — 내가 직접 원하는 것만
 echo "requests>=2.30" > requirements.in
 echo "rich>=13" >> requirements.in
 
-# pip-compile로 lock
-pip-compile requirements.in
-# 결과: requirements.txt
-
-# 또는 uv
-uv pip compile requirements.in -o requirements.txt
+# 잠그기 — 딸린 것까지 정확한 버전으로
+pip-compile requirements.in        # 또는 uv pip compile
 ```
 
-`requirements.txt` 예시.
+결과로 나오는 requirements.txt는 이래요.
 
-```
-# generated from requirements.in
+```text
 requests==2.31.0
 rich==13.7.0
-markdown-it-py==3.0.0    # via rich
-certifi==2023.11.17       # via requests
-...
+certifi==2023.11.17    # requests가 딸고 옴
+markdown-it-py==3.0.0  # rich가 딸고 옴
 ```
 
-direct + transitive 모두 정확한 버전. 자경단 표준.
+보세요. 본인은 requests와 rich만 적었는데, 딸려 오는 certifi·markdown-it-py까지 전부 정확한 버전으로 박혔어요. 이게 lock이에요. 이 파일을 git에 올리면, 누가 어디서 깔아도 토씨 하나 안 틀리고 똑같은 버전들이 들어와요. 완벽한 재현이죠.
+
+왜 딸려 오는 것까지 잠가야 하는지, 구체적인 사고로 설명할게요. 본인 컴퓨터에선 certifi가 우연히 2023.11 버전으로 깔렸어요. 그런데 동료가 한 달 뒤에 같은 프로젝트를 깔면, 그땐 certifi 최신이 2024.x로 나와서 그게 깔려요. 본인은 적은 적도 없는 certifi의 버전이, 둘 사이에서 달라진 거죠. 보통은 괜찮지만, 가끔 그 미묘한 차이가 "본인 건 되는데 동료 건 안 되는" 사고를 만들어요. lock은 이걸 막아요. certifi까지 정확한 버전으로 박아 두니, 본인과 동료가 같은 certifi를 쓰죠. 그래서 production(실제 서비스)에선 lock이 필수예요. 직접 적은 것만이 아니라 딸려 온 것까지 똑같아야, 진짜 똑같은 환경이거든요.
+
+두 파일이 역할을 나눠요. `requirements.in`은 "내가 원하는 것"(사람이 관리), `requirements.txt`는 "정확히 이 버전들"(도구가 생성). 본인은 .in만 손보고, .txt는 pip-compile이나 uv가 만들어요. 이게 자경단 표준이에요. 작은 프로젝트는 requirements.txt 하나로도 되지만, 팀으로 일하거나 배포하면 이 lock 방식이 "내 컴퓨터에선 되는데"를 뿌리부터 막아요. 격리는 venv가, 재현은 이 lock이 맡는 거예요. 두 짝이 손잡으면 환경이 완벽해져요. H1에서 "격리와 재현이 동전의 양면"이라 했죠. 여기서 그 재현의 도구를 손에 쥔 거예요.
 
 ---
 
-## 7. 한 줄 분해
+## 7. 한 줄 분해 — 매일 치는 첫 명령
+
+이론을 많이 봤으니, 자경단이 매일 아침 치는 실제 명령을 볼게요. 환경을 만들고 들어가고 채우는 걸 한 줄로 묶은 거예요.
 
 ```bash
 uv venv .venv && source .venv/bin/activate && uv pip sync requirements.txt
 ```
 
-자경단 매일 첫 명령.
+`&&`로 세 명령을 이었죠. Ch006에서 배운 그거예요. 앞이 성공하면 다음을 실행하는 거죠. 첫째로 uv로 환경을 만들고, 둘째로 그 환경에 들어가고, 셋째로 lock 파일대로 살림을 정확히 채워요. 이 한 줄이면 프로젝트 환경이 통째로 준비돼요. 몇 초면 끝나죠. 왜 `&&`로 잇냐면, 앞이 실패하면 뒤를 안 하려고요. venv 만들기가 실패했는데 그 안에 들어가려 하면 엉뚱한 일이 벌어지잖아요. `&&`는 "앞이 성공했을 때만 다음"이라, 안전하게 순서를 보장해요. Ch006의 셸 지식이 환경 관리에도 그대로 쓰이는 거예요.
+
+이게 자경단이 매일 첫 번째로 치는 명령이에요. 출근해서, 또는 새 프로젝트에 합류해서, 이 한 줄로 환경을 세우고 일을 시작하죠. 오늘 배운 네 친구가 이 한 줄에 다 들어 있어요. venv(환경 만들기), activate(들어가기), uv(빠르게), sync(lock대로 재현). 개념 하나하나가 이렇게 한 줄로 응결되는 거예요.
+
+이 한 줄이 보여주는 게 있어요. 좋은 도구는 "복잡한 걸 단순하게" 만들어요. 환경 격리·패키지 설치·재현이라는 세 가지 복잡한 일이, 이 한 줄 뒤에 다 숨어 있죠. 본인은 한 줄만 치면, 그 뒤에서 venv가 집을 짓고, sync가 lock을 읽어 정확한 버전을 깔아요. 복잡함은 도구가 감당하고, 본인은 간결함만 누리는 거예요. 그런데 이 간결함을 제대로 누리려면, 그 뒤에 뭐가 있는지 알아야 해요. 그래야 한 줄이 안 먹힐 때 "어느 부분이 문제지?" 하고 짚거든요. 그래서 오늘 한 줄을 분해해 본 거예요. 평소엔 한 줄로 쓰되, 속은 알고 쓰는 거죠.
+
+그리고 H5에서는 이 한 줄마저 Makefile에 넣어서 `make setup` 한 단어로 만들어요. 매번 긴 명령을 치는 대신, 짧은 한 단어로요. 반복을 자동화하는 거죠. 오늘은 이 한 줄을 이해하는 게 목표고, 자동화는 H5에서 봐요. 한 줄을 손에 익혀 두면, H5의 자동화가 자연스럽게 이해돼요.
 
 ---
 
-## 8. 흔한 오해 다섯 가지
+## 8. 자경단 다섯 명의 개념 적용
 
-**오해 1: pip만으로 충분.**
+오늘 배운 개념을 자경단 다섯 명이 어떻게 쓰는지 볼게요.
 
-큰 프로젝트는 pip-tools.
+| 멤버 | 자주 쓰는 것 | 장면 |
+|------|-------------|------|
+| 본인 | `--prompt`로 환경 이름 | 여러 환경 구분 |
+| 까미 | optional-dependencies dev | 백엔드 개발 도구 분리 |
+| 노랭이 | pip-compile lock | 프론트 빌드 환경 고정 |
+| 미니 | 특정 Python 버전 venv | 배포 대상별 버전 |
+| 깜장이 | `pip install -e ".[dev]"` | 테스트 환경 셋업 |
 
-**오해 2: pyproject 어렵다.**
+본인(메인테이너)은 여러 환경을 띄우니 `--prompt`로 이름을 붙여 구분해요. 환경이 셋이면 `(api)`, `(web)`, `(infra)`처럼 이름을 달아서, 프롬프트만 봐도 어느 집에 있는지 알죠. 까미(백엔드)는 pyproject의 optional-dependencies로 개발 도구(pytest·mypy)를 따로 묶어요. 백엔드는 의존성이 많아서, 이 구분이 특히 중요하거든요. 노랭이(프론트)는 pip-compile로 환경을 lock해서 빌드가 항상 똑같게 하고요. 프론트 빌드는 버전 하나만 달라도 결과물이 달라질 수 있어서, lock이 생명이에요. 미니(인프라)는 배포 대상이 요구하는 Python 버전으로 venv를 짓죠. 서버가 3.11이면 3.11로, 3.12면 3.12로요.
 
-10줄로 시작.
+특히 깜장이(QA)의 `pip install -e ".[dev]"`를 짚을게요. 이게 오늘 배운 걸 한 줄에 모은 거예요. `-e`는 editable(개발 모드), `.`는 현재 패키지, `[dev]`는 optional-dependencies의 dev 그룹이요. 그러니까 "현재 패키지를 개발 모드로 깔되, 개발 도구(pytest 등)까지 함께"라는 뜻이죠. QA가 테스트 환경을 셋업할 때 딱 한 줄로 끝내는 비결이에요. 보세요, 오늘 배운 editable·optional-dependencies 개념이 이 한 줄에 다 들어 있어요. 개념을 알면 이런 한 줄이 읽혀요.
 
-**오해 3: uv 실험적.**
-
-production 가능.
-
-**오해 4: lock 없어도 OK.**
-
-production은 lock 필수.
-
-**오해 5: editable install 부담.**
-
-pip install -e . 한 번.
+이게 개념 학습의 진짜 보람이에요. 처음 `pip install -e ".[dev]"`를 보면 외계어 같죠. `-e`는 뭐고 `[dev]`는 뭐야 싶어요. 그런데 오늘 개념을 하나씩 익히고 나니, 이 한 줄이 "아, 현재 패키지를 개발 모드로 + dev 도구까지 깔라는 거구나" 하고 술술 읽혀요. 명령을 통째로 외운 게 아니라, 부품(editable·optional-dependencies)을 이해하니 조합이 읽히는 거죠. 그래서 개념을 익히면 외울 명령이 오히려 줄어요. 부품 몇 개로 수많은 조합을 만들고 읽을 수 있으니까요. 이게 Ch008에서 함수를 배울 때부터 이어진 정신이에요. 외우지 말고 이해하라.
 
 ---
 
-## 9. 자주 받는 질문 다섯 가지
+## 9. AI 시대의 환경 도구
 
-**Q1. requirements vs pyproject?**
+AI 시대에 이 도구들이 어떻게 쓰이는지 짚을게요.
 
-pyproject 표준. requirements lock으로.
+AI한테 "이 프로젝트 pyproject.toml 만들어 줘" 하면, 의존성과 도구 설정까지 척척 써 줘요. "requirements를 lock해 줘" 하면 pip-compile 명령을 주고요. 환경 설정 파일을 손으로 쓰는 시간이 확 줄었어요. 그러니 toml 문법이나 명령 옵션을 달달 외우려 애쓰지 마세요. AI가 잘해요.
 
-**Q2. uv 안전?**
+그런데 판단은 본인 몫이에요. AI가 만든 pyproject에서 의존성이 적절한지, dev 도구가 제대로 분리됐는지, lock이 잘 됐는지는 본인이 봐야 해요. 예를 들어 AI가 개발 도구를 그냥 dependencies에 다 넣으면, "이건 optional-dependencies로 빼야지" 하고 바로잡을 수 있어야죠. 개념을 아는 사람만이 AI의 결과를 평가해요.
 
-Astral. ruff와 같은 회사.
+그래서 80/20이에요. AI가 80%(파일 작성·명령 생성)를 하고, 본인이 20%(구분이 맞나, 재현되나 판단)를 해요. 오늘 배운 네 친구의 개념이 그 20%의 밑천이에요. venv가 뭘 하는지, optional-dependencies가 왜 있는지, lock이 왜 필요한지 알아야, AI가 만든 설정이 좋은지 보여요. 개념이 본인을 "AI를 부리는 사람"으로 만들어요.
 
-**Q3. dev 의존성?**
-
-`[project.optional-dependencies] dev`.
-
-**Q4. transitive 의존성?**
-
-pip-compile이 자동.
-
-**Q5. 패키지 발행 vs 사용?**
-
-pyproject가 둘 다.
+구체적인 장면을 하나 그려 볼게요. 본인이 AI한테 "이 프로젝트 환경 설정해 줘" 하니, pyproject.toml을 좍 만들어 줘요. 그런데 보니까 pytest·mypy가 dependencies에 들어가 있어요. 오늘 개념을 배운 본인은 바로 알아채죠. "잠깐, 이건 개발 도구니까 optional-dependencies로 빼야지. 안 그러면 이 패키지 쓰는 사람한테 pytest까지 떠넘기는 거잖아." 그리고 고쳐요. 개념을 모르는 사람은 그냥 받아들이고, 나중에 "왜 이렇게 무겁지?" 하고 의아해하죠. 같은 AI 출력을 받아도, 개념을 아는 사람과 모르는 사람의 결과물이 이렇게 갈려요. 오늘 배운 게 그 갈림길에서 본인을 옳은 쪽에 세워요.
 
 ---
 
-## 10. 흔한 실수 다섯 + 안심 — 핵심 학습 편
+## 10. 자주 받는 질문 여덟 가지
 
-첫째, pip만 사용. 안심 — pip-tools 또는 uv.
-둘째, lock 파일 무지. 안심 — pip-compile.
-셋째, pyproject 어렵다. 안심 — 10줄로 시작.
-넷째, dev 의존성 섞음. 안심 — optional-dependencies로.
-다섯째, 가장 큰 — uv 실험. 안심 — Astral 정식 production.
+**Q1. requirements.txt랑 pyproject.toml 중 뭘 써요?**
 
-다섯 함정 미리 알아둔 본인이 두 해 동안 한 박자 빠르게.
+둘 다 써요. 역할이 달라요. pyproject.toml은 "이 프로젝트가 뭔지"(신분증·설계도), requirements.txt는 "정확히 이 버전들"(lock 스냅샷)이에요. pyproject에 원하는 걸 적고, 그걸 lock한 게 requirements죠. 작은 개인 프로젝트는 둘 중 하나로도 충분하지만, 패키지를 배포하거나 팀으로 일하면 둘 다 쓰는 게 깔끔해요. 헷갈리면 "설계도는 pyproject, 정확한 사진은 requirements"로 기억하세요.
 
-## 11. 마무리
+**Q2. uv는 정말 안전한가요?**
 
-자, 두 번째 시간 끝.
+네. Astral이라는 팀이 만든 정식 도구예요. ruff라는 유명한 린터를 만든 곳이죠. 검증된 팀이고, 빠르게 표준이 되어 가고 있어요. 다만 본인은 pip 기본을 먼저 다지고 옮겨 타면 돼요. 그리고 uv가 pip과 명령을 일부러 똑같이 만든 것도 안심 포인트예요. "기존 사용자가 안 헤매게" 배려한 거니까요. 사용자를 생각하는 도구는 보통 잘 만들어진 도구예요.
 
-venv 7, pip 10, pyproject 7 섹션, uv 5.
+**Q3. dev 의존성은 어떻게 나눠요?**
 
-다음 H3는 5 도구 비교.
+pyproject의 `[project.optional-dependencies]`에 `dev` 그룹을 만들어요. 거기 pytest·ruff·mypy 같은 개발 도구를 넣죠. 설치할 땐 `pip install -e ".[dev]"`로 dev까지 깔아요. 사용자에겐 가볍게, 개발자에겐 풍성하게요. 이 구분이 잘 된 패키지는 "프로답다"는 인상을 줘요. 반대로 모든 걸 dependencies에 욱여넣은 패키지는 "아직 안 익었네" 싶죠. 작은 구분 하나가 패키지의 품격을 보여줘요.
+
+**Q4. transitive(딸려 오는) 의존성은 어떻게 관리해요?**
+
+pip-compile이나 uv pip compile이 자동으로 해 줘요. 본인은 직접 쓰는 것만 .in에 적고, 도구가 딸려 오는 것까지 정확한 버전으로 .txt에 박아 줘요. 손으로 추적할 필요 없어요. 만약 손으로 한다면, requests가 딸고 오는 걸 일일이 찾아 적어야 하는데, 그게 또 자기 것을 딸고 오고… 끝이 없죠. 그래서 이 일은 도구한테 맡기는 거예요. 사람은 "원하는 것"만 정하고, 기계적 추적은 도구가 하는 거죠.
+
+**Q5. 명령어가 너무 많아요. 다 외워야 하나요?**
+
+아니요. 매일 쓰는 건 서너 개예요. venv 짓기·들어가기, pip install·-r, lock 정도요. 나머지는 "이런 게 있다"만 알고 필요할 때 찾으세요. 명령은 외우는 게 아니라 지도로 갖는 거예요. 베테랑도 옵션 하나하나 다 안 외워요. 자주 쓰는 건 손이 외우고, 가끔 쓰는 건 `--help`나 검색으로 찾죠. 중요한 건 "이런 일을 하는 옵션이 있다"는 걸 아는 거예요. 그러면 필요할 때 정확히 찾아 쓸 수 있거든요.
+
+**Q6. lock 파일도 git에 올려요?**
+
+네, lock 파일(requirements.txt)은 올려요. 그게 재현의 기준이거든요. 다만 환경 폴더(.venv)는 안 올려요. "살림 목록은 공유, 집은 각자"예요. 헷갈리지 마세요. 정리하면, git에 올리는 건 pyproject.toml(설계도)·requirements.in(원하는 것)·requirements.txt(lock)이고, 안 올리는 건 `.venv`(집)·`__pycache__`(캐시)예요. "정의하는 파일은 올리고, 생성되는 폴더는 안 올린다"가 원칙이에요.
+
+**Q7. pyproject 하나로 패키지 발행이랑 환경 관리를 다 해요?**
+
+네, 그게 pyproject의 힘이에요. 패키지를 만들 때도(발행), 환경을 정의할 때도(의존성) 다 이 파일이 중심이에요. 옛날엔 여러 파일로 나뉘던 게 이 하나로 모인 거죠. 그래서 현대 Python 프로젝트의 중심 파일이에요.
+
+**Q8. venv를 만들 때 어떤 Python 버전이 들어가요?**
+
+`python3 -m venv`로 만들면, 그 `python3`이 가리키는 버전이 들어가요. 시스템에 3.11이 깔려 있으면 3.11 환경이 생기죠. 특정 버전을 원하면 `python3.12 -m venv`처럼 콕 집어 지정해요. 그래서 프로젝트가 요구하는 버전에 맞춰 환경을 만들 수 있어요. 여러 Python 버전을 관리하는 건 H3에서 pyenv로 더 깊이 봐요.
+
+---
+
+## 11. 흔한 오해 일곱 가지
+
+**오해 1: pip만으로 충분하다.**
+
+작은 프로젝트는 그래요. 하지만 팀으로 일하거나 배포하면, lock(pip-tools·uv)이 필요해요. transitive까지 정확히 잠가야 하거든요.
+
+**오해 2: pyproject.toml은 어렵다.**
+
+기본은 열 줄 남짓이에요. 일곱 칸이 있다고 다 채울 필요 없어요. 처음엔 project·dependencies 두 칸이면 충분해요. 자라면서 칸을 채우면 돼요. 오늘 일곱 칸을 다 본 건 "이런 칸들이 있다"는 지도를 그리려는 거지, 처음부터 다 쓰라는 게 아니에요. 필요한 칸만 골라 쓰면 됩니다.
+
+**오해 3: uv는 아직 실험적이라 production엔 위험하다.**
+
+아니에요. Astral의 정식 도구이고, 이미 production에서 쓰여요. 다만 본인은 기본을 먼저 다지면 됩니다.
+
+**오해 4: lock 파일은 없어도 된다.**
+
+작은 건 그래요. 하지만 production은 lock이 필수예요. "내 컴퓨터에선 되는데"를 막는 핵심이거든요. 그리고 production뿐 아니라, 팀 프로젝트면 규모와 상관없이 lock이 좋아요. 여럿이 같은 환경을 봐야 하니까요.
+
+**오해 5: editable install은 부담스럽다.**
+
+`pip install -e .` 한 번이면 돼요. 그 뒤로 코드를 고쳐도 다시 설치 안 해도 되니, 오히려 편해요. 본인 패키지 개발의 필수 기술이에요.
+
+**오해 6: uv를 쓰면 venv·pip을 안 배워도 된다.**
+
+아니에요. uv는 venv·pip을 빠르게 하는 거지, 대체하는 개념이 아니에요. 기본을 알아야 uv가 뭘 빠르게 해 주는지 이해하죠. 부품을 알고 통합 도구를 쓰는 거예요.
+
+**오해 7: lock 파일은 사람이 손으로 고친다.**
+
+아니에요. lock 파일(requirements.txt)은 도구가 생성하는 거라, 사람이 직접 고치면 안 돼요. 바꾸고 싶으면 .in을 고치고 다시 compile하세요. lock은 읽기만 하고 손은 안 대는 게 원칙이에요.
+
+---
+
+## 12. 흔한 실수 다섯 + 안심
+
+첫째, pip만 쓰고 lock을 안 해서 환경이 미묘하게 어긋나는 실수예요. 안심하세요 — pip-compile이나 uv로 lock하면 됩니다. 이건 혼자 쓸 땐 안 보이다가, 동료가 합류하는 순간 터져요. 미리 lock해 두면 그 순간이 평화로워요.
+
+둘째, lock 파일의 존재를 몰라 transitive 의존성에 당하는 실수예요. 안심하세요 — pip-compile이 딸린 것까지 자동으로 잠가 줍니다.
+
+셋째, pyproject를 어렵게 여겨 미루는 실수예요. 안심하세요 — 두 칸(project·dependencies)으로 시작하면 됩니다.
+
+넷째, 개발 도구를 dependencies에 섞어 사용자에게 떠넘기는 실수예요. 안심하세요 — optional-dependencies로 빼면 됩니다. "이건 쓰는 사람도 필요한가, 개발자만 필요한가?"를 한 번 물어보면 바로 갈려요.
+
+다섯째, 가장 흔한 — uv를 실험적이라 여겨 안 써 보는 실수예요. 안심하세요 — Astral 정식 도구이니, 기본을 다진 뒤 맛보면 됩니다.
+
+이 다섯 함정을 미리 알아 둔 본인은, 앞으로 두 해 동안 한 박자 빠르게 가요. 네 친구는 함정만 피하면, 본인의 든든한 도구예요.
+
+다섯 함정을 한 단어로 묶으면 "lock을 모르는 것"이에요. 다섯 중 셋이 lock 관련이거든요. pip만 쓰고 lock 안 하기, lock 존재를 모르기, lock 파일을 손으로 고치기. 그만큼 lock이 환경 관리의 핵심이라는 뜻이에요. 격리(venv)는 직관적이라 금방 익히는데, 재현(lock)은 한 겹 더 깊어서 처음엔 와닿기 어렵거든요. 그런데 팀으로 일하면 lock이 격리만큼, 어쩌면 더 중요해져요. 그러니 오늘 lock 하나만 확실히 잡아도 큰 수확이에요. "내가 직접 쓰는 건 .in에, 정확한 버전은 도구가 .txt에." 이 한 줄만 기억하세요.
+
+---
+
+## 13. 마무리
+
+자, 두 번째 시간 끝났어요. 오늘 네 친구의 깊이를 봤죠. venv의 집 짓는 일곱 방법, pip의 살림 들이는 열 가지, pyproject의 일곱 칸, uv의 다섯 명령, 그리고 재현의 핵심 lock 파일까지요. 매일 치는 한 줄(`uv venv && activate && sync`)에 이 모든 게 담긴 것도 봤어요.
+
+오늘의 약속을 지켰어요. **본인은 이제 네 친구의 명령을 손바닥처럼 다뤄요.** 다 외운 건 아니지만, "이럴 땐 이 명령"이라는 지도가 생겼어요. 그리고 더 중요한 건, optional-dependencies와 lock 같은 개념을 이해한 거예요. 그게 AI 시대에 본인을 지키는 안목이에요. 명령은 잊혀도 개념은 남아요. "왜 dev 도구를 분리하나", "왜 lock이 필요한가" 같은 이해는, 명령어 한두 개보다 훨씬 오래가고 값져요. 오늘 그 이해를 손에 쥔 거예요.
+
+다음 H3에서는 도구 비교로 가요. venv 말고도 환경 도구가 여럿 있거든요. virtualenv·conda·pyenv·uv를 비교하면서, "어떤 상황에 어떤 도구를 쓰는지" 지도를 그려요. 오늘 venv·pip·uv를 깊이 봤으니, 이제 그 주변의 다른 도구들과 비교할 차례죠. 그러면 "왜 자경단이 venv를 기본으로 쓰는가", "conda는 언제 쓰는가" 같은 게 또렷해져요. 한 도구를 깊이 알면, 다른 도구와 비교가 쉬워지거든요. 오늘이 그 깊이를 만든 시간이에요.
+
+졸업 과제예요. 본인 컴퓨터에서 이걸 해 보세요.
 
 ```bash
 uv venv test
 source test/bin/activate
 uv pip install requests
 deactivate
+rm -rf test
 ```
+
+uv로 환경을 만들고, 들어가고, 설치하고, 나오고, 지우는 거예요. uv가 얼마나 빠른지 직접 느껴 보세요. pip보다 눈에 띄게 빠를 거예요. "아, 이래서 차세대구나" 하고 느끼면 오늘 수업은 성공이에요. uv를 처음 깔아야 한다면 H1에서 본 `brew install uv`로 깔면 돼요. 한 번 깔아 두면 계속 쓸 수 있고요. 직접 손으로 해 보는 게 제일 빨리 배우는 길이에요. 강의를 듣기만 하는 것과, 한 번 쳐 보는 건 천지 차이거든요. 꼭 직접 해 보세요. 수고했어요. H3에서 만나요. 🐾
 
 ---
 
 ## 👨‍💻 개발자 노트
 
-> - venv 활성화 스크립트: PATH 변경 + PROMPT.
-> - pip resolver: 2020+ 새 resolver. 충돌 검사.
-> - pyproject.toml PEP 621: 표준화.
-> - uv resolver: pip-tools 호환.
-> - hatchling vs setuptools: hatchling이 modern.
+> - **venv 일곱**: 기본·`--prompt`·activate·deactivate·rm·버전 명시·확인(which). 매일은 짓기·들어가기·나오기.
+> - **pip 열**: install·==·범위·`-r`·`-e`·`-U`·`--no-cache-dir`·`--index-url`·download·wheel. 매일은 install·-r·-e.
+> - **pyproject 일곱 칸**: project·dependencies·optional-dependencies·scripts·build-system·tool·urls.
+> - **optional-dependencies**: 개발 도구를 dev 그룹으로. `pip install -e ".[dev]"`. 사용자엔 가볍게.
+> - **uv 다섯**: venv·pip install·pip sync·pip compile·tool. venv+pip+pip-tools+pipx 통합·고속.
+> - **lock**: requirements.in(원함)→compile→requirements.txt(정확). transitive까지 잠금. git에 올림.
+> - **매일 한 줄**: `uv venv && activate && uv pip sync`. H5에서 `make setup`으로 자동화.
 > - 다음 H3 키워드: venv · virtualenv · conda · pyenv · uv 비교.
+
+---
+
+## 추신
+
+1. H1이 "왜 격리하나"였다면, H2는 "그럼 어떻게 다루나"예요.
+2. 명령어가 많아 보여도, 매일 쓰는 건 서너 개예요. 나머지는 지도로 가져요.
+3. venv 일곱 방법 중 매일은 짓기·들어가기·나오기 셋이에요.
+4. `--prompt`로 환경 이름을 붙여요. 여러 집을 구분할 때 편해요.
+5. `which python3`이 `.venv`를 가리키면 집 안이에요. 확인 습관!
+6. 집 허물기는 `rm -rf .venv`. 꼬이면 지우고 다시 짓는 거죠.
+7. pip 열 가지 중 매일은 install·`-r`·`-e` 셋이에요.
+8. `--no-cache-dir`는 캐시 문제 날 때 깨끗하게 설치해요.
+9. `--index-url`은 사내 저장소에서 받을 때. 실무에서 만나요.
+10. pyproject는 일곱 칸. 처음엔 project·dependencies 두 칸이면 돼요.
+11. optional-dependencies — 개발 도구(pytest 등)를 dev 그룹으로 빼요.
+12. `pip install -e ".[dev]"` — 개발 모드 + 개발 도구까지 한 줄.
+13. 사용자에겐 가볍게(dependencies), 개발자에겐 풍성하게(optional).
+14. 도구 설정(ruff·mypy)도 pyproject `[tool]`에 모아요. 한곳에.
+15. uv 명령은 pip과 거의 같아요. 앞에 `uv`만 붙이면 돼요.
+16. uv = venv + pip + pip-tools + pipx 통합, 그리고 빠름.
+17. lock은 재현의 핵심. requirements.in → compile → requirements.txt.
+18. 본인은 .in만 손보고, 도구가 .txt에 정확한 버전을 박아요.
+19. lock하면 딸려 오는 것(transitive)까지 정확한 버전으로 잠겨요.
+20. lock 파일(.txt)은 git에 올려요. 환경(.venv)은 안 올리고요.
+21. 격리는 venv가, 재현은 lock이 맡아요. 두 짝이에요.
+22. 매일 한 줄: `uv venv && activate && uv pip sync`. 환경 통째 준비.
+23. `&&`는 앞이 성공하면 다음 실행(Ch006). 세 명령을 한 줄로.
+24. H5에서 이 한 줄을 `make setup`으로 자동화해요.
+25. AI는 pyproject·lock을 잘 만들어요. 그건 맡기고 본인은 판단해요.
+26. "의존성이 적절한가, dev가 분리됐나"는 본인이 봐요.
+27. 개념을 아는 사람이 AI의 환경 설정을 평가할 수 있어요.
+28. 명령은 외우는 게 아니라 지도로 갖는 거예요. 필요할 때 찾아요.
+29. `==`는 정확한 버전, `>=,<`는 범위. pyproject엔 범위, lock엔 정확한 버전.
+30. `sync`는 lock과 똑같이 맞추기(더하기 아님). 깨끗한 재현에 써요.
+31. pip은 2020년부터 충돌 검사(resolver)를 제대로 해요. 똑똑한 친구죠.
+32. uv는 명령을 pip과 똑같이 만들었어요. 기존 사용자 배려예요.
+33. 다음 H3는 도구 비교. venv·virtualenv·conda·pyenv·uv를 견줘요.
+34. 오늘도 한 걸음. 네 친구의 깊이를 봤어요. 본인, 정말 잘하고 있어요. 🐾

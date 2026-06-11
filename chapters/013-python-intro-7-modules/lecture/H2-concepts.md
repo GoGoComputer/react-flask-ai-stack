@@ -1,105 +1,171 @@
-# Ch013 · H2 — 모듈/패키지 4 단어 깊이
+# Ch013 · H2 — 모듈·패키지 핵심개념 — 네 친구의 깊이
 
 > 고양이 자경단 · Ch 013 · 2교시 (60분)
+> 이 파일은 강사가 마이크 앞에서 그대로 읽을 수 있는 말 그대로의 대본입니다.
 
 ---
 
 ## 📋 이 시간 목차
 
 1. 다시 만나서 반가워요 — H1 회수와 오늘의 약속
-2. import 5 패턴
-3. from 5 패턴
-4. __init__.py 깊이
-5. __name__ 깊이
-6. sys.path와 모듈 검색
-7. relative vs absolute import
-8. circular import 함정
-9. 한 줄 분해
-10. 흔한 오해 다섯 가지
-11. 자주 받는 질문 다섯 가지
-12. 마무리
+2. import의 깊이 — 다섯 가지 모습
+3. from의 깊이 — 콕 집어 가져오기
+4. import냐 from이냐 — 가려 쓰는 법
+5. __init__.py의 깊이 — 빈 표시에서 현관까지
+6. __name__의 깊이 — 프로그램이자 도구
+7. sys.path — Python이 모듈을 찾는 길
+8. relative vs absolute — 두 가지 주소 쓰는 법
+9. circular import — 서로 물고 무는 함정
+10. 모듈은 한 번만 — sys.modules 캐시
+11. 한 줄 분해 — 매일 치는 import 읽기
+12. 자경단 다섯 명의 개념 적용
+13. AI 시대의 import
+14. 자주 받는 질문 일곱 가지
+15. 흔한 오해 다섯 가지
+16. 흔한 실수 다섯 + 안심
+17. 마무리
+
+---
+
+## 🔧 강사용 명령어 한눈에
+
+```python
+import math                      # 통째로
+from math import sqrt            # 일부만
+import numpy as np               # 별칭
+from . import sibling            # 같은 패키지(relative)
+if __name__ == "__main__":       # 직접 실행 구분
+    main()
+import sys; print(sys.path)      # 검색 경로 보기
+```
 
 ---
 
 ## 1. 다시 만나서 반가워요 — H1 회수와 오늘의 약속
 
-자, 안녕하세요.
+자, 안녕하세요. 두 번째 시간이에요. H1에서 우리는 모듈·패키지의 큰 그림을 그렸죠. 모듈은 .py 파일 하나, 패키지는 폴더에 `__init__.py`를 넣은 것. 그리고 네 친구를 소개했어요. import·from·`__init__.py`·`__name__`이요. 기억하세요? 오늘은 그 네 친구를 한 명씩 깊이 들여다봐요.
 
-지난 H1 회수. 네 친구 — import, from, __init__.py, __name__.
+H1이 지도를 펼치는 시간이었다면, H2는 그 지도의 첫 동네를 자세히 걷는 시간이에요. 네 친구가 각각 어떤 다섯 가지 모습을 가지는지, 언제 무엇을 쓰는지, 그리고 초보가 꼭 한 번은 만나는 함정 두 개(sys.path 혼동·circular import)가 뭔지 봐요. 이게 H2의 약속이에요. **본인이 import 시스템을 손바닥처럼 다룹니다.**
 
-이번 H2는 깊이.
+한 가지 미리 안심시킬게요. 오늘 나오는 단어가 좀 많아요. relative import, absolute import, circular import, sys.path, `__all__`… 처음 들으면 외계어 같죠. 그런데 H1에서 말했듯, 본인은 이미 import를 매일 써 왔어요. 오늘은 새 걸 주입하는 게 아니라, 손에 익은 동작에 이름표를 붙이는 거예요. "아, 내가 매일 하던 게 이거였구나" 하는 시간이에요. 마음 편하게 가요.
 
-오늘의 약속. **본인이 import 시스템의 모든 패턴을 다룹니다**.
-
-자, 가요.
+자, 첫 친구 import부터 봐요.
 
 ---
 
-## 2. import 5 패턴
+## 2. import의 깊이 — 다섯 가지 모습
+
+import는 모듈을 통째로 가져오는 친구예요. 그런데 자세히 보면 다섯 가지 모습이 있어요. 하나씩 볼게요.
 
 ```python
-# 1. 모듈 통째
+# 1. 모듈 통째로 — 가장 기본
 import math
-math.sqrt(16)
+math.sqrt(16)        # math.을 붙여 씀
 
-# 2. 별명
+# 2. 별칭 붙이기 — 이름이 길거나 충돌할 때
 import numpy as np
 np.array([1, 2, 3])
 
-# 3. 패키지 안 모듈
+# 3. 패키지 안의 모듈 — 점으로 깊이 들어가기
 import os.path
 os.path.join("a", "b")
 
-# 4. 여러 모듈
-import os, sys, json   # 한 줄에 여러 (PEP 8은 별 줄 권장)
+# 4. 한 줄에 여러 개 — 가능하지만 권장 안 함
+import os, sys, json
 
-# 5. 조건부 import
+# 5. 조건부 import — 있으면 쓰고 없으면 대체
 try:
-    import ujson as json
+    import ujson as json     # 빠른 게 있으면 그걸로
 except ImportError:
-    import json
+    import json              # 없으면 표준으로
 ```
 
-5 패턴.
+첫째, **모듈 통째로**. `import math`가 제일 기본이에요. 그리고 `math.sqrt`처럼 모듈 이름을 점으로 붙여서 써요. 이게 좋은 점은, 이 sqrt가 어디서 왔는지 한눈에 보인다는 거예요. 코드를 읽는 사람이 "아, math의 sqrt구나" 하고 바로 알죠.
+
+둘째, **별칭**. `import numpy as np`처럼 `as`로 짧은 이름을 붙여요. H1에서 봤죠. numpy를 매번 `numpy.array`라고 치면 길고 귀찮으니, `np.array`로 줄이는 거예요. 데이터 세계의 약속이라, `np`나 `pd`를 보면 누구나 numpy·pandas인 줄 알아요.
+
+셋째, **패키지 안의 모듈**. `import os.path`처럼 점으로 패키지 안쪽까지 들어가요. os는 패키지고, 그 안에 path라는 모듈이 있는 거예요. 그러면 `os.path.join`처럼 점을 두 번 찍어 써요. 패키지가 깊으면 점이 길어지죠.
+
+넷째, **한 줄에 여러 개**. `import os, sys, json`처럼 쉼표로 여러 개를 한 줄에 가져올 수 있어요. 되긴 되는데, PEP 8(Python 스타일 약속)은 한 줄에 하나씩 쓰라고 권해요. 한 줄에 하나면 나중에 줄을 지우거나 옮기기 쉽고, git 변경 기록도 깔끔하거든요.
+
+다섯째, **조건부 import**. 이게 좀 고급인데, `try/except`로 감싸서 "있으면 빠른 걸 쓰고, 없으면 표준 걸 쓴다"를 해요. Ch012에서 배운 try/except를 import에도 쓰는 거예요. 예를 들어 ujson은 json보다 빠른 외부 모듈인데, 깔려 있으면 그걸 쓰고 없으면 표준 json으로 떨어지는 거죠. 본인 프로그램이 어느 환경에서도 돌아가게 하는 영리한 기술이에요.
+
+다섯 모습 중에 매일 쓰는 건 첫째와 둘째예요. 셋째는 가끔, 넷째는 안 쓰는 게 좋고, 다섯째는 라이브러리 만들 때나 써요. 그러니 부담 갖지 마세요. "통째로"와 "별칭" 두 개만 손에 익으면 90%는 끝이에요.
 
 ---
 
-## 3. from 5 패턴
+## 3. from의 깊이 — 콕 집어 가져오기
+
+두 번째 친구 from이에요. from은 모듈에서 필요한 것만 콕 집어 가져와요. 이것도 다섯 모습이 있어요.
 
 ```python
-# 1. 단일 import
+# 1. 하나만 — 가장 흔함
 from math import sqrt
-sqrt(16)
+sqrt(16)              # math. 없이 바로
 
-# 2. 여러
+# 2. 여러 개 — 쉼표로
 from math import sqrt, pi, sin
 
-# 3. 별명
-from numpy import array as a
+# 3. 별칭 — from에도 as
+from collections import OrderedDict as OD
 
-# 4. 모두 (안 씀)
+# 4. 전부 — 절대 쓰지 마세요
 from math import *
 
-# 5. 패키지 안 모듈
+# 5. 패키지 안 모듈에서
 from os.path import join, exists
 ```
 
-자경단 표준 — 1, 2번이 90%. *는 절대 안 씀.
+첫째, **하나만**. `from math import sqrt`. 이러면 `math.`을 안 붙이고 그냥 `sqrt(16)`이라 써요. 짧죠. 자주 쓰는 함수 하나를 가져올 때 제일 편해요.
+
+둘째, **여러 개**. `from math import sqrt, pi, sin`처럼 쉼표로 여러 개를 한 번에 가져와요. 한 모듈에서 자주 쓰는 게 여럿이면 이렇게요.
+
+셋째, **별칭**. from에도 `as`를 붙일 수 있어요. `from collections import OrderedDict as OD`처럼요. 이름이 길거나, 다른 모듈의 같은 이름과 충돌할 때 써요.
+
+넷째, **전부 가져오기**. `from math import *`. 이건 math 안의 모든 걸 한꺼번에 가져와요. 그런데 이걸 절대 쓰지 마세요. 왜냐하면 math 안에 뭐가 들었는지 안 보이는데 다 쏟아져 들어오거든요. 그러면 본인이 만든 변수랑 충돌할 수도 있고, 이 `sqrt`가 어디서 왔는지 코드만 봐선 알 수가 없어요. 이름공간(namespace)이 오염된다고 해요. 자경단 규칙: `import *`는 금지예요.
+
+다섯째, **패키지 안 모듈에서**. `from os.path import join`처럼 패키지 안쪽 모듈에서 콕 집어 가져와요. 점으로 깊이 들어가서 from으로 집는 거죠.
+
+from에서 매일 쓰는 건 첫째와 둘째예요. 셋째는 가끔, 넷째는 금지, 다섯째는 표준 라이브러리 쓸 때 자주 봐요. 정리하면, from의 일상은 "하나 또는 몇 개를 콕 집기"예요.
 
 ---
 
-## 4. __init__.py 깊이
+## 4. import냐 from이냐 — 가려 쓰는 법
 
-빈 __init__.py.
+자, 그럼 import랑 from 중에 뭘 써야 할까요? 이게 초보가 제일 자주 묻는 거예요. 표로 정리할게요.
+
+| 상황 | 추천 | 이유 |
+|------|------|------|
+| 모듈을 여기저기 많이 씀 | `import` | `math.`이 붙어 출처가 명확 |
+| 함수 한두 개만 자주 씀 | `from` | 짧게 `sqrt`로 |
+| 이름이 흔해서 충돌 위험 | `import` | `math.sqrt` vs 내 `sqrt` 구분 |
+| 이름이 너무 길다 | `import as` | `np` 같은 별칭 |
+| 다 가져오기 | (금지) | 이름공간 오염 |
+
+핵심 원칙은 이거예요. **출처가 보이는 게 좋으면 import, 짧은 게 좋으면 from.** 둘 다 정답이 아니라, 상황에 맞게 가려 쓰는 거예요.
+
+본인이 헷갈리면 import가 안전해요. `math.sqrt`처럼 출처가 보이면, 나중에 코드를 읽을 때(특히 6개월 뒤의 본인이) "이 함수가 어디서 왔지?" 하고 헤맬 일이 없거든요. from으로 가져온 `sqrt`는 짧지만, 파일이 길어지면 "이거 내가 만든 건가, 어디서 가져온 건가" 헷갈릴 수 있어요.
+
+실무 감각을 하나 알려드릴게요. 보통 모듈은 import로 가져오고(`import json`, `import os`), 그 모듈에서 정말 자주 쓰는 클래스·함수는 from으로 가져와요(`from pathlib import Path`, `from collections import Counter`). Path나 Counter는 워낙 자주 쳐서, 매번 `pathlib.Path`라고 하면 손이 아프거든요. 이건 외우는 게 아니라, 코드를 많이 보면 자연스레 몸에 배요. "남들이 어떻게 쓰나"를 따라 하면 돼요.
+
+조금 더 구체적인 기준을 드릴게요. "이 이름이 흔한가?"를 생각해 보세요. `Path`나 `Counter`처럼 누가 봐도 "아, pathlib의 Path구나" 하고 떠오르는 유명한 이름은 from으로 콕 집어도 안 헷갈려요. 반대로 `open`이나 `load`처럼 흔하디흔한 이름은 from으로 가져오면 위험해요. `from json import load` 했는데 다른 데서도 load를 쓰면, 어느 load인지 헷갈리거든요. 그땐 `import json` 하고 `json.load`로 출처를 붙이는 게 안전해요. 그러니까 규칙은 "유명하고 고유한 이름은 from, 흔하고 겹칠 만한 이름은 import"예요. 이 감각 하나면 대부분의 선택이 자동으로 풀려요. 그리고 정말 헷갈리면, 앞에서 말했듯 import가 늘 안전한 기본값이에요.
+
+---
+
+## 5. __init__.py의 깊이 — 빈 표시에서 현관까지
+
+세 번째 친구 `__init__.py`예요. H1에서 "폴더를 패키지로 만드는 표시"라고 했죠. 그런데 이 친구는 표시 그 이상을 할 수 있어요. 세 단계로 보여드릴게요.
+
+**1단계 — 빈 파일.** 가장 단순해요.
 
 ```python
 # vigilante/__init__.py
-# 비어 있음
+# (비어 있음)
 ```
 
-`import vigilante`로 패키지 import 가능.
+폴더 안에 빈 `__init__.py`만 있어도, Python은 "이 폴더는 패키지구나" 하고 알아봐요. 그럼 `import vigilante`나 `from vigilante import exchange`가 돼요. 처음엔 이걸로 충분해요. 비워 두세요.
 
-조금 채운 __init__.py.
+**2단계 — 현관에 간판 달기.** 패키지가 자라면, `__init__.py`에 코드를 넣어 "이 패키지의 대표 기능"을 현관에 내놓을 수 있어요.
 
 ```python
 # vigilante/__init__.py
@@ -110,218 +176,402 @@ __version__ = "1.0.0"
 __all__ = ["convert", "validate_currency"]
 ```
 
-`__all__`은 `from vigilante import *` 때 노출 목록.
-
-자경단 표준 — public API를 __init__.py에.
+이러면 사용자가 안쪽 구조(exchange.py, validators.py가 따로 있다는 것)를 몰라도, 그냥 `vigilante.convert(...)`라고 바로 쓸 수 있어요.
 
 ```python
-# 사용
+# 사용하는 쪽
 import vigilante
-vigilante.convert(50, "USD", "KRW")
+vigilante.convert(50, "USD", "KRW")    # 안쪽 구조 몰라도 됨
 ```
 
-내부 구조 (exchange.py, validators.py)를 사용자가 몰라도 됨.
+이게 왜 좋냐면, 패키지를 집으로 치면 `__init__.py`가 현관이에요. 손님(사용자)은 현관에서 필요한 걸 받아 가고, 집 안 구조(어느 방에 뭐가 있는지)는 알 필요가 없어요. 본인이 나중에 집 안 구조를 바꿔도(exchange.py를 둘로 쪼개도), 현관만 그대로면 손님은 아무것도 안 바꿔도 돼요. 이걸 "공개 API를 `__init__.py`에 모은다"고 해요. 라이브러리를 잘 만드는 핵심이에요.
+
+여기 나온 두 가지를 짚을게요. `__version__`은 패키지 버전이에요. "1.0.0" 같은 형식(semver라고 해요)으로 적어, 사용자가 "내가 쓰는 게 몇 버전이지?"를 알 수 있게 해요. `__all__`은 `from vigilante import *` 했을 때 뭘 내보낼지 정하는 목록이에요. `import *`는 금지지만, `__all__`을 정해 두면 "이게 이 패키지의 공식 메뉴판"이라는 문서 역할도 해요.
+
+**3단계 — 조심할 점.** `__init__.py`에 코드를 넣을 때 한 가지 주의가 있어요. 거기에 무거운 작업(파일 읽기, 네트워크 접속, DB 연결)을 넣으면 안 돼요. 왜냐하면 `import vigilante` 하는 순간 그게 다 실행되거든요. import는 가볍고 빨라야 해요. 그래서 `__init__.py`에는 "가져오기(from .x import y)"와 "메타 정보(`__version__`)" 정도만 넣고, 실제 일은 함수가 불릴 때 하게 둬요. 이걸 "side effect(부작용) 없는 import"라고 해요. H1에서 본 "import는 도구를 빌리는 것"이라는 정신과 같아요. 도구를 빌리는데 빌리는 순간 도구가 멋대로 작동하면 곤란하잖아요.
 
 ---
 
-## 5. __name__ 깊이
+## 6. __name__의 깊이 — 프로그램이자 도구
+
+네 번째 친구 `__name__`이에요. H1에서, 그리고 Ch012 file_processor에서 봤던 그 친구죠. 한 번 더, 이번엔 깊이 봐요.
+
+`__name__`은 모듈이 자기 이름을 담아 두는 특별한 변수예요. 그런데 그 값이 상황에 따라 달라져요.
 
 ```python
 # script.py
 print(__name__)
+```
 
-# 직접 실행
+```text
+# 직접 실행하면
 $ python3 script.py
 __main__
 
-# import 시
+# 다른 곳에서 import하면
 $ python3 -c "import script"
 script
 ```
 
-표준 패턴.
+보세요. 같은 파일인데, **직접 실행하면 `__name__`이 `"__main__"`**이고, **import하면 `__name__`이 모듈 이름(`"script"`)**이에요. Python이 이 값을 알아서 채워 줘요.
+
+이 차이를 이용한 게 그 유명한 관용구예요.
 
 ```python
 def main():
-    ...
+    print("프로그램으로 실행 중")
 
 if __name__ == "__main__":
     main()
 ```
 
-직접 실행 시만 main(). import 시 안 실행.
+이 한 줄의 뜻은 "이 파일을 **직접** 실행할 때만 main을 부른다"예요. 그러면 이 파일을 다른 데서 import할 땐 main이 안 불려요. 왜 이게 필요한지 H1보다 더 구체적으로 볼게요.
 
-자경단 표준 — 모든 실행 가능 모듈에.
+한 파일이 두 가지로 쓰일 수 있어요. file_processor.py를 생각해 보세요. 첫째, 본인이 터미널에서 `python3 file_processor.py data.csv`라고 직접 실행하면, 그건 **프로그램**이에요. 파일을 받아서 변환하죠. 둘째, 다른 파일에서 `from file_processor import convert`라고 import하면, 그건 **도구 상자**예요. 그 안의 convert 함수만 빌려 쓰는 거죠.
+
+그런데 만약 `if __name__ == "__main__"` 없이 파일 맨 아래에 그냥 `main()`이라고 적어 두면, import할 때도 main이 실행돼 버려요. convert 함수 하나만 빌리려 했는데, 갑자기 전체 변환 프로그램이 돌아가는 거죠. 사고예요. 그래서 이 한 줄로 "직접 실행할 때만 프로그램으로 작동하고, import할 땐 조용히 도구만 빌려줘라"라고 가두는 거예요.
+
+이 관용구가 거의 모든 Python 파일에 들어가요. 본인도 실행 가능한 모듈을 만들 때마다 맨 아래에 이 세 줄을 붙이세요. 손가락이 외울 만큼요. `if __name__ == "__main__":` 그리고 `main()`. 이게 "프로그램이자 도구"인 파일을 만드는 비법이에요.
 
 ---
 
-## 6. sys.path와 모듈 검색
+## 7. sys.path — Python이 모듈을 찾는 길
+
+자, 이제 함정 지대로 들어가요. 첫 번째 함정은 sys.path예요. H1에서 "Python이 모듈을 정해진 길로 찾는다"고 살짝 말했죠. 그 길을 자세히 봐요.
 
 ```python
 import sys
 print(sys.path)
 ```
 
-Python이 import 시 검색하는 폴더 목록. 위에서 아래로.
+이러면 폴더 목록이 주르륵 나와요. Python은 `import 무언가`를 만나면, 이 목록을 **위에서 아래로** 뒤지면서 그 무언가를 찾아요. 순서가 보통 이래요.
 
-기본값.
+| 순서 | 위치 | 무엇 |
+|------|------|------|
+| 1 | 현재 디렉토리 | 내 .py 파일들 |
+| 2 | PYTHONPATH | 환경변수로 추가한 폴더 |
+| 3 | 표준 라이브러리 | math·json·os 등 |
+| 4 | site-packages | pip로 설치한 패키지 |
 
-1. 현재 디렉토리
-2. PYTHONPATH 환경변수
-3. 표준 라이브러리
-4. site-packages (pip 설치)
+핵심은 **현재 디렉토리가 맨 위**라는 거예요. 그래서 본인 폴더에 있는 파일이 제일 먼저 잡혀요. 여기서 그 유명한 함정이 나와요. 만약 본인이 파일 이름을 `math.py`나 `json.py`나 `random.py`로 지으면, 진짜 표준 라이브러리보다 **본인 파일이 먼저** 잡혀 버려요.
 
 ```python
-# 동적 추가
-sys.path.append("/path/to/my/modules")
+# 내가 만든 random.py
+print("이건 내 파일")
+
+# 같은 폴더의 다른 파일에서
+import random          # 진짜 random이 아니라 내 random.py가 잡힘!
+random.randint(1, 6)   # AttributeError — 내 파일엔 randint가 없음
 ```
 
-자경단 거의 안 만짐. 보통 venv가 자동.
+그래서 갑자기 "random에 randint가 없다"는 황당한 에러가 나요. 원인은 단순해요. 본인 파일 이름이 표준 모듈 이름과 겹친 거죠. 처방도 단순해요. 파일 이름을 표준 모듈과 안 겹치게 지으면 돼요. `my_random.py`처럼요. H1 흔한 실수에서 예고했던 게 이거예요.
+
+sys.path를 직접 만질 수도 있어요.
+
+```python
+sys.path.append("/path/to/my/modules")   # 검색 경로에 폴더 추가
+```
+
+그런데 자경단은 이걸 거의 안 만져요. 왜냐하면 다음 챕터(Ch014)에서 배울 venv가 경로를 알아서 관리해 주거든요. sys.path를 손으로 만지는 건 "임시방편"이고, 제대로 된 방법은 패키지를 제대로 설치하는 거예요. 그러니 지금은 "현재 폴더가 먼저 잡힌다, 그래서 파일 이름을 표준 모듈과 안 겹치게 한다"만 기억하세요.
 
 ---
 
-## 7. relative vs absolute import
+## 8. relative vs absolute — 두 가지 주소 쓰는 법
 
-**absolute import** (자경단 표준)
+패키지 안에서 같은 패키지의 다른 모듈을 가져올 때, 주소 쓰는 방법이 두 가지예요. absolute(절대)와 relative(상대)요. 집 주소로 비유하면 쉬워요.
+
+**absolute import — 전체 주소.**
 
 ```python
-# vigilante/exchange.py
+# vigilante/exchange.py 안에서
 from vigilante.validators import validate_currency
 ```
 
-**relative import**
+이건 "서울시 강남구 ○○동 ○○번지"처럼 전체 주소를 다 적는 거예요. `vigilante.validators`라고 패키지 이름부터 다 적죠. 길지만 명확해요. 이 파일을 어디로 옮겨도, 주소가 전체라 헷갈리지 않아요.
+
+**relative import — 상대 주소.**
 
 ```python
-# vigilante/exchange.py
-from .validators import validate_currency      # 같은 패키지
-from ..parent_package import x                 # 상위 패키지
+# vigilante/exchange.py 안에서
+from .validators import validate_currency      # 같은 패키지 안
+from ..common import shared                     # 한 단계 위 패키지
 ```
 
-자경단 표준 — absolute. 명확하고 도구 친화.
+이건 "우리 집 옆집", "윗동네"처럼 지금 위치 기준으로 적는 거예요. 점 하나(`.`)는 "같은 패키지", 점 둘(`..`)은 "한 단계 위 패키지"를 뜻해요. 짧죠.
+
+| 항목 | absolute | relative |
+|------|----------|----------|
+| 형태 | `from vigilante.validators import x` | `from .validators import x` |
+| 비유 | 전체 주소 | 상대 위치(옆집) |
+| 길이 | 길다 | 짧다 |
+| 명확함 | 높음(어디서든 같음) | 패키지 안에서만 의미 |
+| 자경단 | **표준** | 가끔 |
+
+자경단 표준은 absolute예요. 왜냐하면 명확하고, 도구(IDE·린터)가 이해하기 쉽고, 파일을 읽는 사람이 "아, vigilante 패키지의 validators구나" 하고 바로 알거든요. relative는 짧지만, 점 개수를 세어야 하고, 패키지 구조를 바꾸면 깨지기 쉬워요. 그러니 본인도 처음엔 absolute로 쓰세요. 다른 사람 코드에서 `from .validators`를 보면 "아, 같은 패키지 안의 모듈이구나" 하고 읽을 줄만 알면 돼요.
 
 ---
 
-## 8. circular import 함정
+## 9. circular import — 서로 물고 무는 함정
+
+두 번째 함정은 circular import예요. 초보가 패키지를 만들기 시작하면 거의 반드시 한 번은 만나요. 미리 알아 두면 당황 안 해요.
+
+circular import는 A 모듈이 B를 가져오고, B가 다시 A를 가져오는 상황이에요.
 
 ```python
 # a.py
-from b import f1
+from b import f1        # b를 가져옴
 
 def f2():
     return f1() + 1
 
 # b.py
-from a import f2  # 사고!
+from a import f2        # 다시 a를 가져옴 — 사고!
 
 def f1():
     return f2() + 1
 ```
 
-처방.
+이러면 어떻게 될까요? a를 import하면 b를 가져오려 하고, b는 다시 a를 가져오려 하는데, a는 아직 다 만들어지지 않았어요. 서로 "너 먼저", "아니 너 먼저" 하며 영원히 끝나지 않는 거예요. 그래서 ImportError가 나죠. 뱀이 자기 꼬리를 무는 모양이라, circular(순환)라고 해요.
+
+처방은 두 가지예요.
+
+**처방 1 — 구조를 바꾼다(근본 치료).** circular import는 보통 "구조가 잘못됐다"는 신호예요. a와 b가 서로 너무 얽혀 있다는 거죠. 그럴 땐 공통으로 쓰는 부분을 제3의 모듈(c.py)로 빼서, a와 b가 둘 다 c를 가져오게 해요. 그러면 서로 물지 않죠. 이게 제일 좋은 해결이에요.
+
+**처방 2 — 함수 안으로 옮긴다(응급 처치).** import를 파일 맨 위가 아니라 함수 안에 넣어요.
 
 ```python
-# Lazy import (함수 안)
 # a.py
 def f2():
-    from b import f1
+    from b import f1     # 함수가 불릴 때 import — 그때는 b가 다 만들어져 있음
     return f1() + 1
 ```
 
-또는 구조 재설계. 공통 모듈에 분리.
+이러면 a를 import하는 순간엔 b를 안 가져오고, f2가 실제로 불릴 때야 b를 가져와요. 그때는 이미 b가 다 만들어져 있으니 사고가 안 나죠. 이걸 lazy import(게으른 import)라고 해요. 급할 때 쓰는 응급 처치예요.
 
-자경단 매주 한 번 사고.
+왜 처방 1(구조 분리)이 처방 2(lazy import)보다 좋을까요? 한 가지 비유를 들게요. circular import는 두 사람이 좁은 문 앞에서 "너 먼저", "아니 너 먼저" 하며 서로 못 지나가는 상황이에요. 처방 2(lazy import)는 한 사람한테 "넌 잠깐 뒤로 물러나 있다가 나중에 지나가"라고 하는 거예요. 당장은 풀리지만, 두 사람이 같은 문을 쓴다는 근본 문제는 그대로죠. 처방 1(구조 분리)은 문을 하나 더 내는 거예요. 두 사람이 각자 다른 문으로 지나가니, 다신 부딪힐 일이 없죠. 그래서 시간이 있으면 처방 1로 근본을 고치고, 급하면 처방 2로 일단 막아요.
+
+그리고 한 가지 더 — circular import는 보통 "이 두 모듈이 사실 너무 친하다"는 뜻이에요. 서로를 필요로 한다는 건, 어쩌면 하나로 합쳐야 하거나, 공통 관심사를 따로 떼어 내야 한다는 신호죠. 그래서 경험 많은 개발자는 circular import를 만나면 짜증 내기보다 "오, 구조를 다시 볼 기회네" 하고 반겨요. 에러가 본인한테 설계를 가르쳐 주는 거예요. Ch012에서 "예외는 비관이 아니라 책임"이라 했죠. circular import도 비슷해요. 귀찮은 사고가 아니라, 더 나은 구조로 가라는 친절한 안내예요.
+
+자경단에서도 패키지가 커지면 가끔 circular import 사고가 나요. 그때 당황하지 말고 "아, 서로 물었구나. 공통 부분을 빼거나, 함수 안으로 옮기자" 하면 돼요. H6에서 더 깊이 다뤄요. 지금은 "서로 import하면 사고, 처방은 구조 분리 또는 lazy import" 이 한 줄만 기억하세요.
 
 ---
 
-## 9. 한 줄 분해
+## 10. 모듈은 한 번만 — sys.modules 캐시
+
+여기서 중요한 비밀 하나를 알려드릴게요. **모듈은 아무리 여러 번 import해도, 실제로는 딱 한 번만 읽혀요.** 이걸 모르면 나중에 헷갈려요.
 
 ```python
-from collections import Counter, defaultdict
-from functools import partial, lru_cache
+import math        # 처음 — 진짜로 읽음
+import math        # 두 번째 — 안 읽고 캐시에서 꺼냄
+import math        # 세 번째 — 역시 캐시
+```
+
+Python은 한 번 import한 모듈을 `sys.modules`라는 곳에 저장해 둬요. 그리고 다음에 같은 모듈을 import하면, 다시 읽지 않고 거기서 꺼내 줘요. 도서관에서 책을 한 번 빌려 책상에 두면, 또 필요할 때 서가까지 안 가고 책상에서 집는 것과 같아요.
+
+이게 왜 좋냐면, 빠르고 일관돼요. 같은 모듈을 100군데서 import해도 딱 한 번만 읽으니 빠르고, 모두가 같은 모듈을 보니 상태가 일관돼요. 만약 모듈에 전역 설정값이 있다면, 한 곳에서 바꾼 걸 다른 곳에서도 똑같이 봐요. 한 권의 책을 모두가 돌려 보는 셈이죠.
+
+이 캐시가 또 하나 알려주는 게 있어요. `__init__.py`에 무거운 작업을 넣으면 안 되는 이유가 여기서도 보여요. 만약 `__init__.py`에 "import할 때 DB에 접속한다"는 코드를 넣으면, 그 패키지를 처음 import하는 순간 접속이 일어나요. 한 번만요(캐시 덕분에 두 번째부턴 안 일어나죠). 그런데 그 한 번이 문제예요. 단지 도구 하나 빌리려고 import했을 뿐인데, 의도치 않게 DB 접속이 발생하는 거죠. 그래서 import는 "조용히, 빠르게, 부작용 없이"가 원칙이에요. 캐시 때문에 딱 한 번 일어나니 더더욱, 그 한 번이 가벼워야 해요.
+
+가끔 "코드를 고쳤는데 왜 반영이 안 되지?" 할 때가 있어요. 개발 중에 모듈을 고쳤는데 이미 import된 상태라, 캐시된 옛날 걸 보는 거예요. 그럴 땐 프로그램을 다시 시작하거나, `importlib.reload(모듈)`로 강제로 다시 읽어요. 다만 reload는 개발할 때나 쓰고, 실제 프로그램에선 거의 안 써요. 한 가지 재밌는 건, Python을 켜면 이미 sys.modules에 수십 개 모듈이 들어 있다는 거예요. Python 자신이 시작하면서 기본 모듈들을 미리 import해 두거든요. `import sys; print(len(sys.modules))`를 쳐 보면 깜짝 놀랄 숫자가 나와요. 지금은 "모듈은 한 번만 읽히고 캐시된다"만 알아 두세요. H7에서 이 sys.modules의 속을 더 파요.
+
+---
+
+## 11. 한 줄 분해 — 매일 치는 import 읽기
+
+이론을 많이 봤으니, 매일 만나는 진짜 코드를 읽어 볼게요. 본인이 앞으로 보게 될 거의 모든 Python 파일은 맨 위가 이렇게 생겼어요.
+
+```python
+import os
+import sys
 from pathlib import Path
+
+import requests
+from sqlalchemy import create_engine
+
+from vigilante.exchange import convert
+from vigilante.validators import validate_currency
 ```
 
-자경단 매일 첫 5줄.
+이걸 읽을 줄 알아야 해요. 세 덩어리로 나뉘어 있죠? 이건 PEP 8 약속이에요.
+
+**첫 덩어리 — 표준 라이브러리.** os, sys, pathlib처럼 Python에 기본으로 들어 있는 모듈들이에요. 아무것도 설치 안 해도 쓸 수 있죠.
+
+**둘째 덩어리 — 외부 패키지.** requests, sqlalchemy처럼 pip로 설치한 남의 패키지예요. 한 줄 띄워서 구분해요.
+
+**셋째 덩어리 — 내 코드.** vigilante처럼 본인이 만든 패키지예요. 또 한 줄 띄워요.
+
+이 세 덩어리 순서(표준 → 외부 → 내 것)는 자경단뿐 아니라 Python 세계의 공통 약속이에요. 왜 이 순서냐면, "남의 것에서 내 것으로" 가는 흐름이 자연스럽거든요. 그리고 이 순서를 손으로 안 맞춰도 돼요. ruff나 isort 같은 도구가 자동으로 정렬해 줘요(H3에서 봐요). 본인은 그냥 막 쓰고, 도구가 정리하게 두면 돼요.
+
+자경단 다섯 명이 매일 아침 파일을 열면, 제일 먼저 이 import 블록을 봐요. "이 파일이 뭘 쓰는지"가 여기 다 적혀 있거든요. import 블록만 봐도 "아, 이건 웹 요청하고 DB 건드리는 파일이구나" 하고 알죠. import는 그 파일의 목차이자 재료 목록이에요.
 
 ---
 
-## 10. 흔한 오해 다섯 가지
+## 12. 자경단 다섯 명의 개념 적용
 
-**오해 1: __init__.py 필수.**
+오늘 배운 개념을 자경단 다섯 명이 실제로 어떻게 쓰는지 볼게요.
 
-3.3+ namespace package 가능. 하지만 자경단 표준 사용.
+| 멤버 | 자주 쓰는 패턴 | 장면 |
+|------|---------------|------|
+| 본인 | `if __name__ == "__main__"` | 모든 실행 도구에 |
+| 까미 | `from sqlalchemy import ...` | 백엔드 모듈 조합 |
+| 노랭이 | `import ... as ...` | 빌드 도구 별칭 |
+| 미니 | 조건부 import | 환경별 분기 |
+| 깜장이 | absolute import | 테스트에서 명확하게 |
 
-**오해 2: import * 편함.**
+본인(메인테이너)은 만드는 모든 실행 도구에 `if __name__ == "__main__"`을 붙여요. 도구이자 프로그램으로 쓰려고요. 까미(백엔드)는 from으로 sqlalchemy·fastapi의 필요한 클래스만 콕 집어 가져와서 조합해요. 백엔드는 "남의 모듈 조합"이 일이라고 H1에서 말했죠. 노랭이(프론트)는 긴 빌드 도구 이름에 별칭을 붙여 짧게 써요.
 
-namespace 오염. 절대 안 씀.
+특히 미니(인프라)의 조건부 import를 짚을게요. 인프라는 개발 환경과 운영 환경이 다를 때가 많아요. 그래서 "운영이면 진짜 AWS, 개발이면 가짜(mock)"처럼 환경에 따라 다른 모듈을 가져와야 할 때가 있죠. 그때 try/except나 조건문으로 import를 분기해요. Ch012에서 배운 예외 처리가 import에까지 쓰이는 거예요. 본인이 배운 것들이 이렇게 서로 엮여요.
 
-**오해 3: relative가 좋다.**
-
-자경단 표준 absolute.
-
-**오해 4: 한 줄 여러 import OK.**
-
-PEP 8 별 줄 권장.
-
-**오해 5: circular import 못 풀어.**
-
-lazy import 또는 재설계.
+그리고 깜장이(QA)는 테스트 코드에서 absolute import를 고집해요. 테스트는 "이게 정확히 어느 모듈을 테스트하는지" 명확해야 하거든요. `from vigilante.exchange import convert`라고 전체 주소를 적으면, 누가 봐도 "vigilante 패키지의 exchange를 테스트하는구나" 하고 알죠. 명확함이 곧 신뢰예요.
 
 ---
 
-## 11. 자주 받는 질문 다섯 가지
+## 13. AI 시대의 import
 
-**Q1. import 순서?**
+AI 시대에 오늘 배운 개념이 어떻게 쓰이는지 짚을게요.
 
-PEP 8: stdlib → 외부 → 본인. ruff isort 자동.
+AI한테 "이 코드의 import를 정리해 줘" 하면, 순식간에 세 덩어리로 나누고 알파벳순으로 정렬해 줘요. "circular import가 났는데 고쳐 줘" 하면, 공통 모듈로 빼는 구조까지 제안하죠. 기계적인 정리는 AI가 정말 잘해요. 그러니 import 순서 맞추느라 시간 쓰지 마세요. 그건 AI랑 도구한테 맡겨요.
 
-**Q2. __all__ 필수?**
+그런데 판단은 본인 몫이에요. 예를 들어 AI가 circular import를 "lazy import로 막아 놨다"고 할 때, 그게 응급 처치인지 근본 치료인지 본인이 알아봐야 해요. 진짜 문제는 "구조가 잘못됐다"는 건데, AI가 함수 안으로 import를 숨겨서 증상만 덮었을 수 있거든요. 그걸 알아채려면, 오늘 배운 "circular는 구조 신호"라는 개념을 본인이 갖고 있어야 해요.
 
-`from x import *` 안 쓰면 옵션.
-
-**Q3. 모듈 reload?**
-
-`importlib.reload(module)`. 자경단 거의 안 씀.
-
-**Q4. 모듈 캐싱?**
-
-sys.modules. 한 번 import 후 재사용.
-
-**Q5. lazy import 언제?**
-
-circular 또는 무거운 모듈.
+그래서 80/20이에요. AI가 80%(정렬·기계적 수정)를 하고, 본인이 20%(이 구조가 맞나, 이 import가 적절한가 판단)를 해요. 개념을 아는 사람만이 AI의 제안을 평가할 수 있어요. 모르면 AI가 주는 대로 받아먹을 수밖에 없고, 그건 AI를 부리는 게 아니라 AI에 끌려가는 거죠. 오늘 배운 개념이 본인을 "AI를 부리는 사람"으로 만들어요.
 
 ---
 
-## 12. 흔한 실수 다섯 + 안심 — 핵심 학습 편
+## 14. 자주 받는 질문 일곱 가지
 
-첫째, import * 편함. 안심 — namespace 오염, 안 씀.
-둘째, relative가 좋다. 안심 — absolute 표준.
-셋째, circular import 못 풀어. 안심 — lazy import 또는 재설계.
-넷째, __init__.py 어렵다. 안심 — 빈 파일도 OK.
-다섯째, 가장 큰 — sys.path 직접 만짐. 안심 — venv가 자동.
+**Q1. import 순서는 어떻게 맞춰요?**
 
-다섯 함정 미리 알아둔 본인이 두 해 동안 한 박자 빠르게.
+PEP 8 약속이 있어요. 표준 라이브러리 → 외부 패키지 → 내 코드, 세 덩어리로 나누고 각 덩어리는 알파벳순이요. 그런데 손으로 안 맞춰도 돼요. ruff나 isort가 자동으로 정렬해 줘요(H3). 본인은 막 쓰고 도구한테 맡기세요.
 
-## 13. 마무리
+**Q2. `__all__`은 꼭 정의해야 하나요?**
 
-자, 두 번째 시간 끝.
+`from 패키지 import *`를 안 쓰면 옵션이에요. 안 정의해도 잘 돌아가요. 다만 라이브러리를 만들어 남에게 줄 때는, "이게 공식 메뉴"라는 문서 역할로 정의해 두면 좋아요. 처음엔 없어도 돼요.
 
-import 5 패턴, from 5, __init__.py, __name__, sys.path, relative/absolute, circular.
+**Q3. 모듈을 고쳤는데 반영이 안 돼요.**
 
-다음 H3는 5 도구.
+이미 import된 모듈은 캐시(sys.modules)에 있어서 그래요. 프로그램을 다시 시작하면 새로 읽혀요. 개발 중에 급하면 `importlib.reload(모듈)`로 강제로 다시 읽을 수 있는데, 보통은 그냥 재시작이 깔끔해요.
+
+**Q4. import는 파일 맨 위에 다 모아야 하나요?**
+
+네, 기본은 맨 위에 다 모아요. 그래야 "이 파일이 뭘 쓰는지" 한눈에 보이거든요. 예외는 circular import를 피할 때나 무거운 모듈을 늦게 불러올 때예요. 그때만 함수 안에 두고, 나머지는 다 위로요.
+
+**Q5. relative랑 absolute 중 뭘 써요?**
+
+자경단 표준은 absolute(`from vigilante.validators import x`)예요. 명확하고 도구 친화적이거든요. relative(`from .validators import x`)는 짧지만 패키지 구조에 의존해요. 헷갈리면 absolute가 안전해요.
+
+**Q6. circular import가 무서워요.**
+
+미리 알면 안 무서워요. "서로 import하면 사고"라는 것만 기억하면, 막상 만났을 때 "아, 이거구나" 하고 침착하게 공통 모듈로 빼거나 lazy import로 처치하면 돼요. 거의 모든 개발자가 한 번은 겪는 통과의례예요.
+
+**Q7. import 한 줄이 느려질 수도 있나요?**
+
+거의 없지만, 무거운 패키지(예: 큰 데이터 라이브러리)는 import만으로 시간이 걸려요. 그땐 그 import를 함수 안으로 옮겨서, 실제로 필요할 때만 불러와요(lazy import). 평소엔 신경 안 써도 되고, 시작이 느린 게 느껴지면 그때 챙겨요.
+
+---
+
+## 15. 흔한 오해 다섯 가지
+
+**오해 1: `__init__.py`가 없으면 패키지가 안 된다.**
+
+Python 3.3+부터는 `__init__.py` 없이도 패키지가 돼요(namespace package). 하지만 자경단은 명시적으로 `__init__.py`를 둬요. "이건 패키지다"가 눈에 보이고, 현관 역할도 하니까요.
+
+**오해 2: `import *`가 편하다.**
+
+편해 보이지만 함정이에요. 뭐가 들어오는지 안 보여서 이름이 충돌하고, 출처를 알 수 없어요. 자경단 규칙: 금지. 콕 집어 from으로 가져오세요.
+
+**오해 3: relative import가 더 세련됐다.**
+
+짧긴 한데 세련된 건 아니에요. 패키지 구조에 묶여서 옮기면 깨지기 쉬워요. 자경단 표준은 명확한 absolute예요.
+
+**오해 4: 한 줄에 여러 모듈을 import해도 된다.**
+
+`import os, sys`가 되긴 하는데, PEP 8은 한 줄에 하나씩 권해요. 줄을 지우거나 옮기기 쉽고, git 기록도 깔끔해요.
+
+**오해 5: circular import는 못 푸는 막다른 길이다.**
+
+아니에요. 구조를 바꾸거나(공통 모듈 분리) lazy import로 거의 다 풀려요. 오히려 "구조를 다시 보라"는 고마운 신호예요.
+
+---
+
+## 16. 흔한 실수 다섯 + 안심
+
+첫째, 파일 이름을 표준 모듈과 똑같이 짓는 실수예요(random.py, json.py). 안심하세요 — 한 번 AttributeError로 당해 보면 평생 안 잊어요. 이름만 안 겹치게 하면 끝이에요.
+
+둘째, `import *`로 다 가져와 놓고 이름 충돌로 헤매는 실수예요. 안심하세요 — 규칙을 "금지"로 정해 두면 아예 실수할 일이 없어요.
+
+셋째, `if __name__ == "__main__"` 없이 파일 아래에 `main()`을 적어, import할 때 프로그램이 통째로 돌아 버리는 실수예요. 안심하세요 — 세 줄 관용구를 손가락에 익히면 됩니다.
+
+넷째, circular import를 만나 패닉하는 실수예요. 안심하세요 — 오늘 처방 두 개(구조 분리·lazy import)를 알았으니, 침착하게 풀면 돼요.
+
+다섯째, 가장 흔한 — sys.path를 손으로 막 만져서 환경을 꼬는 실수예요. 안심하세요 — 다음 챕터 venv가 경로를 알아서 관리해요. sys.path는 거의 안 만져도 됩니다.
+
+이 다섯 함정을 미리 알아 둔 본인은, 앞으로 두 해 동안 남들보다 한 박자 빠르게 갈 거예요. 함정은 모르면 사고지만, 알면 그냥 표지판이거든요.
+
+---
+
+## 17. 마무리
+
+자, 두 번째 시간 끝났어요. 오늘 네 친구의 깊이를 봤죠. import의 다섯 모습, from의 다섯 모습, `__init__.py`의 세 단계(빈 표시→현관→조심), `__name__`의 비밀(프로그램이자 도구), 그리고 함정 두 개(sys.path 이름 충돌·circular import)요. 여기에 모듈 캐시(sys.modules)와 매일 읽는 import 블록까지요.
+
+오늘의 약속을 지켰어요. **본인은 이제 import 시스템을 손바닥처럼 다뤄요.** 다른 사람 코드의 맨 윗부분(import 블록)을 보면, 그 파일이 뭘 하는지 읽을 수 있고, 함정을 만나도 침착하게 처치할 수 있어요. 이게 진짜 개발자의 감각이에요.
+
+다음 H3에서는 환경과 도구로 가요. 모듈을 import하려면 그 모듈이 깔려 있어야 하고(pip), 프로젝트마다 격리된 환경이 필요하죠(venv). 그리고 본인이 만든 패키지를 세상에 내놓는 도구(pyproject.toml·twine)도 봐요. 개념을 손에 쥐었으니, 이제 도구를 쥘 차례예요.
+
+졸업 과제예요. 본인 컴퓨터에서 이걸 쳐 보세요.
 
 ```python
-python3 -c "import sys; print(len(sys.path))"
+python3 -c "import sys; print('파이썬이 찾는 길:', len(sys.path), '곳')"
 ```
+
+sys.path에 몇 곳이 들었는지 숫자가 나올 거예요. "아, Python이 이만큼의 길을 뒤져서 모듈을 찾는구나" 하고 느끼면 오늘 수업은 성공이에요. 수고했어요. H3에서 만나요. 🐾
 
 ---
 
 ## 👨‍💻 개발자 노트
 
-> - sys.modules: import cache.
-> - importlib.reload: dev에서 코드 변경 적용.
-> - __init__.py vs PEP 420: 표준은 __init__.py.
-> - PYTHONPATH: 환경변수로 추가.
-> - .pyc 캐싱: __pycache__/.
-> - 다음 H3 키워드: venv · pip · pyproject · twine · pipx.
+> - **import의 다섯 모습**: 통째로·별칭·패키지 안 모듈·여러 개(비권장)·조건부. 매일은 통째로+별칭.
+> - **from의 다섯 모습**: 하나·여러 개·별칭·전부(금지)·패키지 안. 매일은 하나+여러 개.
+> - **import vs from**: 출처 명확이 좋으면 import, 짧은 게 좋으면 from. 헷갈리면 import.
+> - **`__init__.py` 세 단계**: 빈 표시 → 현관(공개 API·`__version__`·`__all__`) → side effect 금지.
+> - **`__name__` 관용구**: `if __name__ == "__main__": main()` — 프로그램이자 도구.
+> - **sys.path**: 현재 폴더 → PYTHONPATH → stdlib → site-packages. 파일 이름 표준 모듈과 겹치지 말 것.
+> - **relative vs absolute**: 자경단 표준은 absolute(전체 주소). relative는 점으로 상대 위치.
+> - **circular import**: 서로 물면 사고. 처방 = 구조 분리(근본) 또는 lazy import(응급).
+> - **sys.modules 캐시**: 모듈은 한 번만 읽히고 캐시됨. reload는 개발용.
+> - 다음 H3 키워드: venv · pip · pyproject.toml · twine · pipx.
+
+---
+
+## 추신
+
+1. import는 매일 치는 첫 줄이에요. 그래서 오늘 배운 게 매일 쓰여요.
+2. "통째로(import)"와 "콕 집기(from)" 두 개만 손에 익으면 90%는 끝이에요.
+3. `as` 별칭은 numpy를 np로, pandas를 pd로. 이건 세계 공통 약속이에요.
+4. `import *`는 금지. 이름공간이 오염되고, 출처가 안 보여요.
+5. 헷갈리면 import가 안전해요. `math.sqrt`처럼 출처가 보이니까요.
+6. `__init__.py`는 처음엔 비워 두세요. 패키지가 자라면 현관으로 채워요.
+7. 현관(`__init__.py`)에 공개 API를 모으면, 사용자가 안쪽 구조를 몰라도 돼요.
+8. `__init__.py`에 무거운 작업(파일·네트워크·DB)을 넣지 마세요. import가 느려져요.
+9. `__version__ = "1.0.0"` — 사용자가 버전을 알 수 있게 해 주는 친절이에요.
+10. `if __name__ == "__main__"`은 거의 모든 실행 파일에 들어가요. 손가락에 외우세요.
+11. 이 한 줄이 파일을 "프로그램이자 도구"로 만들어요. import해도 멋대로 안 돌아가요.
+12. sys.path는 위에서 아래로 뒤져요. 현재 폴더가 맨 위라는 게 핵심이에요.
+13. 파일 이름을 math.py·json.py·random.py로 짓지 마세요. 진짜 모듈을 가려요.
+14. sys.path를 손으로 만지지 마세요. 다음 챕터 venv가 알아서 해요.
+15. absolute import(전체 주소)가 자경단 표준이에요. 명확하고 안 깨져요.
+16. relative import(`.`, `..`)는 짧지만 구조에 묶여요. 읽을 줄만 알면 돼요.
+17. circular import는 서로 물기. 거의 모든 개발자가 한 번은 겪어요.
+18. 처방 1: 공통 부분을 제3의 모듈로 빼기(근본 치료).
+19. 처방 2: import를 함수 안으로 옮기기(lazy import, 응급 처치).
+20. circular import는 "구조를 다시 보라"는 고마운 신호예요.
+21. 모듈은 아무리 여러 번 import해도 한 번만 읽혀요(sys.modules 캐시).
+22. 그래서 빠르고, 모두가 같은 모듈을 봐요. 한 권의 책을 돌려 보는 셈이죠.
+23. 코드 고쳤는데 반영 안 되면, 캐시 때문이에요. 재시작하면 돼요.
+24. import 블록은 세 덩어리: 표준 → 외부 → 내 것. 한 줄씩 띄워요.
+25. 이 순서는 ruff·isort가 자동으로 맞춰 줘요. 손으로 안 해도 돼요.
+26. import 블록은 그 파일의 목차예요. 거기만 봐도 뭘 하는지 알아요.
+27. AI는 import 정리를 잘해요. 그건 맡기고, 본인은 "구조가 맞나"를 판단해요.
+28. 개념을 아는 사람만이 AI의 제안을 평가할 수 있어요. 그게 오늘의 힘이에요.
+29. 다음 H3는 도구예요. 개념을 손에 쥐었으니, 이제 도구를 쥘 차례예요.
+30. 오늘도 한 걸음. 네 친구의 깊이를 봤어요. 본인, 정말 잘하고 있어요. 🐾
