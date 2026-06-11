@@ -6,7 +6,7 @@
 ## ⚠️ 실측 상태 (2026-06-10 기준 — `scripts/wc-lecture.py --all`)
 
 > **주의: 아래 챕터별 표의 일부 행은 실제 파일과 불일치(과거에 미리 적어 둔 계획값).**
-> 실제로 합격(🟢 ≥17,000)인 H는 측정 기준 **94/960**입니다.
+> 실제로 합격(🟢 ≥17,000)인 H는 측정 기준 **95/960**입니다.
 >
 > | 챕터 | 실제 완료 H | 비고 |
 > |------|------------|------|
@@ -21,7 +21,7 @@
 > | Ch009 | **8/8 ✅** | 전부 완료 (H7=17,001·H8=17,002 실측). Ch001~009 = 9챕터 완성 |
 > | Ch010 | **8/8 ✅** | 전부 완료 (H7=17,000·H8=17,016 실측). Ch001~010 = 10챕터 완성 |
 > | Ch011 | **8/8 ✅** | 전부 완료 (H7=17,003·H8=17,003 실측). Ch001~011 = 11챕터 완성. Python 입문 5(40시간) 마침 |
-> | Ch012 | **6/8** | H1~H6 실측 완료(…17,001·17,003·17,000). H7 다음 작업 대상 |
+> | Ch012 | **7/8** | H1~H7 실측 완료(…17,003·17,000·17,000). H8 다음 작업 대상 |
 > | Ch013~014 | 0~부분 | 표에는 "완료"로 적혀 있으나 실제는 stub/부분 초안 |
 > | Ch015~026 | 부분 | 각 H ~6,800자 부분 초안(🔴), 17k 미달 |
 > | Ch027~120 | 0 | 순수 stub(~390자) |
@@ -229,7 +229,7 @@ Ch011 합계: 136,016 / 목표 ~136,000 (H1~H8 전부 실측 합격: 17,384·17,
 | H4 | 명령카탈로그 | **17,001 실측** | 🟢 | ✅실측합격 (예외·파일 패턴 카탈로그 30+ 예외·20+ 패턴 — H3 회수(도구로 보기) + 오늘의 약속(사고 1초 처방)·매 챕터 H4=카탈로그·외우지 말고 모아 두기/§2 왜 카탈로그 — 실무 90% 재사용·검증 패턴 재사용 실수↓·데이터 지키는 패턴/③자주 만나는 예외 15(Value·Type·Key·Index·Attribute·FileNotFound 등)·이름 친절·자주 5(Value·Type·Key·FileNotFound·Attribute None점)·진단=맨 마지막 줄 이름:설명+traceback 위치·앞 챕터서 이미 만남/④가끔 15(Connection·Timeout·Unicode·JSONDecode·IsADirectory)·KeyboardInterrupt/SystemExit 잡지마(BaseException)/⑤파일 패턴(안전읽기 try·큰파일 for line·atomic write tmp+rename=원자성/은행송금/같은 폴더·백업 .bak·tail·line_count sum(1 for _ in f) 메모리안전)·메모리안전+데이터안전 두 기둥/⑥디렉토리 5(mkdir parents/exist_ok·iterdir·rglob·any 빈폴더·rmtree=rm -rf 위험 guard clause 문지기/"/" 사고)/⑦JSON·CSV(json.loads/dumps ensure_ascii=False 한글·indent·csv DictReader/Writer·newline=""·split 금지 따옴표 함정)·JSON=중첩 CSV=표·Ch010 연결/까미 흐름(안전읽기→스트리밍→atomic write→로그)/오해5(30개 외움·큰파일 read_text·JSON 항상 dict·CSV split·rmtree)·FAQ7(read_text vs open·한글·헤더·atomic·큰파일·정리·라이브러리)·실수5(다 안전으로 통함)·졸업장 glob .md·개발자노트·추신30) |
 | H5 | 데모 | **17,003 실측** | 🟢 | ✅실측합격 (file_processor 30분 데모 CSV→JSON 안전 변환기 100줄 — H4 회수(카탈로그) + 오늘의 약속(100줄 안전 도구)·"눈으로 말고 손으로"·입문 vs production(되게→안 터지게)/§2 미니 의뢰(CSV→JSON+백업+사고처리+로깅+안전저장)·함수 넷·text_processor와 차이=안전/0~5분 폴더 셋업 venv+rich+heredoc CSV 5행·답 알고 시작·CSV 손으로 만들어 친해지기/5~10분 read_csv(exists guard·with·encoding·DictReader·UnicodeDecodeError log.exception 다시 던지기)·import 관례·타입 힌트(Ch009)·log %d 지연 포매팅/10~15분 transform(for 안 try/except KeyError·ValueError continue)·부분 실패 격리·지저분한 현실 데이터·어디 감쌀지가 설계·log.warning+요약/15~20분 write_json_atomic(백업 shutil.copy .bak·tmp.write_text·rename atomic·except tmp.unlink)·세 겹 안전망·방어적 프로그래밍·데이터 무게에 맞게/20~25분 main(try 전체·except FileNotFound→1·except Exception→2 구체→일반)·exit code 0/1/2(Ch006)·sys.exit(main())·CI 판단/25~30분 실행(rich 로그·echo $? 0·예상 대조)·파일 없을 때 친절한 ERROR+1(통제된 종료·UX)·사고 상황 테스트·black/ruff·성장 음미/사고 5(인코딩·깨진 행·저장 중·디스크·동시)·사고 내다보는 눈/오해5(백업·atomic·전체 try·log.error·exit 0)·실수5(다 안전)·졸업장 실행+exit code·개발자노트·추신30) |
 | H6 | 운영 | **17,000 실측** | 🟢 | ✅실측합격 (파일·예외 운영 큰 파일·성능·동시 접근 — H5 회수(5행 vs 수백만) + 오늘의 약속(1GB 안전 처리)·매 챕터 H6=운영·함정 미리 듣기·신입 vs 경력/§2 작은 vs 큰 파일·세 차이(메모리·성능·동시접근)·장난감→진짜 도구/큰 파일(for line·CSV DictReader lazy·jsonl 한 줄씩·청크 read(4096) walrus·mmap)·lazy(게으름 미덕) vs eager·일반 JSON [] 통째 vs jsonl 한 줄 완전/generator(list 호수/eager vs 강/lazy·yield from 위임·한 번만 흐름·파이프라인 조립)·"모아 두지 말고 흘려보내라"/성능(timeit 미시·cProfile 거시·병목은 디스크)·성급한 최적화 경계·동작→올바르게→빠르게/동시 접근(race condition 유령 버그·atomic write·filelock with)·여럿이 쓰면 DB로/async I/O 첫인상(aiofiles·gather 동시·라면 비유·기다림 I/O bound vs 일함 CPU bound·multiprocessing)·FastAPI Ch041 토대/운영 5점검(인코딩·with·atomic·구체 예외·큰 파일)·체크리스트=조종사/의사·"1GB 되면?"/함정5+오해5(작은파일 fd 고갈·chunking·async 항상·mmap·production sync)·FAQ7(청크 크기·yield from·async vs threading·mmap 윈도우·1TB·다 외움·입출력 둘 다 스트리밍)·실수5·졸업장 mmap.PAGESIZE·개발자노트·추신30) |
-| H7 | 원리 | 21,030 | ✅ | 합격 (file/exception 원리 5 — fd(OS 정수 핸들·1024 한계·lsof)·io 4 계층(TextIO·BufferedIO·RawIO·OS syscall·8KB 버퍼)·context manager protocol(`__enter__`+`__exit__`·with desugar)·exception 객체 구조(args·`__traceback__`·`__cause__`·`__context__`·`__suppress_context__`)·CPython 소스(Lib/io.py·Modules/_io/·Python/errors.c)/open() 5 단계 wrap(OS open syscall→FileIO→BufferedReader→TextIOWrapper→객체)/BufferedReader 8KB 버퍼 100배 syscall 감소·TextIOWrapper encoding 매 read 변환·encoding 5(utf-8·utf-8-sig·cp949·euc-kr·latin-1)·errors 3(strict·replace·ignore)·newline CSV/contextmanager 데코레이터 generator 기반·5 활용(timer·temp env·mock·cwd·suppress)·ExitStack 동적 다중·asynccontextmanager/raise from vs 자동 chain(`__cause__` "direct cause" vs `__context__` "During handling")·raise from None traceback 자르기·except `as e` 블록 종료 시 삭제·except* (Python 3.11+ ExceptionGroup)/traceback frame linked list·logger.exception() 자동·rich.traceback show_locals=True/CPython 5 파일 매년 1회 5분 시니어 신호·자경단 5 시나리오(본인 fd 누수·까미 timer context·노랭이 PaymentError·미니 io 계층·깜장이 ApiError from)·1주 합 323·1년 16,796·5년 83,980 ROI·5년 진화(with→context 정의→Exception 정의→io 4 계층→CPython)/오해20+FAQ20+추신80) |
+| H7 | 원리 | **17,000 실측** | 🟢 | ✅실측합격 (파일·예외 내부 fd·with·버퍼링·예외 메커니즘 — H6 회수(청크/fd) + 오늘의 약속(open이 OS서 뭐 하나)·매 챕터 H7=내부·표면 규칙의 뿌리·마법→기계·어려워도 정상(씨앗)/§2 왜 내부 — 파일=OS에 부탁·디버깅 깊어짐·면접/①file descriptor — OS 번호표·0/1/2 stdin/out/err(Ch006 리다이렉션 2>)·새 파일 3·한정 1024 ulimit·고갈 Too many open files→with 필수·모든 것은 파일/②open=syscall 포장지·os.open(저수준) vs open(고수준 버퍼+인코딩)·syscall=사용자/커널 공간 창구·비싸서 버퍼링/③with=context manager `__enter__`/`__exit__`·try/finally 한 단어·@contextmanager timer(Ch009 데코·yield)·__exit__ 예외 억제 suppress·tempfile/④버퍼링 — write는 버퍼에 모였다 디스크·디스크 느려 syscall 줄임·flush/close·print 늦게 나옴·fsync/atomic/⑤예외 내부 stack unwinding(Ch009 call stack 거꾸로)·zero-cost(안 나면 0)·EAFP vs LBYL·LBYL 확인-시도 틈 race(H6)·get 더 간단/⑥exception group except*(3.11+)·async 동시 사고·Python 진화/오해5(with 옵션·try 비쌈·fd 무한·작은 파일 unbuffered·예외 상속)·FAQ6(외움·os.open·flush·EAFP/LBYL·버퍼 크기·context manager)·실수5·졸업장 fileno() fd 3·개발자노트·추신30) |
 | H8 | 적용+회고 | 17,166 | 🟢 | 합격 (Ch012 마무리 — 8 H 종합표·핵심 한 줄·Ch012 학습 통계(8 H × 17,000+ = 140,000+ 자·90+ 도구/개념·30+ exception·30 면접·6 인증)·8 H 학습 후 8 능력(open 5 단계 wrap·with 의무·5 패턴 + raise from·pathlib 25+·30+ exception 12 1순위·logger.exception·운영 5 함정 면역·CPython 매년 1회)/file_processor 진화 v1 100→v2 200→v3 500→v4 1000→v5 5000 PyPI/자경단 5명 12년 시간축(1주→1개월→6개월→1년→3년→5년→12년 합 6000h) + 1주차→5년 매주 시간 분포(2h→25h)·면접 30 질문 통합(file 10·exception 10·운영/원리 10) + 5단계 응답 25초·자경단 5명 1년 면접 30/30 합격 100%·5명 1년 회고 합 810,880 호출·1년 후 단톡 가상·6 인증(file 4 단어·pathlib 25+·30+ exception·운영 5·원리 5·면접 30)/Ch013 (모듈/패키지) 8 H 미리보기 + Ch012→Ch020 9 챕터·자경단 file/exception 마스터 인증 5 능력 + 5 신호 + 5 발음·본인 7 행동 + 1주차 매일 시간표 + 1개월 결과 (11,000 호출·매주 1+ 함정·100% 면접·신입 1·v2 200줄)/Python 입문 1+2+3+4+5+6 = 48h 마스터 인증 + Python 입문 80h 길의 60% 진행·자경단 104/960 = 10.8%·오해20+FAQ20+추신95) — Ch012 chapter complete 104/960 = 10.8% ✅✅✅ |
 
 Ch012 합계: 140,785 / 목표 ~160,000 (8/8 H 완료) ✅✅✅
@@ -288,10 +288,10 @@ Ch015 합계: 34,010 / 목표 ~160,000 (2/8 H 진행)
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 012 H7 작성** (Python 파일·예외 내부 — file descriptor·file system·inode·syscall·버퍼링·예외 메커니즘 → 17,000+)
-   - Ch012 H1~H6 완료 ✅(…17,001·17,003·17,000). 이제 H7(내부)로 진행.
-   - ⚠️ Ch012 H7~H8은 계획값/부분 초안. 전면 작성 필요.
-   - Ch012 H7부터 순서대로 작성. Ch012 = Python 입문 6(파일 입출력·예외 처리).
+👉 **Ch 012 H8 작성** (Python 파일·예외 적용/회고 — 8H 종합·파일·예외 다섯 원리·file_processor 진화·Ch013 모듈/패키지 다리 → 17,000+. Ch012 완성 8/8)
+   - Ch012 H1~H7 완료 ✅(…17,003·17,000·17,000). 이제 H8(적용·회고)로 Ch012 완성.
+   - ⚠️ Ch012 H8은 계획값/부분 초안. 전면 작성 필요.
+   - Ch012 H8로 Ch012 완료(8/8). 이후 Ch013(모듈·패키지)...
    - ⚠️ "다음 턴"은 실제 파일 측정 기준. 위 ⚠️ 실측 상태 표 참조(진행표 본문의 "완료" 표기는 일부 계획값).
    - ⚠️ "다음 턴"은 실제 파일 측정 기준. 위 ⚠️ 실측 상태 표 참조(진행표 본문의 "완료" 표기는 일부 계획값).
 
@@ -353,4 +353,5 @@ Ch015 합계: 34,010 / 목표 ~160,000 (2/8 H 진행)
 - Ch012 H4 작성 → 17,001 🟢 (3,300 stub → 전면 작성 → 실측 합격)
 - Ch012 H5 작성 → 17,003 🟢 (3,100 stub → 전면 작성 → 실측 합격)
 - Ch012 H6 작성 → 17,000 🟢 (3,200 stub → 전면 작성 → 실측 합격)
-- 실측 합격: 24/960 → **94/960** (Ch001~011 완성 + Ch012 H1~H6)
+- Ch012 H7 작성 → 17,000 🟢 (3,000 stub → 전면 작성 → 실측 합격)
+- 실측 합격: 24/960 → **95/960** (Ch001~011 완성 + Ch012 H1~H7)
