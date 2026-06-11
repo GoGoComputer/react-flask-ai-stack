@@ -6,7 +6,7 @@
 ## ⚠️ 실측 상태 (2026-06-10 기준 — `scripts/wc-lecture.py --all`)
 
 > **주의: 아래 챕터별 표의 일부 행은 실제 파일과 불일치(과거에 미리 적어 둔 계획값).**
-> 실제로 합격(🟢 ≥17,000)인 H는 측정 기준 **80/960**입니다.
+> 실제로 합격(🟢 ≥17,000)인 H는 측정 기준 **81/960**입니다.
 >
 > | 챕터 | 실제 완료 H | 비고 |
 > |------|------------|------|
@@ -20,7 +20,8 @@
 > | Ch008 | **8/8 ✅** | 전부 완료 (H7=17,000·H8=17,001 실측). Ch001~008 = 8챕터 완성 |
 > | Ch009 | **8/8 ✅** | 전부 완료 (H7=17,001·H8=17,002 실측). Ch001~009 = 9챕터 완성 |
 > | Ch010 | **8/8 ✅** | 전부 완료 (H7=17,000·H8=17,016 실측). Ch001~010 = 10챕터 완성 |
-> | Ch011~014 | 0~부분 | 표에는 "완료"로 적혀 있으나 실제는 stub/부분 초안 |
+> | Ch011 | **1/8** | H1 실측 완료(17,384). H2 다음 작업 대상 |
+> | Ch012~014 | 0~부분 | 표에는 "완료"로 적혀 있으나 실제는 stub/부분 초안 |
 > | Ch015~026 | 부분 | 각 H ~6,800자 부분 초안(🔴), 17k 미달 |
 > | Ch027~120 | 0 | 순수 stub(~390자) |
 >
@@ -205,7 +206,7 @@ Ch010 합계: 136,035 / 목표 ~136,000 (H1~H8 전부 실측 합격: 17,002·17,
 
 | H | 슬롯 | 현재 분량 | 상태 | 비고 |
 |---|------|----------|------|------|
-| H1 | 오리엔 | 17,046 | 🟢 | 합격 (str·regex 7이유 — 데이터·f-string·5줄→1줄·검증·로그·SQL·면접/4단어(str·f-string·re·pattern) + 5 활용 = 20 활용/str 50+ 메서드 5 카테고리(변환 8·검색 10·변경 8·분할/결합 5·포맷 10+) + 자경단 매일 12 메서드 1순위(split·join·strip·replace·find·startswith·endswith·format·lower·upper·isdigit·encode) + 첫 5 메서드 1주차 마스터/regex 5 함수(match·search·findall·sub·compile) + 5 메타 카테고리(문자 클래스·수량·anchor·그룹·lookaround) + 5 첫 패턴(이메일·전화·URL·IPv4·날짜) + 5 면접 단골(greedy/lazy·match/search/fullmatch·capture/non-capture·lookahead/lookbehind·compile)/8 H 학습 곡선 + 8 H 학습 후 8 능력 + 자경단 단톡 한 줄/자경단 5명 매일 시나리오 + 1주 통계(f-string 1,050·str method 1,300·regex 100 = 합 2,450) + 1년 5명 합 127,400 호출·5년 60만+/12회수 지도(Ch013·014·016·018·020·041·060·080·091·103·118·120) + Ch011→Ch020 9 챕터 미리보기/면접 10 + 10 = 20 질문(immutable·f-string vs format·join vs +·encode/decode·greedy/lazy·match/search·\d/[0-9]·raw·group·lookahead + UTF-8·intern·flag·backreference·non-greedy·find/index·maxsplit·format spec) + 5단계 응답 표준 25초/regex 5 한 줄 매직(이메일·전화·URL·HTML 제거·공백) + f-string 5 매직(천단위·padding·소수점·퍼센트·16진수) + 다국어 i18n + 4 단어 매주 통계/오해10+FAQ10+추신73) |
+| H1 | 오리엔 | **17,384 실측** | 🟢 | ✅실측합격 (문자열·정규식 오리엔 — Ch010 회수(자료구조→글자 데이터) + 자료형=단어·흐름=문법·함수=문단·자료구조=재료·문자열=사람과 컴퓨터의 만남 + 오늘의 약속(정규식 영어처럼 읽기)·이미 절반 안다/§2 문자열=글자 순서·코드 30%·로그/이름/이메일 예시·immutable 미리심기/§3 옛날 이야기(로그 1만개 ERROR 시각 뽑기 — for+substring 100줄 1시간 → re.findall 한 줄 5초)·"패턴으로 말하라"/§4 일곱 이유(코드30%·입출력·검증표준·데이터처리·AI prompt·매일1000·면접) + 이메일 검증 정규식 한 줄/§5 같이 쳐보기 5줄(strip·split·join·findall)·split↔join 동전 양면·결과 list로 Ch010 연결/§6 네 친구 str·f-string·re·pattern + 만들기/다듬기(str·f-string) vs 찾기/검증(re·pattern) + 비율 70/20/10/§7 re.search 5단계(컴파일 NFA·스캔·매칭·Match객체·반환)·수배 전단지 비유·캐시/§8 str 메서드 vs 정규식 선택 가이드 표 8행·"고정 글자 str·변하는 패턴 regex"·연습 4개/§9 자경단 5명 매일 380번(까미 API파싱·노랭이 props·미니 로그정규식·깜장이 폼검증)·미니 로그→Ch091 다리/§10 8교시 미리보기·일곱 번째 리듬·Ch012 파일 다리/§11 정규식 60년(1956 Kleene·1968 grep·1986 Perl·1997 PCRE)·grep=re 같은 뿌리·언어 공통/§12 AI 80/20(패턴 초안 AI·읽고 검증 본인)·AI=텍스트로 일함·greedy 함정 검수/오해5(어렵다·50개외움·f-string모든곳·한글특별·옛도구)·FAQ6(외움·f-string vs format·유니코드·re vs regex·8시간·알고리즘)·실수5(join·encode/decode·단순한건 str)·졸업장 re.findall 한글+숫자·개발자노트·추신30) |
 | H2 | 핵심개념 | 17,146 | 🟢 | 합격 (str 50+ 메서드 깊이 — 변환 8(upper·lower·title·capitalize·swapcase·casefold·encode·decode) + 변환 5 패턴 + 검색 10(find·rfind·index·rindex·count·startswith·endswith·in·isdigit·isalpha) + isxxx 11+ 함수 + 검색 5 패턴 + 변경 8(strip·lstrip·rstrip·replace·removeprefix·removesuffix·expandtabs·translate) + 변경 5 패턴 + 분할/결합 5(split·rsplit·splitlines·partition·join) + split 5 패턴 + join 5 패턴/포맷 10+ + f-string 5 양식(정렬·천단위·소수점·퍼센트·16진수) + f-string 디버깅 (3.8+) + format 동적 + format vs % vs f-string + f-string conversion(!s/!r/!a) + nested format/encode/decode UTF-8 가변 길이(ASCII 1·라틴 2·한글 3·이모지 4 byte) + encode errors(strict/ignore/replace/xmlcharrefreplace) + 인코딩 6 종 + encode/decode 5 패턴(파일 I/O·binary·base64·URL·JSON)/str immutable + intern 자동 + sys.intern + str 메모리(49 B overhead) + CPython str 내부 (PEP 393 Flexible String 1/2/4 byte 가변 폭)/자경단 매일 12 메서드 시나리오(본인 200+·까미 150+·노랭이 100+·미니 50+·깜장이 50+ = 합 550+) + 5 함정(+ concat·encode 인자·한국어 정렬·regex backslash·f-string quote)/오해10+FAQ10+추신93) |
 | H3 | 환경점검 | 17,174 | 🟢 | 합격 (str·regex 환경 5 도구 — re module 10 함수(match·search·findall·sub·compile + fullmatch·finditer·split·escape·subn) + match 객체(group/groups/start/end) + 5 함수 깊이 사용예/regex flag 8(I/M/S/X/U + A/L/DEBUG) + 핵심 5 + flag 조합 |/regex101.com visual debugger 5 기능(매치·그룹·Quick Reference·Code Generator·Library) + 자경단 표준 5 단계 워크플로우 (regex101 → 코드 paste)/textwrap 5 함수(fill·wrap·shorten·dedent·indent) + 추가 옵션(initial_indent·subsequent_indent·break_on_hyphens·expand_tabs)/string module 9 상수(ascii_letters·digits·punctuation·whitespace·printable·hexdigits·octdigits·ascii_lower·ascii_upper) + 2 클래스(Template·Formatter) + 활용 5 패턴(임의 문자열 생성·검증·Template·translate·Formatter)/iso639 (외부 패키지) + unicodedata 표준(category·name·normalize NFC/NFD)/자경단 5 도구 시나리오 + 1주 통계(re 300·string 115·textwrap 60·iso/uni 55·regex101 40 = 합 570) + 1년 회고 (디버깅 시간 30분→5분·매년 5명 120 시간 절약)/디버깅 5 도구(regex101·re.DEBUG·timeit·pdb·logging) + regex 5 함정(greedy·backslash·`.` 줄바꿈·^ $ multiline·한국어 \w 실제 OK) + textwrap 한국어 함정(width 1 가정·wcwidth 라이브러리)/오해10+15+FAQ10+15+추신87) |
 | H4 | 명령카탈로그 | 17,068 | 🟢 | 합격 (str·regex 30+ 패턴 카탈로그 — 검증 10(EMAIL·PHONE_KR·URL·IPV4·IPV6·UUID·DATE_ISO·TIME_24·CC·POSTAL_KR) + 활용 예 + 추출 10(URL·이메일·해시태그·mention·정수·소수·한글·영어·코드 블록·HTML tag) + 활용 예 + 치환 5+5(HTML tag·공백·비밀번호·URL·줄바꿈 + 따옴표·중복·trailing·tabs·빈 줄) + 변환 5+5(camelCase·snake·kebab·CSV·천 단위 + 16진수·2진수·base64·URL encoding) + split 5+5(단순·다중·n개·줄·partition + csv·shlex·capture·빈 무시·n-gram)/자경단 5 시나리오(본인 Pydantic+3 patterns·까미 DB log 5 group·노랭이 clean_text·미니 DB URL 6 named group·깜장이 pytest parametrize) + 깊이 코드/카탈로그 5 카테고리 학습 우선순위 (1주차 split+검증 → 4주차 변환) + patterns.py 자경단 표준 import 20 패턴 + wiki 등록 5단계 + 1주 통계 625 호출/1년 162,500 호출·5년 진화·1000+ 패턴 wiki·메인테너 owner/카탈로그 10 함정(greedy·backslash·\w·`.`·^ $·HTML·JSON·IP·compile·escape) + 흔한 오해 20 + FAQ 20·오해20+FAQ20+추신100) |
@@ -286,10 +287,10 @@ Ch015 합계: 34,010 / 목표 ~160,000 (2/8 H 진행)
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 011 H1 작성** (Python 문자열·정규식 오리엔 — str·f-string·re·pattern 7이유·자료구조 회수·Ch012 다리 → 17,000+)
-   - Ch010 H1~H8 완료 ✅(…17,000·17,016). **Ch010 8/8 완료**(Python 입문 1+2+3+4 = 32시간).
-   - ⚠️ Ch011 H1~H8은 계획값/부분 초안. 전면 작성 필요.
-   - Ch011 H1부터 순서대로 작성. Ch011 = Python 입문 5(문자열·정규식).
+👉 **Ch 011 H2 작성** (Python 문자열·정규식 핵심 개념 — str 50+ 메서드 5분류·f-string 포맷 스펙·정규식 메타문자·첫 패턴 5개 → 17,000+)
+   - Ch011 H1 완료 ✅(17,384). 이제 H2(핵심 개념)로 진행.
+   - ⚠️ Ch011 H2~H8은 계획값/부분 초안. 전면 작성 필요.
+   - Ch011 H2부터 순서대로 작성. Ch011 = Python 입문 5(문자열·정규식).
    - ⚠️ "다음 턴"은 실제 파일 측정 기준. 위 ⚠️ 실측 상태 표 참조(진행표 본문의 "완료" 표기는 일부 계획값).
 
 ## 이번 세션(2026-06-08) 완료
@@ -336,4 +337,5 @@ Ch015 합계: 34,010 / 목표 ~160,000 (2/8 H 진행)
 - Ch010 H6 작성 → 17,000 🟢 (3,283 stub → 전면 작성 → 실측 합격)
 - Ch010 H7 작성 → 17,000 🟢 (3,167 stub → 전면 작성 → 실측 합격)
 - Ch010 H8 작성 → 17,016 🟢 (1,427 stub → 전면 작성 → 실측 합격) → **Ch010 8/8 완료 ✅** (Python 입문 1+2+3+4 = 32시간)
-- 실측 합격: 24/960 → **80/960** (Ch001~010 완성 = 10챕터)
+- Ch011 H1 작성 → 17,384 🟢 (3,295 stub → 전면 작성 → 실측 합격)
+- 실측 합격: 24/960 → **81/960** (Ch001~010 완성 + Ch011 H1)
