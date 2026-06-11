@@ -6,7 +6,7 @@
 ## ⚠️ 실측 상태 (2026-06-10 기준 — `scripts/wc-lecture.py --all`)
 
 > **주의: 아래 챕터별 표의 일부 행은 실제 파일과 불일치(과거에 미리 적어 둔 계획값).**
-> 실제로 합격(🟢 ≥17,000)인 H는 측정 기준 **109/960**입니다.
+> 실제로 합격(🟢 ≥17,000)인 H는 측정 기준 **110/960**입니다.
 >
 > | 챕터 | 실제 완료 H | 비고 |
 > |------|------------|------|
@@ -23,7 +23,7 @@
 > | Ch011 | **8/8 ✅** | 전부 완료 (H7=17,003·H8=17,003 실측). Ch001~011 = 11챕터 완성. Python 입문 5(40시간) 마침 |
 > | Ch012 | **8/8 ✅** | 전부 완료 (H7=17,000·H8=17,000 실측). Ch001~012 = 12챕터 완성. Python 입문 6(48시간) 마침 |
 > | Ch013 | **8/8 ✅** | 전부 완료 (H7=17,002·H8=17,002 실측). Ch001~013 = 13챕터 완성. Python 입문 7(모듈·패키지·56시간) 마침 |
-> | Ch014 | **5/8** | H1~H5 실측 완료(…17,003·17,003). H6~H8은 계획값/stub, H6 다음 작업 대상 |
+> | Ch014 | **6/8** | H1~H6 실측 완료(…17,003·17,000). H7~H8은 계획값/stub, H7 다음 작업 대상 |
 > | Ch015~026 | 부분 | 각 H ~6,800자 부분 초안(🔴), 17k 미달 |
 > | Ch027~120 | 0 | 순수 stub(~390자) |
 >
@@ -261,7 +261,7 @@ Ch013 합계: 136,480 / 목표 ~160,000 (8/8 H 완료) ✅✅✅
 | H3 | 환경점검 | **17,000 실측** | 🟢 | ✅실측합격 (환경 도구 비교 다섯 — §1 H2 회수·약속(언제 뭘 쓸지 직관)·경쟁 아닌 전문가·"제일 좋은 도구" 함정·골라 쓰는 안목/§2 비교표(venv 격리·virtualenv 옛·conda 데이터·pyenv 버전·uv 통합)·두 축(버전 관리 pyenv·패키지 격리 venv)·틀이 새 도구도 정리·골조 vs 가구 층위/§3 venv 표준(3.3+ 내장·추가 설치 불필요·버전 관리는 못 함·표준=어디나 있음)/§4 virtualenv 조상(2007·venv가 본뜸·박물관 도구·좋은 아이디어는 표준에 흡수)/§5 conda 데이터(non-Python C/포트란/CUDA 속살·의존성 지옥 해결·무겁고 pip 충돌·도구는 분야 문제에서 태어남·miniconda)/§6 pyenv 버전(여러 버전 갈아끼움·`pyenv local` `.python-version`·shim 교통정리·venv와 짝·버전 먼저 격리 나중)/§7 uv 통합(venv+pip+pip-tools+pipx+pyenv·Rust+캐시+동시 처리 수십 배·통합 흐름·부품 먼저)/§8 조합(pyenv→venv→pip·문제 둘+도구들·uv 속에도 두 축)·5명 조합 다름/§9 다섯 시나리오(새 프로젝트 venv·버전 pyenv·데이터 conda·느림 uv·CI venv)·90%는 venv/§10 AI 80/20(비교 거듦·상황 맞나 판단 본인·평가 안목 더 중요)/FAQ8(venv/virtualenv·conda 필요·pyenv/asdf·uv production·다섯 다 알기·pyenv+venv 헷갈림·도구 바뀜·회사)·오해7(하나로 충분·conda 항상·virtualenv 표준·pyenv 시니어·uv 실험·새것만·다 알기)·실수5 + 안심(욕심/두려움·도구는 종)·졸업장 which python3 변화·개발자노트·추신33) |
 | H4 | 명령카탈로그 | **17,003 실측** | 🟢 | ✅실측합격 (개발 도구 카탈로그 다섯 분류 — §1 H3 회수(집 짓기→집 안 일)·약속(검증 도구 손에)·품질 검사 라인(자동차 비유)·도는 것 vs 프로다운 것/§2 다섯 분류표(포맷 black/ruff·린트 ruff/pylint·타입 mypy/pyright·테스트 pytest/cov·보안/프로파일 pip-audit/cProfile)·CLI 도구(pipx·pytest는 dev로도)·AI 시대 다듬는 능력/§3 포맷터(겉모습·black 타협 없음·스타일 논쟁 없앰·git diff 깨끗·읽기 좋음)/§4 린터(내용 문제·F401 안 쓰는 import·지치지 않는 리뷰어·`--fix`·조언자지 독재자 아님)/§5 타입 검사 mypy(타입 힌트 검사·동적 타입 실행 전 잡기·코드가 문서·긴 사슬 추적·Ch008 열매·strint 천천히)/§6 테스트 pytest(맞게 도나·안전망·고칠 용기·vigilante convert·coverage 집착 X·간결)/§7 보안(pip-audit 남의 패키지·bandit 내 코드 비밀번호)·프로파일(cProfile 어디 느린지·80/20·추측 말고 측정·성급한 최적화 금물)/§8 매일 검증 흐름(포맷→린트→타입→테스트→보안)·순서 뜻·pre-commit·일정한 품질 바닥·조용한 멘토/§9 ruff 이야기(black·isort·flake8 통합·Rust 고속·uv와 같은 흐름 Astral·빠름이 곧 품질·배울 게 줆)·타입/테스트는 밖·핵심 셋/§10 AI 80/20(명령·테스트 거듦·진짜인가 판단·짜는 사람→검증하는 사람)/FAQ8(ruff/flake8·pytest/unittest·30개·포맷/린트 충돌·mypy 필요·언제 돌림·프로파일·설정)·오해7(다 알기·pylint·손 포맷·테스트 큰 것만·시니어·경고 다 고침·셋만)·실수5 + 안심(미룸 vs 자동화)·H1~H3 묶음·졸업장 ruff/pytest·개발자노트·추신33) |
 | H5 | 데모 | **17,003 실측** | 🟢 | ✅실측합격 (데모: 한 줄로 도는 프로젝트 자동화 — §1 H4 회수(손작업→자동화)·약속(한 줄 셋업·검증)·Makefile 주인공·Docker/CI 맛보기·자동화 핵심 단순(손으로 여러 번→명령 하나)/§2 오늘 만들 것(make setup·make check)·한 줄로 시작·기억 안 해도 됨·기록은 거짓말 안 함/§3 폴더 구조(Makefile·pyproject·requirements·Dockerfile·compose·ci.yml·vigilante)·코드 가운데 도구 둘레/§4 Makefile(명령에 짧은 이름·setup/format/lint/test·`check: format lint test` 의존·clean=지우고 다시·`.PHONY`·프로젝트 사용 설명서·들여쓰기 탭 필수)/§5 Dockerfile 맛보기(환경 통째로·재현 끝판왕 production parity·재현 사다리 venv→lock→Docker·requirements 먼저 COPY 캐시·작은 건 venv·Ch062)/§6 docker-compose 맛보기(여러 서비스 한 줄·DB 안 깔아도·한 파일→패키지→프로젝트→시스템 성장)/§7 GitHub Actions CI 맛보기(올릴 때 자동 검증·깨끗한 환경·협업 수문장·on push/PR·배운 것 다 모임·Ch103)/§8 작동 확인(make setup·check·초록불=프로 수준 인증서·고치고-검증-초록불 리듬·Ch013+Ch014 vigilante 완성)/§9 다섯 사고(탭/스페이스 missing separator 통과의례·캐시·venv 못 찾음 activate 한 줄·CI 느림·무거움)/§10 AI 80/20(설정 AI·빠진 것 판단·AI 코드 자동 검증 다리)/FAQ8(Makefile 옛것·Docker 배움·CI 배움·make/venv·탭·작은 프로젝트·외움·just/task 대안)·오해5(C만·Docker 무거움·CI 큰 회사·시니어·한 번)·실수5 + 안심(겁먹음 vs 작게 시작·세 번이면 자동화)·졸업장 Makefile setup/check·개발자노트·추신33) |
-| H6 | 운영 | 17,024 | 🟢 | 합격 (운영 5 최적화 — CI cache(setup-python cache=pip 50% 단축·수동 + restore-keys·uv cache·매주 5+)·pytest parallel(pytest-xdist -n auto 4-8배·5 dist 전략 loadfile/loadgroup/loadscope/worksteal/no·매주 5+)·CI matrix(Python × OS·fail-fast: false·include/exclude·9 조합·매주 5+)·Docker layer(의존성 먼저·코드 나중·5배·.dockerignore·multi-stage·BuildKit cache·non-root·매주 1+)·hash 검증(pip-compile --generate-hashes·--require-hashes·보안 표준·매월 1+)/5 함정(cache miss·parallel 충돌·fail-fast: true·Docker 한번에·hash 안)·5 anti-pattern·5 통합 워크플로우 ci.yml·매트릭 5 측정·5 시나리오·5 추가 도구(Renovate·trunk.io·devcontainer·act·just)·5 깊이·5 의식·6 인증·6 비전 12년·매주 80분·핵심 한 줄·면접 5 질문 25초·매월 매트릭 비교표·5년 진화 단계·디버깅 5/자경단 1주 104 호출·5명 1년 5,408·5년 27,040·12년 64,896·1년 1,000h+ 절약·5년 25,000h+·12년 60,000h+ ROI·면접 100% 합격·5명 6 인증·자경단 도메인 표준 dev 환경 owner/오해15+FAQ15+추신80) |
+| H6 | 운영 | **17,000 실측** | 🟢 | ✅실측합격 (운영: 자동화를 빠르고 튼튼하게 — §1 H5 회수(만들기→굴리기)·약속(빠르고 튼튼)·CI 5분→1분·두 큰 생각(재활용·동시 처리)=일을 줄이거나 나누거나/§2 운영이란(돈다 vs 잘 돈다·빠르게+튼튼하게·매일 수십 번·빠름이 곧 품질·팀 사기·입문엔 앞서가는 풍경)/§3 캐시(한 번 한 일 두 번 안 함·sys.modules/pip/`__pycache__` 회수·hashFiles 키 안 바뀌면 재사용·변하지 않는 것 알아봄·웹/DB 황금률)/§4 병렬(pytest -n auto·노는 코어 활용·은행 창구 비유·독립적이어야 안전 H4 순수함수·매일 가장 자주)/§5 매트릭스(여러 버전 동시 검증·사용자 버전 제각각·행렬 격자·3.12 기능 사고 미리 잡기·필요한 조합만·튼튼함의 무기)/§6 Docker 레이어(케이크 층·안 바뀌는 의존성 먼저·코드 나중·Ch062)/§7 해시(패키지 지문·1바이트 달라도 들통·require-hashes·production 보안·Ch011 hashlib)·다섯을 두 생각으로 묶음(넷 속도+하나 튼튼)/§8 매일 의식(증상→처방 의사처럼·매일 병렬 하나·한 번 설정 평생 이득·측정 다음 최적화·성급한 최적화 악의 근원)/§9 AI 80/20(yaml 정확히 AI·무엇 최적화 판단 본인·CI 폭증 균형)/§10 다섯 함정(캐시 키·병렬 충돌·매트릭스 과다·레이어 순서·해시)·캐시 양면(재사용 vs 갱신)/FAQ8(캐시 만료·병렬 항상·매트릭스 범위·처음부터·캐시 vs lock·해시 필요·입문·복잡)·오해5(시니어·병렬·매트릭스 무료·레이어 자동·해시 production)·실수5 + 안심·졸업장 pytest -n auto·개발자노트·추신33) |
 | H7 | 원리 | 17,020 | 🟢 | 합격 (원리 PEP 5 — PEP 517 Build Backend(5 백엔드 setuptools 95%·hatchling 모던·flit 단순·poetry-core·pdm-backend)·PEP 621 Project Metadata(5 필수 name/version/description/requires-python/authors + 5 추천 readme/license/keywords/classifiers/dependencies + optional-dependencies + scripts + urls)·PEP 518 pyproject.toml([build-system] requires + build-backend + backend-path)·PEP 440 Version(5 형식 1.0.0/1.0.0a1/b1/rc1/dev1·packaging.version·SpecifierSet)·PEP 723 Inline Script(# /// script + dependencies + uv run 자동·5 활용 도구/자동화/CI/분석/데모·매주 5+)/5 활용 시나리오·5 함정·자경단 매주 70분·매년 1+ PEP 학습 약속·매월 1 PEP 깊이·자경단 PEP 가이드 5년 후·5 신호·진화 5년·12년 누적 120+ PEP/추가 5 PEP(405 venv·8 style·484 type hints·612 ParamSpec·695 Type Alias)·매월 학습 약속 12 PEP·5+5=10 PEP·도메인 표준·면접 5 질문 25초·도메인 가이드 v1.0/자경단 1주 33 호출·5명 1년 1,716·5년 8,580·12년 600+·매주 70분·매년 10+ PEP·5년 50+·12년 120+·6 인증·자경단 5년 후 PEP 마스터·12년 후 자경단 브랜드/오해15+FAQ15+추신80) |
 | H8 | 적용+회고 | 17,007 | 🟢 | 합격 (Ch014 마무리 — 8 H 종합표·핵심 한 줄·Ch014 학습 통계(8 H × 17,000+ = 136,000+ 자·80+ 도구/개념·30+ PEP·5 표준·30 면접·6 인증)·8 H 학습 후 8 능력(5 도구 비교·5 옵션 깊이·5 백엔드·5 표준 100%·CLI 30+·5 최적화·PEP 10+·vigilante-template owner)/vigilante-template 진화 v0.1→v1.0(첫 PyPI)→v2.0→v3.0(pre-commit 100%)→v4.0(5+ template cookiecutter)→v5.0(도메인 가이드)/자경단 5명 12년 시간축(1주→12년 합 6,000h)·매주 시간 분포(2h→25h)·면접 30 질문 통합(venv/pip 10·pyproject/uv 10·운영/PEP 10) + 25초 응답·자경단 5명 1년 면접 30/30 합격 100%·5명 1년 회고 합 54,300 호출·1년 후 단톡 가상·6 인증/Ch015 (CS Python CLI/예산) 8 H 미리보기 + Ch014→Ch020 7 챕터·자경단 venv/pip 마스터 인증 5 능력 + 5 신호 + 5 발음·본인 7 행동 + 1주차 매일 시간표/Python 입문 1+2+...+8 = 64h 마스터 인증 + Python 입문 80h 길의 80% 진행·자경단 132/960 = 13.75%·진화 5년·매주 의식 누적 (Ch008→Ch014 매주 155분)·12년 누적 60,000h+ ROI·자경단 브랜드 인지도 100배·5년 후 vigilante 5+ template + 25+ PyPI/오해15+FAQ15+추신80) — Ch014 chapter complete 132/960 = 13.75% ✅✅✅ |
 
@@ -289,10 +289,10 @@ Ch015 합계: 34,010 / 목표 ~160,000 (2/8 H 진행)
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 014 H6 작성** (운영 — 자동화 최적화: 캐시·병렬·매트릭스·환경 재현·디버깅 → 17,000+)
-   - Ch014 H1~H5 완료 ✅(…17,003·17,003 실측). **Ch014 5/8**.
-   - ⚠️ Ch014 H6~H8은 계획값/stub. 전면 작성 필요.
-   - Ch014 H6부터 순서대로 작성. Ch014 = Python 입문 8(venv·pip 심화·환경). Python 입문 마지막 챕터.
+👉 **Ch 014 H7 작성** (내부 원리 — venv가 sys.prefix·PATH·activate로 격리를 만드는 속 → 17,000+)
+   - Ch014 H1~H6 완료 ✅(…17,003·17,000 실측). **Ch014 6/8**.
+   - ⚠️ Ch014 H7~H8은 계획값/stub. 전면 작성 필요.
+   - Ch014 H7부터 순서대로 작성. Ch014 = Python 입문 8(venv·pip 심화·환경). Python 입문 마지막 챕터.
    - ⚠️ "다음 턴"은 실제 파일 측정 기준. 위 ⚠️ 실측 상태 표 참조(진행표 본문의 "완료" 표기는 일부 계획값).
    - ⚠️ "다음 턴"은 실제 파일 측정 기준. 위 ⚠️ 실측 상태 표 참조(진행표 본문의 "완료" 표기는 일부 계획값).
    - ⚠️ "다음 턴"은 실제 파일 측정 기준. 위 ⚠️ 실측 상태 표 참조(진행표 본문의 "완료" 표기는 일부 계획값).
@@ -373,4 +373,5 @@ Ch015 합계: 34,010 / 목표 ~160,000 (2/8 H 진행)
 - Ch014 H3 작성 → 17,000 🟢 (3,000 stub → 전면 작성 → 실측 합격) → **Ch014 3/8** (도구 비교: venv·virtualenv·conda·pyenv·uv 다섯·두 축(버전 pyenv·격리 venv)·조합·상황별 선택·"도구는 어떤 문제를 푸나")
 - Ch014 H4 작성 → 17,003 🟢 (3,200 stub → 전면 작성 → 실측 합격) → **Ch014 4/8** (개발 도구 카탈로그: 다섯 분류(포맷·린트·타입·테스트·보안)·검증 흐름·ruff 통합·핵심 셋 ruff/mypy/pytest·도는 것→프로다운 것)
 - Ch014 H5 작성 → 17,003 🟢 (3,300 stub → 전면 작성 → 실측 합격) → **Ch014 5/8** (데모: 한 줄로 도는 프로젝트 — Makefile make setup/check·Docker/CI 맛보기·재현 사다리·자동화 정신·Ch013+Ch014 vigilante 완성)
-- 실측 합격: **109/960** (Ch001~013 완성 + Ch014 H1~H5)
+- Ch014 H6 작성 → 17,000 🟢 (3,000 stub → 전면 작성 → 실측 합격) → **Ch014 6/8** (운영: 자동화 최적화 다섯(캐시·병렬·매트릭스·레이어·해시)·두 큰 생각(재활용·동시 처리)·측정 다음 최적화·"한 번 한 일 두 번 안 함")
+- 실측 합격: **110/960** (Ch001~013 완성 + Ch014 H1~H6)
