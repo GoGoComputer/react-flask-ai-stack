@@ -6,7 +6,7 @@
 ## ⚠️ 실측 상태 (2026-06-10 기준 — `scripts/wc-lecture.py --all`)
 
 > **주의: 아래 챕터별 표의 일부 행은 실제 파일과 불일치(과거에 미리 적어 둔 계획값).**
-> 실제로 합격(🟢 ≥17,000)인 H는 측정 기준 **85/960**입니다.
+> 실제로 합격(🟢 ≥17,000)인 H는 측정 기준 **86/960**입니다.
 >
 > | 챕터 | 실제 완료 H | 비고 |
 > |------|------------|------|
@@ -20,7 +20,7 @@
 > | Ch008 | **8/8 ✅** | 전부 완료 (H7=17,000·H8=17,001 실측). Ch001~008 = 8챕터 완성 |
 > | Ch009 | **8/8 ✅** | 전부 완료 (H7=17,001·H8=17,002 실측). Ch001~009 = 9챕터 완성 |
 > | Ch010 | **8/8 ✅** | 전부 완료 (H7=17,000·H8=17,016 실측). Ch001~010 = 10챕터 완성 |
-> | Ch011 | **5/8** | H1~H5 실측 완료(17,384·17,000·17,010·17,008·17,024). H6 다음 작업 대상 |
+> | Ch011 | **6/8** | H1~H6 실측 완료(17,384·17,000·17,010·17,008·17,024·17,000). H7 다음 작업 대상 |
 > | Ch012~014 | 0~부분 | 표에는 "완료"로 적혀 있으나 실제는 stub/부분 초안 |
 > | Ch015~026 | 부분 | 각 H ~6,800자 부분 초안(🔴), 17k 미달 |
 > | Ch027~120 | 0 | 순수 stub(~390자) |
@@ -211,7 +211,7 @@ Ch010 합계: 136,035 / 목표 ~136,000 (H1~H8 전부 실측 합격: 17,002·17,
 | H3 | 환경점검 | **17,010 실측** | 🟢 | ✅실측합격 (텍스트 도구 다섯 — H2 회수(도구로 테스트) + 오늘의 약속(정규식 눈으로 보며 검증)·매 챕터 H3=들여다보기·외울 필요 없이 도구로/§2 왜 도구부터 — 정규식 추상적·"추측 말고 확인"(Ch010 정신)·보이지 않는 글자(공백/`\r`/특수공백)·repr로 진짜 확인/①re 모듈 네 플래그(IGNORECASE 대소문자·MULTILINE 줄단위·DOTALL 점 개행·VERBOSE 주석)·별칭 I/M/S/X·`re.I | re.M` 조합·compile 캐시 512/②regex101 — Flavor Python·색칠·Explanation 패널로 배우기·URL 공유·Substitution 탭·고수도 도구로 짬/③VS Code 정규식 검색 `.*` 아이콘·코드베이스 패턴 검색·`$1` 그룹 일괄 바꾸기·grep(Ch006)의 시각판·git 안전벨트/④rich — `[bold red]` 색깔·Table 표·Markdown·Syntax·Progress·`from rich import print`/⑤IPython — 색깔·자동완성·`?`·`%timeit` 매직·빠른 피드백·regex101과 짝/자경단 매일 의식 5(작은건 IPython·복잡한건 regex101·코드 VS Code·출력 rich·성능 compile+timeit) 작업 흐름/5 시나리오 처방(매치 안됨 조각으로·한글 [가-힣]+repr·greedy lazy·느림 backtracking 단순화·멀티라인 splitlines)/오해5(regex101 옵션·VS Code 어렵다·rich 무겁다·IPython 데이터용·compile 매번)·FAQ7(regex101 Flavor·VS Code 바꾸기·rich vs print·한글·UNICODE·설치·다른 테스터)·실수5(테스터·utf-8·locale·MULTILINE·시각화)·졸업장 IPython 한글+숫자 그룹·개발자노트·추신30) |
 | H4 | 명령카탈로그 | **17,008 실측** | 🟢 | ✅실측합격 (정규식 패턴 카탈로그 검증·추출·변환 30+ — H3 회수(도구로 확인) + 오늘의 약속(30 패턴 손가락)·매 챕터 H4=카탈로그·외우지 말고 모아 두기/§2 왜 카탈로그 — 실무 90% 재사용·세 칸(검증/추출/변환)·검증=match+^$·추출=findall·변환=sub·분류=막막함→선택·검증→추출→변환 흐름/③검증 10(이메일·전화010·URL·IPv4 그룹반복·UUID·ISO날짜·비밀번호·한글^[가-힣]+$·정수·실수)·^$로 가두기 필수·완벽보다 충분·guard clause(Ch008)·문지기/④추출 10(숫자·단어·이메일·URL·해시태그#\w+·멘션@\w+·따옴표"([^"]*)"·HTML<[^>]+>·날짜·시간)·^$없음·그룹으로 알맹이만·제외클래스 greedy회피·\[ERROR\] escape·미니 로그/⑤변환 10(공백\s+·빈줄\n{3,}·태그제거·마스킹\d·전화(\d{3})(\d{4})(\d{4})→\1-\2-\3·주민번호·도메인·snake→camel lambda·camel→snake lookahead·줄trim)·그룹참조 재배열·마스킹=살릴건 그룹 가릴건 별표·sub 새 문자열 반환/⑥매일10(str+search/findall/sub)·주간10(그룹·lazy·플래그)·월간10(lookahead 등)·1주차부터 단계·언어 가로지름/⑦까미 하루 흐름(검증→추출→변환)·str+정규식 섞기·compile 모듈상수·H5 예고/⑧다섯 함정(greedy·한글·MULTILINE·match vs search·escape)+보너스 re.escape ReDoS/오해5(다 외움·regex101 옵션·compile 매번·lookahead 시니어·정규식 항상 깔끔)·FAQ7(외움·한글·greedy·lookahead·성능·patterns.py·형식만)·실수5(^$·제외클래스·\1·단순한건 str)·졸업장 그룹참조 숫자 재배열·개발자노트·추신30) |
 | H5 | 데모 | **17,024 실측** | 🟢 | ✅실측합격 (text_processor 30분 데모 str+정규식 통합 100줄 — H4 회수(검증·추출·변환) + 오늘의 약속(첫 텍스트 프로세서)·"눈으로 말고 손으로"/§2 미니 의뢰(로그 추출+마스킹→보고서)·의뢰를 H4 세 칸으로 분해·함수 다섯 덩어리·설계=쪼개기 먼저·숫자→텍스트 새 종류/0~5분 폴더 셋업 venv+rich+heredoc 샘플 로그 3줄·작은 샘플=답 알고 시작 검증 쉬움/5~10분 clean() sub 세 단계(공백·빈줄·trim MULTILINE)·`[ \t]` vs `\s`(줄바꿈 보존)·주석으로 정규식 설명·한 함수 한 일/10~15분 extract 3(이메일·IP·날짜) findall→list·IP `(?:...)` 비캡처(findall 보존)·함수로 감싸는 3이유(이름·재사용·테스트)·list→Ch010 set/Counter/15~20분 mask 3(비밀번호 그룹참조·이메일 함수 치환 replacer·IP 마지막칸)·세 변환 기법(단순·그룹참조·함수)·`'*'*len` Ch007·`m: re.Match`·마스킹=보안 방패/20~25분 process_pipeline(clean→extract/mask→dict Ch010)·마스킹 겹쳐쓰기(함수를 함수에)·순수 함수 vs main 입출력 분리·컨베이어 벨트/25~30분 실행+검증(이메일 2·IP 2·날짜 3 예상 대조·원본 안 샜나)·black+ruff·성장 음미/5 사고(greedy·MULTILINE·인코딩·compile·group)·한 함수씩 디버깅/오해5(100줄·마스킹 한번·파이프라인 함수형·findall 정렬·rich 옵션)·실수5(완벽·인코딩·list·MULTILINE·regex101)·졸업장 100줄 실행·개발자노트·추신30) |
-| H6 | 운영 | 17,053 | 🟢 | 합격 (str·regex 운영 5 함정 — encoding 5 함정(UTF-8 BOM·CP949·EUC-KR·ISO-2022-KR·EUC-JP) + 한 페이지 + utf-8-sig + chardet + cchardet/regex catastrophic backtracking 5 위험 패턴((a+)+·(a*)*·(a|a)*·(a|aa)+·(.+)+) + 5 처방(단순화·길이 제한·입력 길이·timeout·ReDoS 도구)·greedy vs lazy 성능/str + str O(n²) vs join O(n) 100배·StringIO·측정 통계(1만 100배·10만 1000배)/메모리 sys.getsizeof + tracemalloc + 5 도구(memory_profiler·psutil·gc) + timeit 5 패턴/운영 5 패턴(patterns 모듈 레벨·encoding 명시·join over +·f-string·measure first) + 5 우선순위 (매일·매주·매월)·자경단 5 시나리오(chardet·StringIO·benchmark·middleware·regression test) + 1주 측정 통계 148 호출 + 5 anti-pattern·1년 ROI 100시간 절약 + 5명 550시간/오해20+FAQ20+추신102) |
+| H6 | 운영 | **17,000 실측** | 🟢 | ✅실측합격 (문자열·정규식 운영 인코딩·성능·백트래킹 — H5 회수(샘플 3줄 vs 수만 줄) + 오늘의 약속(5년 텍스트 사고 면역)·매 챕터 H6=운영·신입 기능 vs 경력 함정/§2 작동≠견고·"내 컴퓨터에선 되는데"·환경/데이터 간극·사고는 부끄럽지 않다/인코딩 5함정(open utf-8 누락·cp949·BOM utf-8-sig·bytes/str TypeError·쓰기도 utf-8)·인코딩=글자↔숫자 약속·占쏙옙·PEP 597 경고·chardet 추측·셋이 인코딩/성능 5패턴(compile 재사용·단순 패턴·anchor ^·제외클래스 vs lazy·모듈레벨)·성급한 최적화 경계 Ch010 측정·정규식 안 쓰는 게 최선/catastrophic backtracking((a+)+ 폭발·역추적 지수·a 30개 10억·ReDoS 공격·사용자 입력 검증 위험·처방 단순화+escape+길이제한)/유니코드 한글([가-힣]·\w 포함·NFC vs NFD·macOS 파일명·len 함정·경계에서 정규화)·평소 걱정 없음·Python2 악몽 끝/§7 코드리뷰 5점검(인코딩·raw·compile·백트래킹·한글)·체크리스트=조종사/의사·셀프리뷰/다섯 함정 처방·"한 줄 습관"/오해5(인코딩 자동·정규식 항상 빠름·한글 특별·compile 시니어·catastrophic 이론)·FAQ7(utf-8 vs sig·cp949·find vs 정규식·진단 steps·정렬·다 외움·전용 라이브러리)·실수5·졸업장 한글+이모지 utf-8 쓰기·개발자노트·추신30) |
 | H7 | 원리 | 17,051 | 🟢 | 합격 (str·regex 원리 — PyUnicodeObject 구조(PyObject_HEAD+length+hash+kind+data) + 한 페이지·PEP 393 (Python 3.3+) Flexible String Representation·4 kind(1 byte ASCII·2 byte BMP·4 byte 이모지·wchar deprecated)·메모리 측정·메모리 50% 절약·iteration kind 분기 trade-off·동작 흐름(글자 분석→kind 결정→할당→복사)/str intern (자동 5 조건 + sys.intern + 메모리 동작 원리 interned dict + dict key 자동) + 측정/regex NFA(Python re·복잡 패턴·backtracking 위험) vs DFA(RE2·O(n) 항상·일부 기능 제한)·NFA backtracking 동작·복잡도 O(2^n)·re vs regex 패키지·NFA/DFA 비교 표/CPython 소스(Objects/unicodeobject.c + Modules/_sre/sre.c + Lib/re/) + 5 단계 읽기 + str 5 핵심 함수 + sre 5 핵심 함수/면접 20 질문(str 10 + regex 10) + 5단계 응답 25초·자경단 원리 5 깊이(kind·intern·hash·compile·dis bytecode)·1년·5년 후 회고·CPython 매년 1회·시니어 신호·Python community 기여/Martin v. Löwis PEP 393·SipHash·RE2 Google·regex 패키지 Matthew Barnett·오해20+FAQ20+추신103) |
 | H8 | 적용+회고 | 17,062 | 🟢 | 합격 (Ch011 마무리 — 8 H 한 페이지 종합표·핵심 한 줄·Ch011 학습 통계(8 H × 17,000+ = 138,000자·50+ 메서드·30+ 패턴·6 함수·30+ 면접·1주 2,450 호출)·8 H 학습 후 8 능력(f-string 5·12 메서드·regex 5+30·100줄 데모·5 함정·5 측정·PEP 393+intern+NFA·CPython 매년)/text_processor 진화 v1 100→v2 200→v3 500→v4 1000→v5 5000 PyPI/자경단 12년 시간축(1주→1개월→6개월→1년→3년→5년→12년) + 1주차→5년 매주 시간 분포(2h→25h)·면접 30 질문 통합(str 10+regex 10+운영/원리 10) + 5단계 응답 25초·자경단 5명 1년 면접 25 합격 100%·5명 1년 회고 합 127,400 호출·1년 후 단톡 가상·6 인증/Ch012 (파일/예외) 8 H 미리보기 + Ch011→Ch020 9 챕터·자경단 str·regex 마스터 인증 5 능력+5 신호+5 발음·본인 7 행동 + 1주차 매일 시간표 + 1개월 결과 (11,000 호출·매주 1+ 함정·100% 면접·신입 1·v2 200줄)/Python 입문 1+2+3+4+5 = 40h 마스터 인증 + Python 입문 80h 길의 50% 진행·자경단 96/960 = 10%·오해0+FAQ0+추신101) — Ch011 chapter complete 96/960 = 10% ✅✅✅ |
 
@@ -287,10 +287,10 @@ Ch015 합계: 34,010 / 목표 ~160,000 (2/8 H 진행)
 - `scripts/wc-lecture.py --all` → 모든 chapters/*/lecture/H*.md 표
 
 ## 다음 턴 즉시 할 일
-👉 **Ch 011 H6 작성** (Python 문자열·정규식 운영 — UTF-8 인코딩·catastrophic backtracking·성능·큰 텍스트 다루기 → 17,000+)
-   - Ch011 H1~H5 완료 ✅(17,384·17,000·17,010·17,008·17,024). 이제 H6(운영)로 진행.
-   - ⚠️ Ch011 H6~H8은 계획값/부분 초안. 전면 작성 필요.
-   - Ch011 H6부터 순서대로 작성. Ch011 = Python 입문 5(문자열·정규식).
+👉 **Ch 011 H7 작성** (Python 문자열·정규식 내부 — str 메모리(immutable·PEP 393)·정규식 엔진(NFA/DFA·백트래킹 원리) → 17,000+)
+   - Ch011 H1~H6 완료 ✅(17,384·17,000·17,010·17,008·17,024·17,000). 이제 H7(내부)로 진행.
+   - ⚠️ Ch011 H7~H8은 계획값/부분 초안. 전면 작성 필요.
+   - Ch011 H7부터 순서대로 작성. Ch011 = Python 입문 5(문자열·정규식).
    - ⚠️ "다음 턴"은 실제 파일 측정 기준. 위 ⚠️ 실측 상태 표 참조(진행표 본문의 "완료" 표기는 일부 계획값).
 
 ## 이번 세션(2026-06-08) 완료
@@ -342,4 +342,5 @@ Ch015 합계: 34,010 / 목표 ~160,000 (2/8 H 진행)
 - Ch011 H3 작성 → 17,010 🟢 (2,400 stub → 전면 작성 → 실측 합격)
 - Ch011 H4 작성 → 17,008 🟢 (1,900 stub → 전면 작성 → 실측 합격)
 - Ch011 H5 작성 → 17,024 🟢 (2,900 stub → 전면 작성 → 실측 합격)
-- 실측 합격: 24/960 → **85/960** (Ch001~010 완성 + Ch011 H1~H5)
+- Ch011 H6 작성 → 17,000 🟢 (2,200 stub → 전면 작성 → 실측 합격)
+- 실측 합격: 24/960 → **86/960** (Ch001~010 완성 + Ch011 H1~H6)
